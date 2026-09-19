@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync, rmSync, mkdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -234,4 +234,63 @@ test("CLI：位置参数缺失时目标为仓库根（`node ai/validate.mjs` 仍
 test("CLI：仓库外目标判错退出，而不是扫 0 个文件报 ok", () => {
   assert.throws(() => execFileSync(process.execPath, ["ai/validate.mjs", "..", "--json"], { stdio: "pipe" }),
     (e) => e.status === 1 && /仓库内/.test(String(e.stderr)));
+});
+
+// ---------- CLI 端到端负载不变量：退出码 ⟂ 输出模式 + --exclude 真的临时跳过 ----------
+
+test("CLI 端到端：有违规时 text / json / sarif 三种模式都退出 1（退出码 ⟂ 输出模式）", () => {
+  // 规则表当前为空（checks/index.mjs），唯一能在 e2e 触发出 1 的路径是引擎的 stale-allow 检测；
+  // 一旦 T7-T9 注册了任何会消费 value:"bad" 的规则，该 fixture 同样会被判红（value 字段、meridian-allow
+  // 标记双覆盖）。fixture 名带 pid 防止并发运行相互污染。
+  const dir = join("ai", "selfcheck", "fixtures", `exit-code-${process.pid}`);
+  mkdirSync(dir, { recursive: true });
+  writeFileSync(join(dir, "x.css"),
+    ".x { color: bad; } /* meridian-allow: exit-code-probe */\n");
+  try {
+    for (const mode of [[], ["--json"], ["--sarif"]]) {
+      let e;
+      try {
+        execFileSync(process.execPath, ["ai/validate.mjs", dir, ...mode], { stdio: "pipe" });
+      } catch (err) { e = err; }
+      assert.ok(e, `mode=${JSON.stringify(mode)}：期望退出码 1，实际 0（v1 的 --json 假绿复辟？）`);
+      assert.equal(e.status, 1, `mode=${JSON.stringify(mode)}：期望 status 1，实际 ${e.status}`);
+    }
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("CLI 端到端：--exclude 临时跳过 fixture 目录（与 cfg.ignore 不同的语义）", () => {
+  // 用独立命名的 fixture 目录，让 --exclude 只命中它自身；这样 0 vs 1 的差值就是该 flag 的证据。
+  const fixtureRel = `ai/selfcheck/fixtures/exclude-flag-${process.pid}`;
+  const fixtureAbs = join("ai", "selfcheck", "fixtures", `exclude-flag-${process.pid}`);
+  mkdirSync(fixtureAbs, { recursive: true });
+  writeFileSync(join(fixtureAbs, "x.css"),
+    ".x { color: bad; } /* meridian-allow: exclude-probe */\n");
+  try {
+    // 不传 --exclude：fixture 里的 stale allow 命中引擎 → 退出 1，1 个 stale allow
+    let eNo;
+    try {
+      execFileSync(process.execPath, ["ai/validate.mjs", fixtureRel, "--json"], { stdio: "pipe" });
+    } catch (err) { eNo = err; }
+    assert.equal(eNo.status, 1, "不传 --exclude 时扫描 fixture 应判红");
+    const noJson = JSON.parse(eNo.stdout.toString());
+    assert.equal(noJson.ok, false);
+    assert.equal(noJson.count, 0);
+    assert.equal(noJson.staleAllows.length, 1,
+      `不传 --exclude 时应恰好 1 个 stale allow（来自 fixture），实际 ${noJson.staleAllows.length}`);
+
+    // 传 --exclude fixture：fixture 被 excludePaths 过滤 → 0 个文件 → 退出 0，0 个 stale allow
+    const outYes = execFileSync(process.execPath,
+      ["ai/validate.mjs", fixtureRel, "--exclude", fixtureRel, "--json"], { encoding: "utf8" });
+    const yesJson = JSON.parse(outYes);
+    assert.equal(yesJson.ok, true);
+    assert.equal(yesJson.count, 0);
+    assert.equal(yesJson.staleAllows.length, 0,
+      `传 --exclude 后 stale allow 必须归零，实际 ${yesJson.staleAllows.length}`);
+
+    // 不对称：without --exclude → 1；with --exclude → 0。这一对差值即 --exclude 真生效的证据。
+  } finally {
+    rmSync(fixtureAbs, { recursive: true, force: true });
+  }
 });
