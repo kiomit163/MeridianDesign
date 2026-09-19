@@ -166,6 +166,8 @@ const L = declsOf(css.slice(0, css.indexOf("ADMIN DARK")));
 // 深色块：从 Dark 注释头切到 LAYER 3 组件层
 const darkSlice = css.slice(css.indexOf("SEMANTIC · Dark"), css.indexOf("LAYER 3 — COMPONENT"));
 const D = declsOf(darkSlice);
+// 深色解析先查 D（深色覆盖），未命中回落 L（primitive 与未被深色覆写的语义）
+const resolveD = (name) => resolve(name, D) ?? resolve(name, L);
 
 const lum = (h) => {
   const [r, g, b] = [1, 3, 5].map((i) => {
@@ -192,9 +194,7 @@ const LIGHT = [
   ["border", "bg-surface", 1.3],                   // 装饰基线（docs/02 §六 修正后的口径）
 ];
 // 实底白字对（primary 在 admin 舞台 = brand-9，直接用 primitive 断言）
-const LIGHT_PRIM = [
-  ["#FFFFFF", resolve("primary", { ...L, primary: "var(--m-brand-9)" }), 4.5],
-];
+const ADMIN_PRIMARY = () => ratio("#FFFFFF", hex(resolve("brand-9", L)));
 const DARK = [
   ["fg", "bg-surface", 4.5], ["fg-muted", "bg-surface", 4.5], ["fg-subtle", "bg-surface", 4.5],
   ["fg-link", "bg-surface", 4.5], ["price-sale", "bg-surface", 4.5],
@@ -212,12 +212,11 @@ test("对比契约回归（docs/02 §六 + 状态族五件套，浅色）", () =
   }
 });
 test("主实底白字（admin primary = brand-9）", () => {
-  const [f, b, min] = LIGHT_PRIM[0];
-  assert.ok(ratio(f, b) >= min, `brand-9 白字 = ${ratio(f, b).toFixed(2)}`);
+  assert.ok(ADMIN_PRIMARY() >= 4.5, `brand-9 白字 = ${ADMIN_PRIMARY().toFixed(2)}`);
 });
 test("对比契约回归（深色语义块）", () => {
   for (const [fg, bg, min] of DARK) {
-    const f = hex(resolve(fg, D)), b = hex(resolve(bg, D));
+    const f = hex(resolveD(fg)), b = hex(resolveD(bg));
     assert.ok(f && b, `深色 token 可解析: ${fg}=${f} ${bg}=${b}`);
     assert.ok(ratio(f, b) >= min, `dark ${fg}/${bg} = ${ratio(f, b).toFixed(2)} < ${min}`);
   }
@@ -379,9 +378,9 @@ const used = new Set([...text.matchAll(/var\((--m-[\w-]+)/g)].map((m) => m[1]));
 const PRIM = /^--m-(ink|brand|accent|info|success|warning|danger|mystic)-\d+$/;
 // 业务代码 API 面：实现层按定义不消费，由业务侧取用（含响应式 clamp、断点、M3 完备公式成员）
 const API_SURFACE = new Set([
-  "--m-space-16", "--m-space-20", "--m-space-24", "--m-space-section",
+  "--m-space-0", "--m-space-16", "--m-space-20", "--m-space-24", "--m-space-section",
   "--m-bp-xs", "--m-bp-sm", "--m-bp-md", "--m-bp-lg", "--m-bp-xl",
-  "--m-duration-600", "--m-state-dragged",
+  "--m-radius-2xl", "--m-duration-600", "--m-state-dragged",
 ]);
 
 test("非 primitive token 无孤儿（白名单制，D8 回归）", () => {
