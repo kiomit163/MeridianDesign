@@ -2,14 +2,27 @@
 
 本项目遵循"任何视觉可见的值变更 ≥ MINOR；语义重指向 / 删 token / 改变默认舞台 = MAJOR + 迁移说明"。
 
-## 1.2.0 — 2026-09-19（发布中：随 S2 hardening 逐项补全）
+## 1.2.0 — 2026-09-19
 
 ### Fixed
 - 校验引擎两处缺陷：① doc 层不再收集 `meridian-allow`（O8 治本，文档示例 marker 不再误报 stale）；② marker 消耗改为"未消耗优先、行距最近"，相邻违规不再被远端 marker 抢先吸收（v1.1 遗留的 `meridian-ui.css` shimmer stale 由此根除）
 - `--m-accent-11` `#96660A` → `#8A5E09`：修复 emphasis 族 `*-fg/*-bg` 实测 4.41 < 4.5 的对比度破约（accent-2 上现为 5.0:1，白底 5.7:1；色相不变，图表色板不受影响）
+- docs/02 §六 `border/bg-surface` 契约值 ≥1.6:1 → 实测 ≈1.3:1（装饰性基线，非语义边界无 WCAG 义务）
+- components/18 合规小字 11px → 12px（补齐 v1.1 迁移说明声称但漏改的口径）
+- design-system.html 版本/计数统一（v1.2.0 · 22 契约 / 87 演示）；README 治理条款将演示页纳入版本一致性清单
+- `.m-btn--destructive:active` 改用 `--m-critical-solid-active`（原先误用 hover 值，深色主题下 active/hover 无区分）
 
 ### Added
 - `ai/selfcheck/contrast.test.mjs`：对比契约永久回归（浅色 §六 全表 + 状态族五件套 + 深色语义块，tokens.json↔css 同步断言）
+- `ai/selfcheck/orphans.test.mjs`：非 primitive token 零孤儿守卫（业务 API 面白名单制，含逐条理由）
+- `.m-combobox` 参考实现接入 c10 演示；components/18-component-contracts.md 指认 CommandPalette 参考实现 = `.m-palette`
+- `.m-badge--promo` 促销徽章变体（默认与 emphasis 同值，品牌可经 `--m-badge-promo-*` 独立覆盖）
+- 孤儿 token 消费：`--m-input-placeholder`（placeholder）、`--m-state-selected`（host-selected 态层）、`--m-critical-solid-active`（destructive :active）；`--m-state-dragged` 声明为 M3 公式完备集成员
+- GitHub Actions CI（npm test + 校验门禁双闸）与 `.gitattributes eol=lf`
+
+### Changed
+- 版本纪律执行：primitive 改值 → MINOR（1.1.0 → 1.2.0）
+- `engine.test.mjs` 的全仓 CLI 断言改为真实契约（全仓扫描命中 fixtures 植红 → 退出 1），套件首次 143/143 全绿
 
 ## 1.1.0 — 2026-09-19
 
