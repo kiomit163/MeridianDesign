@@ -19,7 +19,7 @@ body {
 .tnum { font-variant-numeric: tabular-nums; }
 :where(a) { color: var(--m-fg-link); text-decoration: none; }
 :where(a):hover { color: var(--m-fg-link-hover); text-decoration: underline; }
-::placeholder { color: var(--m-fg-subtle); }
+::placeholder { color: var(--m-input-placeholder); }
 svg.m-i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vertical-align: -4px; }
 svg.m-i--16 { width: 16px; height: 16px; vertical-align: -3px; }
 svg.m-i--fill { fill: currentColor; stroke: none; }
@@ -49,6 +49,7 @@ svg.m-i--fill { fill: currentColor; stroke: none; }
 .m-btn--ghost:hover { background: var(--m-primary-tint); }
 .m-btn--destructive { background: var(--m-critical-solid); color: var(--m-critical-solid-fg); }
 .m-btn--destructive:hover { background: var(--m-critical-solid-hover); }
+.m-btn--destructive:active { background: var(--m-critical-solid-active); }
 .m-btn--sm { height: var(--m-btn-h-sm); padding:0 var(--m-btn-px-sm); font-size: var(--m-text-xs); }
 .m-btn--lg { height: var(--m-btn-h-lg); padding:0 var(--m-btn-px-lg); font-size: var(--m-text-md); }
 .m-btn--cta { height: var(--m-btn-h-cta); padding:0 var(--m-space-6); font-size: var(--m-text-lg); font-weight: var(--m-weight-semibold); }
@@ -143,6 +144,8 @@ svg.m-i--fill { fill: currentColor; stroke: none; }
 .m-badge--critical { --_fg: var(--m-critical-fg); --_bg: var(--m-critical-bg); --_border: var(--m-critical-border); --_solid: var(--m-critical-solid); --_solid-fg: var(--m-critical-solid-fg); }
 .m-badge--info { --_fg: var(--m-info-fg); --_bg: var(--m-info-bg); --_border: var(--m-info-border); --_solid: var(--m-info-solid); --_solid-fg: var(--m-info-solid-fg); }
 .m-badge--emphasis { --_fg: var(--m-emphasis-fg); --_bg: var(--m-emphasis-bg); --_border: var(--m-emphasis-border); --_solid: var(--m-emphasis-solid); --_solid-fg: var(--m-emphasis-solid-fg); }
+/* 促销徽章：默认与 emphasis 同值，独立 --m-badge-promo-* token 供品牌整体覆盖促销徽章配色（docs/02 §三商务专属） */
+.m-badge--promo { --_fg: var(--m-badge-promo-fg); --_bg: var(--m-badge-promo-bg); --_border: var(--m-emphasis-border); --_solid: var(--m-emphasis-solid); --_solid-fg: var(--m-emphasis-solid-fg); }
 .m-badge--neutral { --_fg: var(--m-fg-muted); --_bg: var(--m-bg-inset); --_border: var(--m-border); --_solid: var(--m-neutral-solid); --_solid-fg: var(--m-fg-on-solid); }
 .m-badge--ai { --_fg: var(--m-ai-fg); --_bg: var(--m-ai-bg); --_border: transparent; --_solid: var(--m-ai-solid); --_solid-fg: var(--m-ai-solid-fg); }
 .m-banner { display: flex; gap:var(--m-space-3); padding:var(--m-banner-py) var(--m-banner-px); border: 1px solid var(--_border); background: var(--_bg); color: var(--_fg); border-radius: var(--m-banner-radius); }
@@ -406,7 +409,7 @@ kbd { font-family: var(--m-font-mono); font-size: var(--m-text-xs); background: 
 .m-composer:focus-within { border-color: var(--m-border-focus); }
 .m-composer__input { width: 100%; border: none; outline: none; resize: none; background: transparent; /* meridian-allow: container-expresses-focus */
   color: var(--m-fg); font: inherit; font-size: var(--m-text-sm); line-height: 1.5; min-height: 2.25rem; display: block; }
-.m-composer__input::placeholder { color: var(--m-fg-subtle); }
+.m-composer__input::placeholder { color: var(--m-input-placeholder); }
 .m-composer__bar { display: flex; align-items: center; gap:var(--m-tool-gap); padding-top: var(--m-space-2); flex-wrap: nowrap; }
 /* 模型选择器：pill 族 + 折叠指示，宽度随内容但受上限约束（防德语膨胀撑破） */
 .m-composer__model { max-width: 14rem; }
@@ -452,7 +455,7 @@ kbd { font-family: var(--m-font-mono); font-size: var(--m-text-xs); background: 
 /* host-agnostic hover：组件可能落在 chrome 或 surface 上时，用状态层叠加而非换底色
    （换底色只对已知的白色台面成立；在 chrome 上会与底色同值而"消失"） */
 .m-host-hover:hover { background: color-mix(in oklab, var(--m-fg) 8%, transparent); }
-.m-host-selected { background: color-mix(in oklab, var(--m-fg) 10%, transparent); }
+.m-host-selected { background: color-mix(in oklab, var(--m-fg) var(--m-state-selected), transparent); }
 
 /* ---------- utilities for demo composition ---------- */
 .m-row { display: flex; align-items: center; gap:var(--m-space-2); flex-wrap: wrap; }

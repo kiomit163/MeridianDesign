@@ -35,10 +35,11 @@ h-36（`--m-input-h`）、bg-surface、border-strong、radius-md；focus → 后
 ## Badge
 
 ```
-tone: success | warning | critical | info | emphasis | neutral | ai
+tone: success | warning | critical | info | emphasis | promo | neutral | ai
 variant: tint(bg+border+fg) | solid(实底) | outline(仅边框)
 progress: complete(✓) | partial(◔) | empty  ← 可选进度点（Polaris Badge 继承）
 ```
+`promo` 与 `emphasis` 默认同值，独立 `--m-badge-promo-*` token 供品牌整体覆盖促销徽章配色（参考实现 `.m-badge--promo`）。
 高度 20px、radius-pill、text-xs、`tnum` 用于计数徽章。语义必须有 sr-only 文本（"Status: unfulfilled"）。
 
 ## Banner / Toast / Modal / Drawer / Popover / Tooltip

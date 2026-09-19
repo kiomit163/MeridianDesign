@@ -339,7 +339,7 @@
   --m-state-hover: 8%;
   --m-state-pressed: 12%;
   --m-state-selected: 10%;
-  --m-state-dragged: 16%;
+  --m-state-dragged: 16%;   /* M3 公式完备集成员；暂无组件消费者，供业务拖拽态使用 */
 
   /* Focus ring */
   --m-focus-ring-width: 2px;
