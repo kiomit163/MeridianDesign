@@ -2,127 +2,112 @@
 /**
  * MERIDIAN — 设计合规校验器（AI coding 伙伴的第一道防线）
  *
- * 用法:  node validate.mjs <src-dir> [--json]
- * 退出码: 0 = 通过，1 = 存在违规
+ * 用法:
+ *   node ai/validate.mjs <target…> [--json|--sarif] [--only=R11,R13] [--ignore <seg>] [--exclude <seg>]
+ *                        [--baseline <file>] [--emit-manifest <file>]
+ * 退出码: 有有效违规或有失效 allow → 1，否则 0。**与输出模式无关**
+ *         （v1 的 `--json` 恒退出 0，等于把门禁换成一条会撒谎的绿线 —— 此处正面修掉。）
  *
- * 校验的确定性规则（与 AGENTS.md 规则一一对应）:
- *   R1  组件代码禁止裸色值（#hex / rgb( / hsl( / oklch(）
- *   R2  禁止自造 z-index 数值（只允许 var(--m-z-*) 或 0/-1）
- *   R3  禁止自造 transition 时长/缓动（只允许 var(--m-duration-*) / var(--m-ease-*)）
- *   R4  禁止 !important（tokens.css 的 reduced-motion 块除外）
- *   R5  间距类（p/m/gap）禁止使用 4px 网格外的任意值（p-[7px] 等）
- *   R6  图标按钮/可点元素缺失 aria-label（抽查 data-icon-only 模式）
+ * 分工：`lib/classify.mjs` 分层 → `lib/facts.mjs` 事实装配 → `lib/engine.mjs` 规则×事实 →
+ *       `checks/*.mjs` 规则本体（`checks/index.mjs` 注册）。本文件只做参数、遍历、报告与退出码。
+ *
+ * 契约：遍历产出的路径必须是**仓库相对 + 正斜杠 + 无 `./` 前缀**，因为 `classify()` 的
+ *       `component` / `demo` 层是精确串匹配（`ai/meridian-ui.css`、`design-system.html`）。
+ *       形式一变这两层就静默降级，v1 的自我失明了换个输入形式复辟。
  */
+import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from "node:fs";
+import { join, relative, resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+import { classify } from "./lib/classify.mjs";
+import { factsFor, buildFs } from "./lib/facts.mjs";
+import { run, applyBaseline, format } from "./lib/engine.mjs";
+import { rules } from "./checks/index.mjs";
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
-import { join, extname, relative } from "node:path";
+// CLI 在仓库根执行：`meridian.config.json` 与 classify 的相对路径都以它为基准。
+const ROOT = process.cwd();
+const rel = (abs) => relative(ROOT, abs).replace(/\\/g, "/");
+const die = (msg) => { console.error(`meridian-validate: ${msg}`); process.exit(1); };
 
-const args = process.argv.slice(2);
-const dir = args.find((a) => !a.startsWith("--")) || "src";
-const asJson = args.includes("--json");
+/** 取值的标志位——它们后面的那个参数是值，不是目标目录。`--exclude` 必须在此列内。 */
+const PREV_TAKES_VALUE = new Set(["--only", "--baseline", "--ignore", "--exclude", "--emit-manifest"]);
+
+export function parseArgs(argv) {
+  const val = (n) => {
+    const eq = argv.find((a) => a.startsWith(n + "="));
+    if (eq !== undefined) return eq.slice(n.length + 1);
+    const i = argv.indexOf(n);
+    return i < 0 || i + 1 >= argv.length ? undefined : argv[i + 1];   // 缺标志时不得回落到 argv[0]（那是目标参数）
+  };
+  const many = (n) => argv.flatMap((a, i) =>
+    a.startsWith(n + "=") ? [a.slice(n.length + 1)] : a === n && argv[i + 1] !== undefined ? [argv[i + 1]] : []);
+  // 首个位置参数语义与 v1 一致；多余的位置参数同样参与本次扫描——计划里 `node ai/validate.mjs ai/tokens.css ai/tokens.json --only=R04`
+  // 这类命令真实存在，只取第一个会把没扫的文件当成扫过了（假绿）。
+  const targets = argv.filter((a, i) => !a.startsWith("--") && !PREV_TAKES_VALUE.has(argv[i - 1]));
+  return {
+    targets: targets.length ? targets : ["."],
+    mode: argv.includes("--sarif") ? "sarif" : argv.includes("--json") ? "json" : "text",
+    only: val("--only")?.split(",").map((s) => s.trim().toUpperCase()),
+    ignores: many("--ignore"),
+    excludes: many("--exclude"),
+    baseline: val("--baseline"),
+    manifest: val("--emit-manifest"),
+  };
+}
+
 /**
- * 设计系统资产文件：原始色值只允许出现在这里。
- * - tokens.css / tokens.json / tailwind-theme.css：令牌定义层
- * - meridian-ui.css：参考组件库（含两类文档化例外：第三方钱包品牌锁定色、代码块语法色板）
- * 业务代码（src/）一律不得出现裸色值。
+ * `--exclude` 是"本次扫描临时跳过"，`cfg.ignore` 是"这些目录不属于被审代码"。
+ * T17 全仓验收必须 `--exclude ai/selfcheck/fixtures`（`fail/` 样本故意植红），
+ * T10 生成 manifest 时不传，才能把 fixtures 扫出来。两者都必须成立。
  */
-const TOKEN_FILES = /tokens\.css|tailwind-theme\.css|tokens\.json|meridian-ui\.css|\.mimosa/i;
+export const excludePaths = (paths, excludes) => excludes.length ? paths.filter((p) => !excludes.some((x) => p.includes(x))) : paths;
 
-const CODE_EXTS = new Set([".tsx", ".ts", ".jsx", ".js", ".vue", ".svelte", ".html", ".css"]);
+/** 目录自身没有扩展名，classify 对它一律给 `ignore`；用合成文件名只探"忽略语义"（两种 ignore 写法都由 classify 判）。 */
+const ignoredDir = (relPath, cfg) => classify(`${relPath}/x.ts`, cfg) === "ignore";
 
-function walk(d, out = []) {
-  for (const name of readdirSync(d)) {
-    if (name === "node_modules" || name === ".git" || name.startsWith(".")) continue;
-    const p = join(d, name);
-    if (statSync(p).isDirectory()) walk(p, out);
-    else out.push(p);
-  }
+export function walk(target, cfg = { ignore: [] }) {
+  const abs = resolve(ROOT, target);
+  const base = rel(abs);
+  if (base.startsWith("..")) die(`目标必须落在仓库内（收到 ${target}）：classify 以仓库相对路径为契约`);
+  const st = statSync(abs, { throwIfNoEntry: false });
+  if (st?.isFile()) return [base];
+  if (!st?.isDirectory()) die(`目标不存在：${target}`);
+  const out = [];
+  const scan = (dirRel, dirAbs) => {
+    for (const name of readdirSync(dirAbs)) {
+      const p = join(dirAbs, name);
+      const r = dirRel ? `${dirRel}/${name}` : name;   // 手工拼正斜杠：不引入 `./`，也不留反斜杠
+      const s = statSync(p, { throwIfNoEntry: false });
+      if (!s) continue;                                // 断链符号链接：没有内容可审
+      if (s.isDirectory()) { if (!ignoredDir(r, cfg)) scan(r, p); continue; }
+      out.push(r);
+    }
+  };
+  scan(base, abs);
   return out;
 }
 
-const RULES = [
-  {
-    id: "R1-raw-color",
-    /**
-     * 只在"值位置"检测 hex（前置 : ( , ' " 之一），避免把业务数据误判为颜色：
-     *   color: #fff  ✅ 命中      fill="#FF0000" ✅ 命中      (#fff) ✅ 命中
-     *   Invoice #1042 ❌ 不命中（空格后、非值位置）  Order #A1B2 ❌ 不命中
-     * rgb()/hsl()/oklch() 无歧义，保持宽松匹配。
-     */
-    test: /(?::|\(|,|'|")\s*#(?:[0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\b|(?::|\(|,|'|")\s*(?:\brgba?\(|\bhsla?\(|\boklch\()/,
-    files: (p) => CODE_EXTS.has(extname(p)),
-    skip: (c) => TOKEN_FILES.test(c),
-    message: "裸色值。请改用语义 token：var(--m-fg) / bg-primary / text-critical 等。",
-  },
-  {
-    id: "R2-raw-zindex",
-    test: /z-index\s*:\s*(?!var\(|auto|0\b|-1\b)\d+/,
-    files: (p) => CODE_EXTS.has(extname(p)),
-    skip: (c) => TOKEN_FILES.test(c),
-    message: "自造 z-index。只允许 var(--m-z-raised|nav|drawer|modal|toast|tooltip)。",
-  },
-  {
-    id: "R3-raw-motion",
-    test: /(?:transition|animation)(?:-duration)?\s*:\s*(?!var\(|inherit|0(?:\.0\d*)?m?s\b)(?:[\d.]+m?s)/,
-    files: (p) => CODE_EXTS.has(extname(p)),
-    skip: (c) => TOKEN_FILES.test(c),
-    message: "自造时长。请使用 var(--m-duration-100|150|200|300|450|600)。",
-  },
-  {
-    id: "R4-important",
-    test: /!important/,
-    files: (p) => CODE_EXTS.has(extname(p)),
-    skip: (c) => TOKEN_FILES.test(c) || /reduced-motion/.test(c),
-    message: "!important 禁止使用（reduced-motion 兜底除外）。",
-  },
-  {
-    id: "R5-offgrid-spacing",
-    test: /\b[pm][trblxy]?-\[\s*(?!0|var\()(?:[\d.]+)(?:px|rem)\s*\]/,
-    files: (p) => /\.(tsx|jsx|vue|svelte|html)$/.test(extname(p)),
-    skip: () => false,
-    message: "脱离 4px 网格的任意间距。请使用标准间距（1..24）或 var(--m-space-*)。",
-  },
-  {
-    id: "R6-icon-only-a11y",
-    test: /(?:icon-button|IconOnlyButton|aria-hidden="true"\s*>\s*<svg)/,
-    files: (p) => /\.(tsx|jsx|vue|svelte)$/.test(extname(p)),
-    skip: () => false,
-    message: "疑似纯图标按钮：必须携带可读的 aria-label。",
-  },
-];
+function main() {
+  const args = parseArgs(process.argv.slice(2));
+  const cfg = existsSync("meridian.config.json") ? JSON.parse(readFileSync("meridian.config.json", "utf8")) : { ignore: [] };
+  if (args.ignores.length) cfg.ignore = [...(cfg.ignore ?? []), ...args.ignores];
+  const baselinePath = args.baseline ?? cfg.baseline;
+  const baseline = baselinePath && existsSync(baselinePath) ? JSON.parse(readFileSync(baselinePath, "utf8")) : null;
+  const activeRules = args.only ? rules.filter((r) => args.only.includes(r.id)) : rules;
 
-const files = statSync(dir).isDirectory() ? walk(dir) : [dir];
-const violations = [];
+  const paths = excludePaths(args.targets.flatMap((t) => walk(t, cfg)), args.excludes);
+  const files = paths.map((p) => factsFor(p, cfg)).filter((f) => f.layer !== "ignore");
+  const raw = run({ files, rules: activeRules, cfg, fs: buildFs(files) });
+  const { violations, suppressed } = applyBaseline(raw.violations, baseline);
 
-for (const file of files) {
-  const ext = extname(file);
-  if (!CODE_EXTS.has(ext)) continue;
-  let content;
-  try {
-    content = readFileSync(file, "utf8");
-  } catch {
-    continue;
+  if (args.manifest) {
+    writeFileSync(args.manifest, JSON.stringify(violations.map(({ rule, file, line }) => ({ rule, file, line })), null, 2));
+    console.log(`manifest written: ${violations.length} expected hits`);
+    process.exit(0);
   }
-  for (const rule of RULES) {
-    if (!rule.files(file)) continue;
-    if (rule.skip && rule.skip(file)) continue;
-    const lines = content.split("\n");
-    lines.forEach((line, i) => {
-      if (rule.test.test(line)) {
-        violations.push({ rule: rule.id, file: relative(process.cwd(), file), line: i + 1, message: rule.message });
-      }
-    });
-  }
+  if (suppressed) console.error(`baseline 吸收了 ${suppressed} 处存量违规（${baselinePath}）—— 它只记账，不是豁免`);
+  process.stdout.write(format(violations, args.mode, raw.staleAllows) + "\n");
+  process.exit(violations.length || raw.staleAllows.length ? 1 : 0);
 }
 
-if (asJson) {
-  console.log(JSON.stringify({ ok: violations.length === 0, count: violations.length, violations }, null, 2));
-} else if (violations.length === 0) {
-  console.log("✓ Meridian 设计合规校验通过（0 violations）");
-} else {
-  console.error(`✗ ${violations.length} 处设计违规：\n`);
-  for (const v of violations) {
-    console.error(`  [${v.rule}] ${v.file}:${v.line} — ${v.message}`);
-  }
-  process.exit(1);
-}
+// 导出 `walk` 供测试证明路径契约，但只有被直接执行时才跑 CLI（否则 import 会顺手退出测试进程）。
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) main();
