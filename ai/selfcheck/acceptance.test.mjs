@@ -18,12 +18,12 @@ test("A3: 三模式一致非零退出", () => {
 });
 
 // A11: 版本戳四源一致
-test("A11: 版本戳 v1.1.0 四源一致", () => {
-  assert.ok(readFileSync("README.md", "utf8").includes("v1.1.0"));
-  assert.equal(JSON.parse(readFileSync("ai/tokens.json", "utf8")).$version, "1.1.0");
-  assert.match(readFileSync("ai/tokens.css", "utf8"), /Design Tokens v1\.1\.0/);
-  assert.match(readFileSync("ai/meridian-ui.css", "utf8"), /参考组件库 v1\.1\.0/);
-  assert.ok(readFileSync("CHANGELOG.md", "utf8").includes("## 1.1.0"));
+test("A11: 版本戳 v1.2.0 五源一致（版本常量随每次发布同步更新，见 spec R-31）", () => {
+  assert.ok(readFileSync("README.md", "utf8").includes("v1.2.0"));
+  assert.equal(JSON.parse(readFileSync("ai/tokens.json", "utf8")).$version, "1.2.0");
+  assert.match(readFileSync("ai/tokens.css", "utf8"), /Design Tokens v1\.2\.0/);
+  assert.match(readFileSync("ai/meridian-ui.css", "utf8"), /参考组件库 v1\.2\.0/);
+  assert.ok(readFileSync("CHANGELOG.md", "utf8").includes("## 1.2.0"));
 });
 
 // 字阶与圆角菜单与 tokens.json 一致
