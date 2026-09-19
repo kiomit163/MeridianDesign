@@ -4,6 +4,7 @@
  * 引擎不认识任何规则 id：demo 层豁免来自规则自己的 `offInDemo` 布尔，
  * define/component 层的取舍写在规则的 `layers` 里。任何"隐式白名单"都会成为下一个 v1 假绿。
  */
+// doc 层不收集 allows（O8，S2）：文档里的 marker 语法示例不是被审计代码。
 import { collectAllows } from "../checks/allow.mjs";
 
 // 跨行声明的行号由解析器给（首行），标记写在结尾行也要能命中，故留 ±2 行的窗口。
@@ -23,7 +24,11 @@ export function run({ files, rules, cfg = {}, fs = null }) {
     // Windows 下 `f.path` 可能是反斜杠形态（Git Bash 的 join / path.relative）。
     // 归一一次，输出与 ctx 共用同一个视图，否则 manifest 与 rules.test 的 key() 会整表假红。
     const file = { ...src, path: src.path.replace(/\\/g, "/") };
-    const allows = collectAllows(file.text ?? "");
+    // O8（S2）：文档不是被审计代码——文档里的 `meridian-allow` 只是语法示例文本，
+    // 收集它只会造出永远消耗不掉的假 stale。doc 层直接给空 allows。
+    const allows = file.layer === "doc"
+      ? { byLine: new Map(), regions: [] }
+      : collectAllows(file.text ?? "");
     const used = new Set();
     for (const fact of file.facts) {
       for (const rule of rules) {
@@ -34,7 +39,11 @@ export function run({ files, rules, cfg = {}, fs = null }) {
           const line = raw.line ?? fact.line;
           const key = `${rule.id}|${file.path}|${line}|${raw.message}`;
           if (seen.has(key)) continue;
-          const marker = [...allows.byLine.keys()].find((l) => near(l, line));
+          // D3（S2）：消耗"未消耗且行距最近"的 marker。原先 find() 只取第一个 ±2 行内的 marker，
+          // 相邻两处违规会同时命中同一个 marker（先行者吸收后来者），后来者自己的 marker 永不消耗 → 假 stale。
+          const marker = [...allows.byLine.keys()]
+            .filter((l) => !used.has(l) && near(l, line))
+            .sort((a, b) => Math.abs(a - line) - Math.abs(b - line))[0];
           if (marker !== undefined) { used.add(marker); seen.add(key); continue; }
           seen.add(key);
           violations.push({ rule: rule.id, file: file.path, line, message: raw.message, fix: raw.fix });

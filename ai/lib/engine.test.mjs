@@ -8,6 +8,8 @@ import { run, applyBaseline, format } from "./engine.mjs";
 import { factsFor, buildFs } from "./facts.mjs";
 import { classify } from "./classify.mjs";
 import { collectAllows } from "../checks/allow.mjs";
+import { rules } from "../checks/index.mjs";
+import { parseCss } from "./parse-css.mjs";
 import { walk, excludePaths, parseArgs } from "../validate.mjs";
 
 const fake = { id: "R99", title: "t", layers: ["feature"], facts: ["decl"],
@@ -333,4 +335,33 @@ test("CLI 端到端：--exclude 临时跳过 fixture 目录（与 cfg.ignore 不
   } finally {
     rmSync(fixtureAbs, { recursive: true, force: true });
   }
+});
+
+// ---------- S2 加固：D3 marker 消耗 / D2 doc 层豁免 ----------
+
+test("marker 消耗取最近未用行：相邻违规各消耗各自 marker，不再抢先（D3 回归）", () => {
+  const css = [
+    ".a { animation: x 0.7s linear infinite; /* meridian-allow: spin-a */ }",
+    "",
+    ".b { animation: y 0.9s linear infinite; /* meridian-allow: spin-b */ }",
+  ].join("\n");
+  const file = { path: "src/x.css", layer: "feature", text: css, facts: parseCss(css) };
+  const { violations, staleAllows } = run({ files: [file], rules });
+  assert.equal(staleAllows.length, 0, `不应有 stale: ${JSON.stringify(staleAllows)}`);
+  assert.equal(violations.length, 0, `两处违规都应被各自 marker 吸收: ${JSON.stringify(violations)}`);
+});
+
+test("doc 层不收集 meridian-allow（O8 治本）：文档示例 marker 不再误报 stale", () => {
+  const md = "# 示例\n\n| 写法 | 说明 |\n|---|---|\n| `/* meridian-allow: 示例 */` | 无理由不生效 |";
+  // 偏差说明（对 brief 的唯一改动）：brief 原文此处为 `facts: []`，但引擎契约是 check 按 fact×rule 调用，
+  // 空 facts 意味着 check 永不执行 → `violations.length === 1`（"doc 层违规照报"）在任何实现下都不可能成立。
+  // 补一条与 fakeRule.facts 匹配的 doc-ref 事实，让该断言真正守卫"O8 修复不得顺带吞掉 doc 层违规"。
+  const file = { path: "docs/x.md", layer: "doc", text: md, facts: [{ type: "doc-ref", line: 4 }] };
+  const fakeRule = {
+    id: "R98", title: "test-doc", layers: ["doc"], facts: ["doc-ref"], offInDemo: false,
+    check: () => [{ line: 4, message: "ref" }],
+  };
+  const { violations, staleAllows } = run({ files: [file], rules: [fakeRule] });
+  assert.equal(violations.length, 1, "doc 层违规照报");
+  assert.equal(staleAllows.length, 0, "doc 层不是被审计代码，marker 文本不判 stale");
 });
