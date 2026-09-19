@@ -105,7 +105,7 @@ svg.m-i--fill { fill: currentColor; stroke: none; }
   box-shadow: var(--m-shadow-e2); padding: var(--m-space-1); display: none; max-height: 240px; overflow: auto; }
 .m-combobox.is-open .m-combobox__list { display: block; }
 .m-combobox__opt { display: flex; justify-content: space-between; align-items: center; gap: var(--m-space-2);
-  padding: var(--m-space-2) var(--m-space-2); border-radius: var(--m-radius-sm); font-size: var(--m-text-sm); cursor: pointer; }
+  padding: var(--m-space-2); border-radius: var(--m-radius-sm); font-size: var(--m-text-sm); cursor: pointer; }
 .m-combobox__opt:hover, .m-combobox__opt.is-active { background: var(--m-bg-surface-selected); }
 .m-combobox__opt[aria-selected="true"] { background: var(--m-primary-tint); color: var(--m-primary-text); font-weight: var(--m-weight-medium); }
 .m-combobox__empty { padding: var(--m-space-2); font-size: var(--m-text-sm); color: var(--m-fg-subtle); }

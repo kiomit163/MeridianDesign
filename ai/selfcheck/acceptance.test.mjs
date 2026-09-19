@@ -17,7 +17,7 @@ test("A3: 三模式一致非零退出", () => {
   for (const mode of [[], ["--json"], ["--sarif"]]) assert.equal(run([bad, ...mode]).code, 1);
 });
 
-// A11: 版本戳四源一致
+// A11: 版本戳五源一致（README / tokens.json / tokens.css / meridian-ui.css / CHANGELOG）
 test("A11: 版本戳 v1.2.0 五源一致（版本常量随每次发布同步更新，见 spec R-31）", () => {
   assert.ok(readFileSync("README.md", "utf8").includes("v1.2.0"));
   assert.equal(JSON.parse(readFileSync("ai/tokens.json", "utf8")).$version, "1.2.0");
