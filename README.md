@@ -69,6 +69,6 @@
 
 ## 治理
 
-- 语义变更走 SemVer：**任何视觉可见的值变更 ≥ MINOR**（含 primitive 改值——它是整张对比契约的输入）；加 token = MINOR；改语义指向、删 token 或改变默认舞台 = MAJOR + 迁移说明 + codemod。版本以 `ai/tokens.json` 的 `$version` 为唯一声明，README / tokens.css / meridian-ui.css / CHANGELOG 必须一致。
+- 语义变更走 SemVer：**任何视觉可见的值变更 ≥ MINOR**（含 primitive 改值——它是整张对比契约的输入）；加 token = MINOR；改语义指向、删 token 或改变默认舞台 = MAJOR + 迁移说明 + codemod。版本以 `ai/tokens.json` 的 `$version` 为唯一声明，README / tokens.css / meridian-ui.css / design-system.html / CHANGELOG 必须一致。
 - 一切新规则必须"可校验"：写不进 `validate.mjs` 的规则进不了 AGENTS.md。
 - 违规处理顺序：校验器拦截 → review 打回 → 模板库补充（让同类违规下次不可能发生）。

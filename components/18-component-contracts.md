@@ -156,5 +156,5 @@ z-modal；输入即搜（资源 + 动作 + 跳转）；↑↓ Enter；结果分�
 | 主操作位置 | `send` 永远在最右，`margin-left: 8px` 与工具组拉开 |
 | 禁用态 | 输入为空时 `send` 用 `[disabled]`（bg-inset + fg-disabled），不用降透明度 |
 | 模型/模式选择器 | 用药丸族 + `▾`，`max-width: 14rem`；展开后用 Popover（e2），不使用原生 select |
-| 合规小字 | 固定 11px + `fg-subtle`；位于容器**外部**下方（不属于工具栏基线） |
+| 合规小字 | 固定 12px（`--m-text-xs`）+ `fg-subtle`；位于容器**外部**下方（不属于工具栏基线）。v1.1 迁移说明曾声称已改 12px 但文档漏改，v1.2 补齐 |
 | 与页面关系 | Composer 通常是 sticky 底部；sticky 时用**实底 + 顶边线**，不用渐隐遮罩（渐变会吃掉工具图标对比度） |

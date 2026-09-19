@@ -142,7 +142,7 @@
 | `#FFF` | `critical-solid` (danger-9) | ≈4.9:1 | 危险按钮 |
 | `#2B1F02` | `emphasis-solid`/`warning-solid` | ≥7:1 | 促销/告警实底（深字） |
 | `border-focus` | 任意 surface | ≥3:1 | 焦点环（WCAG 1.4.11） |
-| `border` (ink-5) | `bg-surface` | ≥1.6:1 | 装饰边框（非语义）——语义边界用 `border-strong` |
+| `border` (ink-5) | `bg-surface` | ≈1.3:1 | 装饰边框基线（非语义、无 WCAG 义务；实测 1.33:1，v1.2 修正旧表 ≥1.6 的笔误）——语义边界用 `border-strong`（≥3:1） |
 | `fg-subtle` (ink-9) | **`bg-inset`** | **≈4.3:1 ✗** | **禁止**：`fg-subtle` 的校准基准是画布/台面（rank −1/0），在凹槽（rank −2）上跌破 4.5:1。凹槽内的文字请用 `fg-muted`(ink-11) 或更深 |
 
 ## 七、状态层公式（替代散落的 hover 色）
