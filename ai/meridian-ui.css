@@ -459,3 +459,23 @@ kbd { font-family: var(--m-font-mono); font-size: var(--m-text-xs); background: 
 .m-col { display: flex; flex-direction: column; gap:var(--m-space-2); }
 .m-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:var(--m-space-4); }
 .m-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:var(--m-space-4); }
+
+/* ---------- 11 Toast（docs/17 §一 规格的参考实现） ----------
+   --m-toast-duration 由 JS 读取：setTimeout(…, parseInt(getComputedStyle(el).getPropertyValue('--m-toast-duration')))
+   hover 暂停 = 清除 animation 并记剩余时间；退场由 JS 置 data-state="closed" 触发。 */
+.m-toast-stack { position: fixed; z-index: var(--m-z-toast); display: flex; flex-direction: column;
+  gap: var(--m-space-2); inset-inline-end: var(--m-space-4); bottom: var(--m-space-4); }
+.stage-storefront .m-toast-stack, :root .m-toast-stack { inset-inline: 0; align-items: center; }
+.m-toast { display: flex; align-items: center; gap: var(--m-space-3); max-inline-size: 24rem;
+  padding: var(--m-space-2) var(--m-space-3); border-radius: var(--m-toast-radius);
+  background: var(--m-toast-bg); color: var(--m-toast-fg); font-size: var(--m-text-sm);
+  box-shadow: var(--m-shadow-e4);
+  animation: m-toast-in var(--m-duration-200) var(--m-ease-enter); }
+.m-toast[data-state="closed"] { animation: m-toast-out var(--m-duration-150) var(--m-ease-exit) forwards; }
+.m-toast .act { color: inherit; text-decoration: underline; background: none; border: none; cursor: pointer; font: inherit; }
+@keyframes m-toast-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes m-toast-out { from { opacity: 1; } to { opacity: 0; transform: translateY(4px); } }
+
+/* 密度：默认 comfortable 48px，可切 productive 36px（admin/15-admin-data-tables.md §三） */
+[data-density="productive"] .m-table td { height: var(--m-table-row-h-productive); }
+[data-density="productive"] .m-table th { padding-block: var(--m-space-1); }

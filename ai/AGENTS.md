@@ -66,7 +66,7 @@ Semantic categories: `bg-*` (page/surface/surface-hover/surface-selected/inset/b
 | Page bg | white | `--m-bg-page` gray (ink-2) |
 | Shell topology | A · Canvas+Card (always) | A for record pages, **B · Chrome+Work-surface for multi-pane shells** (docs/02 §五) |
 | Body text | 16px (`text-lg`) | 14px (`text-md`) |
-| Density | airy, sections `--m-space-section` | productive, row 36px default |
+| Density | airy, sections `--m-space-section` | **row 48px comfortable 默认**；`[data-density="productive"]` 切 36px |
 | Shadow | cards use `--m-shadow-e1` + border | border-first, shadow by exception |
 | Motion | expressive allowed (450–600ms on entry) | restrained (100–300ms) |
 | Buttons | primary CTA `--m-btn-h-cta` (52px) | standard `--m-btn-h-md` (36px) |

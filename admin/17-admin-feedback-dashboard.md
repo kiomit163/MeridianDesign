@@ -26,6 +26,8 @@
 
 ### Toast 规格
 
+参考实现见 `ai/meridian-ui.css` §11（`.m-toast-stack` / `.m-toast`）。`--m-toast-duration` 由 JS 读取（`getComputedStyle(el).getPropertyValue('--m-toast-duration')`），hover 暂停计时由 JS 实现。
+
 右下角（后台）/底部居中（前台）；e4 阴影、深底反白（`--m-toast-*`）；栈叠 ≤3（多余排队）；单条 5000ms（hover 暂停计时）；结构 = 文本（≤3 词）+ 可选 1 动作（Undo/View）；错误不走 Toast（用 Banner/Modal）。
 
 ### Modal vs Popover vs Drawer
