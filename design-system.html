@@ -11,14 +11,14 @@
 body.ds { font-size: var(--m-text-md); }
 .ds-nav { position: fixed; inset: 0 auto 0 0; width: 248px; background: var(--m-bg-surface); border-right: 1px solid var(--m-border); padding: 20px 14px; overflow-y: auto; z-index: var(--m-z-nav); display: flex; flex-direction: column; gap: 4px; }
 .ds-logo { display: flex; align-items: center; gap: 10px; padding: 4px 8px 14px; }
-.ds-logo .mark { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(135deg, var(--m-brand-7), var(--m-brand-10)); display: grid; place-items: center; color: #fff; font-weight: var(--m-weight-bold); font-size: 18px; }
+.ds-logo .mark { width: 34px; height: 34px; border-radius: var(--m-radius-md); background: linear-gradient(135deg, var(--m-brand-7), var(--m-brand-10)); display: grid; place-items: center; color: #fff; font-weight: var(--m-weight-bold); font-size: 18px; }
 .ds-logo b { font-size: 15px; letter-spacing: .02em; }
-.ds-logo small { display: block; color: var(--m-fg-subtle); font-size: 11px; }
+.ds-logo small { display: block; color: var(--m-fg-subtle); font-size: var(--m-text-xs); }
 .ds-nav .toggles { display: flex; gap: 6px; padding: 0 4px 12px; flex-wrap: wrap; }
 .ds-nav a { display: block; padding: 7px 10px; border-radius: 8px; font-size: 13px; color: var(--m-fg-muted); text-decoration: none; }
 .ds-nav a:hover { background: var(--m-bg-surface-hover); color: var(--m-fg); text-decoration: none; }
 .ds-nav a.on { background: var(--m-primary-tint); color: var(--m-primary-text); font-weight: var(--m-weight-medium); }
-.ds-nav .foot { margin-top: auto; padding: 12px 8px 0; font-size: 11px; color: var(--m-fg-subtle); border-top: 1px solid var(--m-border); }
+.ds-nav .foot { margin-top: auto; padding: 12px 8px 0; font-size: var(--m-text-xs); color: var(--m-fg-subtle); border-top: 1px solid var(--m-border); }
 .ds-main { margin-left: 248px; padding: 40px 48px 80px; max-width: 1180px; }
 section.ds-sec { padding: 40px 0 8px; border-bottom: 1px solid var(--m-border); scroll-margin-top: 16px; }
 section.ds-sec:last-of-type { border-bottom: none; }
@@ -41,19 +41,19 @@ p.ds-p { max-width: 74ch; }
 table.ds-t { width: 100%; border-collapse: collapse; font-size: 13px; margin: 8px 0 16px; }
 table.ds-t th { text-align: left; padding: 8px 10px; background: var(--m-bg-inset); color: var(--m-fg-muted); font-weight: var(--m-weight-medium); border-bottom: 1px solid var(--m-border-strong); white-space: nowrap; }
 table.ds-t td { padding: 7px 10px; border-bottom: 1px solid var(--m-border); vertical-align: top; }
-table.ds-t code, .ds-inline-code { font-family: var(--m-font-mono); font-size: 12px; background: var(--m-bg-inset); border: 1px solid var(--m-border); border-radius: 4px; padding: 1px 6px; color: var(--m-primary-text); }
-.dot-swatch { display: inline-block; width: 14px; height: 14px; border-radius: 4px; border: 1px solid rgb(0 0 0/.1); vertical-align: -2px; margin-right: 6px; }
+table.ds-t code, .ds-inline-code { font-family: var(--m-font-mono); font-size: 12px; background: var(--m-bg-inset); border: 1px solid var(--m-border); border-radius: var(--m-radius-sm); padding: 1px 6px; color: var(--m-primary-text); }
+.dot-swatch { display: inline-block; width: 14px; height: 14px; border-radius: var(--m-radius-sm); border: 1px solid rgb(0 0 0/.1); vertical-align: -2px; margin-right: 6px; }
 /* 色板 */
 .ramp { border: 1px solid var(--m-border); border-radius: 12px; overflow: hidden; }
 .ramp h4 { margin: 0; padding: 8px 12px; font-size: 13px; display: flex; justify-content: space-between; background: var(--m-bg-surface); }
 .ramp h4 small { color: var(--m-fg-subtle); font-weight: 400; }
 .ramp .cells { display: grid; grid-template-columns: repeat(6, 1fr); }
 .ramp .cell { aspect-ratio: 1.15; position: relative; cursor: pointer; border: 0; padding: 0; font: inherit; }
-.ramp .cell small { position: absolute; left: 5px; bottom: 3px; font-size: 9px; opacity: .75; font-family: var(--m-font-mono); }
+.ramp .cell small { position: absolute; left: 5px; bottom: 3px; font-size: var(--m-text-xs); opacity: .75; font-family: var(--m-font-mono); }
 .ramp .cell:hover { outline: 2px solid var(--m-border-focus); outline-offset: -2px; z-index: 1; }
 /* 字体样张 */
 .type-row { display: flex; align-items: baseline; gap: 18px; padding: 10px 0; border-bottom: 1px solid var(--m-border); }
-.type-row .spec { width: 210px; flex: none; font-family: var(--m-font-mono); font-size: 11px; color: var(--m-fg-subtle); }
+.type-row .spec { width: 210px; flex: none; font-family: var(--m-font-mono); font-size: var(--m-text-xs); color: var(--m-fg-subtle); }
 /* 间距 */
 .space-row { display: flex; align-items: center; gap: 12px; margin: 4px 0; font-size: 12px; color: var(--m-fg-subtle); font-family: var(--m-font-mono); }
 .space-row i { display: block; height: 14px; background: var(--m-primary-tint); border: 1px solid var(--m-primary-border); border-radius: 3px; }
@@ -253,10 +253,10 @@ ul.ds-ul li { margin: 3px 0; }
     <div class="demo"><div class="demo-tag"><code>surface-ranks</code><span class="en">四级阶梯（实时值，随主题变化）</span></div>
       <div class="demo-body col" style="gap:8px">
         <div style="display:grid;grid-template-columns:130px 1fr;gap:6px;font-size:12px;align-items:center">
-          <span><code>inset</code> −2 凹槽</span><span style="height:26px;border-radius:4px;border:1px solid var(--m-border);background:var(--m-bg-inset)"></span>
-          <span><code>chrome</code> −1 框架</span><span style="height:26px;border-radius:4px;border:1px solid var(--m-border);background:var(--m-bg-chrome)"></span>
-          <span><code>surface</code> 0 台面</span><span style="height:26px;border-radius:4px;border:1px solid var(--m-border);background:var(--m-bg-surface)"></span>
-          <span><code>overlay</code> +1 浮层</span><span style="height:26px;border-radius:4px;border:1px solid var(--m-border);background:var(--m-bg-surface);box-shadow:var(--m-shadow-e2)"></span>
+          <span><code>inset</code> −2 凹槽</span><span style="height:26px;border-radius: var(--m-radius-sm);border:1px solid var(--m-border);background:var(--m-bg-inset)"></span>
+          <span><code>chrome</code> −1 框架</span><span style="height:26px;border-radius: var(--m-radius-sm);border:1px solid var(--m-border);background:var(--m-bg-chrome)"></span>
+          <span><code>surface</code> 0 台面</span><span style="height:26px;border-radius: var(--m-radius-sm);border:1px solid var(--m-border);background:var(--m-bg-surface)"></span>
+          <span><code>overlay</code> +1 浮层</span><span style="height:26px;border-radius: var(--m-radius-sm);border:1px solid var(--m-border);background:var(--m-bg-surface);box-shadow:var(--m-shadow-e2)"></span>
         </div>
         <p style="font-size:12px;color:var(--m-fg-subtle);margin:4px 0 0">口诀：<b>用户的眼睛停在哪里，哪里就是 rank 0</b>。框架内 hover 必须换梯度（<code>chrome-hover</code>）——因为 <code>surface-hover</code> 与 chrome <b>同值</b>，直接用会完全不可见。</p>
       </div>
@@ -264,17 +264,17 @@ ul.ds-ul li { margin: 3px 0; }
     <div class="demo"><div class="demo-tag"><code>topology</code><span class="en">A 画布+卡片 / B 框架+台面</span></div>
       <div class="demo-body col" style="gap:12px">
         <div>
-          <small style="font-size:11px;color:var(--m-fg-subtle)">A · 记录型页面（灰底白卡）—— 订单/商品/设置/仪表盘</small>
+          <small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">A · 记录型页面（灰底白卡）—— 订单/商品/设置/仪表盘</small>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--m-bg-page);border:1px solid var(--m-border);border-radius:8px;padding:10px;margin-top:4px">
             <div style="height:40px;border-radius:6px;background:var(--m-bg-surface);border:1px solid var(--m-border)"></div>
             <div style="height:40px;border-radius:6px;background:var(--m-bg-surface);border:1px solid var(--m-border)"></div>
           </div>
         </div>
         <div>
-          <small style="font-size:11px;color:var(--m-fg-subtle)">B · 外壳型（灰框架 + 白台面）—— IDE/对话/邮件/CRM</small>
+          <small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">B · 外壳型（灰框架 + 白台面）—— IDE/对话/邮件/CRM</small>
           <div style="display:grid;grid-template-columns:48px 1fr 48px;border:1px solid var(--m-border);border-radius:8px;overflow:hidden;margin-top:4px">
             <div style="height:60px;background:var(--m-bg-chrome);border-right:1px solid var(--m-border)"></div>
-            <div style="height:60px;background:var(--m-bg-surface);display:grid;place-items:center;font-size:10px;color:var(--m-fg-subtle)">work surface</div>
+            <div style="height:60px;background:var(--m-bg-surface);display:grid;place-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)">work surface</div>
             <div style="height:60px;background:var(--m-bg-chrome);border-left:1px solid var(--m-border)"></div>
           </div>
         </div>
@@ -287,7 +287,7 @@ ul.ds-ul li { margin: 3px 0; }
   <div class="g2">
     <div class="demo"><div class="demo-tag"><code>state-layer</code><span class="en">hover 8% · pressed 12% · selected 10%</span></div>
       <div class="demo-body col">
-        <div style="padding:14px;border:1px solid var(--m-border);border-radius:10px" onmouseover="this.style.background='color-mix(in oklab, var(--m-fg) 8%, transparent)'" onmouseout="this.style.background='transparent'">鼠标悬停我 — 状态层 8% 覆盖（对任意表面通用，无需逐色调 hover 色）</div>
+        <div style="padding:14px;border:1px solid var(--m-border);border-radius: var(--m-radius-md)" onmouseover="this.style.background='color-mix(in oklab, var(--m-fg) 8%, transparent)'" onmouseout="this.style.background='transparent'">鼠标悬停我 — 状态层 8% 覆盖（对任意表面通用，无需逐色调 hover 色）</div>
         <p style="font-size:12px;color:var(--m-fg-subtle);margin:0">实底组件用显式 token：浅色主题 hover 变深（9→10），深色主题 hover 变浅（9→8）。方向规则写死。</p>
       </div>
     </div>
@@ -344,11 +344,11 @@ ul.ds-ul li { margin: 3px 0; }
     </div>
     <div class="demo"><div class="demo-tag"><code>radius</code><span class="en">圆角（主旋钮 --m-radius: 8px 派生）</span></div>
       <div class="demo-body">
-        <div class="m-col" style="align-items:center;font-size:11px;color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-sm)"></div>sm 4</div>
-        <div class="m-col" style="align-items:center;font-size:11px;color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-md)"></div>md 8 控件</div>
-        <div class="m-col" style="align-items:center;font-size:11px;color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-lg)"></div>lg 12 后台卡</div>
-        <div class="m-col" style="align-items:center;font-size:11px;color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-xl)"></div>xl 16 前台卡</div>
-        <div class="m-col" style="align-items:center;font-size:11px;color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-pill)"></div>pill</div>
+        <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-sm)"></div>sm 4</div>
+        <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-md)"></div>md 8 控件</div>
+        <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-lg)"></div>lg 12 后台卡</div>
+        <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-xl)"></div>xl 16 前台卡</div>
+        <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-pill)"></div>pill</div>
       </div>
     </div>
   </div>
@@ -365,8 +365,8 @@ ul.ds-ul li { margin: 3px 0; }
       <div class="demo-body col">
         <div class="m-row">用 <kbd>Tab</kbd> 键走过这些按钮 →<button class="m-btn m-btn--primary">前台：外环 offset 2px</button><button class="m-btn m-btn--secondary m-btn--sm">后台：内嵌环</button></div>
         <div class="m-row" style="font-size:12px;color:var(--m-fg-subtle)">
-          <span style="width:24px;height:24px;border:1.5px dashed var(--m-critical-solid);display:inline-grid;place-items:center;font-size:9px">24</span> WCAG 2.5.8 最小触达
-          <span style="width:44px;height:44px;border:1.5px dashed var(--m-success-solid);display:grid;place-items:center;font-size:10px;margin-left:10px">44</span> 移动端主目标
+          <span style="width:24px;height:24px;border:1.5px dashed var(--m-critical-solid);display:inline-grid;place-items:center;font-size: var(--m-text-xs)">24</span> WCAG 2.5.8 最小触达
+          <span style="width:44px;height:44px;border:1.5px dashed var(--m-success-solid);display:grid;place-items:center;font-size: var(--m-text-xs);margin-left:10px">44</span> 移动端主目标
           <span style="margin-left:10px">相邻目标间距 ≥8px</span>
         </div>
       </div>
@@ -622,7 +622,7 @@ ul.ds-ul li { margin: 3px 0; }
     <div class="demo-body col" style="width:100%"><div style="display:flex;align-items:center;gap:10px;height:56px;padding:0 12px;background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:12px"><svg class="m-i"><use href="#i-menu"/></svg><div class="m-search" style="flex:1;max-width:320px"><svg class="m-i m-i--16"><use href="#i-search"/></svg><input class="m-input" placeholder="Search" style="height:34px"></div><span style="flex:1"></span><kbd>⌘K</kbd><button class="m-btn m-btn--tertiary m-icon-btn" aria-label="帮助"><svg class="m-i"><use href="#i-info"/></svg></button><span class="m-avatar">HK</span></div></div>
   </div>
   <div class="demo" id="c46"><div class="demo-tag"><code>c46</code><span class="en">AnnouncementBar 宣告条</span><span>brand-9 反白 · 可关闭 24px</span></div>
-    <div class="demo-body col" style="width:100%"><div style="display:flex;align-items:center;justify-content:center;gap:10px;height:40px;background:var(--m-brand-9);color:#fff;border-radius:10px;font-size:13px">Free shipping on orders over $75 · <a href="#c46" onclick="return false" style="color:#fff;text-decoration:underline">Shop now</a><button class="m-icon-btn" style="border:none;background:none;color:#fff;cursor:pointer" aria-label="关闭宣告"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></div></div>
+    <div class="demo-body col" style="width:100%"><div style="display:flex;align-items:center;justify-content:center;gap:10px;height:40px;background:var(--m-brand-9);color:#fff;border-radius: var(--m-radius-md);font-size:13px">Free shipping on orders over $75 · <a href="#c46" onclick="return false" style="color:#fff;text-decoration:underline">Shop now</a><button class="m-icon-btn" style="border:none;background:none;color:#fff;cursor:pointer" aria-label="关闭宣告"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></div></div>
   </div>
   <div class="demo" id="c47"><div class="demo-tag"><code>c47</code><span class="en">ProgressSteps 步骤指示器</span><span>已完成步可折叠回看（Baymard）</span></div>
     <div class="demo-body"><div class="m-steps"><div class="m-step is-done"><span class="dot"><svg class="m-i m-i--16"><use href="#i-check"/></svg></span>Contact</div><span class="m-step-sep"></span><div class="m-step is-current"><span class="dot">2</span>Shipping</div><span class="m-step-sep"></span><div class="m-step"><span class="dot">3</span>Payment</div></div></div>
@@ -694,7 +694,7 @@ ul.ds-ul li { margin: 3px 0; }
   <div class="comp-group-h"><h3>Media · 媒体</h3><small>3 个</small></div>
   <div class="g2">
   <div class="demo" id="c62"><div class="demo-tag"><code>c62</code><span class="en">MediaGallery 媒体画廊</span><span>主图 eager+LCP · 其余 lazy · 缩略选中环</span></div>
-    <div class="demo-body col" style="width:100%"><div class="ph" style="aspect-ratio:4/5;width:100%;max-width:280px;background:linear-gradient(135deg,var(--m-brand-5),var(--m-brand-9))">Main image 4:5 (eager · fetchpriority=high)</div><div class="m-row"><span style="width:48px;height:48px;border-radius:8px;background:var(--m-brand-9);box-shadow:0 0 0 2px var(--m-bg-surface),0 0 0 4px var(--m-primary)"></span><span style="width:48px;height:48px;border-radius:8px;background:var(--m-info-8)"></span><span style="width:48px;height:48px;border-radius:8px;background:var(--m-accent-7);display:grid;place-items:center;color:#fff;font-size:9px">▶ video</span><span style="width:48px;height:48px;border-radius:8px;background:var(--m-mystic-8);display:grid;place-items:center;color:#fff;font-size:9px">UGC</span></div></div>
+    <div class="demo-body col" style="width:100%"><div class="ph" style="aspect-ratio:4/5;width:100%;max-width:280px;background:linear-gradient(135deg,var(--m-brand-5),var(--m-brand-9))">Main image 4:5 (eager · fetchpriority=high)</div><div class="m-row"><span style="width:48px;height:48px;border-radius:8px;background:var(--m-brand-9);box-shadow:0 0 0 2px var(--m-bg-surface),0 0 0 4px var(--m-primary)"></span><span style="width:48px;height:48px;border-radius:8px;background:var(--m-info-8)"></span><span style="width:48px;height:48px;border-radius:8px;background:var(--m-accent-7);display:grid;place-items:center;color:#fff;font-size: var(--m-text-xs)">▶ video</span><span style="width:48px;height:48px;border-radius:8px;background:var(--m-mystic-8);display:grid;place-items:center;color:#fff;font-size: var(--m-text-xs)">UGC</span></div></div>
   </div>
   <div class="demo" id="c63"><div class="demo-tag"><code>c63</code><span class="en">AspectRatio 宽高比容器</span></div>
     <div class="demo-body"><div class="ph" style="aspect-ratio:4/5;width:96px;background:var(--m-ink-9)">4:5</div><div class="ph" style="aspect-ratio:1;width:96px;background:var(--m-ink-9)">1:1</div><div class="ph" style="aspect-ratio:3/2;width:144px;background:var(--m-ink-9)">3:2</div></div>
@@ -731,7 +731,7 @@ ul.ds-ul li { margin: 3px 0; }
   </div>
   <div class="demo wide" id="c69"><div class="demo-tag"><code>c69</code><span class="en">ReviewItem 评价条目</span><span>FTC 披露徽章常显 · 差评不可隐藏</span></div>
     <div class="demo-body col" style="width:100%"><div class="m-review">
-      <div class="m-review__head"><span class="m-avatar" style="width:24px;height:24px;font-size:10px">JD</span><b>Jane D.</b><span>·</span><span class="m-badge m-badge--tint m-badge--success">Verified buyer</span><span class="m-badge m-badge--tint m-badge--info">Received a free product</span><span style="margin-left:auto">★★★★★ Sep 2</span></div>
+      <div class="m-review__head"><span class="m-avatar" style="width:24px;height:24px;font-size: var(--m-text-xs)">JD</span><b>Jane D.</b><span>·</span><span class="m-badge m-badge--tint m-badge--success">Verified buyer</span><span class="m-badge m-badge--tint m-badge--info">Received a free product</span><span style="margin-left:auto">★★★★★ Sep 2</span></div>
       <p>Fits true to size and the wool feels great — no itch at all. I'm 5'8" and the M fits perfectly.</p>
       <div class="photos"><img alt="Customer photo: sweater front" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect width='56' height='56' fill='%23D0E9DF'/%3E%3C/svg%3E"><img alt="Customer photo: sleeve detail" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect width='56' height='56' fill='%23E7F4EF'/%3E%3C/svg%3E"><img alt="Customer photo" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Crect width='56' height='56' fill='%23EFF2F6'/%3E%3C/svg%3E"></div>
       <div class="reply"><b>Response from Meridian</b> · Thanks Jane! The M runs true to size across our knitwear line.</div>
@@ -809,7 +809,7 @@ ul.ds-ul li { margin: 3px 0; }
             <button class="m-tool m-tool--square" aria-label="方形"><svg class="m-i m-i--16"><use href="#i-plus"/></svg></button>
             <button class="m-tool m-tool--square m-tool--outlined" aria-label="描边方形"><svg class="m-i m-i--16"><use href="#i-plus"/></svg></button>
           </div>
-          <small style="font-size:11px;color:var(--m-fg-subtle)">square<br>4px · 32×32</small>
+          <small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">square<br>4px · 32×32</small>
         </div>
         <div class="m-col" style="align-items:center;gap:6px">
           <div class="m-toolbar">
@@ -818,14 +818,14 @@ ul.ds-ul li { margin: 3px 0; }
             <button class="m-tool m-tool--pill m-tool--outlined"><span>描边</span></button>
             <button class="m-tool m-tool--pill is-active"><span>激活态</span></button>
           </div>
-          <small style="font-size:11px;color:var(--m-fg-subtle)">pill · 9999px · 宽随内容（max-width 14rem，防德语膨胀）</small>
+          <small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">pill · 9999px · 宽随内容（max-width 14rem，防德语膨胀）</small>
         </div>
         <div class="m-col" style="align-items:center;gap:6px">
           <div class="m-toolbar">
             <button class="m-tool m-tool--chip"><span>Status: Paid</span><svg class="m-i m-i--16" style="width:14px;height:14px"><use href="#i-x"/></svg></button>
             <button class="m-tool m-tool--send" aria-label="发送"><svg class="m-i m-i--16"><use href="#i-send"/></svg></button>
           </div>
-          <small style="font-size:11px;color:var(--m-fg-subtle)">chip（已选项）· send（唯一主操作）</small>
+          <small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">chip（已选项）· send（唯一主操作）</small>
         </div>
       </div>
     </div>
@@ -920,7 +920,7 @@ ul.ds-ul li { margin: 3px 0; }
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
           <div class="ph" style="aspect-ratio:4/5;background:linear-gradient(135deg,var(--m-brand-5),var(--m-brand-9))">Gallery 4:5</div>
           <div class="m-col" style="gap:8px">
-            <span class="meta" style="font-size:11px;color:var(--m-fg-muted)">Women / Knitwear</span>
+            <span class="meta" style="font-size: var(--m-text-xs);color:var(--m-fg-muted)">Women / Knitwear</span>
             <b style="font-size:17px;line-height:1.3">Merino wool crew sweater</b>
             <span class="m-rating"><span class="stars">★★★★★</span>4.8 (312)</span>
             <div class="m-price m-price--sale"><span class="cur">$68.00</span><s>$85.00</s><span class="bnpl">or 4 × $17.00 with Klarna</span><span class="note">Incl. VAT · Free shipping over $75</span></div>
@@ -940,13 +940,13 @@ ul.ds-ul li { margin: 3px 0; }
         <div class="m-field"><label class="m-field__label">Address</label><input class="m-input" value="487 Main St, New York, NY 10012" style="max-width:320px"></div>
         <div class="m-row"><label class="m-check m-radio"><input type="radio" name="sh" checked><span class="box"></span>Standard · Free (Sep 17–19)</label><label class="m-check m-radio"><input type="radio" name="sh"><span class="box"></span>Express · $12.00</label></div>
         <div class="m-shiprow" style="max-width:320px;border-top:1px solid var(--m-border);padding-top:10px"><span>Subtotal</span><span class="v">$204.00</span><span>Shipping</span><span class="v">Free</span><span>Tax</span><span class="v">$18.36</span><span class="total">Total</span><span class="v total tnum">$222.36</span></div>
-        <p style="font-size:11px;color:var(--m-fg-subtle);margin:0">🔒 Secure checkout · Total 从第一步起显示且永不后期跳涨（反 drip pricing）</p>
+        <p style="font-size: var(--m-text-xs);color:var(--m-fg-subtle);margin:0">🔒 Secure checkout · Total 从第一步起显示且永不后期跳涨（反 drip pricing）</p>
       </div>
     </div>
     <div class="demo"><div class="demo-tag"><code>Footer</code><span class="en">页脚骨架（09 章）· 法定链接区</span></div>
       <div class="demo-body col">
         <div style="display:flex;gap:32px;flex-wrap:wrap;font-size:12px;color:var(--m-fg-muted)"><div><b style="color:var(--m-fg)">Shop</b><br>New · Best sellers · Sale</div><div><b style="color:var(--m-fg)">Help</b><br>Shipping · Returns · Contact</div><div><b style="color:var(--m-fg)">Company</b><br>About · Careers · Sustainability</div><div style="margin-left:auto"><div class="m-emailcap"><input class="m-input" placeholder="Email" style="height:34px"><button class="m-btn m-btn--primary m-btn--sm">Sign up</button></div></div></div>
-        <div class="m-row" style="justify-content:space-between;border-top:1px solid var(--m-border);padding-top:10px;font-size:11px;color:var(--m-fg-subtle)"><span>© 2026 Meridian · Privacy · Terms · Shipping · Returns · <b>Cookie Preferences</b> · Impressum(DE)</span><span class="m-payrow" style="gap:4px"><span style="height:18px;font-size:9px">VISA</span><span style="height:18px;font-size:9px">MC</span><span style="height:18px;font-size:9px">PayPal</span></span></div>
+        <div class="m-row" style="justify-content:space-between;border-top:1px solid var(--m-border);padding-top:10px;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><span>© 2026 Meridian · Privacy · Terms · Shipping · Returns · <b>Cookie Preferences</b> · Impressum(DE)</span><span class="m-payrow" style="gap:4px"><span style="height:18px;font-size: var(--m-text-xs)">VISA</span><span style="height:18px;font-size: var(--m-text-xs)">MC</span><span style="height:18px;font-size: var(--m-text-xs)">PayPal</span></span></div>
       </div>
     </div>
   </div>
@@ -1125,7 +1125,7 @@ $('#rampGrid').innerHTML = RAMPS.map(([r, label]) => `
     return `<button class="cell" style="background:${v}" data-copy="--m-${r}-${step}" title="var(--m-${r}-${step}) = ${v}"><small style="color:${fg}">${step}</small></button>`; }).join('')}
   </div></div>`).join('');
 $('#vizRow').innerHTML = [['info-9', '1'], ['brand-9', '2'], ['warning-9', '3'], ['mystic-9', '4'], ['danger-6', '5'], ['brand-8', '6'], ['accent-6', '7'], ['ink-9', '8']]
-  .map(([t, n]) => `<div style="text-align:center"><div style="width:44px;height:44px;border-radius:10px;background:var(--m-${t})"></div><small style="font-size:10px;color:var(--m-fg-subtle)">${n} · ${t}</small></div>`).join('');
+  .map(([t, n]) => `<div style="text-align:center"><div style="width:44px;height:44px;border-radius: var(--m-radius-md);background:var(--m-${t})"></div><small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">${n} · ${t}</small></div>`).join('');
 
 /* ---- 复制 ---- */
 function copyText(t) {
@@ -1145,7 +1145,7 @@ $('#spaceRows').innerHTML = [['05', 2], ['1', 4], ['2', 8], ['3', 12], ['4', 16]
 
 /* ---- 图标网格 ---- */
 $('#iconGrid').innerHTML = ['search','bag','user','chev-d','chev-r','check','x','plus','star','info','warn','crit','trash','edit','filter','down','lock','truck','refresh','heart','dots','shield','clock','box','card','globe','mail','home','menu','arrow-r','copy','sun','moon','ai']
-  .map(n => `<div style="text-align:center"><svg class="m-i" style="width:24px;height:24px"><use href="#i-${n}"/></svg><div style="font-size:10px;font-family:var(--m-font-mono);color:var(--m-fg-subtle)">${n}</div></div>`).join('');
+  .map(n => `<div style="text-align:center"><svg class="m-i" style="width:24px;height:24px"><use href="#i-${n}"/></svg><div style="font-size: var(--m-text-xs);font-family:var(--m-font-mono);color:var(--m-fg-subtle)">${n}</div></div>`).join('');
 
 /* ---- 组件索引（80） ---- */
 const COMP = [

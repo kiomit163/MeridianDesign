@@ -276,9 +276,7 @@
 
   /* Primary (storefront defaults: near-black, gallery stage principle) */
   --m-primary: var(--m-ink-12);
-  /* meridian-allow: endpoint-black-not-darker */
   --m-primary-hover: color-mix(in oklab, var(--m-ink-12) 86%, #FFFFFF);
-  /* meridian-allow: endpoint-black-not-darker */
   --m-primary-active: color-mix(in oklab, var(--m-ink-12) 94%, #FFFFFF);
   --m-primary-fg: #FFFFFF;
   --m-primary-text: var(--m-ink-12);
@@ -310,6 +308,8 @@
   --m-critical-border: var(--m-danger-5);
   --m-critical-solid: var(--m-danger-9);
   --m-critical-solid-fg: #FFFFFF;
+  --m-critical-solid-hover: var(--m-danger-10);
+  --m-critical-solid-active: var(--m-danger-10);
 
   --m-info-fg: var(--m-info-11);
   --m-info-bg: var(--m-info-2);
@@ -322,6 +322,12 @@
   --m-emphasis-border: var(--m-accent-5);
   --m-emphasis-solid: var(--m-accent-9);
   --m-emphasis-solid-fg: #2B1F02;
+
+  /* 控件/工具中性族：off-bg、tooltip、中性实底 */
+  --m-control-off-bg: var(--m-ink-8);
+  --m-tooltip-bg: var(--m-ink-12);
+  --m-tooltip-fg: #FFFFFF;
+  --m-neutral-solid: var(--m-ink-9);
 
   /* AI 功能（仅限 AI 能力使用，禁止用于普通 UI） */
   --m-ai-fg: var(--m-mystic-11);
@@ -489,6 +495,8 @@
   --m-critical-border: rgb(210 35 44 / 0.45);
   --m-critical-solid: var(--m-danger-9);
   --m-critical-solid-fg: #FFFFFF;
+  --m-critical-solid-hover: var(--m-danger-8);
+  --m-critical-solid-active: var(--m-danger-7);
 
   --m-info-fg: var(--m-info-4);
   --m-info-bg: rgb(30 99 195 / 0.16);
@@ -501,6 +509,12 @@
   --m-emphasis-border: rgb(242 162 12 / 0.45);
   --m-emphasis-solid: var(--m-accent-9);
   --m-emphasis-solid-fg: #2B1F02;
+
+  /* 控件/工具中性族：off-bg、tooltip、中性实底（深色覆写） */
+  --m-control-off-bg: #5C6675;
+  --m-tooltip-bg: var(--m-ink-6);
+  --m-tooltip-fg: var(--m-ink-12);
+  --m-neutral-solid: var(--m-ink-9);
 
   --m-ai-fg: var(--m-mystic-4);
   --m-ai-bg: rgb(108 63 224 / 0.16);
