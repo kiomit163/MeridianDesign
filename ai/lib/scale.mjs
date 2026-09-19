@@ -1,5 +1,9 @@
 export const TEXT_MENU = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "display"];
-export const RADIUS_MENU = ["none", "sm", "md", "lg", "xl", "2xl", "3xl", "full", "pill"];
+// 与仓库事实对齐（tokens.css:179-185 / tokens.json radius.scale-px = xs sm md lg xl 2xl pill）：
+// `xs` 真实存在（--m-radius-xs 在 meridian-ui.css 用了 3 次）必须入菜单；
+// `3xl` 无任何 token 支撑，予以剔除（Task 8 的 R07 从此把菜单外的命名级判为违规）。
+// `none`(0) 与 `full`(9999px) 不是 token 但是合法 utility，保留。
+export const RADIUS_MENU = ["none", "xs", "sm", "md", "lg", "xl", "2xl", "full", "pill"];
 export const DURATION_MENU = ["100", "150", "200", "300", "450", "600"];
 export const Z_LADDER = ["raised", "nav", "drawer", "modal", "toast", "tooltip"];
 

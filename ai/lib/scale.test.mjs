@@ -33,3 +33,10 @@ test("menus expose the legal vocabulary", () => {
   assert.ok(!TEXT_MENU.includes("2xs"), "12px 以下没有合法级（决策 D3）");
   assert.ok(RADIUS_MENU.includes("md") && RADIUS_MENU.includes("full"));
 });
+test("RADIUS_MENU matches the repo's radius facts in both directions", () => {
+  // tokens.css `--m-radius-*` = xs sm md lg xl 2xl pill（tokens.json radius.scale-px 同集合）；
+  // none(0) 与 full(9999px) 作为 utility 合法保留，`3xl` 无任何 token 支撑 → 由 R07 判违规。
+  assert.ok(RADIUS_MENU.includes("xs"), "--m-radius-xs 真实存在（meridian-ui.css 用了 3 次），菜单不得漏掉");
+  assert.ok(!RADIUS_MENU.includes("3xl"), "菜单里不得有仓库不存在的命名级");
+  assert.deepEqual([...RADIUS_MENU].sort(), ["2xl", "full", "lg", "md", "none", "pill", "sm", "xl", "xs"].sort());
+});
