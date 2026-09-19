@@ -95,7 +95,7 @@ docs/01,02,07 · README · components/18 · admin/*   文档一致性批次（T1
   "private": true,
   "type": "module",
   "scripts": {
-    "test": "node --test ai/selfcheck ai/lib",
+    "test": "node --test \"ai/selfcheck/**/*.test.mjs\" \"ai/lib/**/*.test.mjs\"",
     "lint": "node ai/validate.mjs . && npm test"
   }
 }
