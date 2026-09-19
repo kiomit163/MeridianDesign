@@ -19,15 +19,6 @@ body {
 .tnum { font-variant-numeric: tabular-nums; }
 :where(a) { color: var(--m-fg-link); text-decoration: none; }
 :where(a):hover { color: var(--m-fg-link-hover); text-decoration: underline; }
-:where(button, a, input, select, textarea, [tabindex], summary):focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 var(--m-focus-ring-offset) var(--m-bg-page),
-              0 0 0 calc(var(--m-focus-ring-offset) + var(--m-focus-ring-width)) var(--m-focus-ring-color);
-  border-radius: inherit;
-}
-.stage-admin :where(button, a, input, select, textarea, [tabindex], summary):focus-visible {
-  box-shadow: 0 0 0 calc(-1px + var(--m-focus-ring-width)) var(--m-focus-ring-color);
-}
 ::placeholder { color: var(--m-fg-subtle); }
 svg.m-i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; vertical-align: -4px; }
 svg.m-i--16 { width: 16px; height: 16px; vertical-align: -3px; }
@@ -123,6 +114,13 @@ svg.m-i--fill { fill: currentColor; stroke: none; }
 .m-switch .track::after { content: ""; position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: translate var(--m-duration-150) var(--m-ease-standard); box-shadow: 0 1px 2px rgb(0 0 0 / 0.2); }
 .m-switch input:checked + .track { background: var(--m-primary); }
 .m-switch input:checked + .track::after { translate: 16px 0; }
+/* 原生 input 被 opacity:0 隐藏，焦点必须画在可见部件上（WCAG 2.4.7） */
+.m-check input:focus-visible + .box,
+.m-radio input:focus-visible + .box,
+.m-switch input:focus-visible + .track {
+  outline: var(--m-focus-ring-width) solid var(--m-focus-ring-color);
+  outline-offset: var(--m-focus-ring-offset);
+}
 .m-seg { display: inline-flex; background: var(--m-bg-inset); border-radius: var(--m-radius-md); padding: 2px; gap: 2px; }
 .m-seg button { border: none; background: transparent; border-radius: calc(var(--m-radius-md) - 2px); padding: 6px 14px; font: inherit; font-size: var(--m-text-sm); font-weight: var(--m-weight-medium); color: var(--m-fg-muted); cursor: pointer; transition: all var(--m-duration-150); }
 .m-seg button.is-active { background: var(--m-bg-surface); color: var(--m-fg); box-shadow: var(--m-shadow-e1); }

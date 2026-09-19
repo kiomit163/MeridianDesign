@@ -140,16 +140,6 @@
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
-  :where(button, a, input, select, textarea, [tabindex]):focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 var(--m-focus-ring-offset) var(--m-bg-page),
-                0 0 0 calc(var(--m-focus-ring-offset) + var(--m-focus-ring-width))
-                  var(--m-focus-ring-color);
-    border-radius: inherit;
-  }
-  .stage-admin :where(button, a, input, select, textarea, [tabindex]):focus-visible {
-    box-shadow: 0 0 0 calc(-1px + var(--m-focus-ring-width)) var(--m-focus-ring-color);
-  }
   /* 数字表格/价格统一 tabular-nums */
   .tnum, table, .price {
     font-variant-numeric: tabular-nums;

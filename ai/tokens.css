@@ -346,6 +346,20 @@
 }
 
 /* ============================================================================
+   FOCUS RING — 全系统唯一声明点。用 outline 而非 box-shadow：组件层的阴影与
+   选中态都用 box-shadow，同优先级靠后会把焦点环吃掉（v1.0.0 的真实缺陷）。
+   组件层禁止再声明焦点环；确需抑制 outline 必须加 meridian-allow 并给替代指示。
+   ============================================================================ */
+:where(button, a, input, select, textarea, summary, [tabindex], .m-tool, .m-size-pill, .m-page, .m-swatch):focus-visible {
+  outline: var(--m-focus-ring-width) solid var(--m-focus-ring-color);
+  outline-offset: var(--m-focus-ring-offset);
+}
+/* 后台：环贴控件边框内侧（Polaris 式），不挤占布局 */
+.stage-admin :where(button, a, input, select, textarea, summary, [tabindex], .m-tool, .m-size-pill, .m-page, .m-swatch):focus-visible {
+  outline-offset: calc(-1 * (var(--m-focus-ring-width) + 1px));
+}
+
+/* ============================================================================
    LAYER 2 — SEMANTIC · Admin Light（后台覆盖层：灰底白卡，密度更高）
    ============================================================================ */
 
