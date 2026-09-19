@@ -4,7 +4,8 @@ const DEMO = new Set(["design-system.html"]);
 export const CODE_EXT = new Set([".tsx", ".ts", ".jsx", ".js", ".vue", ".svelte", ".html", ".css"]);
 
 export function classify(path, cfg = { ignore: [] }) {
-  const p = path.replace(/\\/g, "/");
+  // 契约：入参须为仓库相对路径（Task 6 遍历器负责 path.relative(repoRoot, abs)）；绝对路径与含 ".." 段的路径超出契约，本函数不解析。
+  const p = path.replace(/\\/g, "/").replace(/^(\.\/)+/, "").replace(/^\//, "");
   const parts = p.split("/");
   const listed = cfg.ignore ?? [];
   if (listed.some((ig) => parts.includes(ig) || p.startsWith(ig + "/"))) return "ignore";

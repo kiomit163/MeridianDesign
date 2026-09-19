@@ -42,3 +42,10 @@ test("windows backslash paths are normalized before matching", () => {
   assert.equal(classify("_audit\\contrast.mjs", cfg), "ignore");
   assert.equal(classify("src\\App.tsx", cfg), "feature");
 });
+test("leading ./ and / are stripped so component/demo never degrade", () => {
+  assert.equal(classify("./ai/meridian-ui.css", cfg), "component");
+  assert.equal(classify("./design-system.html", cfg), "demo");
+  assert.equal(classify("./src/styles/app-tokens.css", cfg), "define");
+  // 契约：单个前导 `/` 也被剥除；绝对路径由调用方（Task 6 遍历器）先 path.relative
+  assert.equal(classify("/ai/meridian-ui.css", cfg), "component");
+});
