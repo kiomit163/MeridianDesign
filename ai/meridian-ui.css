@@ -9,7 +9,7 @@
 .m-ui body, body.m-ui { margin: 0; }
 body {
   font-family: var(--m-font-sans);
-  font-size: var(--m-text-lg);
+  font-size: var(--m-body-fs);
   font-weight: var(--m-weight-regular);
   line-height: 1.6;
   color: var(--m-fg);

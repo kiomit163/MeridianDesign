@@ -11,6 +11,7 @@ Build the {{collection page}} for {{store}} following Meridian Design System.
 
 Read first: storefront/10-storefront-plp.md, docs/04-spacing-layout-elevation.md, ai/AGENTS.md
 
+Storefront stage needs no class (:root is storefront); never add .stage-admin to storefront pages.
 Requirements:
 - Composition: PageHeader (breadcrumb + H1 + item count) → filter/sort bar → 4-col product grid (2 col @<768px) → "Load more" with progress copy
 - Product cards: reuse <ProductCard> contract (components/18-component-contracts.md §ProductCard) — media 4:5, one badge max, Price component with compareAt
@@ -28,6 +29,7 @@ Build an admin {{orders index page}} per Meridian admin specs.
 
 Read first: admin/14-admin-foundations.md, admin/15-admin-data-tables.md, ai/AGENTS.md
 
+Root element carries .stage-admin (and .theme-dark when the dark theme is on).
 Requirements:
 - App shell slot (sidebar stays untouched), PageHeader with one primary action [New order] + secondary [Export]
 - Saved views row: All / Awaiting fulfillment (badge counts), search, filter chips, sort
@@ -44,6 +46,8 @@ Acceptance: aria-sort on sortable headers, focus trap in all overlays, validate.
 ```
 Create <Price> per Meridian contract (components/18-component-contracts.md §Price, docs/03-typography.md §五).
 
+Storefront stage needs no class (:root is storefront); never add .stage-admin to storefront pages.
+
 Contract:
 - Props: amount:number, compareAt?:number, market:'US'|'CA'|'UK'|'DE'|'FR'|'AU', perUnit?:string, size:'md'|'lg'
 - Renders: locale-formatted amount (tabular-nums), compareAt struck-through in --m-price-compare, tax note per market (07 §一), BNPL slot optional
@@ -58,6 +62,9 @@ Deliver: component + states demo + tests for DE (1.299,00 €) and US ($1,299.00
 
 ```
 Refactor {{path}} to Meridian tokens. Rules (ai/AGENTS.md §1):
+
+Storefront stage needs no class (:root is storefront); never add .stage-admin to storefront pages.
+
 1. Replace every raw color with the closest semantic token (docs/02 §三 mapping table)
 2. Replace spacing with --m-space-* on the 4px grid (docs/04 §一)
 3. Replace z-index/transition values with ladder tokens
@@ -70,6 +77,9 @@ Run node ai/validate.mjs {{path}} after; iterate until exit 0. Show a diff summa
 
 ```
 Audit {{checkout flow}} against:
+
+Storefront stage needs no class (:root is storefront); never add .stage-admin to storefront pages.
+
 - docs/06-accessibility-compliance.md (WCAG 2.2 AA mapping table + GDPR consent spec + dark-pattern never-list)
 - docs/07-localization.md (DE expansion, address schema, tax display)
 - storefront/12-storefront-cart-checkout.md (guest-first, collapsible completed steps, SCA states, express placement)

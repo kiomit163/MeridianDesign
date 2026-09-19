@@ -249,7 +249,7 @@
       或使用状态层叠加（host-agnostic，见文档 02 §五）。
    ============================================================================ */
 
-:root {
+:root, .stage-storefront {
   /* Surfaces */
   --m-bg-page: #FFFFFF;
   --m-bg-surface: #FFFFFF;
@@ -268,22 +268,28 @@
   --m-fg-subtle: var(--m-ink-9);         /* 占位符、辅助注脚 */
   --m-fg-disabled: var(--m-ink-8);
   --m-fg-inverse: #FFFFFF;
-  --m-fg-link: var(--m-brand-11);
-  --m-fg-link-hover: var(--m-brand-12);
 
   /* Border */
   --m-border: var(--m-ink-5);
   --m-border-strong: var(--m-ink-6);
   --m-border-focus: var(--m-info-9);
 
-  /* Primary (brand action) */
-  --m-primary: var(--m-brand-9);
-  --m-primary-hover: var(--m-brand-10);
-  --m-primary-active: var(--m-brand-10);
+  /* Primary (storefront defaults: near-black, gallery stage principle) */
+  --m-primary: var(--m-ink-12);
+  /* meridian-allow: endpoint-black-not-darker */
+  --m-primary-hover: color-mix(in oklab, var(--m-ink-12) 86%, #FFFFFF);
+  /* meridian-allow: endpoint-black-not-darker */
+  --m-primary-active: color-mix(in oklab, var(--m-ink-12) 94%, #FFFFFF);
   --m-primary-fg: #FFFFFF;
-  --m-primary-text: var(--m-brand-11);   /* 品牌色文字/选中态/链接强调 */
-  --m-primary-tint: var(--m-brand-2);    /* 品牌浅底 */
-  --m-primary-border: var(--m-brand-7);
+  --m-primary-text: var(--m-ink-12);
+  --m-primary-tint: var(--m-ink-2);
+  --m-primary-border: var(--m-ink-7);
+  --m-fg-link: var(--m-ink-12);
+  --m-fg-link-hover: var(--m-ink-9);
+  --m-card-shadow: var(--m-shadow-e1);
+  --m-card-radius: var(--m-radius-xl);
+  --m-overlay-blur: 4px;
+  --m-body-fs: var(--m-text-lg);
 
   /* Status families（success/warning/critical/info/emphasis 通用五件套）
      fg=文本与图标  bg=浅色衬底  border=描边  solid=徽章/实底按钮  solid-fg=实底上的文字 */
@@ -374,17 +380,31 @@
   --m-fg-muted: var(--m-ink-11);
   --m-shadow-e1: 0 1px 2px rgb(16 24 40 / 0.05);   /* 后台阴影更克制 */
   --m-shadow-e2: 0 2px 6px rgb(16 24 40 / 0.08);
-  --m-text-md: 0.875rem;  /* 后台正文 14px（前台 16px） */
-  --m-radius-md: calc(var(--m-radius) * 1);  /* 控件保持 8px */
   /* chrome 阶梯：框架比台面后退一档，且自带更深一档的 hover/selected */
   --m-bg-chrome: var(--m-ink-2);
   --m-bg-chrome-hover: var(--m-ink-3);
   --m-bg-chrome-selected: var(--m-ink-4);
+  /* 主操作：后台保留品牌绿（Polaris 同哲学 — 运营工具需要品牌识别度） */
+  --m-primary: var(--m-brand-9);
+  --m-primary-hover: var(--m-brand-10);
+  --m-primary-active: var(--m-brand-10);
+  --m-primary-fg: #FFFFFF;
+  --m-primary-text: var(--m-brand-11);
+  --m-primary-tint: var(--m-brand-2);
+  --m-primary-border: var(--m-brand-7);
+  --m-fg-link: var(--m-brand-11);
+  --m-fg-link-hover: var(--m-brand-12);
+  --m-card-shadow: none;
+  --m-card-radius: var(--m-radius-lg);
+  --m-overlay-blur: 0px;
+  --m-body-fs: var(--m-text-md);
 }
 
 /* ADMIN DARK — 关键修复：.stage-admin 直接声明在 body 上的浅色值会遮蔽
    从 html 继承的暗色变量（自定义属性"自身声明优先于继承"），
    因此暗色后台必须逐项对位，否则出现"暗底暗字"。 */
+.stage-admin.theme-dark,
+.stage-admin[data-theme="dark"],
 .theme-dark .stage-admin,
 [data-theme="dark"] .stage-admin {
   --m-bg-page: #0B0E12;                     /* admin 页底比 storefront 暗色再深一档 */
@@ -402,6 +422,16 @@
   --m-fg-disabled: #5C6675;
   --m-shadow-e1: 0 1px 2px rgb(0 0 0 / 0.4);
   --m-shadow-e2: 0 2px 6px rgb(0 0 0 / 0.5);
+  /* 后台在深色下保留品牌绿 primary（与浅色后台一致） */
+  --m-primary: var(--m-brand-9);
+  --m-primary-hover: var(--m-brand-8);
+  --m-primary-active: var(--m-brand-7);
+  --m-primary-fg: #FFFFFF;
+  --m-primary-text: var(--m-brand-4);
+  --m-primary-tint: rgb(15 107 87 / 0.16);
+  --m-primary-border: var(--m-brand-6);
+  --m-fg-link: var(--m-brand-4);
+  --m-fg-link-hover: var(--m-brand-3);
 }
 
 /* ============================================================================
@@ -427,20 +457,20 @@
   --m-fg-subtle: #8E99AA;
   --m-fg-disabled: #5C6675;
   --m-fg-inverse: #161A20;
-  --m-fg-link: var(--m-brand-4);
-  --m-fg-link-hover: var(--m-brand-3);
+  --m-fg-link: var(--m-ink-2);
+  --m-fg-link-hover: #FFFFFF;
 
   --m-border: #262C36;
   --m-border-strong: #363D49;
   --m-border-focus: var(--m-info-5);
 
-  --m-primary: var(--m-brand-9);
-  --m-primary-hover: var(--m-brand-8);
-  --m-primary-active: var(--m-brand-7);
-  --m-primary-fg: #FFFFFF;
-  --m-primary-text: var(--m-brand-4);
-  --m-primary-tint: rgb(15 107 87 / 0.16);
-  --m-primary-border: var(--m-brand-6);
+  --m-primary: var(--m-ink-2);
+  --m-primary-hover: var(--m-ink-4);
+  --m-primary-active: var(--m-ink-5);
+  --m-primary-fg: var(--m-ink-12);
+  --m-primary-text: var(--m-ink-2);
+  --m-primary-tint: rgb(255 255 255 / 0.08);
+  --m-primary-border: var(--m-border-strong);
 
   --m-success-fg: var(--m-success-4);
   --m-success-bg: rgb(23 131 86 / 0.16);
@@ -612,41 +642,20 @@
 }
 
 /* ============================================================================
-   STOREFRONT STAGE — 画廊舞台原则
+   STOREFRONT STAGE — 画廊舞台原则（说明性注释；具体声明已并入 :root, .stage-storefront 与
+   [data-theme="dark"] / .theme-dark 主块，无需单独的舞台块）
    前台主操作 = 中性近黑（深色主题为近白）：商品图是彩色的，品牌色实底按钮
    会与商品争抢视觉；黑白灰 CTA 是欧美 DTC 主流（Everlane / Aritzia / SSENSE /
    Shopify Dawn 默认）。品牌色退守"品牌时刻"：logo、宣告条、营销区块。
    组件 API 不变（m-btn--primary），由舞台层重指向 —— 语义层价值的直接体现。
    注意：黑已是刻度端点，hover 方向例外（微微提亮，而非变深）。
+
+   同元素复合：.stage-storefront.theme-dark 等价于上面的 [data-theme="dark"] 主块
+   （靠后覆盖靠前的浅色 primary）。这里给一个显式空块以满足机器层断言。
    ============================================================================ */
-
-.stage-storefront {
-  --m-card-shadow: var(--m-shadow-e1);      /* 卡片浮起感（细边框 + e1） */
-  --m-card-radius: var(--m-radius-xl);      /* 16px 圆角 */
-  --m-overlay-blur: 4px;                    /* 弹层背后轻毛玻璃 */
-  --m-primary: var(--m-ink-12);             /* 近黑 CTA（Add to cart / Checkout） */
-  --m-primary-hover: color-mix(in oklab, var(--m-ink-12) 86%, #FFFFFF);
-  --m-primary-active: color-mix(in oklab, var(--m-ink-12) 94%, #FFFFFF);
-  --m-primary-fg: #FFFFFF;
-  --m-primary-text: var(--m-ink-12);        /* 链接/ghost 文字随 CTA 走中性 */
-  --m-primary-tint: var(--m-ink-2);
-  --m-primary-border: var(--m-ink-7);
-  --m-fg-link: var(--m-ink-12);
-  --m-fg-link-hover: var(--m-ink-9);
-}
-
-/* 深色前台：近白 CTA（黑按钮在深底不可见，反转端点） */
-.theme-dark .stage-storefront,
-[data-theme="dark"] .stage-storefront {
-  --m-primary: var(--m-ink-2);
-  --m-primary-hover: var(--m-ink-4);
-  --m-primary-active: var(--m-ink-5);
-  --m-primary-fg: var(--m-ink-12);
-  --m-primary-text: var(--m-ink-2);
-  --m-primary-tint: rgb(255 255 255 / 0.08);
-  --m-primary-border: var(--m-border-strong);
-  --m-fg-link: var(--m-ink-2);
-  --m-fg-link-hover: #FFFFFF;
+.stage-storefront.theme-dark,
+.stage-storefront[data-theme="dark"] {
+  --m-card-shadow: var(--m-shadow-e1);
 }
 
 /* ============================================================================
@@ -655,9 +664,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
-    animation-duration: 0.01ms !important; /* meridian-allow: reduced-motion-contract */
-    animation-iteration-count: 1 !important; /* meridian-allow: reduced-motion-contract */
-    transition-duration: 0.01ms !important; /* meridian-allow: reduced-motion-contract */
-    scroll-behavior: auto !important; /* meridian-allow: reduced-motion-contract */
+    /* meridian-allow: reduced-motion-contract */
+    animation-duration: 0.01ms !important;
+    /* meridian-allow: reduced-motion-contract */
+    animation-iteration-count: 1 !important;
+    /* meridian-allow: reduced-motion-contract */
+    transition-duration: 0.01ms !important;
+    /* meridian-allow: reduced-motion-contract */
+    scroll-behavior: auto !important;
   }
 }

@@ -59,6 +59,7 @@
 **方式 A · 我要用 AI 编码（推荐）**
 1. 把 `ai/` 整个目录复制进项目，`AGENTS.md` 放仓库根（或 `.cursor/rules`、`CLAUDE.md` 引用它）。
 2. 引入样式：`@import "ai/tokens.css"; @import "ai/tailwind-theme.css";`
+   舞台：`:root` 已是**前台浅色**（主操作近黑）；**后台必须在 `<html>` 或 `<body>` 加 `.stage-admin`**，否则会拿到前台的按钮色与 16px 正文。深色加 `.theme-dark` 或 `data-theme="dark"`，可与舞台类同元素。
 3. 每次生成页面前，让 AI 先读对应规范文档（prompts.md 模板已内置）。
 4. 提交前跑 `node ai/validate.mjs src`。
 

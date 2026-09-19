@@ -62,7 +62,7 @@ Semantic categories: `bg-*` (page/surface/surface-hover/surface-selected/inset/b
 
 | Aspect | Storefront | Admin |
 |---|---|---|
-| Root class | `.stage-storefront` | `.stage-admin` (+ `.theme-dark` optional) |
+| Root class | 默认（`:root` 即前台）；`.stage-storefront` 可选显式声明 | **`.stage-admin` 必写**（+ `.theme-dark`，可与舞台类同元素或置于根元素） |
 | Page bg | white | `--m-bg-page` gray (ink-2) |
 | Shell topology | A · Canvas+Card (always) | A for record pages, **B · Chrome+Work-surface for multi-pane shells** (docs/02 §五) |
 | Body text | 16px (`text-lg`) | 14px (`text-md`) |

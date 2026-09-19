@@ -136,7 +136,7 @@
     color: var(--color-fg);
     font-family: var(--font-sans);
     font-weight: var(--m-weight-regular);
-    font-size: var(--m-text-lg);
+    font-size: var(--m-body-fs);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
   }
