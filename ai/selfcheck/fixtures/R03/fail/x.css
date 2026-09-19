@@ -1,0 +1,3 @@
+.a { transition: all 700ms ease-in-out; }
+.b { animation: m-spin 2s linear infinite; }
+.c { transition-duration: 0.4s; }

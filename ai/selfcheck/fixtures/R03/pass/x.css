@@ -1,0 +1,4 @@
+.a { transition: background-color var(--m-duration-150) var(--m-ease-standard); }
+.b { transition-duration: 0s; }
+.c { animation: none; }
+.d { animation: m-toast-in var(--m-duration-200) var(--m-ease-enter); }
