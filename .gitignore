@@ -1,0 +1,7 @@
+# 工具状态与审计临时产物，不属于规范内容
+.mimosa/
+_audit/
+node_modules/
+design-qa-reports/
+*.log
+.DS_Store

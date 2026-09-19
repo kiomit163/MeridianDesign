@@ -1,0 +1,157 @@
+/* ============================================================================
+   MERIDIAN — Tailwind CSS v4 主题桥接
+   ----------------------------------------------------------------------------
+   用法：在应用入口 CSS 中先 @import "./tokens.css"，再 @import 本文件。
+   只导出「语义层」为工具类；组件代码中禁止直接使用原始色板工具类
+   （如 bg-brand-9 —— 那是设计者的自由度，不是使用者的）。
+   深色模式由 .theme-dark 类驱动（data-theme="dark" 同效）。
+   ============================================================================ */
+
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.theme-dark *));
+
+@theme inline {
+  /* Typography */
+  --font-sans: var(--m-font-sans);
+  --font-display: var(--m-font-display);
+  --font-mono: var(--m-font-mono);
+
+  --text-xs: var(--m-text-xs);
+  --text-sm: var(--m-text-sm);
+  --text-md: var(--m-text-md);
+  --text-lg: var(--m-text-lg);
+  --text-xl: var(--m-text-xl);
+  --text-2xl: var(--m-text-2xl);
+  --text-3xl: var(--m-text-3xl);
+  --text-4xl: var(--m-text-4xl);
+  --text-5xl: var(--m-text-5xl);
+  --text-6xl: var(--m-text-6xl);
+  --text-display: var(--m-text-display);
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: var(--m-tracking-tightest);
+  --text-display--font-weight: var(--m-weight-bold);
+
+  /* Surfaces */
+  --color-page: var(--m-bg-page);
+  --color-surface: var(--m-bg-surface);
+  --color-surface-hover: var(--m-bg-surface-hover);
+  --color-surface-selected: var(--m-bg-surface-selected);
+  --color-inset: var(--m-bg-inset);
+  --color-band: var(--m-bg-band);
+  --color-chrome: var(--m-bg-chrome);
+  --color-chrome-hover: var(--m-bg-chrome-hover);
+  --color-chrome-selected: var(--m-bg-chrome-selected);
+
+  /* Content */
+  --color-fg: var(--m-fg);
+  --color-muted: var(--m-fg-muted);
+  --color-subtle: var(--m-fg-subtle);
+  --color-link: var(--m-fg-link);
+  --color-link-hover: var(--m-fg-link-hover);
+
+  /* Border */
+  --color-line: var(--m-border);
+  --color-line-strong: var(--m-border-strong);
+
+  /* Primary */
+  --color-primary: var(--m-primary);
+  --color-primary-hover: var(--m-primary-hover);
+  --color-primary-fg: var(--m-primary-fg);
+  --color-primary-text: var(--m-primary-text);
+  --color-primary-tint: var(--m-primary-tint);
+
+  /* Status families（语义五件套） */
+  --color-success: var(--m-success-fg);
+  --color-success-bg: var(--m-success-bg);
+  --color-success-border: var(--m-success-border);
+  --color-success-solid: var(--m-success-solid);
+  --color-success-solid-fg: var(--m-success-solid-fg);
+
+  --color-warning: var(--m-warning-fg);
+  --color-warning-bg: var(--m-warning-bg);
+  --color-warning-border: var(--m-warning-border);
+  --color-warning-solid: var(--m-warning-solid);
+  --color-warning-solid-fg: var(--m-warning-solid-fg);
+
+  --color-critical: var(--m-critical-fg);
+  --color-critical-bg: var(--m-critical-bg);
+  --color-critical-border: var(--m-critical-border);
+  --color-critical-solid: var(--m-critical-solid);
+  --color-critical-solid-fg: var(--m-critical-solid-fg);
+
+  --color-info: var(--m-info-fg);
+  --color-info-bg: var(--m-info-bg);
+  --color-info-border: var(--m-info-border);
+  --color-info-solid: var(--m-info-solid);
+  --color-info-solid-fg: var(--m-info-solid-fg);
+
+  --color-emphasis: var(--m-emphasis-fg);
+  --color-emphasis-bg: var(--m-emphasis-bg);
+  --color-emphasis-border: var(--m-emphasis-border);
+  --color-emphasis-solid: var(--m-emphasis-solid);
+  --color-emphasis-solid-fg: var(--m-emphasis-solid-fg);
+
+  --color-ai: var(--m-ai-fg);
+  --color-ai-bg: var(--m-ai-bg);
+
+  /* Commerce */
+  --color-price-sale: var(--m-price-sale);
+  --color-price-compare: var(--m-price-compare);
+
+  /* Radius */
+  --radius-xs: var(--m-radius-xs);
+  --radius-sm: var(--m-radius-sm);
+  --radius-md: var(--m-radius-md);
+  --radius-lg: var(--m-radius-lg);
+  --radius-xl: var(--m-radius-xl);
+  --radius-2xl: var(--m-radius-2xl);
+
+  /* Elevation */
+  --shadow-e1: var(--m-shadow-e1);
+  --shadow-e2: var(--m-shadow-e2);
+  --shadow-e3: var(--m-shadow-e3);
+  --shadow-e4: var(--m-shadow-e4);
+
+  /* Container */
+  --container-storefront: var(--m-container-storefront);
+  --container-admin: var(--m-container-admin);
+  --container-narrow: var(--m-container-narrow);
+
+  /* Breakpoints */
+  --breakpoint-xs: 480px;
+  --breakpoint-sm: 768px;
+  --breakpoint-md: 1024px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1440px;
+}
+
+/* ---- Base reset（对齐 shadcn v4 的必需重置） ---- */
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+  body {
+    background: var(--color-page);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-weight: var(--m-weight-regular);
+    font-size: var(--m-text-lg);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 var(--m-focus-ring-offset) var(--m-bg-page),
+                0 0 0 calc(var(--m-focus-ring-offset) + var(--m-focus-ring-width))
+                  var(--m-focus-ring-color);
+    border-radius: inherit;
+  }
+  .stage-admin :where(button, a, input, select, textarea, [tabindex]):focus-visible {
+    box-shadow: 0 0 0 calc(-1px + var(--m-focus-ring-width)) var(--m-focus-ring-color);
+  }
+  /* 数字表格/价格统一 tabular-nums */
+  .tnum, table, .price {
+    font-variant-numeric: tabular-nums;
+  }
+}
