@@ -23,4 +23,4 @@
 - 运行时事实（焦点是否真的可见、ARIA 是否真的正确）由 S4 的 axe / Playwright 接管。
 
 ## O8（新增）：`engine.run()` 文档层允许标记误报
-引擎对 `AGENTS.md` 中以 `/* meridian-allow: ... */` 形式出现的文档示例误解析为未消耗标记并报 stale。根因：`collectAllows(text)` 对所有 layer 跑，doc 文件不在豁免。判定方向：在 `run()` 入口对 `layer === "doc"` 跳过 `collectAllows`（文档不是被审计代码）。S1 已通过手工删除 2 处 AGENTS.md 内的展示性 marker 暂缓，但治本应改引擎。**代价**：不动引擎则 spec 文档里的 marker 示例持续产生 stale 信号。**目标轮次**：S2 引擎完善。
+引擎对 `AGENTS.md` 中以 `/* meridian-allow（保留线）: 理由 */` 形式出现的文档示例误解析为未消耗标记并报 stale。根因：`collectAllows(text)` 对所有 layer 跑，doc 文件不在豁免。判定方向：在 `run()` 入口对 `layer === "doc"` 跳过 `collectAllows`（文档不是被审计代码）。S1 已通过手工删除 2 处 AGENTS.md 内的展示性 marker 暂缓，但治本应改引擎。**代价**：不动引擎则 spec 文档里的 marker 示例持续产生 stale 信号。**目标轮次**：S2 引擎完善。

@@ -1,6 +1,6 @@
 # 14 · 后台基础（Admin Foundations）
 
-> 后台的唯一 KPI：**单位时间完成的运营动作数**。舞台人格 = Productive（见 05 章）。设计参照系 = Shopify Admin（Polaris）+ Carbon 数据密度。
+> 后台的唯一 KPI：**单位时间完成的运营动作数**。舞台人格 = Productive（见 docs/05-motion-iconography.md）。设计参照系 = Shopify Admin（Polaris）+ Carbon 数据密度。
 
 ---
 

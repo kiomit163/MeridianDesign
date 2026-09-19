@@ -18,7 +18,7 @@
 
 ## ③ 焦点环改 `outline`
 
-由 `box-shadow` 改为 `outline`。若你曾为组件补过 `box-shadow` 焦点环，删除它（会与 base 层重复且被组件层 `box-shadow` 覆盖）。若你曾用 `outline:none` 抑制焦点，**改 `/* meridian-allow: <原因> */` 并给替代指示**，不可裸写 `outline:none`（R09 会判）。
+由 `box-shadow` 改为 `outline`。若你曾为组件补过 `box-shadow` 焦点环，删除它（会与 base 层重复且被组件层 `box-shadow` 覆盖）。若你曾用 `outline:none` 抑制焦点，**改 `<允许标注（按行写，详见 validator 文档）>` 并给替代指示**，不可裸写 `outline:none`（R09 会判）。
 
 ## ④ `body` 字号走 `--m-body-fs`
 
