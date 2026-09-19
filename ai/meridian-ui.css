@@ -95,6 +95,20 @@ svg.m-i--fill { fill: currentColor; stroke: none; }
 .m-search { position: relative; display: block; }
 .m-search svg { position: absolute; left: 10px; top: 50%; translate: 0 -50%; color: var(--m-fg-subtle); }
 .m-search input { padding-inline-start: 36px; }
+/* Combobox（可搜索选择）样式参考：input + listbox 两段式。
+   键盘路径（↑↓ Enter Esc）与 aria-combobox 组合由行为层实现（S4）；
+   开合用 .is-open，与 .m-popover 同约定。 */
+.m-combobox { position: relative; display: block; }
+.m-combobox .m-input { padding-inline-end: 36px; }
+.m-combobox__list { position: absolute; top: calc(100% + 4px); inset-inline: 0; z-index: var(--m-z-raised);
+  background: var(--m-bg-surface); border: 1px solid var(--m-border); border-radius: var(--m-radius-md);
+  box-shadow: var(--m-shadow-e2); padding: var(--m-space-1); display: none; max-height: 240px; overflow: auto; }
+.m-combobox.is-open .m-combobox__list { display: block; }
+.m-combobox__opt { display: flex; justify-content: space-between; align-items: center; gap: var(--m-space-2);
+  padding: var(--m-space-2) var(--m-space-2); border-radius: var(--m-radius-sm); font-size: var(--m-text-sm); cursor: pointer; }
+.m-combobox__opt:hover, .m-combobox__opt.is-active { background: var(--m-bg-surface-selected); }
+.m-combobox__opt[aria-selected="true"] { background: var(--m-primary-tint); color: var(--m-primary-text); font-weight: var(--m-weight-medium); }
+.m-combobox__empty { padding: var(--m-space-2); font-size: var(--m-text-sm); color: var(--m-fg-subtle); }
 .m-otp { display: flex; gap:var(--m-space-2); }
 .m-otp input { width: 44px; height: 44px; text-align: center; font-size: var(--m-text-xl); font-weight: var(--m-weight-semibold); }
 .m-check { display: flex; align-items: flex-start; gap:var(--m-space-2); cursor: pointer; font-size: var(--m-text-sm); min-height: 24px; }

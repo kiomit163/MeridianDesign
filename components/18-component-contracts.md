@@ -26,7 +26,7 @@
 
 ## Input / Select / Textarea / Combobox
 
-h-36（`--m-input-h`）、bg-surface、border-strong、radius-md；focus → 后台内嵌焦点环；error → border-critical + `aria-invalid`；disabled → bg-inset + opacity .5。Combobox：输入过滤 + 键盘 ↑↓ Enter + 多值 token 化。**Select 选项 ≤5 时改用 Radio**（admin/16-admin-forms-settings.md）。
+h-36（`--m-input-h`）、bg-surface、border-strong、radius-md；focus → 后台内嵌焦点环；error → border-critical + `aria-invalid`；disabled → bg-inset + opacity .5。Combobox：输入过滤 + 键盘 ↑↓ Enter + 多值 token 化。**Select 选项 ≤5 时改用 Radio**（admin/16-admin-forms-settings.md）。参考实现（ai/meridian-ui.css）：Input/Select/Textarea = §02 表单控件；Combobox = `.m-combobox`；CommandPalette = `.m-palette`（§04 Overlays）。
 
 ## Checkbox / Radio / Switch
 
