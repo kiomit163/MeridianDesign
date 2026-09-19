@@ -11,6 +11,14 @@ const near = (a, b) => Math.abs(a - b) <= 2;
 
 export function run({ files, rules, cfg = {}, fs = null }) {
   const violations = [], staleAllows = [];
+  // 同 (rule, file, line, raw.message) 在单次 run() 内只记一次：R01/R11 这类 prop-agnostic
+  // 规则会在 class token / literal / decl 三条事实通道上同时命中，通道之间的事实携带相同的
+  // raw.message，引擎不该把它们渲染成 N 条重复违规。key 用规则自己写的 message 字符串（而非
+  // 模板化后的版本），保证"同一规则、同一定位、同一定性"只冒一次；不同 primitive / 不同 fix
+  // 路径会得到不同的 message，留给排序与展示去重无意义。
+  // 作用域：仅本函数调用内（Set 在此声明），不跨 run() 共享——T10 的 --emit-manifest 依赖
+  // run() 是纯函数。
+  const seen = new Set();
   for (const src of files) {
     // Windows 下 `f.path` 可能是反斜杠形态（Git Bash 的 join / path.relative）。
     // 归一一次，输出与 ctx 共用同一个视图，否则 manifest 与 rules.test 的 key() 会整表假红。
@@ -24,8 +32,11 @@ export function run({ files, rules, cfg = {}, fs = null }) {
         if (file.layer === "demo" && rule.offInDemo) continue;
         for (const raw of rule.check(fact, { cfg, file, fs, allows }) ?? []) {
           const line = raw.line ?? fact.line;
+          const key = `${rule.id}|${file.path}|${line}|${raw.message}`;
+          if (seen.has(key)) continue;
           const marker = [...allows.byLine.keys()].find((l) => near(l, line));
-          if (marker !== undefined) { used.add(marker); continue; }
+          if (marker !== undefined) { used.add(marker); seen.add(key); continue; }
+          seen.add(key);
           violations.push({ rule: rule.id, file: file.path, line, message: raw.message, fix: raw.fix });
         }
       }

@@ -57,6 +57,46 @@ test("violations are sorted deterministically", () => {
   assert.deepEqual(out.violations.map((v) => `${v.file}:${v.line}`), ["a.css:5", "b.css:1", "b.css:2"]);
 });
 
+// 去重的契约：同一规则、同一文件、同一行、同一条 message（无论来自 class token / literal / decl 哪条事实通道）只记一次。
+// 这是 R01/R11 等 prop-agnostic 规则多事实通道双计的根治点；dedupe 仅作用于单次 run() 调用。
+test("同一规则在同一行从不同事实通道触发 → 只记一次（去重 key: rule|file|line|message）", () => {
+  const r11Like = { id: "R11", title: "t", layers: ["feature"], facts: ["decl", "class", "literal"],
+    check: (f) => f.type === "decl" && /ink-12/.test(f.value) ? [{ line: f.line, message: "引用 primitive：--m-ink-12" }]
+              : f.type === "class" && /ink-12/.test(f.token) ? [{ line: f.line, message: "引用 primitive：--m-ink-12" }]
+              : f.type === "literal" && /ink-12/.test(f.text) ? [{ line: f.line, message: "引用 primitive：--m-ink-12" }]
+              : [] };
+  const facts = [
+    { type: "decl", value: "var(--m-ink-12)", line: 10 },
+    { type: "class", token: "text-ink-12", line: 10 },
+    { type: "literal", text: "var(--m-ink-12)", line: 10 },
+  ];
+  const out = run({ rules: [r11Like], cfg: {}, files: [file("a.tsx", "feature", facts, "...")] });
+  assert.equal(out.violations.length, 1, `同 key 三触发应去重为 1，实际 ${out.violations.length}`);
+  assert.equal(out.violations[0].rule, "R11");
+  assert.equal(out.violations[0].line, 10);
+  assert.equal(out.violations[0].message, "引用 primitive：--m-ink-12");
+});
+test("同一规则在不同行触发 → 不去重", () => {
+  const r11Like = { id: "R11", title: "t", layers: ["feature"], facts: ["decl", "class"],
+    check: (f) => f.type === "decl" && /ink-12/.test(f.value) ? [{ line: f.line, message: "引用 primitive：--m-ink-12" }]
+              : f.type === "class" && /ink-12/.test(f.token) ? [{ line: f.line, message: "引用 primitive：--m-ink-12" }] : [] };
+  const out = run({ rules: [r11Like], cfg: {}, files: [file("a.css", "feature", [
+    { type: "decl", value: "var(--m-ink-12)", line: 5 },
+    { type: "class", token: "ink-12", line: 9 },
+  ])] });
+  assert.equal(out.violations.length, 2);
+  assert.deepEqual(out.violations.map((v) => v.line).sort((a, b) => a - b), [5, 9]);
+});
+test("同一规则同一行不同 message（如多 primitive 命中）→ 不去重", () => {
+  const r11Like = { id: "R11", title: "t", layers: ["feature"], facts: ["decl"],
+    check: (f) => /--(m-ink-12|m-ink-3)/.test(f.value) ? [{ line: f.line, message: `引用 primitive：${f.value.includes("ink-12") ? "--m-ink-12" : "--m-ink-3"}` }] : [] };
+  const out = run({ rules: [r11Like], cfg: {}, files: [file("a.css", "feature", [
+    { type: "decl", value: "var(--m-ink-12)", line: 7 },
+    { type: "decl", value: "var(--m-ink-3)", line: 7 },
+  ])] });
+  assert.equal(out.violations.length, 2, `不同 message 不应去重，实际 ${out.violations.length}`);
+});
+
 // ---------- 引擎契约 ----------
 
 test("规则不认识 id：demo 层豁免只来自规则自身的 offInDemo", () => {
