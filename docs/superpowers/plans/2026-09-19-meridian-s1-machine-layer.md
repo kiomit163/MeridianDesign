@@ -765,6 +765,8 @@ export function collectAllows(text) {
 
 > **Windows 前提**：`f.path` 在 Git Bash 下可能是反斜杠形式。`run()` 里生成违规条目时必须统一 `file: f.path.replace(/\\/g, "/")`，否则 `--emit-manifest` 写出的路径与 `rules.test.mjs` 里 `key()` 归一后的路径不一致，会造成整表假红。
 
+> **路径契约（Task 2 确立，Task 6 必须遵守）**：`classify()` 的 `component` 与 `demo` 判定是**仓库相对路径的精确串匹配**（`ai/meridian-ui.css`、`design-system.html`）。因此 `walk()` 必须产出 `path.relative(repoRoot, abs)` 形式的路径，**不得带 `./` 前缀、不得传绝对路径**，否则这两个层会静默失效（参考实现与演示文件全被当成 feature 或 ignore）。同时 `meridian.config.json` 的 `ignore` 混用两种语义（段名 `node_modules`/`_audit` 与路径前缀 `docs/superpowers`），`classify` 已同时支持，测试需保留区分用例。
+
 ```js
 import { collectAllows } from "../checks/allow.mjs";
 
@@ -872,6 +874,8 @@ export function buildFs(files) {
 ```js
 export const rules = [];
 ```
+
+> **Task 2 教训回写**：`walk()` 产出的路径必须满足 `classify()` 的仓库相对契约。除 `path.relative(root, abs)` 外不要有任何其它形式，并加一条冒烟断言进 `engine.test.mjs`：对仓库真实文件跑 `classify(walk("ai")[0], cfg)` 得 `define|component|feature` 而非 `ignore`，且 `walk()` 结果中不存在以 `./` 或 `/` 开头的路径。缺这条断言，同一类静默失明会换个输入形式复现。
 
 - [ ] **Step 7: 重写 `ai/validate.mjs`**
 
