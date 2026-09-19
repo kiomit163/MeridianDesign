@@ -1,0 +1,307 @@
+[
+  {
+    "rule": "R02",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R02",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R03",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R03",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 3
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 3
+  },
+  {
+    "rule": "R11",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 4
+  },
+  {
+    "rule": "R11",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 4
+  },
+  {
+    "rule": "R11",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 5
+  },
+  {
+    "rule": "R09",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 6
+  },
+  {
+    "rule": "R07",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 7
+  },
+  {
+    "rule": "R12",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 8
+  },
+  {
+    "rule": "R13",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 9
+  },
+  {
+    "rule": "R15",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 10
+  },
+  {
+    "rule": "R10",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 11
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/Feature.tsx",
+    "line": 3
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/Feature.tsx",
+    "line": 4
+  },
+  {
+    "rule": "R02",
+    "file": "ai/selfcheck/fixtures/R02/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R02",
+    "file": "ai/selfcheck/fixtures/R02/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R02",
+    "file": "ai/selfcheck/fixtures/R02/fail/Feature.tsx",
+    "line": 3
+  },
+  {
+    "rule": "R02",
+    "file": "ai/selfcheck/fixtures/R02/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R03",
+    "file": "ai/selfcheck/fixtures/R03/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R03",
+    "file": "ai/selfcheck/fixtures/R03/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R03",
+    "file": "ai/selfcheck/fixtures/R03/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R03",
+    "file": "ai/selfcheck/fixtures/R03/fail/x.css",
+    "line": 2
+  },
+  {
+    "rule": "R03",
+    "file": "ai/selfcheck/fixtures/R03/fail/x.css",
+    "line": 3
+  },
+  {
+    "rule": "R04",
+    "file": "ai/selfcheck/fixtures/R04/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R05/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R05/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R05/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R05/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R05/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R05/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R05",
+    "file": "ai/selfcheck/fixtures/R05/fail/x.css",
+    "line": 2
+  },
+  {
+    "rule": "R07",
+    "file": "ai/selfcheck/fixtures/R07/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R07",
+    "file": "ai/selfcheck/fixtures/R07/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R08",
+    "file": "ai/selfcheck/fixtures/R08/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R08",
+    "file": "ai/selfcheck/fixtures/R08/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R08",
+    "file": "ai/selfcheck/fixtures/R08/fail/x.css",
+    "line": 2
+  },
+  {
+    "rule": "R09",
+    "file": "ai/selfcheck/fixtures/R09/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R09",
+    "file": "ai/selfcheck/fixtures/R09/fail/x.css",
+    "line": 2
+  },
+  {
+    "rule": "R10",
+    "file": "ai/selfcheck/fixtures/R10/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R10",
+    "file": "ai/selfcheck/fixtures/R10/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R11",
+    "file": "ai/selfcheck/fixtures/R11/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R11",
+    "file": "ai/selfcheck/fixtures/R11/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R11",
+    "file": "ai/selfcheck/fixtures/R11/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R11",
+    "file": "ai/selfcheck/fixtures/R11/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R12",
+    "file": "ai/selfcheck/fixtures/R12/fail/x.html",
+    "line": 1
+  },
+  {
+    "rule": "R12",
+    "file": "ai/selfcheck/fixtures/R12/fail/x.html",
+    "line": 2
+  },
+  {
+    "rule": "R13",
+    "file": "ai/selfcheck/fixtures/R13/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R13",
+    "file": "ai/selfcheck/fixtures/R13/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R13",
+    "file": "ai/selfcheck/fixtures/R13/fail/Feature.tsx",
+    "line": 3
+  },
+  {
+    "rule": "R13",
+    "file": "ai/selfcheck/fixtures/R13/fail/Feature.tsx",
+    "line": 4
+  },
+  {
+    "rule": "R14",
+    "file": "ai/selfcheck/fixtures/R14/fail/bad-doc.md",
+    "line": 1
+  },
+  {
+    "rule": "R14",
+    "file": "ai/selfcheck/fixtures/R14/fail/bad-doc.md",
+    "line": 2
+  },
+  {
+    "rule": "R14",
+    "file": "ai/selfcheck/fixtures/R14/fail/bad-doc.md",
+    "line": 3
+  },
+  {
+    "rule": "R14",
+    "file": "ai/selfcheck/fixtures/R14/fail/bad-doc.md",
+    "line": 3
+  },
+  {
+    "rule": "R14",
+    "file": "ai/selfcheck/fixtures/R14/fail/bad-doc.md",
+    "line": 4
+  },
+  {
+    "rule": "R15",
+    "file": "ai/selfcheck/fixtures/R15/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R15",
+    "file": "ai/selfcheck/fixtures/R15/fail/x.css",
+    "line": 2
+  }
+]

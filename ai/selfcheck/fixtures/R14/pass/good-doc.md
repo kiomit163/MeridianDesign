@@ -1,1 +1,1 @@
-见 docs/02-color-system.md §六。文案规则见 docs/08-copywriting.md §一。
+这是一个干净的 fixture，没有任何文档引用或版本号。

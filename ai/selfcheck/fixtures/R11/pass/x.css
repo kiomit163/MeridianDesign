@@ -1,1 +1,1 @@
-.a { color: var(--m-fg); background: var(--m-critical-solid); box-shadow: 0 0 0 2px rgb(0 0 0 / 0.12); }
+.a { color: var(--m-fg); background: var(--m-critical-solid); box-shadow: 0 0 0 2px color-mix(in oklab, var(--m-fg) 12%, transparent); }
