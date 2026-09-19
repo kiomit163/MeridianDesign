@@ -21,6 +21,29 @@ Semantic categories: `bg-*` (page/surface/surface-hover/surface-selected/inset/b
 
 ## 1. Hard rules (validator-enforced)
 
+### Rule ↔ clause map（十条硬规则必须 10/10 有守卫）
+
+| AGENTS 条款 | 规则 | 合规写法 |
+|---|---|---|
+| §0 primitive 禁用 | R11 | 语义 token |
+| 1 无裸色值 | R01 | `var(--m-fg)` / `bg-surface` |
+| 2 不自造 z-index | R02 | `z-[var(--m-z-modal)]` |
+| 3 不自造时长/缓动 | R03 | `duration-[var(--m-duration-150)]` |
+| 4 无 !important | R04 | 行级 `meridian-allow: <reason>` |
+| 5 间距走 4px 网格 | R05 | `p-4` / `p-[var(--m-space-4)]` |
+| 6 图标元素需名称 | R10 | `aria-label="Close"` |
+| 7 圆角只用菜单值 | R07 | `rounded-md` |
+| 8 焦点必须可见 | R09（+ tokens.css 单一焦点环） | 不写 `outline:none` |
+| 9 复合容器用 tool 族 | 语义级靠 review；数值面由 R05/R07 覆盖 | `.m-tool` |
+| 10 表面 rank | 语义级靠 review | `--m-bg-*` 阶梯 |
+| — 12px 字号地板 | R08 | `text-xs` 起 |
+| — img 声明宽高 | R12 | `width` + `height` |
+| — 合规结构 prop | R13 | `verified` / `market` / `compareAtVerified` |
+| — 引用完整性 | R14 | `docs/02 §六` 带文件名 |
+| — RTL 逻辑属性 | R15 | `margin-inline-start` |
+
+豁免只有一种写法：`/* meridian-allow: <原因> */`（或 `// meridian-allow: <原因>`）。无理由的标记不生效；未被消耗的标记会以 `stale-allow` 失败。文件级白名单已废除。
+
 1. **No raw color values** — never `#hex`, `rgb()`, `hsl()`, `oklch()` outside token files. Use `var(--m-*)` or Tailwind semantic utilities (`bg-surface`, `text-critical`, `border-line`).
 2. **No invented z-index** — only `var(--m-z-raised|nav|drawer|modal|toast|tooltip)` (or `0`/`-1` for local stacking).
 3. **No invented motion values** — durations only from `var(--m-duration-100|150|200|300|450|600)`; easings only `var(--m-ease-standard|enter|exit)`.
@@ -99,3 +122,13 @@ node ai/validate.mjs src        # must exit 0
 ```
 
 Also verify manually: keyboard-only walkthrough of the flow; dark theme pass (`theme-dark`); German-length content pass (labels +35%); no horizontal scroll at 320px.
+
+## 8. 校验器已知局限（零依赖路线的定价）
+
+- 模板字符串拼接的类名（`` `z-[${n}]` ``）不解析 → 保守放行。
+- Sass/Less 嵌套与 mixin 不支持；SFC 的 `:class`/`:style` 动态绑定不解析。
+- 命名级字阶（如 `text-base`）是否越界无法在当前判定，随 S2 的 `tokens.api.md` 落地。
+- R13 依赖组件标签名；业务侧 wrapper 必须登记进 `meridian.config.json` 的 `componentAliases`。
+- R14 只判三种形式：`<dir>/NN-*.md §X`、跨目录裸「NN 章」、`vX.Y.Z`。**同目录裸章节引用与「（第N节）」不判**——判定需读散文语义，硬判会造误报。本轮手工归位一次（Task 15），残留由 S2 的锚点系统接管。
+- demo 层（`design-system.html`）整体关闭 R01/R11（色板浏览器必须直接引用 ramp），区段级收窄待 S2。
+- 运行时事实（焦点是否真的可见、ARIA 是否真的正确）由 S4 的 axe / Playwright 接管。
