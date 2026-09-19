@@ -620,7 +620,7 @@ Run: `node --test ai/lib/scale.test.mjs` → Expected: `Cannot find module`
 
 ```js
 export const TEXT_MENU = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5xl", "6xl", "display"];
-export const RADIUS_MENU = ["none", "sm", "md", "lg", "xl", "2xl", "3xl", "full", "pill"];
+export const RADIUS_MENU = ["none", "xs", "sm", "md", "lg", "xl", "2xl", "full", "pill"];
 export const DURATION_MENU = ["100", "150", "200", "300", "450", "600"];
 export const Z_LADDER = ["raised", "nav", "drawer", "modal", "toast", "tooltip"];
 
@@ -1266,6 +1266,10 @@ export const rule = {
     }
     const arb = f.token.match(/^rounded(?:-[trblxy]{1,4})?-\[([^\]]+)\]$/);
     if (arb && !isTokenRef(arb[1]) && !OK.test(arb[1])) return [{ line: f.line, message: `自造圆角：${f.token}`, fix: "rounded-md" }];
+    // 命名级也查：Tailwind 自带 rounded-3xl/4xl… 不在 Meridian 菜单内（docs/04 §五 只有 xs/sm/md/lg/xl/2xl/pill）
+    const named = f.token.match(/^rounded(?:-[trblxy]{1,4})?-?(none|full|xs|sm|md|lg|xl|2xl|3xl|4xl|5xl)$/);
+    if (named && !RADIUS_MENU.includes(named[1]))
+      return [{ line: f.line, message: `${f.token} 不在圆角菜单内`, fix: "rounded-xs|sm|md|lg|xl|2xl|full" }];
     return [];
   },
 };
