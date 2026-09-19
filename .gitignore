@@ -5,3 +5,6 @@ node_modules/
 design-qa-reports/
 *.log
 .DS_Store
+
+# SDD 工作区（计划级临时产物：ledger / brief / report / review package）
+.superpowers/
