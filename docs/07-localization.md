@@ -23,9 +23,9 @@
 | 组件 | 本地化 props |
 |---|---|
 | `Price` | `market`（决定货币/千分位/符号位置/税注）、`compareAt`（Omnibus 由后端注入）、`perUnit`（DE/FR/IT） |
-| `AddressForm` | 按 country schema 渲染字段（第二节的字段矩阵），`autocomplete` 全覆盖 |
+| `AddressForm` | 按 country schema 渲染字段（docs/07 §三），`autocomplete` 全覆盖 |
 | `DatePicker` | 永远 locale 格式化；输入框旁显示解析预览（"Wed, Sep 17"） |
-| `PaymentMethods` | `market` → 方法排序（第三节），顺序本地化不全局化 |
+| `PaymentMethods` | `market` → 方法排序（storefront/12-storefront-cart-checkout.md §五），顺序本地化不全局化 |
 | `WithdrawalButton` | EU/UK 市场渲染（一键撤回，2026-06-19 新规），非 EU 市场不渲染 |
 | `LegalFooter` | DE 注入 Impressum 链接；CA 双语切换；所有市场含退订/条款/隐私 |
 
@@ -61,5 +61,5 @@ AU: address1 suburb state(_select_) postcode(4)
 ## 六、翻译工作流约束
 
 1. UI 字符串全部走 i18n key，**组件代码零硬编码文案**（含 aria-label）。
-2. 文案规则（09 章）适用于所有语言：句首大写、动词开头 CTA；德语名词全大写规则由翻译侧处理。
-3. 灌稿后必须过三关：德语膨胀关（第四节）、RTL 关（当前市场无 RTL，但布局用逻辑属性 `margin-inline` 保证未来安全）、日期/金额快照关。
+2. 文案规则（docs/08-copywriting.md §一）适用于所有语言：句首大写、动词开头 CTA；德语名词全大写规则由翻译侧处理。
+3. 灌稿后必须过三关：德语膨胀关（docs/07 §四）、RTL 关（当前市场无 RTL，但布局用逻辑属性 `margin-inline` 保证未来安全）、日期/金额快照关。

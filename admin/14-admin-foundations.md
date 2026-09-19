@@ -83,7 +83,7 @@
 
 | 页面类型 | 宽度 | 骨架 |
 |---|---|---|
-| 列表页（Orders 等） | 全宽自适应 | PageHeader + 筛选/视图条 + DataTable（15 章） |
+| 列表页（Orders 等） | 全宽自适应 | PageHeader + 筛选/视图条 + DataTable（admin/15-admin-data-tables.md §一） |
 | 资源详情（Order #1042） | 1000px | 双栏：主内容 2/3 + 摘要卡 1/3（sticky） |
 | 创建/编辑表单 | 640–1000px | 分组 Card + 底部动作条 |
 | 设置页 | 640px + 左侧锚点导航 ≥1280px | 分组 Card + autosave 或 save bar（16 章决策表） |

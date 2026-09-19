@@ -22,15 +22,15 @@
 | pressed | primary-active | 12% | 12% | danger-10 |
 | disabled | opacity .5 | opacity .5 | opacity .5 | opacity .5 |
 
-规则：一屏一 primary；destructive 必经确认（16 章矩阵）；前台 `cta` 尺寸仅在主转化路径。
+规则：一屏一 primary；destructive 必经确认（admin/16-admin-forms-settings.md矩阵）；前台 `cta` 尺寸仅在主转化路径。
 
 ## Input / Select / Textarea / Combobox
 
-h-36（`--m-input-h`）、bg-surface、border-strong、radius-md；focus → 后台内嵌焦点环；error → border-critical + `aria-invalid`；disabled → bg-inset + opacity .5。Combobox：输入过滤 + 键盘 ↑↓ Enter + 多值 token 化。**Select 选项 ≤5 时改用 Radio**（16 章）。
+h-36（`--m-input-h`）、bg-surface、border-strong、radius-md；focus → 后台内嵌焦点环；error → border-critical + `aria-invalid`；disabled → bg-inset + opacity .5。Combobox：输入过滤 + 键盘 ↑↓ Enter + 多值 token 化。**Select 选项 ≤5 时改用 Radio**（admin/16-admin-forms-settings.md）。
 
 ## Checkbox / Radio / Switch
 
-视觉 20px、热区 44×44；选中 `bg-primary` 白勾；Switch：on=primary / off=ink-8 底白球，带移动动画 150ms。语义：Switch=即时生效，Checkbox=随表单提交（16 章）。
+视觉 20px、热区 44×44；选中 `bg-primary` 白勾；Switch：on=primary / off=ink-8 底白球，带移动动画 150ms。语义：Switch=即时生效，Checkbox=随表单提交（admin/16-admin-forms-settings.md）。
 
 ## Badge
 
@@ -43,7 +43,7 @@ progress: complete(✓) | partial(◔) | empty  ← 可选进度点（Polaris Ba
 
 ## Banner / Toast / Modal / Drawer / Popover / Tooltip
 
-见 17 章决策树与规格表。补挂点契约：
+见 admin/17-admin-feedback-dashboard.md决策树与规格表。补挂点契约：
 
 ```
 <Modal data-slot="overlay|dialog|header|body|footer" data-state="open|closed">
@@ -64,7 +64,7 @@ progress: complete(✓) | partial(◔) | empty  ← 可选进度点（Polaris Ba
 
 ## DataTable / Pagination / Filters
 
-见 15 章全量规格。挂点：`<table data-slot="table">`、行 `data-state="selected|loading"`、排序头 `aria-sort`。
+见 admin/15-admin-data-tables.md全量规格。挂点：`<table data-slot="table">`、行 `data-state="selected|loading"`、排序头 `aria-sort`。
 
 ## ProductCard / Price / Swatch / Quantity / Rating
 

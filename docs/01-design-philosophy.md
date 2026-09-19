@@ -13,7 +13,7 @@
 
 | 来源 | 吸收的精髓 | 在 Meridian 中的落点 |
 |---|---|---|
-| **Shopify Polaris** | ① 语义角色色板：`bg-surface / fg / border` + 每个状态族五件套（text/bg/border/icon/surface）；② `caution` 与 `warning` 分离的精细化告警；③ **Content-first**：每个组件文档强制微文案规则；④ 有主见的默认值（"我们替你做决定"）；⑤ Contextual Save Bar、Saved Views、Sheet 被废弃（"鼓励在新图层堆 UI，而不是改进现有 UI"）——对"何时**不给**组件"同样深思 | 状态族五件套、后台 save bar、saved views、文案规范第 09 章、"禁止清单"文化 |
+| **Shopify Polaris** | ① 语义角色色板：`bg-surface / fg / border` + 每个状态族五件套（text/bg/border/icon/surface）；② `caution` 与 `warning` 分离的精细化告警；③ **Content-first**：每个组件文档强制微文案规则；④ 有主见的默认值（"我们替你做决定"）；⑤ Contextual Save Bar、Saved Views、Sheet 被废弃（"鼓励在新图层堆 UI，而不是改进现有 UI"）——对"何时**不给**组件"同样深思 | 状态族五件套、后台 save bar、saved views、文案规范第 docs/08-copywriting.md §一、"禁止清单"文化 |
 | **IBM Carbon** | ① 2x 编号间距刻度（spacing-01=2px…13=160px）——编号去主观化；② **相对 layer token**（嵌套表面自动解析，消灭"嵌套卡片底色错误"整类 bug）；③ productive / expressive 双动效人格 | 4px 编号刻度、前台 expressive / 后台 productive 双人格动效、surface 层级规则 |
 | **GitHub Primer** | ① 三层架构 + **"primitive 禁止直接使用"成为机器可查规则**；② `accent/success/attention/danger` 语义词汇 + `muted/emphasis` 强度后缀——**对比度由命名保证，而非靠 review**；③ 多主题（浅/深/高对比）一次 token 切换 | R1 校验规则（裸色值即违规）、muted/subtle 灰阶词汇、五件套后缀命名 |
 | **Radix Colors** | ① **12 阶语义刻度**（1-2 背景 / 3-4 组件底 / 5-8 边框 / 9-10 实底 / 11-12 文本）——每一步"是什么用途"是确定的；② **对比度由构造保证**（11/12 阶对 2 阶预校准）；③ alpha 阶按深浅模式分别计算 | 全部 8 条色带都按 12 阶构造；对比契约表（02 章）|

@@ -99,4 +99,4 @@ Inter 的 400/500/600 视觉偏轻，全系统使用调校权重（Polaris/Atlas
 </style>
 ```
 
-LCP 元素若是文字（hero 标题）：该文本节点使用系统字体栈回落渲染可接受；若是商品图：图片优先于字体预算（见 09 章）。
+LCP 元素若是文字（hero 标题）：该文本节点使用系统字体栈回落渲染可接受；若是商品图：图片优先于字体预算（见 storefront/09-storefront-foundations.md）。

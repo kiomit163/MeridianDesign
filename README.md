@@ -1,6 +1,6 @@
 # Meridian Design System（子午线）
 
-**面向欧美市场的企业级电商视觉设计规范** · v1.0.0 · 2026-09-13
+**面向欧美市场的企业级电商视觉设计规范** · v1.1.0 · 2026-09-19
 
 > 子午线连接东西。一套 token 骨架，驱动两个舞台：**卖货的前台**（信任 · 转化 · 表达）与**运营的后台**（密度 · 效率 · 控制），并且让 AI 能确定性地产出符合规范的界面。
 
@@ -63,12 +63,12 @@
 3. 每次生成页面前，让 AI 先读对应规范文档（prompts.md 模板已内置）。
 4. 提交前跑 `node ai/validate.mjs src`。
 
-**方式 B · 我要人肉设计/评审**：按 `docs/01 → 02 → 04` 顺序读，前台看 `storefront/`，后台看 `admin/`，评审用 13 章检查单与 18 章契约。
+**方式 B · 我要人肉设计/评审**：按 `docs/01 → 02 → 04` 顺序读，前台看 `storefront/`，后台看 `admin/`，评审用 storefront/13-storefront-trust-conversion.md §七与 components/18-component-contracts.md。
 
 **方式 C · 我要接入品牌**：改 `ai/tokens.css` 的 brand 色带（02 章第八节配方）+ `--m-font-display` + `--m-radius` 旋钮，语义层与业务代码零改动。
 
 ## 治理
 
-- 语义变更走 SemVer：改 primitive 值 = PATCH，加 token = MINOR，改语义指向/删 token = MAJOR + 迁移说明。
+- 语义变更走 SemVer：**任何视觉可见的值变更 ≥ MINOR**（含 primitive 改值——它是整张对比契约的输入）；加 token = MINOR；改语义指向、删 token 或改变默认舞台 = MAJOR + 迁移说明 + codemod。版本以 `ai/tokens.json` 的 `$version` 为唯一声明，README / tokens.css / meridian-ui.css / CHANGELOG 必须一致。
 - 一切新规则必须"可校验"：写不进 `validate.mjs` 的规则进不了 AGENTS.md。
 - 违规处理顺序：校验器拦截 → review 打回 → 模板库补充（让同类违规下次不可能发生）。

@@ -37,7 +37,7 @@
 首次提交后: 字段失焦即校验（on blur） + 修正立即清除
 提交失败:   ① 错误摘要 Banner（critical）："Fix 3 errors to continue."
            ② 焦点移到第一个错误字段
-           ③ 每字段: border-critical + ⚠ 图标 + 下方修法文案（08 章模板）
+           ③ 每字段: border-critical + ⚠ 图标 + 下方修法文案（admin/16 §二）
 ```
 
 实时校验仅限强规则（卡号 Luhn、邮箱格式）且**只在用户停止输入 500ms 后**。
