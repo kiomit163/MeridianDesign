@@ -1,0 +1,6 @@
+{
+  "ignore": ["node_modules", ".git", "_audit", ".mimosa", "docs/superpowers"],
+  "componentAliases": { "Urgency": [], "Price": [], "ReviewItem": [] },
+  "demoRegions": { "design-system.html": ["ramp-demo"] },
+  "baseline": null
+}

@@ -1,0 +1,10 @@
+{
+  "name": "meridian-design-system",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test \"ai/selfcheck/**/*.test.mjs\" \"ai/lib/**/*.test.mjs\"",
+    "lint": "node ai/validate.mjs . && npm test"
+  }
+}
