@@ -270,8 +270,17 @@ test("CLI：--only 与 --emit-manifest 的取值形式（空格与 =）都可用
   assert.deepEqual(JSON.parse(readFileSync(manifest, "utf8")), []);
 });
 test("CLI：位置参数缺失时目标为仓库根（`node ai/validate.mjs` 仍可跑）", () => {
-  const out = execFileSync(process.execPath, ["ai/validate.mjs", "--json"], { encoding: "utf8" });
-  assert.equal(JSON.parse(out).ok, true);
+  // T17 判定 + S2 R-28：默认目标=仓库根时 14 条规则全开，必然命中 selfcheck fixtures 植红 → 退出 1。
+  // 旧断言期望 ok=true 是"仓库曾全绿"时代的残留期望，与本仓恒有植红 fixture 的现状矛盾。
+  let e;
+  try {
+    execFileSync(process.execPath, ["ai/validate.mjs", "--json"], { encoding: "utf8" });
+  } catch (err) { e = err; }
+  assert.ok(e, "全仓扫描命中植红 fixture 应退出 1，实际退出 0（fixtures 丢失或被排除？）");
+  assert.equal(e.status, 1);
+  const json = JSON.parse(e.stdout);
+  assert.equal(json.ok, false);
+  assert.ok(json.count > 0, "全仓扫描应报出 fixtures 植红");
 });
 test("CLI：仓库外目标判错退出，而不是扫 0 个文件报 ok", () => {
   assert.throws(() => execFileSync(process.execPath, ["ai/validate.mjs", "..", "--json"], { stdio: "pipe" }),

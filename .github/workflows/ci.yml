@@ -1,0 +1,16 @@
+name: ci
+on:
+  push:
+  pull_request:
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: 单元与回归测试
+        run: npm test
+      - name: 设计合规门禁
+        run: node ai/validate.mjs . --exclude ai/selfcheck/fixtures
