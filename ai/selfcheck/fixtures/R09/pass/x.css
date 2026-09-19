@@ -1,0 +1,3 @@
+.a:focus-within { outline: 2px solid var(--m-border-focus); }
+.b { outline-color: var(--m-border-focus); outline-style: solid; }
+.c { outline: none; } /* meridian-allow: container-expresses-focus */

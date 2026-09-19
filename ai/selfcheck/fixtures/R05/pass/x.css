@@ -1,0 +1,3 @@
+.a { padding: var(--m-space-4); margin: 0 auto; gap: 8px; }
+.b { padding-inline: calc(var(--m-space-2) + 2px); }
+.c { top: 7px; left: 13px; width: 6px; }
