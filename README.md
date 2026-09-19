@@ -65,7 +65,7 @@
 
 **方式 B · 我要人肉设计/评审**：按 `docs/01 → 02 → 04` 顺序读，前台看 `storefront/`，后台看 `admin/`，评审用 storefront/13-storefront-trust-conversion.md §七与 components/18-component-contracts.md。
 
-**方式 C · 我要接入品牌**：改 `ai/tokens.css` 的 brand 色带（02 章第八节配方）+ `--m-font-display` + `--m-radius` 旋钮，语义层与业务代码零改动。
+**方式 C · 我要接入品牌**：改 `ai/tokens.css` 的 brand 色带（docs/02-color-system.md §第八节 配方）+ `--m-font-display` + `--m-radius` 旋钮，语义层与业务代码零改动。
 
 ## 治理
 

@@ -1,6 +1,6 @@
 # 09 · 前台基础（Storefront Foundations）
 
-> 前台的唯一 KPI：**访客 → 信任 → 订单**。所有前台决策的裁判是转化率与退回率，美学服务于此。舞台人格 = Expressive（见 05 章）。
+> 前台的唯一 KPI：**访客 → 信任 → 订单**。所有前台决策的裁判是转化率与退回率，美学服务于此。舞台人格 = Expressive（见 docs/05-motion-iconography.md）。
 
 ---
 
@@ -22,7 +22,7 @@ Main
   ├─ 内容容器 max-w-1280 gutter 16/24
   └─ 区块节奏 --m-space-section，交替底 bg-band（同页 ≤3 次）
 Footer
-  ├─ 精简链接组（Shop / Help / Company）＋ Newsletter（合规见 06 章）
+  ├─ 精简链接组（Shop / Help / Company）＋ Newsletter（合规见 docs/06-accessibility-compliance.md）
   └─ 法律行: © · Privacy · Terms · Shipping · Returns · Cookie Preferences · (DE) Impressum
         · 支付图标行（卡组织 + PayPal/钱包）· 市场切换（货币/国家）
 ```

@@ -56,7 +56,7 @@ progress: complete(✓) | partial(◔) | empty  ← 可选进度点（Polaris Ba
 
 ## Tabs
 
-下划线式（后台）/ 药丸式（前台）二选一；激活下划线 2px primary；键盘 ←→ 循环；`role="tablist/tab/tabpanel"`。**PDP 信息区禁用 Tabs**（11 章结论：用手风琴）。
+下划线式（后台）/ 药丸式（前台）二选一；激活下划线 2px primary；键盘 ←→ 循环；`role="tablist/tab/tabpanel"`。**PDP 信息区禁用 Tabs**（storefront/11-storefront-pdp.md 结论：用手风琴）。
 
 ## Accordion
 
@@ -70,7 +70,7 @@ progress: complete(✓) | partial(◔) | empty  ← 可选进度点（Polaris Ba
 
 | 组件 | 契约要点 |
 |---|---|
-| `ProductCard` | 整卡单链接；媒体 4:5；徽章 ≤1；swatch 可选；见 10 章 |
+| `ProductCard` | 整卡单链接；媒体 4:5；徽章 ≤1；swatch 可选；见 storefront/10-storefront-plp.md |
 | `Price` | props: `amount` `compareAt` `market` `perUnit` `size`；自动 locale 格式化 + 税注 + tabular-nums；**compareAt 只接受后端 30 天最低价**（Omnibus） |
 | `Swatch` | 24px（卡）/32px（PDP）；无货=置灰+斜杠；选中 2px primary 环 + tooltip 色名 |
 | `QuantityStepper` | −/值/+ 各 44px；min 1 max=库存/限购；长按步进（400ms 起 80ms 步频） |
@@ -78,7 +78,7 @@ progress: complete(✓) | partial(◔) | empty  ← 可选进度点（Polaris Ba
 
 ## CartDrawer / FreeShippingBar / TrustStrip
 
-见 12/13 章。`CartDrawer` 挂点 `data-state="open|closed"`、行项 `data-line-key`；`FreeShippingBar` 无门槛配置渲染为空。
+见 storefront/12-storefront-cart-checkout.md、storefront/13-storefront-trust-conversion.md。`CartDrawer` 挂点 `data-state="open|closed"`、行项 `data-line-key`；`FreeShippingBar` 无门槛配置渲染为空。
 
 ## Urgency / ReviewItem / WithdrawalButton / ConsentBanner
 
@@ -91,7 +91,7 @@ progress: complete(✓) | partial(◔) | empty  ← 可选进度点（Polaris Ba
 
 ## Skeleton / EmptyState / ErrorState / Spinner
 
-Skeleton：`bg-inset` + shimmer 1.5s + `aria-busy` 容器；形状=最终布局（禁止圆形 spinner 替代结构骨架）。EmptyState 三件套见 14 章。ErrorState：插图 + 人话 + Retry + 保留输入。
+Skeleton：`bg-inset` + shimmer 1.5s + `aria-busy` 容器；形状=最终布局（禁止圆形 spinner 替代结构骨架）。EmptyState 三件套见 admin/14-admin-foundations.md。ErrorState：插图 + 人话 + Retry + 保留输入。
 
 ## CommandPalette（⌘K）
 

@@ -74,4 +74,4 @@
 5. **Confirm-shaming**（"不，我不想省钱"）：放弃文案模板库只提供中性写法（"No thanks"）。
 6. **退订障碍**：退订链接一步完成（CAN-SPAM 允许但 discouraged 额外步骤；CASL 强制一步）。
 7. **差评拦截**：Review 组件不提供"仅好评展示"参数。
-8. **强制注册**：Checkout 强制 guest-first（见 12 章）。
+8. **强制注册**：Checkout 强制 guest-first（见 storefront/12-storefront-cart-checkout.md）。
