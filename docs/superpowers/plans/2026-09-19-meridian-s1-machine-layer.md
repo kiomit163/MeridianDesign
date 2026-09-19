@@ -676,7 +676,9 @@ git -c user.name="Meridian DS" -c user.email="meridian-ds@local" commit -m "feat
   - `applyBaseline(violations, baseline|null) → { violations, suppressed }`
   - `format(violations, mode:"text"|"json"|"sarif", staleAllows) → string`
   - `factsFor(path, cfg) → { layer, text, facts[] }`
-  - CLI：`node ai/validate.mjs <target> [--json|--sarif] [--only=R11,R13] [--ignore <seg>] [--baseline <file>] [--emit-manifest <file>]`；退出码 = 有效违规或失效 allow 存在 ? 1 : 0，**与输出模式无关**
+  - CLI：`node ai/validate.mjs <target> [--json|--sarif] [--only=R11,R13] [--ignore <seg>] [--exclude <seg>] [--baseline <file>] [--emit-manifest <file>]`；退出码 = 有效违规或失效 allow 存在 ? 1 : 0，**与输出模式无关**
+
+> `--exclude <seg>`（可重复）与 `cfg.ignore` 的区别：`ignore` 是"这些目录不属于被审代码"，`exclude` 是"本次扫描临时跳过"。T17 的全仓验收必须 `--exclude ai/selfcheck/fixtures`，否则会被故意植入的 `fail/` 样本永久判红；而 T10 生成 manifest 时不传 `--exclude`，才能把 fixtures 扫出来。实现在 `walk()` 之后加一行 `files = files.filter(f => !excludes.some(x => f.path.includes(x)))`。
 
 - [ ] **Step 1: 写失败测试 `ai/lib/engine.test.mjs`**
 
@@ -760,6 +762,8 @@ export function collectAllows(text) {
 ```
 
 - [ ] **Step 4: 实现 `ai/lib/engine.mjs`**
+
+> **Windows 前提**：`f.path` 在 Git Bash 下可能是反斜杠形式。`run()` 里生成违规条目时必须统一 `file: f.path.replace(/\\/g, "/")`，否则 `--emit-manifest` 写出的路径与 `rules.test.mjs` 里 `key()` 归一后的路径不一致，会造成整表假红。
 
 ```js
 import { collectAllows } from "../checks/allow.mjs";
@@ -2321,9 +2325,10 @@ import { readFileSync } from "node:fs";
 const run = (args) => { try { return { code: 0, out: execFileSync(process.execPath, ["ai/validate.mjs", ...args], { encoding: "utf8" }) }; }
   catch (e) { return { code: e.status, out: e.stdout ?? "" }; } };
 const count = (args) => JSON.parse(run([...args, "--json"]).out || '{"violations":[]}').violations.length;
+const REPO = [".", "--exclude", "ai/selfcheck/fixtures"];   // 故意植入的 fail/ 样本不参与全仓验收
 
 for (const rule of ["R11", "R08", "R15", "R14", "R02", "R05", "R01", "R07", "R09"])
-  test(`A4-A7：${rule} 全仓 0 违规`, () => assert.equal(count([".", "--only=" + rule]), 0, `${rule} 仍有违规`));
+  test(`A4-A7：${rule} 全仓 0 违规`, () => assert.equal(count([...REPO, "--only=" + rule]), 0, `${rule} 仍有违规`));
 
 test("A3：三种输出模式一致非零退出", () => {
   const bad = "ai/selfcheck/fixtures/R01/fail/Feature.tsx";
