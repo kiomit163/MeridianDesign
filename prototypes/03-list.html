@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>03 列表表格页 · 订单列表 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-admin m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：Orders index = Saved Views 页签（可保存筛选，页签带计数，行尾「保存视图」）+ 工具栏（搜索 / 筛选 / 列设置）+ 全宽数据表
+  （资源缩略图列、状态徽章、行 hover 快捷动作）+ 勾选后工具栏整条替换为批量动作条（已选 N 项 + 批量动作 + 取消）+ 底部分页（仅上一页 / 下一页，keyset 游标，无跳页）。
+  Meridian 化决策：壳与顶栏同 02（账户菜单 + 通知铃同形；SSE 徽章在位）；主侧栏按现产品态用「无图标」形，图标裁决见页底双形态对比区；
+  页头动作组 = 导出（次）+ 创建订单（主按钮，archetypes 拓扑中的「导出」落在页头次按钮位）；表四态同页在画（满态主表 + 空 / 加载骨架 / 错误行内三小样）；
+  徽章映射：订单 5 态对位五状态族（待付款 = emphasis / 待发货 = warning / 运输中 = info / 已完成 = success / 已退款 = critical），商品 3 态（在售 = success / 草稿 = neutral tint / 已下架 = neutral solid）；
+  行 hover 由 m-table 原生 hover 承担（本稿为静态契约，快捷动作常显示意，套用片为 hover 浮现）。
+  漏项落地：Saved Views ✓ 缩略图列 ✓ 批量条 ✓（五漏项之三落此）；加载骨架启用 m-skeleton ✓（公共件宿主 #3）；空态统一形 ✓（宿主 #3）；侧栏图标无 / 有对比区 ✓（裁决呈报）。
+-->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 03 列表表格页（订单列表）<span class="m-badge m-badge--info m-badge--tint">批 A · 定调批 · 最高频定式</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>Orders index = Saved Views 页签（带计数，可保存筛选）+ 工具栏（搜索 / 筛选 / 列设置）+ 全宽数据表（缩略图列 / 状态徽章 / 行 hover 快捷动作）+ 勾选后工具栏整条替换为批量条 + keyset 分页（仅上一页 / 下一页）。<br>
+        <b>Meridian 化决策：</b>壳与顶栏同 02；主侧栏按现产品态用「无图标」形（裁决见页底对比区）；页头动作 = 导出（次）+ 创建订单（主）；表四态同页在画；订单 5 态对位五状态族、商品 3 态；行 hover 走 m-table 原生 hover，快捷动作为常显示意。<br>
+        <b>漏项落地：</b>Saved Views ✓ 缩略图列 ✓ 批量条 ✓；m-skeleton 首次启用 ✓（宿主 #3）；空态统一形 ✓（宿主 #3）；侧栏图标对比区 ✓（呈报待裁）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<div class="m-shell">
+  <aside class="m-shell__sidenav">
+    <nav class="m-sidenav" aria-label="主导航（无图标 · 现产品态）" style="padding:var(--m-space-2)">
+      <div class="m-sidenav__group">经营</div>
+      <a href="#"><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
+      <a href="#" class="is-active" aria-current="page"><span class="m-navshort">订</span><span class="m-navfull">订单</span></a>
+      <a href="#"><span class="m-navshort">商</span><span class="m-navfull">商品</span></a>
+      <a href="#"><span class="m-navshort">客</span><span class="m-navfull">客户</span></a>
+      <div class="m-sidenav__group">增长</div>
+      <a href="#"><span class="m-navshort">营</span><span class="m-navfull">营销活动</span></a>
+      <a href="#"><span class="m-navshort">折</span><span class="m-navfull">折扣</span></a>
+      <div class="m-sidenav__group">系统</div>
+      <a href="#"><span class="m-navshort">报</span><span class="m-navfull">报表</span></a>
+      <a href="#"><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+    </nav>
+  </aside>
+  <div class="m-shell__body">
+    <header class="m-topbar">
+      <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 订单</span></div>
+      <div class="m-topbar__actions">
+        <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
+        <span style="position:relative;display:inline-flex">
+          <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        </span>
+        <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </header>
+    <main class="m-shell__main">
+      <div class="m-container">
+
+        <!-- 页头：标题 + 计数 + 动作组 -->
+        <div class="m-pagehead">
+          <div>
+            <div class="m-row">
+              <h1>订单</h1>
+              <span class="m-badge m-badge--neutral m-badge--tint tnum">1,284</span>
+            </div>
+            <div class="sub">316 个待发货 · 今日新增 36 单</div>
+          </div>
+          <div class="m-row">
+            <button type="button" class="m-btn m-btn--secondary m-btn--sm">导出</button>
+            <button type="button" class="m-btn m-btn--primary m-btn--sm">创建订单</button>
+          </div>
+        </div>
+
+        <!-- 数据表满态：Saved Views 页签 + 工具栏 + 表 + 分页 -->
+        <div class="m-card" style="margin-top:var(--m-space-4)">
+          <div class="m-tabs" style="padding-inline:var(--m-space-3)">
+            <button type="button" class="m-tab is-active" aria-current="page">全部 <span class="tnum" style="color:var(--m-fg-subtle)">1,284</span></button>
+            <button type="button" class="m-tab">待发货 <span class="tnum" style="color:var(--m-fg-subtle)">316</span></button>
+            <button type="button" class="m-tab">有退款 <span class="tnum" style="color:var(--m-fg-subtle)">41</span></button>
+            <button type="button" class="m-tab">已完成 <span class="tnum" style="color:var(--m-fg-subtle)">927</span></button>
+            <button type="button" class="m-tool m-tool--pill" style="margin-inline-start:auto"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>保存视图</button>
+          </div>
+          <div class="m-row" style="justify-content:space-between;padding:var(--m-space-3) var(--m-space-4);border-bottom:1px solid var(--m-border)">
+            <div class="m-toolbar">
+              <div class="m-search" style="width:280px">
+                <svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <input class="m-input" type="text" placeholder="搜索订单号、客户或邮箱" style="height:var(--m-tool-h)" aria-label="搜索订单">
+              </div>
+              <button type="button" class="m-tool m-tool--pill m-tool--outlined"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>筛选</button>
+              <span class="sep"></span>
+              <button type="button" class="m-tool m-tool--pill m-tool--outlined"><svg class="m-i m-i--16" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16"/><path d="M15 4v16"/></svg>列设置</button>
+            </div>
+            <div class="m-toolbar">
+              <button type="button" class="m-tool m-tool--square" aria-label="刷新列表"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+              <button type="button" class="m-tool m-tool--square" aria-label="更多操作"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+            </div>
+          </div>
+          <div class="m-table-wrap">
+            <table class="m-table">
+              <thead>
+                <tr>
+                  <th style="width:36px"><label class="m-check"><input type="checkbox" aria-label="全选本页"><span class="box"></span></label></th>
+                  <th>商品</th>
+                  <th>订单</th>
+                  <th>客户</th>
+                  <th>状态</th>
+                  <th class="num">金额</th>
+                  <th class="num">操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><label class="m-check"><input type="checkbox" aria-label="选择订单 SK-10288"><span class="box"></span></label></td>
+                  <td>
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                      <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span>
+                      <div><div class="cell-main">有机棉卫衣 ×2</div><div class="cell-sub">燕麦色 M · AP-1102</div></div>
+                    </div>
+                  </td>
+                  <td><div class="cell-main tnum">SK-10288</div><div class="cell-sub">10-21 09:42</div></td>
+                  <td><div class="cell-main">Mara Jensen</div><div class="cell-sub">柏林 · DE</div></td>
+                  <td><span class="m-badge m-badge--warning m-badge--tint">待发货</span></td>
+                  <td class="num tnum">€178.00</td>
+                  <td class="num">
+                    <div class="m-row" style="justify-content:flex-end;flex-wrap:nowrap">
+                      <button type="button" class="m-tool m-tool--square" aria-label="打印面单"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9V3h12v6"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg></button>
+                      <button type="button" class="m-tool m-tool--square" aria-label="发货"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></button>
+                      <button type="button" class="m-tool m-tool--square" aria-label="更多"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="m-check"><input type="checkbox" aria-label="选择订单 SK-10287"><span class="box"></span></label></td>
+                  <td>
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                      <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 8c3 0 5-2 6-4 1 2 3 4 6 4"/><path d="M4 8h16v4c0 6-3.6 9-8 9s-8-3-8-9V8z"/></svg></span>
+                      <div><div class="cell-main">羊毛围巾</div><div class="cell-sub">石墨灰 · AC-2101</div></div>
+                    </div>
+                  </td>
+                  <td><div class="cell-main tnum">SK-10287</div><div class="cell-sub">10-21 08:15</div></td>
+                  <td><div class="cell-main">Felix Braun</div><div class="cell-sub">维也纳 · AT</div></td>
+                  <td><span class="m-badge m-badge--info m-badge--tint">运输中</span></td>
+                  <td class="num tnum">€59.00</td>
+                  <td class="num">
+                    <div class="m-row" style="justify-content:flex-end;flex-wrap:nowrap">
+                      <button type="button" class="m-tool m-tool--square" aria-label="物流跟踪"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></button>
+                      <button type="button" class="m-tool m-tool--square" aria-label="更多"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="m-check"><input type="checkbox" aria-label="选择订单 SK-10286"><span class="box"></span></label></td>
+                  <td>
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                      <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M17 8h2a2 2 0 0 1 0 4h-2"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/></svg></span>
+                      <div><div class="cell-main">陶瓷马克杯 ×4</div><div class="cell-sub">米白 350ml · HG-3305</div></div>
+                    </div>
+                  </td>
+                  <td><div class="cell-main tnum">SK-10286</div><div class="cell-sub">10-20</div></td>
+                  <td><div class="cell-main">Emma Fischer</div><div class="cell-sub">慕尼黑 · DE</div></td>
+                  <td><span class="m-badge m-badge--success m-badge--tint">已完成</span></td>
+                  <td class="num tnum">€72.00</td>
+                  <td class="num">
+                    <div class="m-row" style="justify-content:flex-end;flex-wrap:nowrap">
+                      <button type="button" class="m-tool m-tool--square" aria-label="重发收据"><svg class="m-i m-i--16" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></button>
+                      <button type="button" class="m-tool m-tool--square" aria-label="更多"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="m-check"><input type="checkbox" aria-label="选择订单 SK-10285"><span class="box"></span></label></td>
+                  <td>
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                      <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
+                      <div><div class="cell-main">皮革护照夹</div><div class="cell-sub">焦棕 · AC-2088</div></div>
+                    </div>
+                  </td>
+                  <td><div class="cell-main tnum">SK-10285</div><div class="cell-sub">10-19</div></td>
+                  <td><div class="cell-main">Jonas Weber</div><div class="cell-sub">汉堡 · DE</div></td>
+                  <td><span class="m-badge m-badge--critical m-badge--tint">已退款</span></td>
+                  <td class="num tnum">€79.00</td>
+                  <td class="num">
+                    <div class="m-row" style="justify-content:flex-end;flex-wrap:nowrap">
+                      <button type="button" class="m-tool m-tool--square" aria-label="更多"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="m-check"><input type="checkbox" aria-label="选择订单 SK-10284"><span class="box"></span></label></td>
+                  <td>
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                      <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M12 2.7s6 6.6 6 10.8a6 6 0 0 1-12 0C6 9.3 12 2.7 12 2.7z"/></svg></span>
+                      <div><div class="cell-main">冷萃玻璃壶</div><div class="cell-sub">1L · HG-3312</div></div>
+                    </div>
+                  </td>
+                  <td><div class="cell-main tnum">SK-10284</div><div class="cell-sub">10-20</div></td>
+                  <td><div class="cell-main">Lena Hoffmann</div><div class="cell-sub">科隆 · DE</div></td>
+                  <td><span class="m-badge m-badge--emphasis m-badge--tint">待付款</span></td>
+                  <td class="num tnum">€45.00</td>
+                  <td class="num">
+                    <div class="m-row" style="justify-content:flex-end;flex-wrap:nowrap">
+                      <button type="button" class="m-tool m-tool--square" aria-label="提醒付款"><svg class="m-i m-i--16" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></button>
+                      <button type="button" class="m-tool m-tool--square" aria-label="更多"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><label class="m-check"><input type="checkbox" aria-label="选择订单 SK-10283"><span class="box"></span></label></td>
+                  <td>
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                      <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span>
+                      <div><div class="cell-main">有机棉卫衣</div><div class="cell-sub">黑色 L · AP-1102</div></div>
+                    </div>
+                  </td>
+                  <td><div class="cell-main tnum">SK-10283</div><div class="cell-sub">10-18</div></td>
+                  <td><div class="cell-main">Sofia Lindqvist</div><div class="cell-sub">斯德哥尔摩 · SE</div></td>
+                  <td><span class="m-badge m-badge--success m-badge--tint">已完成</span></td>
+                  <td class="num tnum">€89.00</td>
+                  <td class="num">
+                    <div class="m-row" style="justify-content:flex-end;flex-wrap:nowrap">
+                      <button type="button" class="m-tool m-tool--square" aria-label="重发收据"><svg class="m-i m-i--16" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg></button>
+                      <button type="button" class="m-tool m-tool--square" aria-label="更多"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- 分页：keyset 形态（仅上一页 / 下一页，无跳页） -->
+          <div class="m-row" style="justify-content:space-between;padding:var(--m-space-3) var(--m-space-4);border-top:1px solid var(--m-border)">
+            <span style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">显示第 1-50 条 · 共 <span class="tnum">1,284</span> 条</span>
+            <div class="m-row">
+              <span class="m-tag">keyset 游标分页 · 无跳页</span>
+              <button type="button" class="m-btn m-btn--secondary m-btn--sm" disabled><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>上一页</button>
+              <button type="button" class="m-btn m-btn--secondary m-btn--sm">下一页<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg></button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 批量上下文动作条：勾选 3 行后，工具栏整条替换 -->
+        <div class="m-card" style="margin-top:var(--m-space-4)">
+          <div class="m-card__header">批量上下文动作条<span class="m-badge m-badge--info m-badge--tint">勾选 3 行后 · 工具栏整条替换</span></div>
+          <div class="m-card__body m-col" style="gap:var(--m-space-3)">
+            <div class="m-bulkbar">
+              <b>已选 <span class="tnum">3</span> 项</b>
+              <button type="button" class="m-btn m-btn--secondary m-btn--sm" style="margin-inline-start:auto">批量打印面单</button>
+              <button type="button" class="m-btn m-btn--primary m-btn--sm">批量发货</button>
+              <button type="button" class="m-btn m-btn--tertiary m-btn--sm">取消</button>
+            </div>
+            <div class="m-table-wrap">
+              <table class="m-table">
+                <thead>
+                  <tr>
+                    <th style="width:36px"><label class="m-check"><input type="checkbox" checked aria-label="全选本页"><span class="box"></span></label></th>
+                    <th>订单</th>
+                    <th>商品</th>
+                    <th>状态</th>
+                    <th class="num">金额</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="is-selected">
+                    <td><label class="m-check"><input type="checkbox" checked aria-label="选择订单 SK-10288"><span class="box"></span></label></td>
+                    <td><div class="cell-main tnum">SK-10288</div></td>
+                    <td><div class="cell-main">有机棉卫衣 ×2</div></td>
+                    <td><span class="m-badge m-badge--warning m-badge--tint">待发货</span></td>
+                    <td class="num tnum">€178.00</td>
+                  </tr>
+                  <tr class="is-selected">
+                    <td><label class="m-check"><input type="checkbox" checked aria-label="选择订单 SK-10282"><span class="box"></span></label></td>
+                    <td><div class="cell-main tnum">SK-10282</div></td>
+                    <td><div class="cell-main">羊毛围巾 ×2</div></td>
+                    <td><span class="m-badge m-badge--warning m-badge--tint">待发货</span></td>
+                    <td class="num tnum">€118.00</td>
+                  </tr>
+                  <tr class="is-selected">
+                    <td><label class="m-check"><input type="checkbox" checked aria-label="选择订单 SK-10281"><span class="box"></span></label></td>
+                    <td><div class="cell-main tnum">SK-10281</div></td>
+                    <td><div class="cell-main">陶瓷马克杯 ×2</div></td>
+                    <td><span class="m-badge m-badge--warning m-badge--tint">待发货</span></td>
+                    <td class="num tnum">€36.00</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">勾选任意行后，工具栏整条替换为本条（页签保留）；取消勾选即恢复。翻页或改筛选前先清空选择，防跨上下文误操作。</div>
+          </div>
+        </div>
+
+        <!-- 状态徽章 · 色映射（订单 5 态 + 商品 3 态） -->
+        <div class="m-card" style="margin-top:var(--m-space-4)">
+          <div class="m-card__header">状态徽章 · 色映射<span class="m-tag">订单 5 态 + 商品 3 态</span></div>
+          <div class="m-card__body m-col" style="gap:var(--m-space-3)">
+            <div class="m-row" style="gap:var(--m-space-5)">
+              <span style="font-size:var(--m-text-sm);color:var(--m-fg-muted);width:40px">订单</span>
+              <span class="m-col" style="align-items:center;gap:var(--m-space-1)"><span class="m-badge m-badge--emphasis m-badge--tint">待付款</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">emphasis</span></span>
+              <span class="m-col" style="align-items:center;gap:var(--m-space-1)"><span class="m-badge m-badge--warning m-badge--tint">待发货</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">warning</span></span>
+              <span class="m-col" style="align-items:center;gap:var(--m-space-1)"><span class="m-badge m-badge--info m-badge--tint">运输中</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">info</span></span>
+              <span class="m-col" style="align-items:center;gap:var(--m-space-1)"><span class="m-badge m-badge--success m-badge--tint">已完成</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">success</span></span>
+              <span class="m-col" style="align-items:center;gap:var(--m-space-1)"><span class="m-badge m-badge--critical m-badge--tint">已退款</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">critical</span></span>
+            </div>
+            <div class="m-row" style="gap:var(--m-space-5)">
+              <span style="font-size:var(--m-text-sm);color:var(--m-fg-muted);width:40px">商品</span>
+              <span class="m-col" style="align-items:center;gap:var(--m-space-1)"><span class="m-badge m-badge--success m-badge--tint">在售</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">success</span></span>
+              <span class="m-col" style="align-items:center;gap:var(--m-space-1)"><span class="m-badge m-badge--neutral m-badge--tint">草稿</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">neutral tint</span></span>
+              <span class="m-col" style="align-items:center;gap:var(--m-space-1)"><span class="m-badge m-badge--neutral m-badge--solid">已下架</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">neutral solid</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 数据表其余三态：空 / 加载骨架 / 错误行内 -->
+        <div class="m-grid-2" style="margin-top:var(--m-space-4)">
+          <div class="m-card">
+            <div class="m-card__header">数据表 · 空态<span class="m-badge m-badge--neutral m-badge--tint">筛选无结果</span></div>
+            <div class="m-card__body">
+              <div class="m-empty" style="padding:var(--m-space-8) var(--m-space-4)">
+                <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+                <h4>没有符合条件的订单</h4>
+                <p>当前筛选组合下没有订单。调整筛选条件，或切换到其他已保存视图。</p>
+                <div class="m-row" style="justify-content:center">
+                  <button type="button" class="m-btn m-btn--secondary m-btn--sm">清除筛选</button>
+                  <a href="#" class="m-btn m-btn--ghost m-btn--sm">查看全部订单</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-card__header">数据表 · 加载骨架态<span class="m-badge m-badge--neutral m-badge--tint">首屏加载（m-skeleton）</span></div>
+            <div class="m-table-wrap">
+              <table class="m-table">
+                <thead><tr><th>订单</th><th>客户</th><th class="num">金额</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div class="m-skeleton" style="width:64%;height:12px"></div></td>
+                    <td><div class="m-skeleton" style="width:72%;height:12px"></div></td>
+                    <td class="num"><div class="m-skeleton" style="width:48%;height:12px;margin-inline-start:auto"></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="m-skeleton" style="width:56%;height:12px"></div></td>
+                    <td><div class="m-skeleton" style="width:64%;height:12px"></div></td>
+                    <td class="num"><div class="m-skeleton" style="width:40%;height:12px;margin-inline-start:auto"></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="m-skeleton" style="width:68%;height:12px"></div></td>
+                    <td><div class="m-skeleton" style="width:56%;height:12px"></div></td>
+                    <td class="num"><div class="m-skeleton" style="width:52%;height:12px;margin-inline-start:auto"></div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="m-skeleton" style="width:48%;height:12px"></div></td>
+                    <td><div class="m-skeleton" style="width:76%;height:12px"></div></td>
+                    <td class="num"><div class="m-skeleton" style="width:44%;height:12px;margin-inline-start:auto"></div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-card__header">数据表 · 错误行内态<span class="m-badge m-badge--critical m-badge--tint">请求失败</span></div>
+            <div class="m-table-wrap">
+              <table class="m-table">
+                <thead><tr><th>订单</th><th>客户</th><th class="num">金额</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div class="cell-main tnum">SK-10239</div></td>
+                    <td><div class="cell-main">Tomas Nilsen</div></td>
+                    <td class="num tnum">€64.00</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" style="padding:var(--m-space-3) var(--m-space-4)">
+                      <div class="m-banner m-banner--critical" role="alert">
+                        <svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5h.01"/></svg>
+                        <div class="m-banner__body"><b>订单加载失败</b><br>第 2 页请求超时，已保留当前数据。</div>
+                        <div class="m-banner__actions">
+                          <button type="button" class="m-btn m-btn--secondary m-btn--sm">重试</button>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 侧栏图标 无 vs 有 双形态对比区（超 token 决策，裁决归用户） -->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-8) var(--m-space-4) var(--m-space-6)">
+  <div class="m-row" style="justify-content:space-between">
+    <h2 style="margin:0;font-size:var(--m-text-xl);font-weight:var(--m-weight-semibold)">侧栏图标 · 双形态对比</h2>
+    <span class="m-tag">超 token 决策 · 待用户裁决</span>
+  </div>
+  <div class="m-banner m-banner--info" role="note" style="margin-top:var(--m-space-3)">
+    <svg class="m-i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+    <div class="m-banner__body"><b>裁决点（归用户）</b><br>主导航是否引入图标；若引入，56px 折叠轨取「纯图标」还是「图标 + 单字」；正式图标集与绘制规范另行立项。</div>
+  </div>
+
+  <div class="m-grid-2" style="margin-top:var(--m-space-4)">
+    <div class="m-col" style="gap:var(--m-space-2)">
+      <div class="m-row"><span class="m-badge m-badge--neutral m-badge--solid">形态 A</span><b style="font-size:var(--m-text-sm)">无图标 · 现产品态（主侧栏即此形）</b></div>
+      <div style="background:var(--m-bg-chrome);border:1px solid var(--m-border);border-radius:var(--m-radius-md);padding:var(--m-space-2);width:240px">
+        <nav class="m-sidenav" aria-label="对比样本 · 无图标">
+          <div class="m-sidenav__group">经营</div>
+          <a href="#">今日</a>
+          <a href="#" class="is-active" aria-current="page">订单</a>
+          <a href="#">商品</a>
+          <a href="#">客户</a>
+          <div class="m-sidenav__group">增长</div>
+          <a href="#">营销活动</a>
+          <a href="#">折扣</a>
+          <div class="m-sidenav__group">系统</div>
+          <a href="#">报表</a>
+          <a href="#">设置</a>
+        </nav>
+      </div>
+      <div style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">纯文字项，安静、实现最简；扫读定位全靠读字，56px 折叠轨只剩单字。</div>
+    </div>
+
+    <div class="m-col" style="gap:var(--m-space-2)">
+      <div class="m-row"><span class="m-badge m-badge--emphasis m-badge--solid">形态 B</span><b style="font-size:var(--m-text-sm)">有图标 · 提案示意（02 临时图标集）</b></div>
+      <div style="background:var(--m-bg-chrome);border:1px solid var(--m-border);border-radius:var(--m-radius-md);padding:var(--m-space-2);width:240px">
+        <nav class="m-sidenav" aria-label="对比样本 · 有图标">
+          <div class="m-sidenav__group">经营</div>
+          <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>今日</a>
+          <a href="#" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>订单</a>
+          <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg>商品</a>
+          <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.1-5.5 6.5-5.5s5.9 2 6.5 5.5"/><path d="M16 4.2a3.5 3.5 0 0 1 0 6.6"/><path d="M18.5 14.8c1.8.9 2.7 2.4 3 5.2"/></svg>客户</a>
+          <div class="m-sidenav__group">增长</div>
+          <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>营销活动</a>
+          <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>折扣</a>
+          <div class="m-sidenav__group">系统</div>
+          <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M2 20h20"/></svg>报表</a>
+          <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg>设置</a>
+        </nav>
+      </div>
+      <div style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">每项一枚 16px 线性图标（1.5px stroke）；图形锚点加快定位，需维护图标集与语义映射。</div>
+    </div>
+  </div>
+</div>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. 侧栏图标体系（本页核心呈报，承接 02 呈报 §1）：主侧栏维持「无图标」现产品态；页底对比区给出「有图标」提案（02 同源临时图标集，16px 档、1.5px stroke）。裁决点：是否引入 / 折叠轨取「纯图标」还是「图标 + 单字」/ 图标集来源。02 侧栏图标与本提案同源，随本裁决一并定。
+  2. 缩略图列：复用 m-thumb（本稿内联 36×45 档，默认 44×55）+ 纯 CSS 块内嵌 16px 线性图形占位；真实商品图在套用片接入（img 需声明宽高）。m-thumb 是否增设 sm 档与 1px 边框，套用片定。
+  3. 行内快捷动作复用 m-tool--square（32px 基线）、批量条动作复用 m-btn--sm——两者均无专门组件槽位约定；本稿快捷动作为常显示意，套用片应为 hover 浮现。定稿后建议在组件契约补「表格行动作组 / 批量条动作」形态说明（不改 meridian-ui.css 既有规则）。
+  4. keyset 分页的游标说明为文案注记（m-tag + 页脚计数行）；若定稿可下沉为分页组件固定辅助行。
+  5. 金额口径：样例均为单一行项订单，金额列 = 行项合计（含 VAT）；多行项订单的金额构成在 04-detail 呈现。
+  6. 数据连续性：订单号按任务指定用 SK-10247 形态；02 实时块用了 #LN-20482 形态——两前缀需统一，请裁决取哪种（取 #LN 则本页批量替换）。
+  7. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——工具栏子控件统一 32px 基线（搜索框内联压到 --m-tool-h，避免 36px 输入框与 32px 工具混排错位）；缩略图压到 36×45 使行高贴近 48px comfortable（默认 44×55 会把行撑到 ~71px）；表格行 hover 由 m-table 原生承担不在静态稿伪造灰底；可见文案 copy self-audit 与 em-dash 纪律（零长破折，分页计数「第 1–50 条」改连字符，中点每行 ≤1）；骨架小样按「与最终布局同形」原则画成迷你表（非通用转圈）。
+     拒绝——缩略图用彩色渐变底（色板外装饰）；批量条加阴影抬升（bulkbar 已有 primary-tint 底 + primary 边框，双重视觉过量）；design-taste 大留白 / 去表格线规则不适用（数据表密度是 admin 舞台约定）；ui-ux-pro-max 营销字号规则（正文 16px）与 stage-admin token（14px）冲突，token 法优先。
+-->
+</body>
+</html>
