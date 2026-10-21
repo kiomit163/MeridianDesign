@@ -496,3 +496,75 @@ kbd { font-family: var(--m-font-mono); font-size: var(--m-text-xs); background: 
 /* 密度：默认 comfortable 48px，可切 productive 36px（admin/15-admin-data-tables.md §三） */
 [data-density="productive"] .m-table td { height: var(--m-table-row-h-productive); }
 [data-density="productive"] .m-table th { padding-block: var(--m-space-1); }
+
+/* ==========================================================================
+   v1.3 Breakpoints & App Shell — 增量段落（docs/04-spacing-layout-elevation.md
+   §二 断点/网格/容器 + admin/14-admin-foundations.md §二 App Shell）。
+   纯增量：既有规则零改动。全 token 引用零裸值。
+   断点全系统唯一（§04·二）：xs 480 / sm 768 / md 1024 / lg 1280 / xl 1440，
+   mobile-first min-width；JS 侧同值经 CSS 自定义属性唯一声明点。
+   ========================================================================== */
+:root {
+  --m-bp-xs: 480px;
+  --m-bp-sm: 768px;
+  --m-bp-md: 1024px;
+  --m-bp-lg: 1280px;
+  --m-bp-xl: 1440px;
+}
+
+/* ---- App Shell（admin/14 §二：侧栏 chrome + 顶栏 + 灰底内容区；后台只用边框） ---- */
+.m-shell { display: flex; align-items: stretch; min-height: 100vh; margin: 0; }
+.m-shell__body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.m-shell__sidenav {
+  width: 56px; flex: none; overflow: hidden;
+  background: var(--m-bg-chrome);
+  border-inline-end: 1px solid var(--m-border);
+}
+.m-topbar {
+  height: 56px; flex: none; display: flex; align-items: center;
+  justify-content: space-between; gap: var(--m-space-4);
+  padding-inline: var(--m-space-4);
+  background: var(--m-bg-chrome);
+  border-bottom: 1px solid var(--m-border);
+}
+.m-topbar__brand {
+  display: flex; align-items: baseline; gap: var(--m-space-3); min-width: 0;
+  font-size: var(--m-text-sm); font-weight: var(--m-weight-medium); color: var(--m-fg);
+}
+.m-topbar__page { font-size: var(--m-text-xs); color: var(--m-fg-subtle); }
+.m-topbar__actions { display: flex; align-items: center; gap: var(--m-space-2); flex: none; }
+.m-shell__main { flex: 1; min-width: 0; width: 100%; padding: var(--m-space-4); }
+
+/* ---- 侧栏折叠（mobile-first：默认 56px 首字徽标，≥1024 展开 240px） ---- */
+.m-shell__sidenav .m-navfull { display: none; }
+.m-shell__sidenav .m-navshort { display: inline; }
+.m-shell__sidenav a { justify-content: center; }
+.m-shell__sidenav .m-sidenav__group { text-align: center; padding-inline: var(--m-space-1); }
+@media (min-width:1024px) {
+  .m-shell__sidenav { width: 240px; }
+  .m-shell__sidenav .m-navfull { display: inline; }
+  .m-shell__sidenav .m-navshort { display: none; }
+  .m-shell__sidenav a { justify-content: flex-start; }
+  .m-shell__sidenav .m-sidenav__group { text-align: left; padding-inline: var(--m-space-2); }
+}
+
+/* ---- 框架 hover/选中梯度（14 §2.1 铁律原版；双类特异性压过既有 .m-sidenav a 变体） ---- */
+.m-shell__sidenav a:hover { background: var(--m-bg-chrome-hover); color: var(--m-fg); }
+.m-shell__sidenav a.is-active {
+  background: var(--m-bg-chrome-selected); color: var(--m-fg);
+  box-shadow: inset 2px 0 0 var(--m-primary);
+}
+
+/* ---- 内容容器（docs/04 §二 后台表：标准 1000 / 窄 640 / 宽自适应+24 边距） ---- */
+.m-container { max-width: var(--m-container-admin); margin-inline: auto; }
+.m-container--narrow { max-width: var(--m-container-narrow); }
+.m-container--wide { max-width: none; padding-inline: var(--m-space-6); }
+
+/* ---- 页面内边距三档（16 ≤768 / 20 默认 / 32 >1280） ---- */
+@media (min-width:768px) { .m-shell__main { padding: var(--m-space-5); } }
+@media (min-width:1280px) { .m-shell__main { padding: var(--m-space-8); } }
+
+/* ---- KPI 栅格（1 列 / ≥768 两列 / >1280 四列；间距始终 16px） ---- */
+.m-grid-kpi { display: grid; grid-template-columns: 1fr; gap: var(--m-space-4); }
+@media (min-width:768px) { .m-grid-kpi { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width:1280px) { .m-grid-kpi { grid-template-columns: repeat(4, minmax(0, 1fr)); } }

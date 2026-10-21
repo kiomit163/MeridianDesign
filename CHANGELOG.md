@@ -2,6 +2,8 @@
 
 本项目遵循"任何视觉可见的值变更 ≥ MINOR；语义重指向 / 删 token / 改变默认舞台 = MAJOR + 迁移说明"。
 
+- v1.3 — breakpoints & app shell increment section (5-breakpoint scale + .m-shell/.m-topbar/.m-container/.m-grid-kpi utilities; pure append, zero changes to existing rules) — for Locust 2026-10-21-meridian-shell.
+
 ## 1.2.0 — 2026-09-19
 
 ### Fixed
