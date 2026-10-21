@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>10 商品详情 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-storefront m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：Dawn 商品详情 = 双栏（左图集：主图 + 缩略列；右购买箱：名 / 价 / 评分 / 变体选择 / 数量 / 加购）+ 信任行 +
+  详情带（描述 / 材质 / 配送 Tabs 或分区）+ 面包屑。
+  Meridian 化决策：壳复用 08 定式 + m-crumbs 面包屑；图集 = 缩略列（88px）+ 主图（4:5，占位块 + 线稿图形）；购买箱 = m-price--lg +
+  m-rating + m-swatch 色块三态（选中双环 / 未选 / 售罄划线）+ m-size-pill 尺码三态（同形状族）+ m-stepper 数量 + 加购主按钮（near-black CTA，
+  画廊舞台原则）+ m-urgency 库存提示（仅剩 3 件）+ m-trust 信任行；详情带 bg-band（banding 1/3）+ m-tabs 三页签静态示意。
+  漏项落地：无（批 D 无漏项宿主）。超 token 项见尾部呈报清单。
+-->
+<div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 10 商品详情<span class="m-badge m-badge--info m-badge--tint">批 D · 店面批 · Dawn 对标</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>双栏（左图集 / 右购买箱）+ 信任行 + 详情带（描述 / 材质 / 配送）+ 面包屑；变体选择器带售罄态。<br>
+        <b>Meridian 化决策：</b>壳复用 08；图集缩略列 + 主图占位；色块 / 尺码三态复用 m-swatch 与 m-size-pill 既有契约（is-selected / is-oos）；加购 = near-black CTA；库存 = m-urgency；详情带 banding 1/3 + m-tabs。<br>
+        <b>漏项落地：</b>无（批 D 无漏项宿主）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- 公告条（复用 08 定式） -->
+<div style="background:var(--m-primary);color:var(--m-primary-fg);text-align:center;padding:var(--m-space-2) var(--m-space-4);font-size:var(--m-text-xs);letter-spacing:0.02em">
+  满 €120 免标准运费 · 欧盟境内 3-5 个工作日送达
+</div>
+
+<!-- 店面头部（复用 08 定式） -->
+<header class="m-chrome" style="border-bottom:1px solid var(--m-border)">
+  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:0 var(--m-space-4);display:flex;align-items:center;gap:var(--m-space-6);height:var(--m-space-16)">
+    <a href="08-home.html" aria-label="Locust 首页" style="font-size:var(--m-text-2xl);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);text-decoration:none">Locust</a>
+    <nav aria-label="店面主导航" style="display:flex;gap:var(--m-space-5)">
+      <a href="09-plp.html" style="font-size:var(--m-text-md)">新品</a>
+      <a href="09-plp.html" style="font-size:var(--m-text-md)">女装</a>
+      <a href="09-plp.html" style="font-size:var(--m-text-md)">男配</a>
+      <a href="#" style="font-size:var(--m-text-md)">关于</a>
+    </nav>
+    <div style="margin-inline-start:auto;display:flex;align-items:center;gap:var(--m-space-1)">
+      <button type="button" class="m-tool m-tool--square" aria-label="搜索"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
+      <span style="position:relative;display:inline-flex">
+        <button type="button" class="m-tool m-tool--square" aria-label="购物袋（3 件）"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 11V6a3 3 0 0 1 6 0v5"/></svg></button>
+        <span class="m-badge m-badge--neutral m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+      </span>
+    </div>
+  </div>
+</header>
+
+<main style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-6) var(--m-space-4) 0">
+
+  <!-- 面包屑 -->
+  <nav aria-label="面包屑" class="m-crumbs" style="margin-bottom:var(--m-space-6)">
+    <a href="08-home.html">首页</a>
+    <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    <a href="09-plp.html">女装</a>
+    <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>
+    <span aria-current="page">有机棉连帽衫</span>
+  </nav>
+
+  <!-- 双栏：左图集 / 右购买箱 -->
+  <div style="display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:var(--m-space-10);align-items:start">
+
+    <!-- 左：图集（缩略列 + 主图） -->
+    <div style="display:grid;grid-template-columns:88px minmax(0,1fr);gap:var(--m-space-4)">
+      <div class="m-col" style="gap:var(--m-space-3)" role="tablist" aria-label="商品图缩略">
+        <button type="button" style="aspect-ratio:4 / 5;border:2px solid var(--m-fg);border-radius:var(--m-radius-sm);background:var(--m-bg-inset);display:grid;place-items:center;color:var(--m-fg-subtle);padding:0;cursor:pointer" aria-label="第 1 张：正面" aria-selected="true" role="tab"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></button>
+        <button type="button" style="aspect-ratio:4 / 5;border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-inset);display:grid;place-items:center;color:var(--m-fg-subtle);padding:0;cursor:pointer" aria-label="第 2 张：背面" role="tab"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></button>
+        <button type="button" style="aspect-ratio:4 / 5;border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-inset);display:grid;place-items:center;color:var(--m-fg-subtle);padding:0;cursor:pointer" aria-label="第 3 张：面料细节" role="tab"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></button>
+        <button type="button" style="aspect-ratio:4 / 5;border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-inset);display:grid;place-items:center;color:var(--m-fg-subtle);padding:0;cursor:pointer" aria-label="第 4 张：平铺尺寸" role="tab"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v8H3z"/><path d="M7 8v3M12 8v4M17 8v3"/></svg></button>
+      </div>
+      <div style="aspect-ratio:4 / 5;background:var(--m-bg-inset);border-radius:var(--m-radius-xl);display:grid;place-items:center;border:1px solid var(--m-border)" role="img" aria-label="有机棉连帽衫，燕麦色，正面图占位">
+        <svg class="m-i" viewBox="0 0 24 24" aria-hidden="true" style="width:88px;height:88px;color:var(--m-fg-subtle)"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+      </div>
+    </div>
+
+    <!-- 右：购买箱 -->
+    <div class="m-col" style="gap:var(--m-space-4);position:sticky;top:var(--m-space-6)">
+      <div class="m-col" style="gap:var(--m-space-2)">
+        <span class="m-badge m-badge--emphasis m-badge--tint" style="align-self:flex-start">新品</span>
+        <h1 style="margin:0;font-size:var(--m-text-3xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight);line-height:1.25">有机棉连帽衫</h1>
+        <div class="m-price m-price--lg"><span class="cur tnum">€89.00</span><span class="note">含 VAT · 运费在结账时计算</span></div>
+        <div class="m-rating">
+          <span class="stars" aria-hidden="true">
+            <svg class="m-i m-i--fill" viewBox="0 0 24 24"><path d="M12 2.5 15 9l7 .8-5.2 4.7 1.4 6.9L12 17.9 5.8 21.4l1.4-6.9L2 9.8 9 9z"/></svg>
+            <svg class="m-i m-i--fill" viewBox="0 0 24 24"><path d="M12 2.5 15 9l7 .8-5.2 4.7 1.4 6.9L12 17.9 5.8 21.4l1.4-6.9L2 9.8 9 9z"/></svg>
+            <svg class="m-i m-i--fill" viewBox="0 0 24 24"><path d="M12 2.5 15 9l7 .8-5.2 4.7 1.4 6.9L12 17.9 5.8 21.4l1.4-6.9L2 9.8 9 9z"/></svg>
+            <svg class="m-i m-i--fill" viewBox="0 0 24 24"><path d="M12 2.5 15 9l7 .8-5.2 4.7 1.4 6.9L12 17.9 5.8 21.4l1.4-6.9L2 9.8 9 9z"/></svg>
+            <svg class="m-i" viewBox="0 0 24 24"><path d="M12 2.5 15 9l7 .8-5.2 4.7 1.4 6.9L12 17.9 5.8 21.4l1.4-6.9L2 9.8 9 9z"/></svg>
+          </span>
+          <span class="tnum">4.8</span>
+          <a href="#">312 条评价</a>
+        </div>
+      </div>
+
+      <!-- 颜色：三态色块（选中双环 / 未选 / 售罄划线） -->
+      <fieldset style="border:none;margin:0;padding:0">
+        <legend style="font-size:var(--m-text-sm);padding:0">颜色：<b>燕麦色</b></legend>
+        <div class="m-row" style="gap:var(--m-space-2);margin-top:var(--m-space-2)">
+          <button type="button" class="m-swatch m-swatch--lg is-selected" style="background:var(--m-bg-inset)" aria-label="燕麦色 · 已选" aria-pressed="true"></button>
+          <button type="button" class="m-swatch m-swatch--lg" style="background:var(--m-bg-inset)" aria-label="石墨灰"></button>
+          <button type="button" class="m-swatch m-swatch--lg" style="background:var(--m-bg-inset)" aria-label="黑色"></button>
+          <button type="button" class="m-swatch m-swatch--lg is-oos" style="background:var(--m-bg-inset);color:var(--m-fg-subtle)" aria-label="鼠尾草绿 · 售罄" aria-disabled="true"></button>
+        </div>
+        <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin-top:var(--m-space-2)">色块为占位圆 · 三态：选中双环 / 未选 / 售罄划线（真实色由商品数据填入）</div>
+      </fieldset>
+
+      <!-- 尺码：三态按钮 -->
+      <fieldset style="border:none;margin:0;padding:0">
+        <legend style="font-size:var(--m-text-sm);padding:0">尺码</legend>
+        <div class="m-row" style="gap:var(--m-space-2);margin-top:var(--m-space-2)">
+          <button type="button" class="m-size-pill">S</button>
+          <button type="button" class="m-size-pill is-selected" aria-pressed="true">M</button>
+          <button type="button" class="m-size-pill">L</button>
+          <button type="button" class="m-size-pill is-oos" aria-disabled="true">XL</button>
+        </div>
+        <div class="m-row" style="margin-top:var(--m-space-2)">
+          <a href="#" style="font-size:var(--m-text-sm);text-decoration:underline">尺码指南</a>
+        </div>
+      </fieldset>
+
+      <!-- 数量 + 加购 -->
+      <div class="m-row" style="gap:var(--m-space-3);flex-wrap:nowrap">
+        <div class="m-stepper" role="group" aria-label="数量">
+          <button type="button" aria-label="减少数量"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+          <input type="text" value="1" aria-label="数量" class="tnum">
+          <button type="button" aria-label="增加数量"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+        </div>
+        <button type="button" class="m-btn m-btn--primary m-btn--cta" style="flex:1">加入购物袋 · €89.00</button>
+      </div>
+
+      <!-- 库存提示 + 信任行 -->
+      <div class="m-col" style="gap:var(--m-space-2)">
+        <span class="m-urgency"><span class="dot" aria-hidden="true"></span>燕麦色 M 仅剩 3 件 · 售完即止</span>
+        <div class="m-trust">
+          <span><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>满 €120 免运费</span>
+          <span><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>30 天免费退换</span>
+          <span><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>柏林仓 24 小时内出库</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 详情带：Tabs 静态示意 · banding 1/3 -->
+  <section style="background:var(--m-bg-band);margin-block:var(--m-space-section);padding:var(--m-space-section) var(--m-space-6);border-radius:var(--m-radius-xl)">
+    <h2 style="margin:0 0 var(--m-space-4);font-size:var(--m-text-2xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight)">商品详情</h2>
+    <div class="m-tabs">
+      <button type="button" class="m-tab is-active" aria-selected="true" role="tab">描述</button>
+      <button type="button" class="m-tab" role="tab">材质与洗护</button>
+      <button type="button" class="m-tab" role="tab">配送与退货</button>
+    </div>
+    <div style="display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:var(--m-space-8);padding-top:var(--m-space-5)">
+      <div class="m-col" style="gap:var(--m-space-3)">
+        <p style="margin:0">落肩宽松版型的日常连帽衫，320g 厚织有机棉，内里拉绒。帽子双层滚边，罗纹袖口下摆，袋鼠口袋加深 3 厘米，手机不会在坐下时滑出。</p>
+        <p style="margin:0;color:var(--m-fg-muted)">版型建议：M 码适合 170-178cm；想要罩穿效果选大一码。模特 176cm，穿 M 码。</p>
+      </div>
+      <dl class="m-desc" style="align-content:start">
+        <dt>面料</dt><dd>100% 有机棉 · 320gsm</dd>
+        <dt>织造</dt><dd>葡萄牙北部工坊</dd>
+        <dt>洗护</dt><dd>30°C 温和洗 · 平铺晾干</dd>
+        <dt>货号</dt><dd class="tnum">AP-1102</dd>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚（复用 08 定式） -->
+<footer style="background:var(--m-bg-band);border-top:1px solid var(--m-border)">
+  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-12) var(--m-space-4) var(--m-space-8)">
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--m-space-8)">
+      <nav aria-label="页脚 · 商店" class="m-col" style="gap:var(--m-space-2)">
+        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">商店</div>
+        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">新品</a>
+        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">女装</a>
+        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">男配</a>
+        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">生活家居</a>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">礼品卡</a>
+      </nav>
+      <nav aria-label="页脚 · 帮助" class="m-col" style="gap:var(--m-space-2)">
+        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">帮助</div>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">配送与运费</a>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">退换政策</a>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">尺码指南</a>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">联系客服</a>
+      </nav>
+      <nav aria-label="页脚 · 公司" class="m-col" style="gap:var(--m-space-2)">
+        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">公司</div>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">关于 Locust</a>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">可持续承诺</a>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">门店与快闪</a>
+        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">加入我们</a>
+      </nav>
+    </div>
+    <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-10);padding-top:var(--m-space-6);border-top:1px solid var(--m-border);flex-wrap:wrap;gap:var(--m-space-4)">
+      <div class="m-row" style="gap:var(--m-space-3)">
+        <div class="m-select-wrap" style="width:150px">
+          <select aria-label="语言"><option selected>Deutsch</option><option>English</option></select>
+          <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+        <div class="m-select-wrap" style="width:150px">
+          <select aria-label="货币"><option selected>EUR €</option><option>CHF Fr</option></select>
+          <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="m-payrow" aria-label="支持的支付方式">
+        <span>VISA</span><span>Mastercard</span><span>PayPal</span><span>Klarna</span><span>Apple Pay</span><span>G Pay</span>
+      </div>
+    </div>
+    <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-6);flex-wrap:wrap;gap:var(--m-space-3)">
+      <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">© 2026 Locust Commerce Ltd. · 柏林</span>
+      <div class="m-row" style="gap:var(--m-space-4)">
+        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Impressum</a>
+        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">隐私政策</a>
+        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">服务条款</a>
+        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">退货说明</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. 图集为缩略列（88px 竖列）+ 主图 4:5：Dawn 桌面默认即缩略在左；移动端套用片为主图下横滑缩略。缩略选中态用 2px fg 描边（占位块无图可高亮区域）。
+  2. 色块三态复用 m-swatch 既有契约（is-selected 双环 / 默认 / is-oos 划线）；色块底统一占位（bg-inset），真实色由商品数据注入（09 呈报 §2 同口径）。鼠尾草绿售罄样例的划线由 is-oos 的 currentColor 渐变承担。
+  3. 尺码三态复用 m-size-pill（is-selected 实底 / 默认 / is-oos 划线）；XL 售罄为样例。库存提示「仅剩 3 件」阈值与文案属业务层规则，UI 只承形状（m-urgency）。
+  4. 加购按钮文案带金额（加入购物袋 · €89.00）为 DTC 增强；数量与加购同排为桌面形态，移动端套用片为纵向堆叠（CTA 吸底可选，属动效/滚动域未画）。
+  5. 详情带取圆角 band 卡（bg-band + radius-xl，banding 1/3）而非全幅 band：与 08 品牌故事带（全幅）形成两种 band 形态样本，请裁定稿形态。
+  6. Tabs 为静态示意（描述页签在画，材质 / 配送内容以描述区双栏样本承托）；套用片为真实页签切换。
+  7. 数据连续性：商品 = 03-list / 09-plp 的 AP-1102 燕麦色 M €89.00；评分 4.8 · 312 条为新增样例数据；加入购物袋后购物袋计数 3→4，11 购物车行项以加入前 3 件为准。
+  8. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——购买箱 sticky 跟随（长详情带滚动时购买组不丢失，Dawn 同款）；尺码指南链接挂在尺码组下（就近原则）；详情带内「版型建议」从主描述拆出转 muted（两级信息密度）；主图占位放大至 88px 线稿（占位层与商品名同级视觉重量）。
+     拒绝——评分星用品牌绿（m-rating 契约 = emphasis 琥珀，评分惯例色）；加购按钮改品牌绿实底（画廊舞台原则：near-black CTA 不抢商品图，02 章 storefront 行已定）；详情带三页签纵向手风琴化（桌面 Tabs 是 Dawn 默认，手风琴属移动端行为）；ui-ux-pro-max「购买箱加倒计时促销条」与本商品非促销态冲突，且 urgency 组件已有低库存语义，不再叠加倒计时。
+-->
+</body>
+</html>

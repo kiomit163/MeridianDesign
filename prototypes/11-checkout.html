@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>11 结账流 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-storefront m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：Dawn 结账流三页 = 购物车（行项 + 数量步进 + 汇总 + 免运费进度）→ 结账（窄流单列：联系方式 / 地址 / 支付三分段，
+  右侧订单摘要）→ 订单确认（克制成功态 + 订单号 + 下一步）；结账页头部裁剪为字标 + 安全标识（去主导航，Dawn checkout 惯例）。
+  Meridian 化决策：三页一稿上下排列，每页带 m-steps 步进指示（各自状态：购物车 current=1 / 结账 current=2 / 确认 current=3）；
+  表单形状 = 05 表单四态定式子集（默认 + 错误示范一处；成功 / 禁用属结账流程动态态不画）；错误态静态稿不带 role=alert
+  （批 B 评审指引入档：role=alert 属动态应用，静态稿 aria-invalid + aria-describedby + 视觉红即可，避免读屏三连报）；
+  免运费进度 = m-progress（€120 门槛已达成，success 全条）；确认页克制庆祝（success 勾 + 订单号，无彩带动效）。
+  漏项落地：无（批 D 无漏项宿主）。超 token 项见尾部呈报清单。
+-->
+<div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 11 结账流（三页一稿）<span class="m-badge m-badge--info m-badge--tint">批 D · 店面批 · Dawn 对标</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>购物车（行项 / 数量步进 / 汇总）→ 结账（窄流三分段表单 + 右摘要）→ 确认（成功态 + 订单号 + 下一步）；结账页头部裁剪为字标 + 安全标识。<br>
+        <b>Meridian 化决策：</b>三页上下排列、各带 m-steps 状态；表单 = 05 定式子集（默认 + 错误一处）；错误静态稿不带 role=alert（批 B 指引）；免运费 m-progress；确认页克制庆祝。头部为「窄流变体」：保留公告条 + 字标，去主导航（呈报 §1）。<br>
+        <b>漏项落地：</b>无（批 D 无漏项宿主）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- 公告条（窄流保留） -->
+<div style="background:var(--m-primary);color:var(--m-primary-fg);text-align:center;padding:var(--m-space-2) var(--m-space-4);font-size:var(--m-text-xs);letter-spacing:0.02em">
+  满 €120 免标准运费 · 欧盟境内 3-5 个工作日送达
+</div>
+
+<!-- 结账窄流头部：字标 + 安全标识（去主导航，Dawn checkout 惯例） -->
+<header class="m-chrome" style="border-bottom:1px solid var(--m-border)">
+  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:0 var(--m-space-4);display:flex;align-items:center;justify-content:space-between;height:var(--m-space-16)">
+    <a href="08-home.html" aria-label="Locust 首页" style="font-size:var(--m-text-2xl);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);text-decoration:none">Locust</a>
+    <span class="m-row" style="gap:var(--m-space-2);font-size:var(--m-text-sm);color:var(--m-fg-muted)"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>安全结账 · SSL 加密</span>
+  </div>
+</header>
+
+<main style="max-width:62.5rem;margin-inline:auto;padding:var(--m-space-8) var(--m-space-4) var(--m-space-section)">
+
+  <!-- 页 1 · 购物车 -->
+  <section class="m-card" aria-labelledby="pg-cart">
+    <div class="m-card__header"><span id="pg-cart">页面 1 · 购物车</span><span class="m-badge m-badge--neutral m-badge--tint">3 件商品</span></div>
+    <div class="m-card__body m-col" style="gap:var(--m-space-5)">
+      <div class="m-steps" aria-label="结账进度">
+        <span class="m-step is-current"><span class="dot">1</span>购物车</span>
+        <span class="m-step-sep" aria-hidden="true"></span>
+        <span class="m-step"><span class="dot">2</span>结账</span>
+        <span class="m-step-sep" aria-hidden="true"></span>
+        <span class="m-step"><span class="dot">3</span>确认</span>
+      </div>
+
+      <!-- 免运费进度：门槛 €120 已达成 -->
+      <div class="m-freeship">
+        <div class="m-row" style="justify-content:space-between">
+          <span><b>已达成免运费</b> · 本单标准运费已免除</span>
+          <span class="tnum" style="color:var(--m-fg-muted)">€125.00 / €120.00</span>
+        </div>
+        <div class="m-progress m-progress--success" role="img" aria-label="免运费进度：已达成"><i style="width:100%"></i></div>
+      </div>
+
+      <!-- 行项 -->
+      <div>
+        <div class="m-cartline">
+          <span style="width:72px;height:90px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset);border:1px solid var(--m-border);display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span>
+          <div class="grow">
+            <span class="name">有机棉连帽衫</span>
+            <span class="var">燕麦色 M · AP-1102</span>
+            <div class="row2">
+              <div class="m-stepper m-stepper--sm" role="group" aria-label="数量">
+                <button type="button" aria-label="减少数量"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+                <input type="text" value="1" aria-label="数量" class="tnum">
+                <button type="button" aria-label="增加数量"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+              </div>
+              <span class="m-price"><span class="cur tnum">€89.00</span></span>
+            </div>
+          </div>
+          <div class="m-col" style="align-items:flex-end;gap:var(--m-space-1)">
+            <span class="m-price"><span class="cur tnum">€89.00</span></span>
+            <button type="button" class="rm">移除</button>
+          </div>
+        </div>
+        <div class="m-cartline">
+          <span style="width:72px;height:90px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset);border:1px solid var(--m-border);display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24"><path d="M17 8h2a2 2 0 0 1 0 4h-2"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/></svg></span>
+          <div class="grow">
+            <span class="name">陶瓷马克杯 350ml</span>
+            <span class="var">米白 · HG-3305</span>
+            <div class="row2">
+              <div class="m-stepper m-stepper--sm" role="group" aria-label="数量">
+                <button type="button" aria-label="减少数量"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
+                <input type="text" value="2" aria-label="数量" class="tnum">
+                <button type="button" aria-label="增加数量"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+              </div>
+              <span class="m-price"><span class="cur tnum">€18.00</span></span>
+            </div>
+          </div>
+          <div class="m-col" style="align-items:flex-end;gap:var(--m-space-1)">
+            <span class="m-price"><span class="cur tnum">€36.00</span></span>
+            <button type="button" class="rm">移除</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 汇总卡 + 动作 -->
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:var(--m-space-6);align-items:start">
+        <div class="m-col" style="gap:var(--m-space-2)">
+          <a href="09-plp.html" style="font-size:var(--m-text-sm);text-decoration:underline">← 继续购物</a>
+          <div class="m-trust">
+            <span><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>SSL 加密传输</span>
+            <span><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>30 天免费退换</span>
+          </div>
+        </div>
+        <div class="m-col" style="gap:var(--m-space-3);background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-radius-lg);padding:var(--m-space-4)">
+          <div style="font-size:var(--m-text-md);font-weight:var(--m-weight-semibold)">订单汇总</div>
+          <div class="m-shiprow">
+            <span>小计（3 件）</span><span class="v tnum">€125.00</span>
+            <span>标准运费</span><span class="v" style="color:var(--m-success-fg)">免运费</span>
+            <span class="total">总计（含 VAT）</span><span class="v total tnum">€125.00</span>
+          </div>
+          <a href="#" class="m-btn m-btn--primary m-btn--lg" style="width:100%">去结账</a>
+          <div class="m-payrow" aria-label="支持的支付方式"><span>VISA</span><span>Mastercard</span><span>PayPal</span><span>Klarna</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页 2 · 结账（窄流三分段表单 = 05 表单定式子集） -->
+  <section class="m-card" style="margin-top:var(--m-space-8)" aria-labelledby="pg-checkout">
+    <div class="m-card__header"><span id="pg-checkout">页面 2 · 结账</span><span class="m-badge m-badge--critical m-badge--tint">含错误态示范一处</span></div>
+    <div class="m-card__body m-col" style="gap:var(--m-space-5)">
+      <div class="m-steps" aria-label="结账进度">
+        <span class="m-step is-done"><span class="dot">1</span>购物车</span>
+        <span class="m-step-sep" aria-hidden="true"></span>
+        <span class="m-step is-current"><span class="dot">2</span>结账</span>
+        <span class="m-step-sep" aria-hidden="true"></span>
+        <span class="m-step"><span class="dot">3</span>确认</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:var(--m-space-8);align-items:start">
+        <!-- 左：三分段表单 -->
+        <div class="m-col" style="gap:var(--m-space-6)">
+
+          <!-- 分段 1 · 联系方式 -->
+          <div class="m-col" style="gap:var(--m-space-3)">
+            <h3 style="margin:0;font-size:var(--m-text-lg);font-weight:var(--m-weight-semibold)">联系方式</h3>
+            <div class="m-field">
+              <label class="m-field__label" for="co-email">邮箱</label>
+              <input class="m-input" id="co-email" type="email" value="mara.jensen@example.com" autocomplete="email" aria-describedby="h-co-email">
+              <span class="m-field__help" id="h-co-email">订单确认与物流通知将发送至此邮箱。</span>
+            </div>
+            <label class="m-check"><input type="checkbox"><span class="box"></span>订阅新品与优惠邮件（可随时退订）</label>
+          </div>
+
+          <!-- 分段 2 · 收货地址 -->
+          <div class="m-col" style="gap:var(--m-space-3)">
+            <h3 style="margin:0;font-size:var(--m-text-lg);font-weight:var(--m-weight-semibold)">收货地址</h3>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--m-space-3)">
+              <div class="m-field">
+                <label class="m-field__label" for="co-first">名</label>
+                <input class="m-input" id="co-first" type="text" value="Mara" autocomplete="given-name">
+              </div>
+              <div class="m-field">
+                <label class="m-field__label" for="co-last">姓</label>
+                <input class="m-input" id="co-last" type="text" value="Jensen" autocomplete="family-name">
+              </div>
+            </div>
+            <div class="m-field">
+              <label class="m-field__label" for="co-street">街道与门牌号</label>
+              <input class="m-input" id="co-street" type="text" value="Kastanienallee 42" autocomplete="street-address">
+            </div>
+            <div style="display:grid;grid-template-columns:160px 1fr;gap:var(--m-space-3)">
+              <div class="m-field">
+                <label class="m-field__label" for="co-zip">邮政编码</label>
+                <input class="m-input is-error" id="co-zip" type="text" value="" placeholder="例如 10435" autocomplete="postal-code" aria-invalid="true" aria-describedby="e-co-zip">
+                <span class="m-field__error" id="e-co-zip"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5h.01"/></svg>必填项：输入 5 位德国邮政编码后才能继续。</span>
+              </div>
+              <div class="m-field">
+                <label class="m-field__label" for="co-city">城市</label>
+                <input class="m-input" id="co-city" type="text" value="Berlin" autocomplete="address-level2">
+              </div>
+            </div>
+            <div class="m-field">
+              <label class="m-field__label" for="co-country">国家 / 地区</label>
+              <div class="m-select-wrap">
+                <select id="co-country" autocomplete="country">
+                  <option selected>德国（DE）</option>
+                  <option>奥地利（AT）</option>
+                  <option>瑞士（CH）</option>
+                  <option>荷兰（NL）</option>
+                </select>
+                <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- 分段 3 · 支付方式 -->
+          <div class="m-col" style="gap:var(--m-space-3)">
+            <h3 style="margin:0;font-size:var(--m-text-lg);font-weight:var(--m-weight-semibold)">支付方式</h3>
+            <div class="m-seg" role="tablist" aria-label="支付方式">
+              <button type="button" class="is-active" role="tab" aria-selected="true">银行卡</button>
+              <button type="button" role="tab">PayPal</button>
+              <button type="button" role="tab">Klarna · 后付</button>
+            </div>
+            <div class="m-field">
+              <label class="m-field__label" for="co-card">卡号</label>
+              <input class="m-input" id="co-card" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" autocomplete="cc-number">
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--m-space-3)">
+              <div class="m-field">
+                <label class="m-field__label" for="co-exp">有效期</label>
+                <input class="m-input" id="co-exp" type="text" placeholder="MM / YY" autocomplete="cc-exp">
+              </div>
+              <div class="m-field">
+                <label class="m-field__label" for="co-cvc">安全码（CVC）</label>
+                <input class="m-input" id="co-cvc" type="text" inputmode="numeric" placeholder="123" autocomplete="cc-csc">
+              </div>
+            </div>
+            <div class="m-row" style="justify-content:space-between">
+              <span class="m-tag">静态稿 · 不提交真实支付</span>
+              <div class="m-payrow" aria-label="支持的支付方式"><span>VISA</span><span>Mastercard</span><span>Amex</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右：订单摘要（窄流常驻） -->
+        <aside class="m-col" style="gap:var(--m-space-3);background:var(--m-bg-inset);border-radius:var(--m-radius-lg);padding:var(--m-space-4);position:sticky;top:var(--m-space-6)" aria-label="订单摘要">
+          <div style="font-size:var(--m-text-md);font-weight:var(--m-weight-semibold)">订单摘要</div>
+          <div class="m-row" style="justify-content:space-between;font-size:var(--m-text-sm)">
+            <span>有机棉连帽衫 × 1</span><span class="tnum">€89.00</span>
+          </div>
+          <div class="m-row" style="justify-content:space-between;font-size:var(--m-text-sm)">
+            <span>陶瓷马克杯 × 2</span><span class="tnum">€36.00</span>
+          </div>
+          <div class="m-shiprow" style="margin-top:var(--m-space-2)">
+            <span>标准运费</span><span class="v" style="color:var(--m-success-fg)">免运费</span>
+            <span class="total">总计（含 VAT）</span><span class="v total tnum">€125.00</span>
+          </div>
+          <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">静态稿不提交支付 · 校验错误就地呈现（示范见邮政编码字段），动态路径由套用片实现。</div>
+          <button type="button" class="m-btn m-btn--primary m-btn--lg" style="width:100%">支付订单 · €125.00</button>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页 3 · 订单确认 -->
+  <section class="m-card" style="margin-top:var(--m-space-8)" aria-labelledby="pg-confirm">
+    <div class="m-card__header"><span id="pg-confirm">页面 3 · 订单确认</span><span class="m-badge m-badge--success m-badge--tint">成功态 · 克制庆祝</span></div>
+    <div class="m-card__body m-col" style="gap:var(--m-space-5);align-items:center;text-align:center;padding-block:var(--m-space-10)">
+      <div class="m-steps" aria-label="结账进度">
+        <span class="m-step is-done"><span class="dot">1</span>购物车</span>
+        <span class="m-step-sep" aria-hidden="true"></span>
+        <span class="m-step is-done"><span class="dot">2</span>结账</span>
+        <span class="m-step-sep" aria-hidden="true"></span>
+        <span class="m-step is-current"><span class="dot">3</span>确认</span>
+      </div>
+
+      <span style="width:56px;height:56px;border-radius:var(--m-radius-pill);background:var(--m-success-bg);display:grid;place-items:center;color:var(--m-success-fg)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:28px;height:28px"><path d="M20 6 9 17l-5-5"/></svg></span>
+      <h2 style="margin:0;font-size:var(--m-text-3xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight)">感谢惠顾，Mara</h2>
+      <p style="margin:0;max-width:52ch;color:var(--m-fg-muted)">订单 <span class="m-code-inline tnum">SK-10288</span> 已确认。确认邮件已发送至 mara.jensen@example.com，发货后您将收到含物流单号的通知。</p>
+
+      <div class="m-shiprow" style="max-width:320px;width:100%;margin-top:var(--m-space-2)">
+        <span>支付方式</span><span class="v">银行卡 · 尾号 4242</span>
+        <span>收货地址</span><span class="v">柏林</span>
+        <span>预计送达</span><span class="v tnum">10-24 至 10-26</span>
+      </div>
+
+      <ul class="m-list-check" style="text-align:start;max-width:420px;width:100%;margin-top:var(--m-space-2)">
+        <li><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>已收到付款 €125.00（免运费）</li>
+        <li><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>柏林仓备货中，24 小时内出库</li>
+        <li><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>支持 30 天免费退换，包裹内含预付退货单</li>
+      </ul>
+
+      <div class="m-row" style="gap:var(--m-space-3);margin-top:var(--m-space-2)">
+        <a href="#" class="m-btn m-btn--primary m-btn--lg">查看订单</a>
+        <a href="09-plp.html" class="m-btn m-btn--secondary m-btn--lg">继续购物</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- 页脚（窄流精简：一行法务 + 支付） -->
+<footer style="background:var(--m-bg-band);border-top:1px solid var(--m-border)">
+  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-8) var(--m-space-4)">
+    <div class="m-row" style="justify-content:space-between;flex-wrap:wrap;gap:var(--m-space-4)">
+      <div class="m-row" style="gap:var(--m-space-4)">
+        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">退换政策</a>
+        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">配送与运费</a>
+        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">隐私政策</a>
+        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">服务条款</a>
+      </div>
+      <div class="m-payrow" aria-label="支持的支付方式">
+        <span>VISA</span><span>Mastercard</span><span>PayPal</span><span>Klarna</span><span>Apple Pay</span><span>G Pay</span>
+      </div>
+    </div>
+    <div style="margin-top:var(--m-space-4);font-size:var(--m-text-xs);color:var(--m-fg-subtle)">© 2026 Locust Commerce Ltd. · 柏林</div>
+  </div>
+</footer>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. 结账页头部为「同壳窄流变体」：保留公告条 + 字标 + 安全标识，去主导航与搜索 / 购物袋（Dawn checkout 惯例：结账域减少逃逸出口）；页脚同步精简为一行法务 + 支付。「同壳」的裁剪幅度请裁（如需保留完整头部可一键还原 08 定式）。
+  2. a11y（批 B 评审指引入档）：错误态静态稿不带 role=alert——邮政编码错误用 aria-invalid + aria-describedby 关联 + 视觉红（is-error + m-field__error），避免静态页读屏三连报；role=alert 属动态应用（校验发生时插入）。05 表单样例中的 role=alert 为既有契约样本，不回改。
+  3. 表单形状 = 05 四态定式子集：默认 + 错误一处示范；成功（提交中 / 支付处理）与禁用属结账流程动态态，静态稿不画（05 已有契约样本）。摘要卡内错误行为注记说明动态路径。
+  4. 三页一稿上下排列（任务允许并排或上下）：上下排列与 05 四态样例卡同法，每卡带页码徽章 + m-steps 各自状态；并排横排在 1280 容器内会压缩结账窄流比例，故取上下。
+  5. 数据连续性：订单号 SK-10288 与 03-list 最新订单同源（Mara Jensen · 柏林 · €125.00 有机棉卫衣等——03 金额口径为行项合计，本页 €125.00 = 连帽衫 €89 + 马克杯 ×2 €36，两页商品构成请在定稿时统一口径）；购物袋计数 3 件与 08/09/10 头部一致；免运费门槛 €120 与公告条一致。
+  6. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——免运费进度改 success 全条 + 文案「已达成」（初稿 87% 灰条与「已免除」文案矛盾）；确认页勾圈用 success-bg 底 + success-fg 勾（克制庆祝：无彩带 / 无动效）；订单摘要 sticky（长表单滚动时总额不丢失）；分页「去结账」与「支付订单」金额后缀统一（€125.00）；错误示范注记从表单中段收拢到摘要卡（注记跟它描述的动作走）。
+     拒绝——确认页加纸屑动画（600ms 表达性动效预算留给真实素材，且「克制」为任务明示）；结账表单加双列窄流（Dawn 窄流单列 + 右摘要是转化率成熟形态，双列会压缩输入宽度）；支付方式用 m-check 单选列表（m-seg 分段更贴 Dawn 三选项行，且已裁 05 分段形状）；ui-ux-pro-max「结账页去页脚」与法务链接合规需要冲突（欧盟店退换政策入口必须在结账域可达），保留精简页脚。
+-->
+</body>
+</html>
