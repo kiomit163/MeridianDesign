@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>05 表单设置 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-admin m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：Settings = 左侧分区导航（General / Checkout / Notifications / Users and permissions）+ 窄表单栏（约 640px）+
+  分区内容按卡分组；更改未保存时出现吸附保存条（未保存提示 + Save / Discard）；危险操作置底：红色描边区 + 输入名称确认后才可执行。
+  Meridian 化决策：壳与顶栏同 02/03（设置 active）；分区二级导航复用 m-sidenav（沿用主侧栏 B 形图标语言：sliders / card / bell / users）；
+  主内容取 --m-container-narrow 640px；分区卡 = 基础信息 / 联系方式 / 本地化 / 结账选项（m-field + 帮助文案 + m-switch）；
+  粘性保存条 = m-savebar 底部吸附形（top:auto;bottom:0 覆写）：未保存提示 + 放弃更改 / 保存更改；
+  表单四态同页在画：默认态即主表单；错误 = 摘要横幅（role=alert，锚到字段）+ 字段级 is-error + 修复指引；
+  成功 = 保存成功 toast + 内联成功注记；禁用 = 系统字段与策略锁定；危险区 = critical 描边卡：删除 API key + 确认输入框 + destructive 按钮未确认前禁用。
+  漏项落地：设置二级导航 ✓（漏项④落位）。超 token 项见尾部呈报清单。
+-->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 05 表单 / 设置页<span class="m-badge m-badge--info m-badge--tint">批 B（漏项④宿主）</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>Settings = 左侧分区导航 + 窄表单栏 + 分区卡分组；未保存时吸附保存条（Save / Discard）；危险操作置底（红色描边 + 输入名称确认）。<br>
+        <b>Meridian 化决策：</b>壳同 02/03（设置 active）；二级导航复用 m-sidenav（B 形图标语言）；窄容器 --m-container-narrow；分区卡四组（基础信息 / 联系方式 / 本地化 / 结账选项）；保存条取 m-savebar 底部吸附形；表单四态样例卡同页在画；危险区 = critical 描边卡 + 确认输入 + destructive 未确认禁用。<br>
+        <b>漏项落地：</b>设置二级导航 ✓（漏项④落位，本页为宿主）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<div class="m-shell">
+  <aside class="m-shell__sidenav">
+    <nav class="m-sidenav" aria-label="主导航" style="padding:var(--m-space-2)">
+      <div class="m-sidenav__group">后台</div>
+      <a href="/admin/"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
+      <a href="/admin/sell"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">卖</span><span class="m-navfull">卖货</span></a>
+      <a href="/admin/orders"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">接</span><span class="m-navfull">接单</span></a>
+      <a href="/admin/attract"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="m-navshort">拉</span><span class="m-navfull">拉客</span></a>
+      <a href="/admin/settings" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+      <a href="/admin/onboarding"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="m-navshort">开</span><span class="m-navfull">开店向导</span></a>
+      <a href="/admin/compliance"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="m-navshort">合</span><span class="m-navfull">合规</span></a>
+      <a href="/admin/automation"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="m-navshort">自</span><span class="m-navfull">自动化</span></a>
+      <a href="/admin/i18n"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="m-navshort">译</span><span class="m-navfull">翻译</span></a>
+    </nav>
+  </aside>
+  <div class="m-shell__body">
+    <header class="m-topbar">
+      <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 设置</span></div>
+      <div class="m-topbar__actions">
+        <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
+        <span style="position:relative;display:inline-flex">
+          <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        </span>
+        <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </header>
+    <main class="m-shell__main">
+      <div class="m-container">
+
+        <!-- 分区二级导航 + 窄容器（--m-container-narrow 640px） -->
+        <div style="display:grid;grid-template-columns:220px minmax(0,var(--m-container-narrow));gap:var(--m-space-6);justify-content:center;align-items:start;margin-top:var(--m-space-2)">
+
+          <!-- 设置分区二级导航（漏项④） -->
+          <nav class="m-sidenav" aria-label="设置分区" style="padding:var(--m-space-2)">
+            <div class="m-sidenav__group">设置</div>
+            <a href="#" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg>通用</a>
+            <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>结账</a>
+            <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>通知</a>
+            <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.1-5.5 6.5-5.5s5.9 2 6.5 5.5"/><path d="M16 4.2a3.5 3.5 0 0 1 0 6.6"/><path d="M18.5 14.8c1.8.9 2.7 2.4 3 5.2"/></svg>用户与权限</a>
+          </nav>
+
+          <!-- 窄容器主列 -->
+          <div class="m-col" style="gap:var(--m-space-4);padding-bottom:var(--m-space-6)">
+
+            <!-- 页头 -->
+            <div class="m-pagehead">
+              <div>
+                <h1>通用</h1>
+                <div class="sub">店铺基础信息与结账偏好 · 保存后生效</div>
+              </div>
+              <a href="#" class="m-btn m-btn--secondary m-btn--sm">查看店面</a>
+            </div>
+
+            <!-- 分区卡 1：基础信息 -->
+            <div class="m-card">
+              <div class="m-card__header">基础信息</div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+                <div class="m-field">
+                  <label class="m-field__label" for="shop-name">店铺名称</label>
+                  <input class="m-input" id="shop-name" type="text" value="Locust 欧洲站" aria-describedby="h-shop-name">
+                  <span class="m-field__help" id="h-shop-name">顾客在店面、订单邮件与结账页看到的店铺名，可随时更改，不影响店铺地址。</span>
+                </div>
+                <div class="m-field">
+                  <label class="m-field__label" for="shop-legal">法人实体</label>
+                  <input class="m-input" id="shop-legal" type="text" value="Locust Commerce Ltd." aria-describedby="h-shop-legal">
+                  <span class="m-field__help" id="h-shop-legal">显示在发票与法律声明页，需与公司注册信息一致。</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 分区卡 2：联系方式 -->
+            <div class="m-card">
+              <div class="m-card__header">联系方式</div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+                <div class="m-field">
+                  <label class="m-field__label" for="contact-email">店铺联系邮箱</label>
+                  <input class="m-input" id="contact-email" type="email" value="service@locust.store" aria-describedby="h-contact-email">
+                  <span class="m-field__help" id="h-contact-email">订单通知与客服回信的发件邮箱；更改后需重新完成验证才能生效。</span>
+                </div>
+                <div class="m-field">
+                  <label class="m-field__label" for="service-phone">客服电话 <span class="opt">选填</span></label>
+                  <input class="m-input" id="service-phone" type="tel" value="+49 30 1234 567" aria-describedby="h-service-phone">
+                  <span class="m-field__help" id="h-service-phone">显示在结账页与售后邮件，建议使用含国家区号的完整号码。</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 分区卡 3：本地化 -->
+            <div class="m-card">
+              <div class="m-card__header">本地化</div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+                <div class="m-field">
+                  <label class="m-field__label" for="tz">时区</label>
+                  <div class="m-select-wrap">
+                    <select id="tz" aria-describedby="h-tz">
+                      <option selected>(GMT+01:00) 阿姆斯特丹、柏林、罗马</option>
+                      <option>(GMT+00:00) 伦敦、都柏林</option>
+                      <option>(GMT+02:00) 赫尔辛基、雅典</option>
+                    </select>
+                    <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                  </div>
+                  <span class="m-field__help" id="h-tz">订单报表与定时任务按此时区统计，历史数据不回溯。</span>
+                </div>
+                <div class="m-field">
+                  <label class="m-field__label" for="unit">单位制</label>
+                  <div class="m-select-wrap">
+                    <select id="unit" aria-describedby="h-unit">
+                      <option selected>公制（kg / cm）</option>
+                      <option>英制（lb / in）</option>
+                    </select>
+                    <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                  </div>
+                  <span class="m-field__help" id="h-unit">用于商品重量与运费模板计算。</span>
+                </div>
+                <div class="m-field">
+                  <label class="m-field__label" for="currency">货币</label>
+                  <div class="m-select-wrap">
+                    <select id="currency" aria-describedby="h-currency">
+                      <option selected>EUR（€）· 欧元</option>
+                      <option>CHF（Fr）· 瑞士法郎</option>
+                    </select>
+                    <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+                  </div>
+                  <span class="m-field__help" id="h-currency">店铺结算货币；更改后仅影响新订单，已有订单保持原货币。</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 分区卡 4：结账选项 -->
+            <div class="m-card">
+              <div class="m-card__header">结账选项</div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+                <div class="m-col" style="gap:var(--m-space-1)">
+                  <label class="m-switch"><input type="checkbox" checked><span class="track"></span>启用购物车备注</label>
+                  <div class="m-field__help" style="padding-inline-start:44px">允许顾客在结账时为订单留言，备注显示在订单详情页。</div>
+                </div>
+                <div class="m-col" style="gap:var(--m-space-1)">
+                  <label class="m-switch"><input type="checkbox" checked><span class="track"></span>结账后邀请订阅营销邮件</label>
+                  <div class="m-field__help" style="padding-inline-start:44px">在结账成功页展示订阅邀请；默认不预勾选，遵循欧盟 ePrivacy 同意要求。</div>
+                </div>
+                <div class="m-col" style="gap:var(--m-space-1)">
+                  <label class="m-switch"><input type="checkbox"><span class="track"></span>允许游客结账（免注册）</label>
+                  <div class="m-field__help" style="padding-inline-start:44px">关闭后顾客需注册账户才能完成购买，可提升复购但会流失部分转化。</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 表单四态样例（默认态即上方主表单；此处为错误 / 成功 / 禁用 / 危险区） -->
+            <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-4)">
+              <h2 style="margin:0;font-size:var(--m-text-xl);font-weight:var(--m-weight-semibold)">表单四态样例</h2>
+              <span class="m-tag">错误 / 成功 / 禁用 / 危险区 · 契约样本</span>
+            </div>
+
+            <!-- 错误态：摘要横幅 + 字段级红 -->
+            <div class="m-card">
+              <div class="m-card__header">表单 · 错误态<span class="m-badge m-badge--critical m-badge--tint">字段级 + 摘要横幅</span></div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+                <div class="m-banner m-banner--critical" role="alert">
+                  <svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5h.01"/></svg>
+                  <div class="m-banner__body"><b>保存失败：有 2 处需要修正</b><br>修正 <a href="#f-phone">客服电话格式</a> 与 <a href="#f-zip">必填的邮政编码</a> 后才能保存。</div>
+                </div>
+                <div class="m-field">
+                  <label class="m-field__label" for="f-phone">客服电话</label>
+                  <input class="m-input is-error" id="f-phone" type="tel" value="+49 30 123" aria-invalid="true" aria-describedby="e-phone">
+                  <span class="m-field__error" id="e-phone" role="alert"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5h.01"/></svg>电话号码不完整：请输入含国家区号的完整号码，例如 +49 30 1234 5678。</span>
+                </div>
+                <div class="m-field">
+                  <label class="m-field__label" for="f-zip">邮政编码</label>
+                  <input class="m-input is-error" id="f-zip" type="text" value="" placeholder="例如 10719" aria-invalid="true" aria-describedby="e-zip">
+                  <span class="m-field__error" id="e-zip" role="alert"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5h.01"/></svg>必填项：输入店铺所在地的邮政编码后才能保存。</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 成功态：保存成功 toast + 内联成功注记 -->
+            <div class="m-card">
+              <div class="m-card__header">表单 · 成功态<span class="m-badge m-badge--success m-badge--tint">toast + 内联注记</span></div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+                <div class="m-toast-stack" style="position:static;align-items:flex-start" role="status">
+                  <div class="m-toast">
+                    <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+                    设置已保存
+                    <button type="button" class="act">撤销</button>
+                  </div>
+                </div>
+                <div class="m-field">
+                  <label class="m-field__label" for="ok-email">店铺联系邮箱</label>
+                  <input class="m-input" id="ok-email" type="email" value="service@locust.store" aria-describedby="ok-email-msg">
+                  <ul class="m-list-check" id="ok-email-msg" style="margin-top:var(--m-space-1)">
+                    <li><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>验证通过，更改即时生效（刚刚保存）。</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- 禁用态：系统字段与策略锁定 -->
+            <div class="m-card">
+              <div class="m-card__header">表单 · 禁用态<span class="m-badge m-badge--neutral m-badge--tint">系统字段 / 策略锁定</span></div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+                <div class="m-field">
+                  <label class="m-field__label" for="ro-id">店铺 ID</label>
+                  <input class="m-input" id="ro-id" type="text" value="locust-eu" disabled aria-describedby="h-ro-id">
+                  <span class="m-field__help" id="h-ro-id">系统生成，不可更改；用作店铺唯一标识与 API 调用参数。</span>
+                </div>
+                <div class="m-col" style="gap:var(--m-space-1)">
+                  <label class="m-switch"><input type="checkbox" checked disabled><span class="track"></span>强制双因素认证（2FA）</label>
+                  <div class="m-field__help" style="padding-inline-start:44px">由「用户与权限」分区策略锁定，普通管理员不可更改。</div>
+                </div>
+                <div class="m-row">
+                  <button type="button" class="m-btn m-btn--primary m-btn--sm" disabled>保存更改</button>
+                  <span style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">权限不足时动作整组禁用。</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- 危险区：删除 API key（红色描边卡 + 确认输入框） -->
+            <div class="m-card" style="border-color:var(--m-critical-border)">
+              <div class="m-card__header">
+                <span class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)">
+                  <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-critical-fg)"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+                  删除 API key
+                </span>
+                <span class="m-badge m-badge--critical m-badge--tint">不可恢复</span>
+              </div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+                <div style="font-size:var(--m-text-sm)">删除后，使用此 key 的集成（库存同步机器人）将立即断连且无法恢复；删除前请先在集成方轮换密钥。</div>
+                <div class="m-copyfield">
+                  <span class="val">live-eu-01 · sk_live_9f3KqW2xR7vTQx7m</span>
+                  <button type="button" aria-label="复制 API key"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                </div>
+                <div class="m-field">
+                  <label class="m-field__label" for="confirm-del">输入 key 名称以确认删除</label>
+                  <input class="m-input" id="confirm-del" type="text" placeholder="输入 live-eu-01 以启用删除按钮" aria-describedby="h-confirm-del">
+                  <span class="m-field__help" id="h-confirm-del">输入与上方完全一致的名称后，「永久删除」才会启用；执行时还需店铺所有者二次验证。</span>
+                </div>
+                <div>
+                  <button type="button" class="m-btn m-btn--destructive" disabled>永久删除此 API key</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 粘性保存条（底部固定形态）：未保存提示 + 保存 / 放弃 -->
+            <div class="m-savebar" style="top:auto;bottom:0;margin-top:var(--m-space-2)">
+              <span class="msg">
+                <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/></svg>
+                有未保存的更改
+              </span>
+              <div class="m-row">
+                <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">上次保存 10-21 09:12</span>
+                <button type="button" class="m-btn m-btn--tertiary m-btn--sm">放弃更改</button>
+                <button type="button" class="m-btn m-btn--primary m-btn--sm">保存更改</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. m-savebar 底部吸附为内联覆写（top:auto;bottom:0）：组件原生为 top 吸附形；建议定稿后在组件契约补「底部保存条」形态说明（或 meridian-ui 增 modifier），不改既有规则。
+  2. 设置二级导航复用 m-sidenav + 主侧栏 B 形图标集（通用 = sliders / 结账 = card / 通知 = bell / 用户与权限 = users）；若裁「二级导航纯文字」可一键去图标。
+  3. 危险区 destructive 按钮「输入匹配后启用」：静态稿以 disabled 表达未确认态；套用片为输入与 key 名称完全一致后启用，并叠加所有者二次验证。
+  4. 成功态 toast 为静态示意（m-toast-stack position:static 覆写）；套用片为 z-toast 层挂载 + --m-toast-duration 自动退场 + aria-live="polite"。
+  5. 数据连续性：店铺名「Locust 欧洲站」与 01/02 世界一致；管理员林薇同源；「表单四态定式」供 11-checkout 表单段照此形状复用（Task 3 接口产出）。
+  6. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——表单四态样例带页签去掉原型内部编号引用，改「契约样本」；「法人实体」帮助文案从流程门槛（联系客服 + 执照）改为语义说明（与公司注册信息一致），可编辑字段配流程门槛文案自相矛盾。
+     复核保留——开关帮助文案悬挂对齐 44px（track 36 + gap 8，初稿即落，透轮复核）；危险区「不可恢复」徽章 + 确认输入框形态与保存条「上次保存」时刻注记（初稿即落）；中点每行 ≤1 与零 em-dash 纪律全页过检。
+     拒绝——分区二级导航加计数徽章（设置分区无未读语义，计数诱导误读）；错误摘要横幅改浮动置顶（Feedback 三层契约 Banner / Toast / Modal 无第四种，Polaris 摘要即位横幅）；「保存更改」在禁用态样例与保存条重复出现系状态契约所需（同动作不同态并置，03 表格四态同法），非重复 CTA 意图；design-taste 去卡片 / 大留白 / 禁手绘图标规则不适用（admin 表单密度与图标集为已裁契约，其 skill §13 自declare 多步表单 / dense product UI out of scope）；ui-ux-pro-max 为生成路由 skill，仅取通用 polish 原则，其营销字号规则（正文 16px / 标题 32px）与 stage-admin token（14px / 20px）冲突，token 法优先（批 A 同判例）。
+-->
+</body>
+</html>

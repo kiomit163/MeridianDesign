@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>04 明细工作台 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-admin m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：订单详情 = 返回导航 + 页头（单号 + 状态徽章 + 动作组：Refund 主位 / 收据次位 / 完成后危险动作禁用）；
+  双栏 2/3 + 1/3：左主为行项表、金额汇总、订单时间轴（每节点带时刻与操作者），右辅为客户、收货地址、支付三卡。
+  Meridian 化决策：壳与顶栏同 03（接单 active）；主角 SK-10247（承接 03「批量发货」故事，画发货后直至已完成的状态流）；
+  时间轴复用 m-timeline（已创建 / 已付款 / 已发货 is-done 绿点 + 已完成当前节点 primary 光晕），节点图标取状态族 fg 色（neutral / success / info / primary-text）；
+  行项表复用 03 表格形状（m-thumb 36×45 + tnum 金额列）；金额口径沿 03 呈报 §5（含 VAT），税额自含税金额拆分，总计 €192.00 与支付捕获自洽；
+  页头动作组 = 退款（主）+ 重发收据（次）+ 取消订单（禁用，已完成不可取消）+ 更多。
+  漏项落地：本页无新增漏项；拓扑覆盖 订单详情 / 商品深度 / 合规个案 / 翻译任务详情。超 token 项见尾部呈报清单。
+-->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 04 明细工作台（订单详情）<span class="m-badge m-badge--info m-badge--tint">批 B（工作台批）</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>订单详情 = 返回导航 + 页头（单号 + 状态徽章 + 动作组）+ 双栏 2/3 + 1/3（左：行项表 / 金额汇总 / 时间轴；右：客户 / 收货地址 / 支付）。<br>
+        <b>Meridian 化决策：</b>壳与顶栏同 03（接单 active）；主角 SK-10247 承接 03 批量发货故事；时间轴复用 m-timeline（3 节点 is-done + 当前节点 primary 光晕，节点图标取状态族 fg）；行项表复用 03 表格形状；金额含 VAT 口径与 03 自洽，总计与支付捕获一致；动作组含主 / 次 / 禁用三态。<br>
+        <b>漏项落地：</b>本页无新增漏项（覆盖 订单详情 / 商品深度 / 合规个案 / 翻译任务详情 四页拓扑）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<div class="m-shell">
+  <aside class="m-shell__sidenav">
+    <nav class="m-sidenav" aria-label="主导航" style="padding:var(--m-space-2)">
+      <div class="m-sidenav__group">后台</div>
+      <a href="/admin/"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
+      <a href="/admin/sell"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">卖</span><span class="m-navfull">卖货</span></a>
+      <a href="/admin/orders" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">接</span><span class="m-navfull">接单</span></a>
+      <a href="/admin/attract"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="m-navshort">拉</span><span class="m-navfull">拉客</span></a>
+      <a href="/admin/settings"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+      <a href="/admin/onboarding"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="m-navshort">开</span><span class="m-navfull">开店向导</span></a>
+      <a href="/admin/compliance"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="m-navshort">合</span><span class="m-navfull">合规</span></a>
+      <a href="/admin/automation"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="m-navshort">自</span><span class="m-navfull">自动化</span></a>
+      <a href="/admin/i18n"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="m-navshort">译</span><span class="m-navfull">翻译</span></a>
+    </nav>
+  </aside>
+  <div class="m-shell__body">
+    <header class="m-topbar">
+      <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 订单 / SK-10247</span></div>
+      <div class="m-topbar__actions">
+        <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
+        <span style="position:relative;display:inline-flex">
+          <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        </span>
+        <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </header>
+    <main class="m-shell__main">
+      <div class="m-container">
+
+        <!-- 返回导航 -->
+        <div style="margin-bottom:var(--m-space-2)">
+          <a href="/admin/orders" class="m-btn m-btn--tertiary m-btn--sm"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>返回接单</a>
+        </div>
+
+        <!-- 页头：单号 + 状态徽章 + 动作组（主 / 次 / 禁用） -->
+        <div class="m-pagehead">
+          <div>
+            <div class="m-row">
+              <h1 class="tnum">订单 SK-10247</h1>
+              <span class="m-badge m-badge--success m-badge--tint">已完成</span>
+            </div>
+            <div class="sub">下单 10-16 18:47 · 3 件商品，合计 €192.00</div>
+          </div>
+          <div class="m-row">
+            <button type="button" class="m-btn m-btn--primary m-btn--sm">退款</button>
+            <button type="button" class="m-btn m-btn--secondary m-btn--sm">重发收据</button>
+            <button type="button" class="m-btn m-btn--secondary m-btn--sm" disabled title="订单已完成，不可取消" aria-label="取消订单（订单已完成，不可取消）">取消订单</button>
+            <button type="button" class="m-tool m-tool--square" aria-label="更多操作"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+          </div>
+        </div>
+
+        <!-- 双栏：左主 2/3 + 右辅 1/3 -->
+        <div style="display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:var(--m-space-4);margin-top:var(--m-space-4);align-items:start">
+
+          <!-- 左主 -->
+          <div class="m-col" style="gap:var(--m-space-4)">
+
+            <!-- 订单商品行项表（复用 03 表格形状） -->
+            <div class="m-card">
+              <div class="m-card__header">商品（3 件）<span class="m-badge m-badge--success m-badge--tint">已全部发货</span></div>
+              <div class="m-table-wrap">
+                <table class="m-table">
+                  <thead>
+                    <tr>
+                      <th>商品</th>
+                      <th class="num">单价</th>
+                      <th class="num">数量</th>
+                      <th class="num">合计</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                          <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span>
+                          <div><div class="cell-main">有机棉卫衣</div><div class="cell-sub">燕麦色 M · AP-1102</div></div>
+                        </div>
+                      </td>
+                      <td class="num tnum">€89.00</td>
+                      <td class="num tnum">1</td>
+                      <td class="num tnum">€89.00</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                          <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 8c3 0 5-2 6-4 1 2 3 4 6 4"/><path d="M4 8h16v4c0 6-3.6 9-8 9s-8-3-8-9V8z"/></svg></span>
+                          <div><div class="cell-main">羊毛围巾</div><div class="cell-sub">石墨灰 · AC-2101</div></div>
+                        </div>
+                      </td>
+                      <td class="num tnum">€59.00</td>
+                      <td class="num tnum">1</td>
+                      <td class="num tnum">€59.00</td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                          <span class="m-thumb" style="width:36px;height:45px;display:inline-grid;place-items:center;border:1px solid var(--m-border)" aria-hidden="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M17 8h2a2 2 0 0 1 0 4h-2"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/></svg></span>
+                          <div><div class="cell-main">陶瓷马克杯</div><div class="cell-sub">米白 350ml · HG-3305</div></div>
+                        </div>
+                      </td>
+                      <td class="num tnum">€18.00</td>
+                      <td class="num tnum">2</td>
+                      <td class="num tnum">€36.00</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="m-card__footer"><span style="font-size:var(--m-text-xs);color:var(--m-fg-muted);margin-inline-end:auto">单价与合计均为含税价。</span></div>
+            </div>
+
+            <!-- 金额汇总卡 -->
+            <div class="m-card">
+              <div class="m-card__header">金额汇总<span class="m-tag">含税口径 · 德国 VAT 19%</span></div>
+              <div class="m-card__body m-col" style="gap:var(--m-space-2)">
+                <div class="m-row" style="justify-content:space-between"><span>小计（3 件商品）</span><span class="tnum">€184.00</span></div>
+                <div class="m-row" style="justify-content:space-between"><span>运费（DHL）</span><span class="tnum">€8.00</span></div>
+                <div class="m-row" style="justify-content:space-between"><span>税（VAT 19%，已含于小计与运费）</span><span class="tnum">€30.66</span></div>
+                <div class="m-row" style="justify-content:space-between;border-top:1px solid var(--m-border-strong);padding-top:var(--m-space-2);margin-top:var(--m-space-1)">
+                  <span style="font-weight:var(--m-weight-semibold)">总计（已收款）</span>
+                  <span class="tnum" style="font-weight:var(--m-weight-semibold)">€192.00</span>
+                </div>
+                <div style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">价格为含税价：税额自小计与运费中拆分显示，仅作核对，总计不另加收（€184.00 + €8.00 = €192.00）。</div>
+              </div>
+            </div>
+
+            <!-- 订单时间轴（m-timeline：状态流四节点） -->
+            <div class="m-card">
+              <div class="m-card__header">订单时间轴<span class="m-tag">节点图标取状态族 fg 色</span></div>
+              <div class="m-card__body">
+                <ul class="m-timeline">
+                  <li class="is-done">
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)">
+                      <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                      <b>已创建</b>
+                    </div>
+                    <div class="t tnum" style="margin-top:var(--m-space-1)">10-16 18:47 · 店面下单</div>
+                    <div style="color:var(--m-fg-muted)">渠道为店面（欧洲站），下单确认邮件已发出。</div>
+                  </li>
+                  <li class="is-done">
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)">
+                      <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-success-fg)"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg>
+                      <b>已付款</b>
+                    </div>
+                    <div class="t tnum" style="margin-top:var(--m-space-1)">10-16 18:49 · 支付网关回调</div>
+                    <div style="color:var(--m-fg-muted)">信用卡尾号 4242 捕获 €192.00，与订单总计一致。</div>
+                  </li>
+                  <li class="is-done">
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)">
+                      <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-info-fg)"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                      <b>已发货</b>
+                    </div>
+                    <div class="t tnum" style="margin-top:var(--m-space-1)">10-19 11:32 · 林薇（管理员）</div>
+                    <div style="color:var(--m-fg-muted)">「批量发货」动作生成 DHL 运单（追踪号 JD0146000038219），面单已打印。</div>
+                  </li>
+                  <li class="is-current">
+                    <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)">
+                      <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-primary-text)"><circle cx="12" cy="12" r="9"/><path d="m8.5 12 2.5 2.5 5-5"/></svg>
+                      <b>已完成</b>
+                    </div>
+                    <div class="t tnum" style="margin-top:var(--m-space-1)">10-21 09:15 · 物流回调</div>
+                    <div style="color:var(--m-fg-muted)">包裹妥投并签收，订单自动流转为已完成；售后申请窗口 14 天内有效。</div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- 右辅 -->
+          <div class="m-col" style="gap:var(--m-space-4)">
+
+            <!-- 客户卡 -->
+            <div class="m-card">
+              <div class="m-card__header">客户</div>
+              <div class="m-card__body m-col">
+                <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-3)">
+                  <span class="m-avatar m-avatar--lg">A</span>
+                  <div class="m-col" style="gap:0">
+                    <div style="font-weight:var(--m-weight-semibold)">Anna Krüger</div>
+                    <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">anna.krueger@web.de</div>
+                  </div>
+                </div>
+                <dl class="m-desc" style="margin-top:var(--m-space-3)">
+                  <dt>下单数</dt><dd class="tnum">7 单</dd>
+                  <dt>客单价</dt><dd class="tnum">€86.20</dd>
+                  <dt>最近下单</dt><dd class="tnum">10-16</dd>
+                  <dt>所在城市</dt><dd>柏林 · DE</dd>
+                </dl>
+              </div>
+              <div class="m-card__footer">
+                <a href="#" class="m-btn m-btn--ghost m-btn--sm">查看客户档案</a>
+                <a href="#" class="m-btn m-btn--ghost m-btn--sm">发送邮件</a>
+              </div>
+            </div>
+
+            <!-- 收货地址卡 -->
+            <div class="m-card">
+              <div class="m-card__header">收货地址<span class="m-tag">账单地址相同</span></div>
+              <div class="m-card__body m-col" style="gap:0;font-size:var(--m-text-sm)">
+                <span style="font-weight:var(--m-weight-medium)">Anna Krüger</span>
+                <span>Kurfürstendamm 21</span>
+                <span class="tnum">10719 Berlin</span>
+                <span>德国</span>
+                <span class="tnum" style="margin-top:var(--m-space-1)">+49 30 1234 5678</span>
+              </div>
+              <div class="m-card__footer"><a href="#" class="m-btn m-btn--ghost m-btn--sm">编辑地址</a></div>
+            </div>
+
+            <!-- 支付卡 -->
+            <div class="m-card">
+              <div class="m-card__header">支付<span class="m-badge m-badge--success m-badge--tint">已捕获</span></div>
+              <div class="m-card__body m-col">
+                <dl class="m-desc">
+                  <dt>支付方式</dt><dd>信用卡 · 尾号 4242</dd>
+                  <dt>卡组织</dt><dd>Visa</dd>
+                  <dt>捕获金额</dt><dd class="tnum">€192.00</dd>
+                  <dt>退款</dt><dd>无</dd>
+                </dl>
+                <div class="m-copyfield" style="margin-top:var(--m-space-2)">
+                  <span class="val">交易号 ch_3QXyT9mF7v2x9K2</span>
+                  <button type="button" aria-label="复制交易号"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                </div>
+              </div>
+              <div class="m-card__footer"><a href="#" class="m-btn m-btn--ghost m-btn--sm">查看交易明细</a></div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. 页头主按钮取「退款」：对位 Shopify 订单页 Refund 主位；若裁「退款应走 destructive 红按钮」，本页可一键换类（m-btn--destructive）。
+  2. 时间轴节点图标色（neutral / success / info / primary-text）为页内组合：m-timeline 原生仅有 is-done / is-current 两态；建议定稿后在组件契约补「节点图标色映射」形态说明（不改 meridian-ui.css 既有规则）。
+  3. 双栏 2/3 + 1/3 为页内 grid 组合（组件库无现成布局档）；建议组件契约增「明细工作台双栏」形态说明，供 商品深度 / 合规个案 / 翻译任务详情 复用。
+  4. 金额含税口径沿用 03 呈报 §5（含 VAT，税额拆分显示）；若裁净价口径，本页税行与 03 列表需同步调整。
+  5. 主角设定：SK-10247 于 10-19 经「批量发货」发出、10-21 妥投自动完成；客户 Anna Krüger 为新建样例人物（德语区，与批 A 世界一致）；商品单价与 03 金额自洽（卫衣 €89 / 围巾 €59 / 马克杯 €18）。
+  6. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——行项表卡片脚注去掉原型内部编号引用，改「单价与合计均为含税价」；金额汇总卡校验注记去掉「样例」自指（价格为含税价……€184.00 + €8.00 = €192.00）；时间轴「已创建」节点备注去掉与右辅客户卡重复的邮箱展示；取消订单禁用按钮补 aria-label（title 在 pointer-events:none 下不可达）。
+     复核保留——金额自洽算式注记与「商品（3 件）」括号注记（初稿即落，透轮复核）；中点每行 ≤1 与零 em-dash 纪律全页过检。
+     拒绝——时间轴彩色分段轨（m-timeline 单轨 + is-done/is-current 两态点是既定组件形，超 token 装饰）；右辅卡加图标头（无组件槽位约定且右栏密度已足）；退款按钮改 destructive（Refund 是财务操作非常规删除，对标 Shopify 主位语义，呈报 §1 请裁）；design-taste 去卡片 / 反居中 / 禁手绘图标规则不适用（admin 明细密度与图标集为已裁契约，其 skill §13 自declare dashboards / data tables out of scope）；ui-ux-pro-max 为 logo / CIP / banner / slides 生成路由 skill，仅取通用 polish 原则，其营销字号规则（正文 16px / 标题 32px）与 stage-admin token（14px / 20px）冲突，token 法优先（批 A 同判例）。
+-->
+</body>
+</html>
