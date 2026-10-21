@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>06 构建器工作台 · 夏季促销 landing · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-admin m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：主题编辑器 = 左区块/元素列表 + 中预览画布（真 iframe 感，桌面/平板/手机视口切换）+ 右属性面板（表单由区块 Schema 驱动）；
+  画布工具条含视口切换、撤销重做、保存 / 预览 / 发布；选中区块主色描边 + 浮动操作钮。
+  Meridian 化决策：三栏 IDE 嵌 Shell（sidenav 同 03/05，卖货 active；路由 /admin/builder，面包屑 卖货 / 页面构建器）；
+  面板 = chrome、画布 = page 凹槽、预览纸 = surface；工具条全部 32px 基线；属性面板复用 05 表单形状；SEO 入口在画布工具条。
+  漏项落地：本页无公共漏项宿主；超 token 项见尾部呈报清单。
+-->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 06 构建器工作台（页面构建器）<span class="m-badge m-badge--info m-badge--tint">批 C · 工具批</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>主题编辑器三栏 IDE：左区块列表 + 中预览画布（真 iframe 感 + 视口切换 + 撤销重做）+ 右属性面板（区块 Schema 驱动表单）；选中区块主色描边 + 浮动操作钮；保存 / 预览 / 发布在画布工具条。<br>
+        <b>Meridian 化决策：</b>壳与顶栏同 03/05（卖货 active；生产导航无「构建器」顶级项，经 卖货 / 页面构建器 进入，面包屑标明）；表面 rank：左右面板 chrome、画布 page 凹槽、预览纸 surface（最亮工作对象）；画布工具条 32px 基线（视口 m-seg + 撤销重做 m-tool--square + SEO pill + 保存 / 预览 / 发布 m-btn--sm 同 32px 基线）；属性面板复用 05 m-field / m-seg / m-select / m-switch 形状；元素清单分组 基础 / 媒体 / 电商，grip 点拖拽暗示。<br>
+        <b>漏项落地：</b>本页无公共漏项宿主（覆盖 构建器：v2c 三栏骨架 Meridian 化）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<div class="m-shell">
+  <aside class="m-shell__sidenav">
+    <nav class="m-sidenav" aria-label="主导航" style="padding:var(--m-space-2)">
+      <div class="m-sidenav__group">后台</div>
+      <a href="/admin/"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
+      <a href="/admin/sell" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">卖</span><span class="m-navfull">卖货</span></a>
+      <a href="/admin/orders"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">接</span><span class="m-navfull">接单</span></a>
+      <a href="/admin/attract"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="m-navshort">拉</span><span class="m-navfull">拉客</span></a>
+      <a href="/admin/settings"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+      <a href="/admin/onboarding"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="m-navshort">开</span><span class="m-navfull">开店向导</span></a>
+      <a href="/admin/compliance"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="m-navshort">合</span><span class="m-navfull">合规</span></a>
+      <a href="/admin/automation"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="m-navshort">自</span><span class="m-navfull">自动化</span></a>
+      <a href="/admin/i18n"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="m-navshort">译</span><span class="m-navfull">翻译</span></a>
+    </nav>
+  </aside>
+  <div class="m-shell__body">
+    <header class="m-topbar">
+      <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 页面构建器</span></div>
+      <div class="m-topbar__actions">
+        <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
+        <span style="position:relative;display:inline-flex">
+          <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        </span>
+        <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </header>
+    <!-- IDE 满高工作台：主区内边距压到 space-3（构建器属工作台密度，非阅读页） -->
+    <main class="m-shell__main" style="display:flex;flex-direction:column;gap:var(--m-space-3);padding:var(--m-space-3);min-height:0">
+
+      <!-- 面包屑 + 文档状态（草稿 / 上次保存） -->
+      <div class="m-row" style="justify-content:space-between;flex-wrap:nowrap">
+        <nav class="m-crumbs" aria-label="面包屑">
+          <span>卖货</span>
+          <svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          <span>页面构建器</span>
+          <svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          <span aria-current="page" style="color:var(--m-fg);font-weight:var(--m-weight-medium)">夏季促销 landing</span>
+        </nav>
+        <div class="m-row" style="flex-wrap:nowrap">
+          <span class="m-badge m-badge--neutral m-badge--tint">草稿</span>
+          <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">上次保存 10-21 09:47</span>
+        </div>
+      </div>
+
+      <!-- 三栏 IDE：元素面板 / 画布 / 属性面板 -->
+      <div style="display:grid;grid-template-columns:232px minmax(0,1fr) 296px;gap:var(--m-space-3);flex:1;min-height:640px;align-items:stretch">
+
+        <!-- 左：元素面板（chrome） -->
+        <section aria-label="元素面板" style="display:flex;flex-direction:column;min-height:0;background:var(--m-bg-chrome);border:1px solid var(--m-border);border-radius:var(--m-radius-lg);overflow:hidden">
+          <div class="m-row" style="justify-content:space-between;padding:var(--m-space-3);border-bottom:1px solid var(--m-border);flex-wrap:nowrap">
+            <b style="font-size:var(--m-text-md)">元素</b>
+            <span class="m-tag">拖入画布</span>
+          </div>
+          <div class="m-col" style="gap:var(--m-space-1);padding:var(--m-space-2);overflow:auto;flex:1;align-items:stretch">
+            <div style="font-size:var(--m-text-xs);font-weight:var(--m-weight-medium);color:var(--m-fg-subtle);padding:var(--m-space-2) var(--m-space-1) var(--m-space-1)">基础</div>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M5 7h14"/><path d="M12 7v11"/></svg>标题</button>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/></svg>文本</button>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><rect x="3" y="8" width="18" height="8" rx="4"/><path d="M8 12h8"/></svg>按钮</button>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M3 12h18"/></svg>分隔线</button>
+            <div style="font-size:var(--m-text-xs);font-weight:var(--m-weight-medium);color:var(--m-fg-subtle);padding:var(--m-space-3) var(--m-space-1) var(--m-space-1)">媒体</div>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m21 16-5-5-9 9"/></svg>图片</button>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><rect x="7" y="3" width="14" height="14" rx="2"/><path d="M3 7v12a2 2 0 0 0 2 2h12"/></svg>图片组</button>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="m10 9 5 3-5 3z"/></svg>视频</button>
+            <div style="font-size:var(--m-text-xs);font-weight:var(--m-weight-medium);color:var(--m-fg-subtle);padding:var(--m-space-3) var(--m-space-1) var(--m-space-1)">电商</div>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>商品卡</button>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><rect x="3" y="7" width="5" height="10" rx="1"/><rect x="9.5" y="7" width="5" height="10" rx="1"/><rect x="16" y="7" width="5" height="10" rx="1"/></svg>商品带</button>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M3 4h2l2.4 11.2a1 1 0 0 0 1 .8h8.7a1 1 0 0 0 1-.8L20 8H6"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg>购物车按钮</button>
+            <button type="button" draggable="true" title="拖拽到画布，或聚焦后按 Enter 加入" style="display:flex;align-items:center;gap:var(--m-space-2);padding:var(--m-space-2);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-surface);font:inherit;font-size:var(--m-text-sm);color:var(--m-fg);text-align:start;cursor:grab"><svg class="m-i m-i--fill" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-subtle)"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>商品集</button>
+          </div>
+        </section>
+
+        <!-- 中：画布工具条 + 画布凹槽 + 预览纸 -->
+        <section aria-label="画布" style="display:flex;flex-direction:column;min-height:0;gap:var(--m-space-2)">
+          <div style="display:flex;align-items:center;gap:var(--m-tool-gap);flex-wrap:nowrap;padding:var(--m-space-2) var(--m-space-3);background:var(--m-bg-chrome);border:1px solid var(--m-border);border-radius:var(--m-radius-md)">
+            <div class="m-seg" role="group" aria-label="视口切换">
+              <button type="button" class="is-active" aria-pressed="true"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="12" rx="2"/><path d="M8 20h8"/><path d="M12 16v4"/></svg>桌面</button>
+              <button type="button" aria-pressed="false"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M11 18h2"/></svg>平板</button>
+              <button type="button" aria-pressed="false"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="3" width="8" height="18" rx="2"/><path d="M11 18h2"/></svg>手机</button>
+            </div>
+            <span class="sep" style="width:1px;height:16px;background:var(--m-border);flex:none"></span>
+            <div class="m-toolbar">
+              <button type="button" class="m-tool m-tool--square" aria-label="撤销"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+              <button type="button" class="m-tool m-tool--square" aria-label="重做" disabled><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0 0 12h3"/></svg></button>
+            </div>
+            <span style="flex:1"></span>
+            <button type="button" class="m-tool m-tool--pill m-tool--outlined" aria-haspopup="dialog"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>SEO</button>
+            <button type="button" class="m-btn m-btn--secondary m-btn--sm">保存</button>
+            <button type="button" class="m-btn m-btn--secondary m-btn--sm">预览</button>
+            <button type="button" class="m-btn m-btn--primary m-btn--sm">发布</button>
+          </div>
+          <div class="m-canvas" style="flex:1;min-height:0;overflow:auto;border:1px solid var(--m-border);border-radius:var(--m-radius-lg);padding:var(--m-space-6)">
+            <!-- 预览纸：surface rank（最亮工作对象）+ 边框 + e1 阴影；线框为静态契约示意 -->
+            <div style="max-width:920px;margin-inline:auto;background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-radius-lg);box-shadow:var(--m-shadow-e1);overflow:hidden">
+              <section style="position:relative;outline:2px solid var(--m-primary);outline-offset:-2px;padding:var(--m-space-10) var(--m-space-6) var(--m-space-8);display:flex;flex-direction:column;align-items:center;gap:var(--m-space-3);border-bottom:1px solid var(--m-border)" aria-label="区块：英雄区（选中）">
+                <span class="m-tag" style="position:absolute;top:var(--m-space-2);inset-inline-start:var(--m-space-2)">英雄区</span>
+                <div class="m-toolbar" style="position:absolute;top:var(--m-space-2);inset-inline-end:var(--m-space-2);background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-radius-sm);padding:var(--m-space-05);box-shadow:var(--m-shadow-e1)">
+                  <button type="button" class="m-tool m-tool--square" aria-label="上移区块" disabled><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
+                  <button type="button" class="m-tool m-tool--square" aria-label="下移区块"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/></svg></button>
+                  <button type="button" class="m-tool m-tool--square" aria-label="复制区块"><svg class="m-i m-i--16" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+                  <button type="button" class="m-tool m-tool--square" aria-label="删除区块" style="color:var(--m-critical-fg)"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="m19 6-1 14H6L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg></button>
+                </div>
+                <div aria-hidden="true" style="width:56%;height:20px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div>
+                <div aria-hidden="true" style="width:72%;height:10px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div>
+                <div aria-hidden="true" style="width:48%;height:10px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div>
+                <div aria-hidden="true" style="width:132px;height:32px;border-radius:var(--m-radius-md);border:1px solid var(--m-border-strong);background:var(--m-bg-inset);margin-top:var(--m-space-2)"></div>
+              </section>
+              <div role="separator" aria-label="插入区块" style="display:flex;align-items:center;gap:var(--m-space-3);padding:var(--m-space-2) var(--m-space-6)">
+                <span aria-hidden="true" style="flex:1;border-top:1px dashed var(--m-border-strong)"></span>
+                <button type="button" class="m-tool m-tool--square" aria-label="在此插入区块"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
+                <span aria-hidden="true" style="flex:1;border-top:1px dashed var(--m-border-strong)"></span>
+              </div>
+              <section style="padding:var(--m-space-6);border-bottom:1px solid var(--m-border)" aria-label="区块：商品带">
+                <div class="m-row" style="justify-content:space-between;margin-bottom:var(--m-space-3)">
+                  <span class="m-tag">商品带</span>
+                  <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">夏季促销精选 · 4 件</span>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--m-space-3)">
+                  <div class="m-col" style="gap:var(--m-space-1)" aria-hidden="true"><div style="height:72px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:10px;width:78%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:10px;width:42%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div></div>
+                  <div class="m-col" style="gap:var(--m-space-1)" aria-hidden="true"><div style="height:72px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:10px;width:64%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:10px;width:38%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div></div>
+                  <div class="m-col" style="gap:var(--m-space-1)" aria-hidden="true"><div style="height:72px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:10px;width:72%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:10px;width:46%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div></div>
+                  <div class="m-col" style="gap:var(--m-space-1)" aria-hidden="true"><div style="height:72px;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:10px;width:58%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:10px;width:40%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div></div>
+                </div>
+              </section>
+              <section style="padding:var(--m-space-6)" aria-label="区块：页脚">
+                <span class="m-tag">页脚</span>
+                <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--m-space-6);margin-top:var(--m-space-4)">
+                  <div class="m-col" style="gap:var(--m-space-2)" aria-hidden="true"><div style="height:8px;width:64%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:8px;width:80%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:8px;width:48%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div></div>
+                  <div class="m-col" style="gap:var(--m-space-2)" aria-hidden="true"><div style="height:8px;width:56%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:8px;width:72%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:8px;width:44%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div></div>
+                  <div class="m-col" style="gap:var(--m-space-2)" aria-hidden="true"><div style="height:8px;width:60%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:8px;width:76%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div><div style="height:8px;width:52%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset)"></div></div>
+                </div>
+                <div aria-hidden="true" style="height:8px;width:32%;border-radius:var(--m-radius-sm);background:var(--m-bg-inset);margin:var(--m-space-5) auto 0"></div>
+              </section>
+            </div>
+            <p style="text-align:center;font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:var(--m-space-3) 0 0">套用片为真 iframe 店面渲染；本稿线框为静态契约示意</p>
+          </div>
+        </section>
+
+        <!-- 右：属性面板（chrome，表单随选中区块由 BindingSchema 生成） -->
+        <section aria-label="属性面板" style="display:flex;flex-direction:column;min-height:0;background:var(--m-bg-chrome);border:1px solid var(--m-border);border-radius:var(--m-radius-lg);overflow:hidden">
+          <div class="m-row" style="justify-content:space-between;padding:var(--m-space-3);border-bottom:1px solid var(--m-border);flex-wrap:nowrap">
+            <b style="font-size:var(--m-text-md)">属性 · 英雄区</b>
+            <span class="m-badge m-badge--neutral m-badge--tint">BindingSchema</span>
+          </div>
+          <div class="m-col" style="gap:var(--m-space-4);padding:var(--m-space-3);overflow:auto;flex:1;align-items:stretch">
+            <div class="m-field">
+              <label class="m-field__label" for="b-title">标题文字</label>
+              <input class="m-input" id="b-title" type="text" value="夏季大促 · 全场 7 折起" aria-describedby="h-b-title">
+              <span class="m-field__help" id="h-b-title">绑定 <span class="m-code-inline">hero.title</span>；留空时回退为店铺默认标语。</span>
+            </div>
+            <div class="m-field">
+              <span class="m-field__label" id="l-align">对齐</span>
+              <div class="m-seg" role="group" aria-labelledby="l-align">
+                <button type="button" aria-pressed="false">左</button>
+                <button type="button" class="is-active" aria-pressed="true">中</button>
+                <button type="button" aria-pressed="false">右</button>
+              </div>
+              <span class="m-field__help">作用于标题与副标题；按钮始终居中。</span>
+            </div>
+            <div class="m-field">
+              <label class="m-field__label" for="b-collection">商品集</label>
+              <div class="m-select-wrap">
+                <select id="b-collection" aria-describedby="h-b-collection">
+                  <option selected>夏季促销精选（12 件）</option>
+                  <option>新品上架（8 件）</option>
+                  <option>全部商品（96 件）</option>
+                </select>
+                <svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+              </div>
+              <span class="m-field__help" id="h-b-collection">数据源取自 卖货 / 商品集；绑定 <span class="m-code-inline">hero.collection</span>。</span>
+            </div>
+            <div class="m-col" style="gap:var(--m-space-1)">
+              <label class="m-switch"><input type="checkbox" checked><span class="track"></span>显示商品价格</label>
+              <div class="m-field__help" style="padding-inline-start:44px">关闭后商品带仅展示图片与名称，适合品牌向活动页。</div>
+            </div>
+            <div style="border-top:1px solid var(--m-border);padding-top:var(--m-space-3);font-size:var(--m-text-xs);color:var(--m-fg-muted)">属性表单随选中区块由 BindingSchema 生成；本稿选中「英雄区」，切换区块即切换表单。</div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+</div>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. 画布表面 rank 释义：中央取 .m-canvas（page 凹槽）承载预览纸（surface 白纸 + 边框 + e1 阴影，最亮工作对象），左右面板 chrome；IDE「中央必须 surface」铁律按「工作对象=预览纸」释义执行（Shopify 主题编辑器 / Webflow 同形）。若裁「中央必须白」，画布改 surface、线框块改 inset 即可，请裁决。
+  2. 元素面板拖拽为静态示意（draggable + cursor:grab）；套用片必须配键盘替代路径（聚焦后 Enter 加入画布、浮动钮上移 / 下移调序），WCAG 2.5.7。
+  3. 画布工具条内 保存 / 预览 / 发布 取 m-btn--sm（32px = --m-tool-h 同基线，与 m-tool 混排不错位）；rule 9 字面禁 36px 默认 .m-btn，sm 不在其列。若裁「工具条只许 m-tool」，三钮改 m-tool--pill、发布失去主按钮语义，请裁决。
+  4. SEO 入口暗示：画布工具条 outlined pill（搜索图标 + SEO），套用片展开为右侧抽屉（标题 / 描述 / 索引开关）；属性面板不再重复入口。
+  5. 主侧栏无「构建器」顶级项（生产真实 IA）：卖货 active 为父区示意，面包屑 卖货 / 页面构建器 / 夏季促销 landing 标明路径；07 同法（拉客 / 报表）。
+  6. 数据连续性：管理员林薇 / SSE 徽章 / 顶栏形同 02/03/05；「夏季促销 landing」属卖货区内容资产，商品集「夏季促销精选（12 件）」与 07 问数样例（德国站销售）互不冲突。
+  7. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——画布凹槽内边距与预览纸最大宽（920px）对齐 admin 容器节奏；浮动操作钮收进 32px m-toolbar 白底浮卡（初稿为散置图标）；元素面板分组标签与面板头统一 xs 字阶；撤销可用 / 重做禁用表达「刚执行过操作」的真实栈态；预览纸去掉 role=img 包裹（内部含浮动操作钮，role=img 会把交互子树判为展示性，键盘不可达），改由各区块 section 自带 aria-label；对齐选择的组标签由无 for 的 label 改 span + aria-labelledby；em-dash 零与中点每行 ≤1 纪律全页过检（呈报清单内的「采纳 / 拒绝——」记录体沿 03/05 成例）。
+     拒绝——元素面板磁贴加彩色图标底（色板外装饰）；画布加跨列深色边框加粗（双重边框过量）；design-taste 大留白 / 去 chrome 规则不适用（IDE 三栏密度是工作台舞台约定）；ui-ux-pro-max 营销字号规则与 stage-admin token 冲突，token 法优先（批 A/B 同判例）。
+-->
+</body>
+</html>

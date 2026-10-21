@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>07 报表笔记本 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-admin m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：Analytics = 已保存报表列表（名称 / 最近运行）+ 报表页（时间范围 / 图表 / 明细表）+「用 AI 询问」输入，结果需人工核验。
+  Meridian 化决策：壳与顶栏同 03/05（拉客 active；路由 /admin/reports，面包屑 拉客 / 报表，生产导航无顶级项）；笔记本卡栅格（名称 / 数据集徽章 / 最近运行 / 图表缩略）；
+  柱图纯 CSS 取 token 色板（primary-tint 常规 + primary 峰值，02 判例）；NL 问数复用 m-composer + 上下文 chip + m-badge--ai「AI 生成，需校验」；结果卡 = 答案句 + 柱图 + 数据表小样；空态统一形。
+  漏项落地：空态统一形（宿主 #3 同源）；无新增公共漏项。超 token 项见尾部呈报清单。
+-->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 07 报表笔记本（报表 / 问数）<span class="m-badge m-badge--info m-badge--tint">批 C · 工具批</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>Analytics = 已保存报表列表 + 报表页（时间范围切换 / 图表 / 明细表）+ AI 问数输入（结果标注需人工核验）。<br>
+        <b>Meridian 化决策：</b>壳与顶栏同 03/05（拉客 active；生产导航无「报表」顶级项，经 拉客 / 报表 进入）；页头（标题 + 计数 + 新建笔记本）；笔记本卡栅格三张（周销日报 / 购物车放弃漏斗 / 新品动销追踪：名称 / 数据集徽章 / 最近运行 / 图表缩略）；展开卡 = 时间范围 m-seg + 图表类型切换 + 纯 CSS 柱图（primary-tint 常规、primary 峰值）+ 图例；NL 问数复用 m-composer（上下文 chip + 提示徽章 m-badge--ai + 发送钮）；结果卡含答案句 / 迷你柱图 / 数据表小样 / 「保存为笔记本」；空态 = m-empty 统一形。<br>
+        <b>漏项落地：</b>空态统一形（宿主 #3 同源）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<div class="m-shell">
+  <aside class="m-shell__sidenav">
+    <nav class="m-sidenav" aria-label="主导航" style="padding:var(--m-space-2)">
+      <div class="m-sidenav__group">后台</div>
+      <a href="/admin/"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
+      <a href="/admin/sell"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">卖</span><span class="m-navfull">卖货</span></a>
+      <a href="/admin/orders"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">接</span><span class="m-navfull">接单</span></a>
+      <a href="/admin/attract" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="m-navshort">拉</span><span class="m-navfull">拉客</span></a>
+      <a href="/admin/settings"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+      <a href="/admin/onboarding"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="m-navshort">开</span><span class="m-navfull">开店向导</span></a>
+      <a href="/admin/compliance"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="m-navshort">合</span><span class="m-navfull">合规</span></a>
+      <a href="/admin/automation"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="m-navshort">自</span><span class="m-navfull">自动化</span></a>
+      <a href="/admin/i18n"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="m-navshort">译</span><span class="m-navfull">翻译</span></a>
+    </nav>
+  </aside>
+  <div class="m-shell__body">
+    <header class="m-topbar">
+      <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 报表</span></div>
+      <div class="m-topbar__actions">
+        <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
+        <span style="position:relative;display:inline-flex">
+          <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        </span>
+        <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </header>
+    <main class="m-shell__main">
+      <div class="m-container">
+
+        <!-- 面包屑 + 页头 -->
+        <nav class="m-crumbs" aria-label="面包屑">
+          <span>拉客</span>
+          <svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+          <span aria-current="page" style="color:var(--m-fg)">报表</span>
+        </nav>
+        <div class="m-pagehead" style="margin-top:var(--m-space-2)">
+          <div>
+            <div class="m-row">
+              <h1>报表笔记本</h1>
+              <span class="m-badge m-badge--neutral m-badge--tint tnum">3</span>
+            </div>
+            <div class="sub">把常用问题存成笔记本，定时或一键复跑</div>
+          </div>
+          <button type="button" class="m-btn m-btn--primary m-btn--sm"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>新建笔记本</button>
+        </div>
+
+        <!-- 已保存笔记本卡栅格（2-3 张：名称 / 数据集徽章 / 最近运行 / 图表缩略） -->
+        <div class="m-grid-2" style="margin-top:var(--m-space-4)">
+
+          <div class="m-card">
+            <div class="m-card__header">
+              <span class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M2 20h20"/></svg>德国站周销日报</span>
+              <div class="m-row" style="flex-wrap:nowrap">
+                <button type="button" class="m-tool m-tool--square" aria-label="运行报表"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+                <button type="button" class="m-tool m-tool--square" aria-label="更多操作"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+              </div>
+            </div>
+            <div class="m-card__body m-col" style="gap:var(--m-space-3)">
+              <div style="display:flex;align-items:flex-end;gap:var(--m-space-1);height:64px" aria-hidden="true">
+                <span style="flex:1;height:34%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:48%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:40%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:55%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:62%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:45%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:70%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:52%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:66%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:58%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:49%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:73%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:88%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:100%;background:var(--m-primary);border-radius:var(--m-radius-xs)"></span>
+              </div>
+              <div class="m-row" style="justify-content:space-between">
+                <div class="m-row"><span class="m-badge m-badge--info m-badge--tint">数据集 · 订单</span><span class="m-tag">德国站 · 近 14 天</span></div>
+                <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">最近运行 今天 08:00 · 定时每日</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-card__header">
+              <span class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M3 5h18l-7 8v5l-4 2v-7L3 5z"/></svg>购物车放弃漏斗</span>
+              <div class="m-row" style="flex-wrap:nowrap">
+                <button type="button" class="m-tool m-tool--square" aria-label="运行报表"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+                <button type="button" class="m-tool m-tool--square" aria-label="更多操作"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+              </div>
+            </div>
+            <div class="m-card__body m-col" style="gap:var(--m-space-2)">
+              <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)"><span style="width:64px;font-size:var(--m-text-xs);color:var(--m-fg-muted)">加购</span><span aria-hidden="true" style="height:12px;width:100%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span><span class="tnum" style="font-size:var(--m-text-xs)">3,204</span></div>
+              <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)"><span style="width:64px;font-size:var(--m-text-xs);color:var(--m-fg-muted)">进入结算</span><span aria-hidden="true" style="height:12px;width:62%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span><span class="tnum" style="font-size:var(--m-text-xs)">1,986</span></div>
+              <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)"><span style="width:64px;font-size:var(--m-text-xs);color:var(--m-fg-muted)">填写支付</span><span aria-hidden="true" style="height:12px;width:38%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span><span class="tnum" style="font-size:var(--m-text-xs)">1,218</span></div>
+              <div class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)"><span style="width:64px;font-size:var(--m-text-xs);color:var(--m-fg-muted)">完成支付</span><span aria-hidden="true" style="height:12px;width:21%;background:var(--m-primary);border-radius:var(--m-radius-xs)"></span><span class="tnum" style="font-size:var(--m-text-xs)">673</span></div>
+              <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-1)">
+                <div class="m-row"><span class="m-badge m-badge--info m-badge--tint">数据集 · 订单</span><span class="m-badge m-badge--neutral m-badge--tint">行为</span><span class="m-tag">德国站 · 近 30 天</span></div>
+                <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">最近运行 昨天 18:12 · 手动</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-card__header">
+              <span class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-fg-muted)"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg>新品动销追踪</span>
+              <div class="m-row" style="flex-wrap:nowrap">
+                <button type="button" class="m-tool m-tool--square" aria-label="运行报表"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+                <button type="button" class="m-tool m-tool--square" aria-label="更多操作"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg></button>
+              </div>
+            </div>
+            <div class="m-card__body m-col" style="gap:var(--m-space-3)">
+              <div style="display:flex;align-items:flex-end;gap:var(--m-space-1);height:64px" aria-hidden="true">
+                <span style="flex:1;height:22%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:30%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:28%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:41%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:38%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:52%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:47%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:63%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:58%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:74%;background:var(--m-primary);border-radius:var(--m-radius-xs)"></span>
+              </div>
+              <div class="m-row" style="justify-content:space-between">
+                <div class="m-row"><span class="m-badge m-badge--emphasis m-badge--tint">数据集 · 商品</span><span class="m-badge m-badge--ai m-badge--tint">AI 生成，需校验</span></div>
+                <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">最近运行 10-19 18:40 · 手动</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 展开的报表卡：图表样式区（时间范围 / 图表类型 / 纯 CSS 柱图 / 图例） -->
+        <div class="m-card" style="margin-top:var(--m-space-4)">
+          <div class="m-card__header">
+            <span class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)">销售额按日<span class="m-tag">德国站周销日报 · 展开</span></span>
+            <span class="m-badge m-badge--info m-badge--tint">数据集 · 订单</span>
+          </div>
+          <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+            <div class="m-row" style="justify-content:space-between">
+              <div class="m-row">
+                <div class="m-seg" role="group" aria-label="时间范围">
+                  <button type="button" aria-pressed="false">近 7 天</button>
+                  <button type="button" class="is-active" aria-pressed="true">近 14 天</button>
+                  <button type="button" aria-pressed="false">近 30 天</button>
+                </div>
+                <span class="sep" style="width:1px;height:16px;background:var(--m-border)"></span>
+                <div class="m-toolbar">
+                  <button type="button" class="m-tool m-tool--square is-active" aria-label="柱状图" aria-pressed="true"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M2 20h20"/></svg></button>
+                  <button type="button" class="m-tool m-tool--square" aria-label="折线图" aria-pressed="false"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg></button>
+                </div>
+              </div>
+              <div class="m-row">
+                <button type="button" class="m-tool m-tool--square" aria-label="刷新报表"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+                <button type="button" class="m-btn m-btn--secondary m-btn--sm">导出 CSV</button>
+              </div>
+            </div>
+            <div role="img" aria-label="近 14 天德国站销售额柱状图，峰值 10-18">
+              <div style="display:flex;align-items:flex-end;gap:var(--m-space-1);height:160px;border-bottom:1px solid var(--m-border);padding-bottom:1px" aria-hidden="true">
+                <span style="flex:1;height:34%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:48%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:40%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:55%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:62%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:45%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:70%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:52%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:66%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:58%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:49%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:73%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:88%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:100%;background:var(--m-primary);border-radius:var(--m-radius-xs)"></span>
+              </div>
+              <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-1)" aria-hidden="true">
+                <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">10-05</span>
+                <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">10-09</span>
+                <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">10-13</span>
+                <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">10-18</span>
+              </div>
+            </div>
+            <div class="m-row" style="justify-content:space-between">
+              <div class="m-row">
+                <span class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-1)"><span aria-hidden="true" style="width:10px;height:10px;border-radius:var(--m-radius-xs);background:var(--m-primary-tint)"></span><span style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">日销售额</span></span>
+                <span class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-1)"><span aria-hidden="true" style="width:10px;height:10px;border-radius:var(--m-radius-xs);background:var(--m-primary)"></span><span style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">峰值日</span></span>
+              </div>
+              <span class="tnum" style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">峰值 €2,910.00 · 10-18</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- NL 问数输入区（m-composer 复用）+ 结果卡 -->
+        <div class="m-composer" style="margin-top:var(--m-space-4)">
+          <label class="m-field__label" for="nl-q">问数</label>
+          <textarea id="nl-q" class="m-composer__input" rows="2" placeholder="例如：上周德国站销售额按日" aria-describedby="nl-hint"></textarea>
+          <div class="m-composer__bar">
+            <button type="button" class="m-tool m-tool--chip">德国站</button>
+            <button type="button" class="m-tool m-tool--chip">上周</button>
+            <span id="nl-hint" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">回车发送 · Shift+回车换行</span>
+            <span class="m-badge m-badge--ai m-badge--tint" style="margin-inline-start:auto"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/></svg>AI 生成，需校验</span>
+            <button type="button" class="m-tool m-tool--send" aria-label="发送提问"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/></svg></button>
+          </div>
+        </div>
+
+        <div class="m-card" style="margin-top:var(--m-space-3)">
+          <div class="m-card__header">
+            <span class="m-row" style="flex-wrap:nowrap;gap:var(--m-space-2)"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true" style="color:var(--m-ai-fg)"><path d="m12 3 1.9 5.6L19.5 10l-5.6 1.9L12 17.5l-1.9-5.6L4.5 10l5.6-1.4z"/></svg>问数 · 上周德国站销售额按日</span>
+            <span class="m-tag tnum">10-12 至 10-18 · 德国站</span>
+          </div>
+          <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+            <p style="margin:0;font-size:var(--m-text-sm)">上周德国站销售额合计 <b class="tnum">€12,480.00</b>（<span class="tnum">137</span> 单），周日 10-18 为峰值 <b class="tnum">€2,910.00</b>，周三 10-14 为工作日高点 <span class="tnum">€2,310.00</span>。</p>
+            <div role="img" aria-label="上周德国站每日销售额柱状图，周日峰值">
+              <div style="display:flex;align-items:flex-end;gap:var(--m-space-1);height:88px;border-bottom:1px solid var(--m-border);padding-bottom:1px" aria-hidden="true">
+                <span style="flex:1;height:43%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:49%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:79%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:58%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:52%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:49%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="flex:1;height:100%;background:var(--m-primary);border-radius:var(--m-radius-xs)"></span>
+              </div>
+              <div style="display:flex;gap:var(--m-space-1);margin-top:var(--m-space-1)" aria-hidden="true">
+                <span class="tnum" style="flex:1;text-align:center;font-size:var(--m-text-xs);color:var(--m-fg-subtle)">12</span>
+                <span class="tnum" style="flex:1;text-align:center;font-size:var(--m-text-xs);color:var(--m-fg-subtle)">13</span>
+                <span class="tnum" style="flex:1;text-align:center;font-size:var(--m-text-xs);color:var(--m-fg-subtle)">14</span>
+                <span class="tnum" style="flex:1;text-align:center;font-size:var(--m-text-xs);color:var(--m-fg-subtle)">15</span>
+                <span class="tnum" style="flex:1;text-align:center;font-size:var(--m-text-xs);color:var(--m-fg-subtle)">16</span>
+                <span class="tnum" style="flex:1;text-align:center;font-size:var(--m-text-xs);color:var(--m-fg-subtle)">17</span>
+                <span class="tnum" style="flex:1;text-align:center;font-size:var(--m-text-xs);color:var(--m-fg-subtle)">18</span>
+              </div>
+            </div>
+            <div class="m-table-wrap">
+              <table class="m-table">
+                <thead><tr><th>日期</th><th class="num">订单数</th><th class="num">销售额</th></tr></thead>
+                <tbody>
+                  <tr><td class="tnum">10-12 周一</td><td class="num tnum">14</td><td class="num tnum">€1,240.00</td></tr>
+                  <tr><td class="tnum">10-13 周二</td><td class="num tnum">16</td><td class="num tnum">€1,420.00</td></tr>
+                  <tr><td class="tnum">10-14 周三</td><td class="num tnum">25</td><td class="num tnum">€2,310.00</td></tr>
+                  <tr><td class="tnum">10-15 周四</td><td class="num tnum">19</td><td class="num tnum">€1,680.00</td></tr>
+                  <tr><td class="tnum">10-16 周五</td><td class="num tnum">17</td><td class="num tnum">€1,500.00</td></tr>
+                  <tr><td class="tnum">10-17 周六</td><td class="num tnum">15</td><td class="num tnum">€1,420.00</td></tr>
+                  <tr><td class="tnum">10-18 周日</td><td class="num tnum">31</td><td class="num tnum">€2,910.00</td></tr>
+                  <tr><td><span class="cell-main">合计</span></td><td class="num tnum">137</td><td class="num tnum">€12,480.00</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="m-row" style="justify-content:space-between">
+              <span style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">由 AI 生成：请核对合计与订单明细后再引用；数据截至 10-18 23:59（店铺时区 UTC+1）。</span>
+              <button type="button" class="m-btn m-btn--secondary m-btn--sm">保存为笔记本</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 空态（无笔记本） -->
+        <div class="m-card" style="margin-top:var(--m-space-4)">
+          <div class="m-card__header">空态 · 无笔记本<span class="m-badge m-badge--neutral m-badge--tint">首次进入</span></div>
+          <div class="m-card__body">
+            <div class="m-empty" style="padding:var(--m-space-8) var(--m-space-4)">
+              <svg viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M2 20h20"/></svg>
+              <h4>还没有报表笔记本</h4>
+              <p>在上方问一次数，保存即成笔记本；下次一键复跑，无需重复筛选。</p>
+              <div class="m-row" style="justify-content:center">
+                <button type="button" class="m-btn m-btn--primary m-btn--sm">新建笔记本</button>
+                <a href="#" class="m-btn m-btn--ghost m-btn--sm">查看示例笔记本</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. 图表色板：纯 CSS 柱图仅用 primary-tint（常规）+ primary（峰值），02 仪表盘同判例；多系列 / 对比期色板（info / emphasis 入列）未定，建议 S2 立项 m-chart 组件（02 呈报 §2 的 m-spark 扩展），把柱 / 线 / 漏斗三形态与无障碍读值一并收编。
+  2. NL 问数上下文 chip（德国站 / 上周）复用 m-tool--chip；作用域联动与时间解析回显未画，套用片为可移除 chip + 提交时随问题一并发送。
+  3. 「AI 生成，需校验」徽章 = m-badge--ai；结果卡脚注（请核对后再引用 + 数据截至时刻）为本契约固定件，建议组件化时并入 m-chart 卡规约。
+  4. 时间范围 m-seg 三档（近 7 / 14 / 30 天）；自定义区间与图表类型中的「折线图」仅为切换器示意，折线渲染未画。
+  5. 空态文案先行，终稿以 08-copywriting 章为准；「查看示例笔记本」为 ghost 次动作（Shopify 同位）。
+  6. 数据连续性：金额 € 与 03/04 口径一致（含 VAT）；问数样例自洽（7 日柱值与表格逐日一致，合计 €12,480.00 / 137 单）；漏斗四步 3,204 → 1,986 → 1,218 → 673，转化率 21% 可复核。
+  7. 主侧栏无「报表」顶级项（生产真实 IA）：拉客 active 为父区示意，面包屑 拉客 / 报表 标明路径（06 同法）。
+  8. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——问数输入置于展开卡之后形成「看报表 → 追问 → 存笔记本」动线（初稿问数区在最上，动线断裂）；结果卡答案句前置一句结论（先读数再读图）；迷你柱图与数据表同卡对照（AI 结果可核验的最低配置）；卡片图表缩略统一 64px 高；笔记本卡缩略与展开卡口径统一（初稿缩略 近 7 天 7 柱、展开 近 14 天 14 柱，同卡两口径自相矛盾，修订为同取 近 14 天 14 柱）；答案句「工作日稳定在 €1,200 至 €1,700」与周三 €2,310 矛盾，修订为「周三 10-14 为工作日高点」；数据自洽复核（7 日柱值 = 表格逐行 = 合计 €12,480.00 / 137 单，漏斗 21% 可复核）。
+     拒绝——笔记本卡加实时刷新呼吸灯（无 SSE 语义，误引导）；结果卡再加第三种图表（柱图 + 表已够核验，装饰性图表稀释注意力）；design-taste 去卡片 / 大留白规则不适用（admin 报表密度约定）；ui-ux-pro-max 营销字号规则与 stage-admin token 冲突，token 法优先（批 A/B 同判例）。
+-->
+</body>
+</html>
