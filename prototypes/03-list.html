@@ -11,11 +11,11 @@
 <!-- 对标卡：
   Shopify 形态要点：Orders index = Saved Views 页签（可保存筛选，页签带计数，行尾「保存视图」）+ 工具栏（搜索 / 筛选 / 列设置）+ 全宽数据表
   （资源缩略图列、状态徽章、行 hover 快捷动作）+ 勾选后工具栏整条替换为批量动作条（已选 N 项 + 批量动作 + 取消）+ 底部分页（仅上一页 / 下一页，keyset 游标，无跳页）。
-  Meridian 化决策：壳与顶栏同 02（账户菜单 + 通知铃同形；SSE 徽章在位）；主侧栏按现产品态用「无图标」形，图标裁决见页底双形态对比区；
+  Meridian 化决策：壳与顶栏同 02（账户菜单 + 通知铃同形；SSE 徽章在位）；主侧栏取 B·有图标形（B·有图标已采用 @ 用户裁决 2026-10-21，与 02 同步）；
   页头动作组 = 导出（次）+ 创建订单（主按钮，archetypes 拓扑中的「导出」落在页头次按钮位）；表四态同页在画（满态主表 + 空 / 加载骨架 / 错误行内三小样）；
   徽章映射：订单 5 态对位五状态族（待付款 = emphasis / 待发货 = warning / 运输中 = info / 已完成 = success / 已退款 = critical），商品 3 态（在售 = success / 草稿 = neutral tint / 已下架 = neutral solid）；
   行 hover 由 m-table 原生 hover 承担（本稿为静态契约，快捷动作常显示意，套用片为 hover 浮现）。
-  漏项落地：Saved Views ✓ 缩略图列 ✓ 批量条 ✓（五漏项之三落此）；加载骨架启用 m-skeleton ✓（公共件宿主 #3）；空态统一形 ✓（宿主 #3）；侧栏图标无 / 有对比区 ✓（裁决呈报）。
+  漏项落地：Saved Views ✓ 缩略图列 ✓ 批量条 ✓（五漏项之三落此）；加载骨架启用 m-skeleton ✓（公共件宿主 #3）；空态统一形 ✓（宿主 #3）；侧栏图标无 / 有对比区 ✓（已裁 B·有图标 @ 用户裁决 2026-10-21）。
 -->
 <div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
   <div class="m-accordion">
@@ -23,8 +23,8 @@
       <summary>对标卡 · 03 列表表格页（订单列表）<span class="m-badge m-badge--info m-badge--tint">批 A · 定调批 · 最高频定式</span></summary>
       <div class="acc-body">
         <b>Shopify 形态要点：</b>Orders index = Saved Views 页签（带计数，可保存筛选）+ 工具栏（搜索 / 筛选 / 列设置）+ 全宽数据表（缩略图列 / 状态徽章 / 行 hover 快捷动作）+ 勾选后工具栏整条替换为批量条 + keyset 分页（仅上一页 / 下一页）。<br>
-        <b>Meridian 化决策：</b>壳与顶栏同 02；主侧栏按现产品态用「无图标」形（裁决见页底对比区）；页头动作 = 导出（次）+ 创建订单（主）；表四态同页在画；订单 5 态对位五状态族、商品 3 态；行 hover 走 m-table 原生 hover，快捷动作为常显示意。<br>
-        <b>漏项落地：</b>Saved Views ✓ 缩略图列 ✓ 批量条 ✓；m-skeleton 首次启用 ✓（宿主 #3）；空态统一形 ✓（宿主 #3）；侧栏图标对比区 ✓（呈报待裁）。超 token 项见尾部呈报清单。
+        <b>Meridian 化决策：</b>壳与顶栏同 02；主侧栏取 B·有图标形（已裁 @ 用户裁决 2026-10-21，见页底对比区）；页头动作 = 导出（次）+ 创建订单（主）；表四态同页在画；订单 5 态对位五状态族、商品 3 态；行 hover 走 m-table 原生 hover，快捷动作为常显示意。<br>
+        <b>漏项落地：</b>Saved Views ✓ 缩略图列 ✓ 批量条 ✓；m-skeleton 首次启用 ✓（宿主 #3）；空态统一形 ✓（宿主 #3）；侧栏图标对比区 ✓（已裁 B·有图标 @ 用户裁决 2026-10-21）。超 token 项见尾部呈报清单。
       </div>
     </details>
   </div>
@@ -33,17 +33,16 @@
 <div class="m-shell">
   <aside class="m-shell__sidenav">
     <nav class="m-sidenav" aria-label="主导航（有图标 · B 形）" style="padding:var(--m-space-2)">
-      <div class="m-sidenav__group">经营</div>
-      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
-      <a href="#" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">订</span><span class="m-navfull">订单</span></a>
-      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg><span class="m-navshort">商</span><span class="m-navfull">商品</span></a>
-      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.1-5.5 6.5-5.5s5.9 2 6.5 5.5"/><path d="M16 4.2a3.5 3.5 0 0 1 0 6.6"/><path d="M18.5 14.8c1.8.9 2.7 2.4 3 5.2"/></svg><span class="m-navshort">客</span><span class="m-navfull">客户</span></a>
-      <div class="m-sidenav__group">增长</div>
-      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg><span class="m-navshort">营</span><span class="m-navfull">营销活动</span></a>
-      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">折</span><span class="m-navfull">折扣</span></a>
-      <div class="m-sidenav__group">系统</div>
-      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M2 20h20"/></svg><span class="m-navshort">报</span><span class="m-navfull">报表</span></a>
-      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+      <div class="m-sidenav__group">后台</div>
+      <a href="/admin/"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
+      <a href="/admin/sell"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">卖</span><span class="m-navfull">卖货</span></a>
+      <a href="/admin/orders" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">接</span><span class="m-navfull">接单</span></a>
+      <a href="/admin/attract"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="m-navshort">拉</span><span class="m-navfull">拉客</span></a>
+      <a href="/admin/settings"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+      <a href="/admin/onboarding"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="m-navshort">开</span><span class="m-navfull">开店向导</span></a>
+      <a href="/admin/compliance"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="m-navshort">合</span><span class="m-navfull">合规</span></a>
+      <a href="/admin/automation"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="m-navshort">自</span><span class="m-navfull">自动化</span></a>
+      <a href="/admin/i18n"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="m-navshort">译</span><span class="m-navfull">翻译</span></a>
     </nav>
   </aside>
   <div class="m-shell__body">
@@ -448,7 +447,7 @@
   </div>
 </div>
 <!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
-  1. 侧栏图标体系（本页核心呈报，承接 02 呈报 §1）：主侧栏维持「无图标」现产品态；页底对比区给出「有图标」提案（02 同源临时图标集，16px 档、1.5px stroke）。裁决点：是否引入 / 折叠轨取「纯图标」还是「图标 + 单字」/ 图标集来源。02 侧栏图标与本提案同源，随本裁决一并定。
+  1. 侧栏图标体系（承接 02 呈报 §1）：已裁决——B·有图标已采用 @ 用户裁决 2026-10-21（16px 档、1.5px stroke、折叠轨「图标 + 单字」）；主侧栏与 02 已同步落 B 形，页底对比区保留为裁决证据。
   2. 缩略图列：复用 m-thumb（本稿内联 36×45 档，默认 44×55）+ 纯 CSS 块内嵌 16px 线性图形占位；真实商品图在套用片接入（img 需声明宽高）。m-thumb 是否增设 sm 档与 1px 边框，套用片定。
   3. 行内快捷动作复用 m-tool--square（32px 基线）、批量条动作复用 m-btn--sm——两者均无专门组件槽位约定；本稿快捷动作为常显示意，套用片应为 hover 浮现。定稿后建议在组件契约补「表格行动作组 / 批量条动作」形态说明（不改 meridian-ui.css 既有规则）。
   4. keyset 分页的游标说明为文案注记（m-tag + 页脚计数行）；若定稿可下沉为分页组件固定辅助行。
