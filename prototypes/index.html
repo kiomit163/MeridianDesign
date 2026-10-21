@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>原型导航 · Locust 视觉契约</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-admin m-ui">
+<div class="m-shell__main">
+  <div class="m-container">
+
+    <div class="m-pagehead">
+      <div>
+        <div class="m-row">
+          <span class="m-avatar m-avatar--lg">L</span>
+          <div>
+            <h1>十一张原型 · 视觉契约</h1>
+            <div class="sub">Locust 设计仓 · Meridian Design System v1.3</div>
+          </div>
+        </div>
+        <div class="sub" style="margin-top:var(--m-space-3);max-width:60ch">
+          四批交付，每批用户过目定稿：批 A 定调（认证 / 仪表盘双稿 / 列表表格）→ 批 B（明细 / 表单）→ 批 C（构建器 / 报表）→ 批 D（店面四张，Dawn 对标）。
+          每张原型头部为「对标卡」（Shopify 形态要点 / Meridian 化决策 / 漏项落地），尾部为「呈报清单」（超 token 决策，单独裁决）。门：<span class="m-code-inline">node ai/checks/prototypes-gate.mjs</span>
+        </div>
+      </div>
+      <div class="m-row">
+        <span class="m-badge m-badge--success m-badge--tint">批 A 评审中</span>
+        <span class="m-badge m-badge--neutral m-badge--tint">已交付 2 / 11</span>
+      </div>
+    </div>
+
+    <section style="margin-top:var(--m-space-8)">
+      <div class="m-row" style="justify-content:space-between">
+        <h2 style="margin:0;font-size:var(--m-text-xl);font-weight:var(--m-weight-semibold)">批 A · 定调批</h2>
+        <span class="m-badge m-badge--info m-badge--tint">用户批注定稿对象</span>
+      </div>
+      <div class="m-grid-2" style="margin-top:var(--m-space-3)">
+
+        <div class="m-card">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="01-auth.html" style="font-weight:var(--m-weight-semibold)">01 · 认证页</a>
+              <span class="m-badge m-badge--success m-badge--tint">本批已交付</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">脱壳独立布局：居中窄卡 400px + 品牌区 + 页脚；登录卡正常 / 错误两态同页在画；错误就地呈现（横幅 + 字段级修复提示）。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 登录</span><span class="m-tag">新决策 · 认证页脱离 App Shell</span></div>
+          </div>
+        </div>
+
+        <div class="m-card">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="02-dashboard.html" style="font-weight:var(--m-weight-semibold)">02 · 仪表盘（双稿对比）</a>
+              <span class="m-badge m-badge--success m-badge--tint">本批已交付 · 待用户裁</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">稿 A 英雄指标（Shopify Home 哲学）vs 稿 B 等分栅格 4/2/1，同壳同数据；公共件：向导横幅（显态）、SSE 徽章、实时块（满 / 空两态）。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 今日</span><span class="m-tag">漏项 · 账户菜单 + 通知铃</span></div>
+          </div>
+        </div>
+
+        <div class="m-card">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="03-list.html" style="font-weight:var(--m-weight-semibold)">03 · 列表表格页（最高频）</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺 · 批 A 内补</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">Saved Views 页签栏 + 资源缩略图列 + 批量上下文动作条；表格四态（满 / 空 / 加载骨架 / 错误行内）；徽章色映射样例（订单 5 态 + 商品 3 态）。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 卖货 / 接单 / 合规队列 / 自动化 / 翻译 / API keys</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section style="margin-top:var(--m-space-8)">
+      <div class="m-row" style="justify-content:space-between">
+        <h2 style="margin:0;font-size:var(--m-text-xl);font-weight:var(--m-weight-semibold)">批 B · 工作台批</h2>
+      </div>
+      <div class="m-grid-2" style="margin-top:var(--m-space-3)">
+
+        <div class="m-card" style="opacity:var(--m-opacity-disabled)">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="04-detail.html" style="font-weight:var(--m-weight-semibold)">04 · 明细工作台</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">双栏（左主 2/3 + 右辅 1/3）+ 返回导航 + 页头动作组；时间轴 / 金额汇总卡 / 右辅卡 / 按钮组可用与禁用。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 订单详情 / 商品深度 / 合规个案 / 翻译任务</span></div>
+          </div>
+        </div>
+
+        <div class="m-card" style="opacity:var(--m-opacity-disabled)">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="05-form.html" style="font-weight:var(--m-weight-semibold)">05 · 表单 / 设置页</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">左侧 sections 二级导航 + 窄容器 640px + 分区卡 + 粘性保存条；表单四态 + 危险区（红色确认）。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 设置各分区 / 向导各步</span><span class="m-tag">漏项 · 设置二级导航</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section style="margin-top:var(--m-space-8)">
+      <div class="m-row" style="justify-content:space-between">
+        <h2 style="margin:0;font-size:var(--m-text-xl);font-weight:var(--m-weight-semibold)">批 C · 工具批</h2>
+      </div>
+      <div class="m-grid-2" style="margin-top:var(--m-space-3)">
+
+        <div class="m-card" style="opacity:var(--m-opacity-disabled)">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="06-builder.html" style="font-weight:var(--m-weight-semibold)">06 · 构建器工作台</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">三栏 IDE 形（元素面板 / 画布 / 属性面板）+ 画布工具条；画布占位做出真 iframe 感。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 构建器（v2c 骨架 Meridian 化）</span></div>
+          </div>
+        </div>
+
+        <div class="m-card" style="opacity:var(--m-opacity-disabled)">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="07-reports.html" style="font-weight:var(--m-weight-semibold)">07 · 报表笔记本</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">报表卡栅格 + NL 问数输入区；图表 token 色板取色、笔记本卡、问数结果卡、空态。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 报表 / 问数</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section style="margin-top:var(--m-space-8)">
+      <div class="m-row" style="justify-content:space-between">
+        <h2 style="margin:0;font-size:var(--m-text-xl);font-weight:var(--m-weight-semibold)">批 D · 店面批（Dawn 对标）</h2>
+      </div>
+      <div class="m-grid-2" style="margin-top:var(--m-space-3)">
+
+        <div class="m-card" style="opacity:var(--m-opacity-disabled)">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="08-home.html" style="font-weight:var(--m-weight-semibold)">08 · 店面首页 / 内容页</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">店面独立壳：公告条 + 头部导航 + hero（禁 100vh）+ 区块带 + 页脚；banding ≤ 3。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 首页 / 内容页</span></div>
+          </div>
+        </div>
+
+        <div class="m-card" style="opacity:var(--m-opacity-disabled)">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="09-plp.html" style="font-weight:var(--m-weight-semibold)">09 · 商品列表</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">筛选栏 + 商品栅格 2/3/4 列三断点；商品卡 hover 快加购；分页。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 商品列表 / 搜索结果</span></div>
+          </div>
+        </div>
+
+        <div class="m-card" style="opacity:var(--m-opacity-disabled)">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="10-pdp.html" style="font-weight:var(--m-weight-semibold)">10 · 商品详情</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">双栏（左图集 / 右购买箱）+ 详情带；变体选择器三态、加购按钮态、库存提示、详情 Tabs。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 商品详情</span></div>
+          </div>
+        </div>
+
+        <div class="m-card" style="opacity:var(--m-opacity-disabled)">
+          <div class="m-card__body m-col">
+            <div class="m-row" style="justify-content:space-between">
+              <a href="11-checkout.html" style="font-weight:var(--m-weight-semibold)">11 · 结账流（三页一稿横排）</a>
+              <span class="m-badge m-badge--neutral m-badge--tint">缺</span>
+            </div>
+            <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">窄流：购物车 → 结账（分段表单）→ 确认（克制庆祝态）；行项数量步进、汇总卡。</div>
+            <div class="m-row"><span class="m-tag">覆盖 · 购物车 / 结账 / 订单确认</span></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <div style="margin-top:var(--m-space-10);padding-bottom:var(--m-space-8)">
+      <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">
+        视觉契约约定：原型直引仓内 <span class="m-code-inline">ai/tokens.css</span> + <span class="m-code-inline">ai/meridian-ui.css</span>，零构建、零私改副本；组件缺口与超 token 决策只进「呈报清单」，不悄悄落盘面。链接可占位——原型是静态视觉契约，不是可交互逻辑。
+      </div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>

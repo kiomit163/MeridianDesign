@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>01 认证页 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-admin m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：认证是独立域——脱离管理台 Shell；居中窄卡单列布局；品牌区极简（字标 + 一句话定位）；
+  主按钮为卡内通栏大按钮；错误就地呈现（卡顶横幅 + 字段级「如何修复」）；页脚 = 法务链接 + 语言选择。
+  Meridian 化决策：body.stage-admin（灰底白卡 + 品牌绿主按钮，运营工具保留品牌识别度）；
+  卡宽 400px；登录主按钮 = 卡内通栏 + lg 高度——修复旧登录页「页面级全宽按钮」缺陷（宽度约束在 400px 卡内，Polaris 同款）；
+  「忘记密码」上移至密码标签行右端（透镜轮采纳：减少视觉层级跳转）；
+  正常 / 错误两态同页在画并以徽章标注；横幅 role=alert，字段错误给出修复路径与剩余尝试次数。
+  漏项落地：本页无五漏项——顶栏账户菜单 + 通知铃落在 02 顶栏。
+-->
+<div style="max-width:640px;margin:var(--m-space-4) auto 0;padding-inline:var(--m-space-4)">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 01 认证页<span class="m-badge m-badge--info m-badge--tint">批 A · 定调批</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>认证独立域、居中窄卡、单列单主按钮、品牌区极简、错误就地呈现、页脚法务 + 语言选择。<br>
+        <b>Meridian 化决策：</b>stage-admin 灰底白卡；400px 卡内通栏 lg 主按钮（宽度约束修复旧「全宽按钮」缺陷）；品牌时刻 = primary-tint 字标位；两态同页在画；「忘记密码」置于密码标签行右端。<br>
+        <b>漏项落地：</b>无（顶栏账户菜单 + 通知铃 → 02）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<main style="min-height:72vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--m-space-8);padding:var(--m-space-12) var(--m-space-4)">
+
+  <!-- 品牌区 -->
+  <div class="m-col" style="align-items:center;gap:var(--m-space-2);text-align:center">
+    <span class="m-avatar m-avatar--lg">L</span>
+    <div style="font-size:var(--m-text-3xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight)">Locust</div>
+    <div style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">面向欧美市场的跨境电商运营平台</div>
+  </div>
+
+  <!-- 登录卡 · 正常态 -->
+  <div class="m-card" style="width:100%;max-width:400px">
+    <div class="m-card__header">登录<span class="m-badge m-badge--neutral m-badge--tint">正常态</span></div>
+    <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+      <div class="m-field">
+        <label class="m-field__label" for="email">邮箱</label>
+        <input class="m-input" id="email" type="email" value="lin.wei@locust.store" autocomplete="username">
+      </div>
+      <div class="m-field">
+        <div class="m-row" style="justify-content:space-between">
+          <label class="m-field__label" for="password">密码</label>
+          <a href="#" style="font-size:var(--m-text-sm)">忘记密码？</a>
+        </div>
+        <input class="m-input" id="password" type="password" value="autumn-2026" autocomplete="current-password">
+      </div>
+      <label class="m-check"><input type="checkbox" checked><span class="box"></span>30 天内记住此设备</label>
+      <button class="m-btn m-btn--primary m-btn--lg" style="width:100%">登录</button>
+    </div>
+  </div>
+
+  <!-- 登录卡 · 错误态 -->
+  <div class="m-card" style="width:100%;max-width:400px">
+    <div class="m-card__header">登录<span class="m-badge m-badge--critical m-badge--tint">错误态</span></div>
+    <div class="m-card__body m-col" style="gap:var(--m-space-4)">
+      <div class="m-banner m-banner--critical" role="alert">
+        <svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5h.01"/></svg>
+        <div class="m-banner__body"><b>登录失败</b><br>邮箱或密码不正确。可重试，或通过「忘记密码」重置后再登录。</div>
+      </div>
+      <div class="m-field">
+        <label class="m-field__label" for="email-err">邮箱</label>
+        <input class="m-input" id="email-err" type="email" value="lin.wei@locust.store">
+      </div>
+      <div class="m-field">
+        <div class="m-row" style="justify-content:space-between">
+          <label class="m-field__label" for="password-err">密码</label>
+          <a href="#" style="font-size:var(--m-text-sm)">忘记密码？</a>
+        </div>
+        <input class="m-input is-error" id="password-err" type="password" value="locust2026" aria-invalid="true" aria-describedby="password-err-msg">
+        <span class="m-field__error" id="password-err-msg" role="alert"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v5"/><path d="M12 16.5h.01"/></svg>密码不正确，还可尝试 4 次，超过后账户将临时锁定。</span>
+      </div>
+      <label class="m-check"><input type="checkbox"><span class="box"></span>30 天内记住此设备</label>
+      <button class="m-btn m-btn--primary m-btn--lg" style="width:100%">重试登录</button>
+    </div>
+  </div>
+
+  <!-- 页脚 -->
+  <footer class="m-col" style="align-items:center;gap:var(--m-space-3)">
+    <div class="m-row" style="gap:var(--m-space-4)">
+      <a href="#" style="font-size:var(--m-text-sm)">服务条款</a>
+      <a href="#" style="font-size:var(--m-text-sm)">隐私政策</a>
+      <a href="#" style="font-size:var(--m-text-sm)">帮助中心</a>
+    </div>
+    <div class="m-row" style="gap:var(--m-space-3)">
+      <div class="m-select-wrap" style="width:150px">
+        <select aria-label="界面语言">
+          <option selected>简体中文</option>
+          <option>English (US)</option>
+          <option>Deutsch</option>
+        </select>
+        <svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">© 2026 Locust Commerce Ltd.</span>
+    </div>
+  </footer>
+
+</main>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. 品牌字标暂以 .m-avatar--lg（primary-tint 底 + 首字母）承托——正式 logo 资产与品牌区构成（含深色主题版）待品牌侧定稿后替换。
+  2. admin 舞台卡片默认无阴影（border-first）；认证白卡浮在灰底上是否允许 e1 阴影提升层次，属超当前 admin 约定，请裁。
+  3. 已知省略：企业 SSO / 一次性验证码登录次入口（当前商户未启用；启用后需补第三方按钮区 + 「或」分隔线形态）。
+  4. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——删除登录卡密码下「至少 8 位」帮助文案（密码规则属注册域语境，登录页是噪音）；可见文案过 copy self-audit 与 em-dash 纪律（零长破折，中点每行 ≤1）；「忘记密码」置于密码标签行右端（初稿即落，透轮复核保留）。
+     拒绝——错误卡加 shake 动效（admin 动效克制 100–300ms，且需新增 motion token）；品牌区加渐变底（渐变色不在 token 色板内）；design-taste 反居中偏置（认证页居中是品类惯例，Shopify 对标在案，且该 skill 自declare 不含登录流）；ui-ux-pro-max 营销面字号规则与 admin 舞台 token 冲突，token 法优先。
+-->
+</body>
+</html>

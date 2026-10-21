@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 仪表盘 · 双稿对比 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+</head>
+<body class="stage-admin m-ui">
+<!-- 对标卡：
+  Shopify 形态要点：Admin Home = 单一英雄指标 + 「需要关注的事」+ 洞察，而非 KPI 墙；顶栏右侧 = 通知铃 + 账户菜单；
+  首访向导横幅可关闭（关闭后不占位）；所有数字带时效标注与同比。
+  Meridian 化决策：双稿同壳同数据（可比对裁决）——
+  稿 A 英雄卡：今日销售 text-6xl 大数字 + 同比箭头 + 纯 CSS 迷你趋势条，辅助区 = 需要处理 / 实时块 / AI 洞察（Shopify Home 哲学）；
+  稿 B 等分栅格：现有 .m-grid-kpi 直排 4·2·1 + 实时块；
+  公共件：向导横幅（显态，关闭 = 整条移除）、SSE 徽章（顶栏连接态 + 实时块标）、实时块（订单满态 / 商品空态两面）；
+  账户菜单：稿 A 展开态示意（遮挡为有意展示）、稿 B 收起态；通知铃 = 数字角标形态。
+  漏项落地：顶栏账户菜单 ✓ 通知铃 ✓（宿主 #2）；SSE 徽章 ✓ 向导横幅 ✓。
+-->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
+  <div class="m-accordion">
+    <details>
+      <summary>对标卡 · 02 仪表盘（双稿对比）<span class="m-badge m-badge--info m-badge--tint">批 A · 定调批 · 用户裁一</span></summary>
+      <div class="acc-body">
+        <b>Shopify 形态要点：</b>Home = 英雄指标 + 需要关注的事 + 洞察，不是 KPI 墙；顶栏右 = 通知铃 + 账户菜单；向导横幅可关；数字带时效与同比。<br>
+        <b>Meridian 化决策：</b>双稿同壳同数据：稿 A 英雄卡（大数字 + 迷你趋势 + 辅助区）；稿 B 现有 m-grid-kpi 4/2/1；公共件（横幅 / SSE / 实时块）两稿齐备；实时块一满一空两面在画。<br>
+        <b>漏项落地：</b>账户菜单 + 通知铃 → 本页顶栏（宿主 #2）。超 token 项见尾部呈报清单。
+      </div>
+    </details>
+  </div>
+</div>
+
+<!-- 双稿：英雄指标 -->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-8) var(--m-space-4) 0">
+  <div class="m-row" style="justify-content:space-between">
+    <div class="m-row">
+      <span class="m-badge m-badge--info m-badge--solid">稿 A</span>
+      <h2 style="margin:0;font-size:var(--m-text-xl);font-weight:var(--m-weight-semibold)">英雄指标 · Shopify Home 哲学</h2>
+    </div>
+    <span class="m-tag">单英雄卡 + 辅助区 · 账户菜单展开态示意</span>
+  </div>
+</div>
+
+<div class="m-shell">
+  <aside class="m-shell__sidenav">
+    <nav class="m-sidenav" aria-label="主导航（稿 A）" style="padding:var(--m-space-2)">
+      <div class="m-sidenav__group">经营</div>
+      <a href="#" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">订</span><span class="m-navfull">订单</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg><span class="m-navshort">商</span><span class="m-navfull">商品</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.1-5.5 6.5-5.5s5.9 2 6.5 5.5"/><path d="M16 4.2a3.5 3.5 0 0 1 0 6.6"/><path d="M18.5 14.8c1.8.9 2.7 2.4 3 5.2"/></svg><span class="m-navshort">客</span><span class="m-navfull">客户</span></a>
+      <div class="m-sidenav__group">增长</div>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg><span class="m-navshort">营</span><span class="m-navfull">营销活动</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">折</span><span class="m-navfull">折扣</span></a>
+      <div class="m-sidenav__group">系统</div>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M2 20h20"/></svg><span class="m-navshort">报</span><span class="m-navfull">报表</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+    </nav>
+  </aside>
+  <div class="m-shell__body">
+    <header class="m-topbar">
+      <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 今日</span></div>
+      <div class="m-topbar__actions">
+        <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
+        <span style="position:relative;display:inline-flex">
+          <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        </span>
+        <span style="position:relative;display:inline-flex">
+          <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="true"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="m-popover is-open" role="menu" aria-label="账户菜单" style="top:calc(100% + 4px);right:0;width:224px">
+            <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);padding-bottom:var(--m-space-2)">lin.wei@locust.store</div>
+            <div class="m-combobox__opt" role="menuitem">账户设置</div>
+            <div class="m-combobox__opt" role="menuitem">通知偏好</div>
+            <div class="m-combobox__opt" role="menuitem">切换店铺 · 欧洲站</div>
+            <div class="m-combobox__opt" role="menuitem" style="color:var(--m-critical-fg)">登出</div>
+          </div>
+        </span>
+      </div>
+    </header>
+    <main class="m-shell__main">
+      <div class="m-container">
+
+        <div class="m-pagehead">
+          <div>
+            <h1>今日</h1>
+            <div class="sub">2026年10月21日 星期三 · 数据每 5 分钟自动刷新</div>
+          </div>
+          <div class="m-row">
+            <div class="m-seg" role="group" aria-label="时间范围">
+              <button type="button">昨天</button>
+              <button type="button" class="is-active">今天</button>
+              <button type="button">7 天</button>
+              <button type="button">30 天</button>
+            </div>
+            <button type="button" class="m-btn m-btn--secondary m-btn--sm">导出报告</button>
+          </div>
+        </div>
+
+        <!-- 向导横幅（显态；用户关闭后整条移除，不占位） -->
+        <div class="m-banner m-banner--info" role="status" style="margin-top:var(--m-space-4)">
+          <svg class="m-i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+          <div class="m-banner__body">
+            <b>完成开店最后 2 步，店面即可开始接单</b><br>
+            连接支付渠道并发布运费模板后，欧洲站将自动上线。已完成 2 / 4 步。
+            <div class="m-progress" style="margin-top:var(--m-space-2)"><i style="width:50%"></i></div>
+          </div>
+          <div class="m-banner__actions">
+            <button type="button" class="m-btn m-btn--sm m-btn--primary">继续设置</button>
+            <button type="button" class="m-tool m-tool--square" aria-label="关闭向导横幅"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg></button>
+          </div>
+        </div>
+
+        <!-- 英雄指标卡 -->
+        <div class="m-card" style="margin-top:var(--m-space-4)">
+          <div class="m-card__header">今日销售<span class="m-badge m-badge--success m-badge--tint">● 实时</span></div>
+          <div class="m-card__body m-row" style="align-items:flex-end;justify-content:space-between;gap:var(--m-space-6)">
+            <div class="m-kpi" style="padding:0">
+              <div class="label">今日销售（含税，已扣退款）</div>
+              <div class="value tnum" style="font-size:var(--m-text-6xl)">€48,265.00</div>
+              <div class="m-row" style="gap:var(--m-space-2)">
+                <span class="delta up">↑ 12.4%</span>
+                <span class="vs">较昨日同期 · 79 单待结算</span>
+              </div>
+            </div>
+            <div class="m-col" aria-hidden="true" style="align-items:flex-end;gap:var(--m-space-1)">
+              <div style="display:flex;align-items:flex-end;gap:var(--m-space-1);height:64px">
+                <span style="width:10px;height:30%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:38%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:34%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:45%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:40%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:52%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:46%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:58%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:50%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:62%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:56%;background:var(--m-primary-tint);border-radius:var(--m-radius-xs)"></span>
+                <span style="width:10px;height:74%;background:var(--m-primary);border-radius:var(--m-radius-xs)"></span>
+              </div>
+              <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">近 12 小时 · 每小时一档</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="m-grid-2" style="margin-top:var(--m-space-4)">
+          <div class="m-card">
+            <div class="m-card__header">需要处理<span class="m-badge m-badge--neutral m-badge--tint">4 项</span></div>
+            <div class="m-card__body m-col">
+              <div class="m-row" style="justify-content:space-between">
+                <a href="#">待发货订单</a><span class="m-badge m-badge--critical m-badge--solid">12</span>
+              </div>
+              <div class="m-row" style="justify-content:space-between">
+                <a href="#">待付款订单</a><span class="m-badge m-badge--warning m-badge--solid">8</span>
+              </div>
+              <div class="m-row" style="justify-content:space-between">
+                <a href="#">售后进行中</a><span class="m-badge m-badge--info m-badge--solid">2</span>
+              </div>
+              <div class="m-row" style="justify-content:space-between">
+                <a href="#">库存预警 SKU</a><span class="m-badge m-badge--neutral m-badge--solid">23</span>
+              </div>
+            </div>
+            <div class="m-card__footer"><a href="#" class="m-btn m-btn--ghost m-btn--sm">查看全部待办</a></div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-card__header">实时订单<span class="m-badge m-badge--success m-badge--tint">● SSE 推送</span></div>
+            <div class="m-table-wrap">
+              <table class="m-table">
+                <thead><tr><th>订单</th><th>客户</th><th class="num">金额</th><th class="num">时间</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div class="cell-main tnum">#LN-20482</div></td>
+                    <td><div class="cell-main">Mara Jensen</div><div class="cell-sub">柏林 · DE</div></td>
+                    <td class="num tnum">€289.00</td>
+                    <td class="num"><div class="cell-sub">刚刚</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell-main tnum">#LN-20481</div></td>
+                    <td><div class="cell-main">Felix Braun</div><div class="cell-sub">维也纳 · AT</div></td>
+                    <td class="num tnum">€1,249.00</td>
+                    <td class="num"><div class="cell-sub">2 分钟前</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell-main tnum">#LN-20480</div></td>
+                    <td><div class="cell-main">Emma Fischer</div><div class="cell-sub">慕尼黑 · DE</div></td>
+                    <td class="num tnum">€158.00</td>
+                    <td class="num"><div class="cell-sub">6 分钟前</div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="m-card__footer"><a href="#" class="m-btn m-btn--ghost m-btn--sm">查看全部订单</a></div>
+          </div>
+        </div>
+
+        <div class="m-grid-2" style="margin-top:var(--m-space-4);padding-bottom:var(--m-space-6)">
+          <div class="m-card">
+            <div class="m-card__header">实时商品<span class="m-badge m-badge--success m-badge--tint">● SSE 推送</span></div>
+            <div class="m-card__body">
+              <div class="m-empty">
+                <svg class="m-i" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
+                <h4>暂无正在浏览的商品</h4>
+                <p>有顾客浏览店面时，热门商品与实时浏览人数会出现在这里。</p>
+                <a href="#" class="m-btn m-btn--secondary m-btn--sm">去店面看商品</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-card__header">经营洞察<span class="m-badge m-badge--ai m-badge--tint">AI 建议</span></div>
+            <div class="m-card__body m-col">
+              <div style="font-size:var(--m-text-sm)">上周同类店铺为秋冬商品补齐德语描述后，转化率平均提升 2.1%。你有 14 个在售商品仍缺德语描述，其中 3 个是本季主推。</div>
+              <div class="m-row">
+                <button type="button" class="m-btn m-btn--secondary m-btn--sm">去补齐描述</button>
+                <button type="button" class="m-btn m-btn--tertiary m-btn--sm">本周不再提示</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 双稿：等分栅格 -->
+<div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-8) var(--m-space-4) 0">
+  <div class="m-row" style="justify-content:space-between">
+    <div class="m-row">
+      <span class="m-badge m-badge--emphasis m-badge--solid">稿 B</span>
+      <h2 style="margin:0;font-size:var(--m-text-xl);font-weight:var(--m-weight-semibold)">等分栅格 · 现有 m-grid-kpi 4/2/1</h2>
+    </div>
+    <span class="m-tag">KPI 等分直排 · 账户菜单收起态</span>
+  </div>
+</div>
+
+<div class="m-shell">
+  <aside class="m-shell__sidenav">
+    <nav class="m-sidenav" aria-label="主导航（稿 B）" style="padding:var(--m-space-2)">
+      <div class="m-sidenav__group">经营</div>
+      <a href="#" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">订</span><span class="m-navfull">订单</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M21 8 12 3 3 8v8l9 5 9-5V8z"/><path d="M3 8l9 5 9-5"/><path d="M12 13v8"/></svg><span class="m-navshort">商</span><span class="m-navfull">商品</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.6-3.5 3.1-5.5 6.5-5.5s5.9 2 6.5 5.5"/><path d="M16 4.2a3.5 3.5 0 0 1 0 6.6"/><path d="M18.5 14.8c1.8.9 2.7 2.4 3 5.2"/></svg><span class="m-navshort">客</span><span class="m-navfull">客户</span></a>
+      <div class="m-sidenav__group">增长</div>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg><span class="m-navshort">营</span><span class="m-navfull">营销活动</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">折</span><span class="m-navfull">折扣</span></a>
+      <div class="m-sidenav__group">系统</div>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 20V10"/><path d="M10 20V4"/><path d="M16 20v-6"/><path d="M2 20h20"/></svg><span class="m-navshort">报</span><span class="m-navfull">报表</span></a>
+      <a href="#"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
+    </nav>
+  </aside>
+  <div class="m-shell__body">
+    <header class="m-topbar">
+      <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 今日</span></div>
+      <div class="m-topbar__actions">
+        <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
+        <span style="position:relative;display:inline-flex">
+          <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        </span>
+        <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+      </div>
+    </header>
+    <main class="m-shell__main">
+      <div class="m-container">
+
+        <div class="m-pagehead">
+          <div>
+            <h1>今日</h1>
+            <div class="sub">2026年10月21日 星期三 · 数据每 5 分钟自动刷新</div>
+          </div>
+          <div class="m-row">
+            <div class="m-seg" role="group" aria-label="时间范围">
+              <button type="button">昨天</button>
+              <button type="button" class="is-active">今天</button>
+              <button type="button">7 天</button>
+              <button type="button">30 天</button>
+            </div>
+            <button type="button" class="m-btn m-btn--secondary m-btn--sm">导出报告</button>
+          </div>
+        </div>
+
+        <!-- 向导横幅（公共件，显态） -->
+        <div class="m-banner m-banner--info" role="status" style="margin-top:var(--m-space-4)">
+          <svg class="m-i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
+          <div class="m-banner__body">
+            <b>完成开店最后 2 步，店面即可开始接单</b><br>
+            连接支付渠道并发布运费模板后，欧洲站将自动上线。已完成 2 / 4 步。
+            <div class="m-progress" style="margin-top:var(--m-space-2)"><i style="width:50%"></i></div>
+          </div>
+          <div class="m-banner__actions">
+            <button type="button" class="m-btn m-btn--sm m-btn--primary">继续设置</button>
+            <button type="button" class="m-tool m-tool--square" aria-label="关闭向导横幅"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="M6 6l12 12"/></svg></button>
+          </div>
+        </div>
+
+        <!-- KPI 栅格 4 -->
+        <div class="m-grid-kpi" style="margin-top:var(--m-space-4)">
+          <div class="m-card"><div class="m-kpi">
+            <div class="label">今日销售</div>
+            <div class="value tnum">€48,265.00</div>
+            <div class="m-row" style="gap:var(--m-space-1)"><span class="delta up">↑ 12.4%</span><span class="vs">较昨日</span></div>
+          </div></div>
+          <div class="m-card"><div class="m-kpi">
+            <div class="label">订单数</div>
+            <div class="value tnum">316</div>
+            <div class="m-row" style="gap:var(--m-space-1)"><span class="delta up">↑ 8.2%</span><span class="vs">较昨日</span></div>
+          </div></div>
+          <div class="m-card"><div class="m-kpi">
+            <div class="label">客单价</div>
+            <div class="value tnum">€152.73</div>
+            <div class="m-row" style="gap:var(--m-space-1)"><span class="delta down">↓ 1.8%</span><span class="vs">较昨日</span></div>
+          </div></div>
+          <div class="m-card"><div class="m-kpi">
+            <div class="label">转化率</div>
+            <div class="value tnum">3.42%</div>
+            <div class="m-row" style="gap:var(--m-space-1)"><span class="delta up">↑ 0.3pt</span><span class="vs">较昨日</span></div>
+          </div></div>
+        </div>
+
+        <!-- KPI 栅格 2 -->
+        <div class="m-grid-kpi" style="margin-top:var(--m-space-4)">
+          <div class="m-card"><div class="m-kpi">
+            <div class="label">访客数</div>
+            <div class="value tnum">9,248</div>
+            <div class="m-row" style="gap:var(--m-space-1)"><span class="delta up">↑ 5.1%</span><span class="vs">较昨日</span></div>
+          </div></div>
+          <div class="m-card"><div class="m-kpi">
+            <div class="label">弃单数</div>
+            <div class="value tnum">41</div>
+            <div class="m-row" style="gap:var(--m-space-1)"><span class="delta down">↑ 6</span><span class="vs">较昨日 · 待挽回 €6,230</span></div>
+          </div></div>
+        </div>
+
+        <!-- KPI 栅格 1 -->
+        <div class="m-grid-kpi" style="margin-top:var(--m-space-4)">
+          <div class="m-card"><div class="m-kpi">
+            <div class="label">库存预警 SKU</div>
+            <div class="value tnum">23</div>
+            <div class="m-row" style="gap:var(--m-space-2)">
+              <span class="delta down">↑ 5 个今日新增</span>
+              <a href="#" style="margin-inline-start:auto;font-size:var(--m-text-sm)">去处理</a>
+            </div>
+          </div></div>
+        </div>
+
+        <div class="m-grid-2" style="margin-top:var(--m-space-4);padding-bottom:var(--m-space-6)">
+          <div class="m-card">
+            <div class="m-card__header">实时订单<span class="m-badge m-badge--success m-badge--tint">● SSE 推送</span></div>
+            <div class="m-table-wrap">
+              <table class="m-table">
+                <thead><tr><th>订单</th><th>客户</th><th class="num">金额</th><th class="num">时间</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><div class="cell-main tnum">#LN-20482</div></td>
+                    <td><div class="cell-main">Mara Jensen</div><div class="cell-sub">柏林 · DE</div></td>
+                    <td class="num tnum">€289.00</td>
+                    <td class="num"><div class="cell-sub">刚刚</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell-main tnum">#LN-20481</div></td>
+                    <td><div class="cell-main">Felix Braun</div><div class="cell-sub">维也纳 · AT</div></td>
+                    <td class="num tnum">€1,249.00</td>
+                    <td class="num"><div class="cell-sub">2 分钟前</div></td>
+                  </tr>
+                  <tr>
+                    <td><div class="cell-main tnum">#LN-20480</div></td>
+                    <td><div class="cell-main">Emma Fischer</div><div class="cell-sub">慕尼黑 · DE</div></td>
+                    <td class="num tnum">€158.00</td>
+                    <td class="num"><div class="cell-sub">6 分钟前</div></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="m-card__footer"><a href="#" class="m-btn m-btn--ghost m-btn--sm">查看全部订单</a></div>
+          </div>
+
+          <div class="m-card">
+            <div class="m-card__header">实时商品<span class="m-badge m-badge--success m-badge--tint">● SSE 推送</span></div>
+            <div class="m-card__body">
+              <div class="m-empty">
+                <svg class="m-i" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
+                <h4>暂无正在浏览的商品</h4>
+                <p>有顾客浏览店面时，热门商品与实时浏览人数会出现在这里。</p>
+                <a href="#" class="m-btn m-btn--secondary m-btn--sm">去店面看商品</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+<!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  1. 侧栏图标体系：本稿临时借用通用 1.5px stroke 线性图标示意（今日/订单/商品/客户/营销/折扣/报表/设置）——正式图标体系（图标集、尺寸档、「无图标 vs 有图标」对比）由宿主 03 顺带出对比后由用户裁决。
+  2. 迷你趋势条为纯 CSS 临时造型（div 柱 + token 底色）；若稿 A 定稿，建议套用片为 m-spark 迷你趋势组件立项。
+  3. SSE 徽章的「呼吸点」动效未做——需新增 motion token（周期/幅度），超 token 范围，呈报后定。
+  4. 通知铃数字角标的定位（-5px 偏移）为原型期临时内联布局；套用片应固化为角标组件形态。
+  5. 账户菜单项暂复用 .m-combobox__opt 行样式——缺「菜单项 m-menu-item」组件，属组件缺口，呈报立项（不动 meridian-ui.css 既有规则）。
+  6. 英雄数字取 text-6xl（44px）；若嫌大可降 text-5xl（36px）——页面级品味，请用户过目时定。
+  7. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
+     采纳——可见文案 copy self-audit：英雄卡标签双中点改括号注记（今日销售（含税，已扣退款））；「4·2·1」统一为 spec 记法 4/2/1；可见文案零 em-dash；index 计数徽章修正。
+     拒绝——英雄卡渐变描边 / KPI 卡彩色顶条（超 token 装饰，不在色板）；弃单数改黄色徽章（warning 语义保留给待付款，弃单属风险语义走 critical）；design-taste 反居中 / 去卡片 / 密度规则不适用（其 skill 自declare 仪表盘 out of scope）；ui-ux-pro-max 营销面字号规则（正文 16px / 标题 32px）与 admin 舞台 token（14px / 20px）冲突——token 法优先。
+-->
+</body>
+</html>
