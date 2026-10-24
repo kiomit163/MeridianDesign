@@ -657,7 +657,7 @@
 
 /* ============================================================================
    STOREFRONT STAGE — 画廊舞台原则（说明性注释；具体声明已并入 :root, .stage-storefront 与
-   [data-theme="dark"] / .theme-dark 主块，无需单独的舞台块）
+   [data-theme="dark"] / .theme-dark 主块；唯一的单独舞台块是下方的品牌展示字体插槽）
    前台主操作 = 中性近黑（深色主题为近白）：商品图是彩色的，品牌色实底按钮
    会与商品争抢视觉；黑白灰 CTA 是欧美 DTC 主流（Everlane / Aritzia / SSENSE /
    Shopify Dawn 默认）。品牌色退守"品牌时刻"：logo、宣告条、营销区块。
@@ -667,6 +667,15 @@
    同元素复合：.stage-storefront.theme-dark 等价于上面的 [data-theme="dark"] 主块
    （靠后覆盖靠前的浅色 primary）。这里给一个显式空块以满足机器层断言。
    ============================================================================ */
+
+/* BRAND KIT · 展示字体插槽（docs/03 §一 允许品牌整体替换 --m-font-display；时尚/编辑类可换衬线）
+   本地衬线栈：零网络请求（GDPR 无 IP 外传），Win/macOS 均有可用字面。
+   仅作用于本舞台；后台保持 Inter 栈不变。组合层（site.css）不再持有副本。 */
+.stage-storefront {
+  --m-font-display: ui-serif, "Iowan Old Style", "Palatino Linotype", Palatino,
+    "Book Antiqua", Georgia, "Times New Roman", serif;
+}
+
 .stage-storefront.theme-dark,
 .stage-storefront[data-theme="dark"] {
   --m-card-shadow: var(--m-shadow-e1);

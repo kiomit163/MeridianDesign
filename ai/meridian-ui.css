@@ -297,7 +297,7 @@ kbd { font-family: var(--m-font-mono); font-size: var(--m-text-xs); background: 
 .m-accordion-list svg { color: var(--m-fg-subtle); margin-top: var(--m-space-05); }
 .m-avatar { width: 32px; height: 32px; border-radius: var(--m-radius-pill); background: var(--m-primary-tint); color: var(--m-primary-text); display: inline-grid; place-items: center; font-size: var(--m-text-xs); font-weight: var(--m-weight-semibold); flex: none; }
 .m-avatar--lg { width: 44px; height: 44px; font-size: var(--m-text-md); }
-.m-thumb { width: 44px; height: 55px; border-radius: var(--m-radius-sm); background: var(--m-bg-inset); object-fit: cover; flex: none; }
+.m-thumb { display: inline-grid; place-items: center; width: 44px; height: 55px; border-radius: var(--m-radius-sm); background: var(--m-bg-inset); object-fit: cover; flex: none; }
 .m-copyfield { display: flex; align-items: center; gap:var(--m-space-2); padding:var(--m-space-2) var(--m-space-3); background: var(--m-bg-inset); border-radius: var(--m-radius-sm); font-family: var(--m-font-mono); font-size: var(--m-text-xs); color: var(--m-fg-muted); }
 .m-copyfield .val { flex: 1; overflow: hidden; text-overflow: ellipsis; }
 .m-copyfield button { border: none; background: none; color: var(--m-fg-subtle); cursor: pointer; display: grid; place-items: center; padding:var(--m-space-05); }
@@ -477,12 +477,32 @@ kbd { font-family: var(--m-font-mono); font-size: var(--m-text-xs); background: 
 .m-grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:var(--m-space-4); }
 .m-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:var(--m-space-4); }
 
+/* 屏幕阅读器专用（视觉隐藏但可读）—— 组合层唯一份（admin/site 只引用，不再各持副本） */
+.m-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; /* meridian-allow: sr-only-standard */
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+/* sr-only 的数据表必须固定布局，否则表格最小内容宽会撑出横向滚动 */
+table.m-sr-only { table-layout: fixed; max-width: 1px; }
+/* 跳过导航（WCAG 2.4.1）：聚焦时才显形 */
+.m-skip {
+  position: fixed; top: var(--m-space-2); inset-inline-start: var(--m-space-4);
+  z-index: var(--m-z-toast);
+  padding: var(--m-space-2) var(--m-space-4);
+  background: var(--m-bg-surface); color: var(--m-fg);
+  border: 1px solid var(--m-border-strong); border-radius: var(--m-radius-md);
+  box-shadow: var(--m-shadow-e2); font-size: var(--m-text-sm); font-weight: var(--m-weight-medium);
+  translate: 0 -200%;
+  transition: translate var(--m-duration-150) var(--m-ease-enter);
+}
+.m-skip:focus-visible { translate: 0 0; }
+
 /* ---------- 11 Toast（docs/17 §一 规格的参考实现） ----------
    --m-toast-duration 由 JS 读取：setTimeout(…, parseInt(getComputedStyle(el).getPropertyValue('--m-toast-duration')))
    hover 暂停 = 清除 animation 并记剩余时间；退场由 JS 置 data-state="closed" 触发。 */
 .m-toast-stack { position: fixed; z-index: var(--m-z-toast); display: flex; flex-direction: column;
   gap: var(--m-space-2); inset-inline-end: var(--m-space-4); bottom: var(--m-space-4); }
-.stage-storefront .m-toast-stack, :root .m-toast-stack { inset-inline: 0; align-items: center; }
+:root .m-toast-stack { inset-inline: 0; align-items: center; }
 .m-toast { display: flex; align-items: center; gap: var(--m-space-3); max-inline-size: 24rem;
   padding: var(--m-space-2) var(--m-space-3); border-radius: var(--m-toast-radius);
   background: var(--m-toast-bg); color: var(--m-toast-fg); font-size: var(--m-text-sm);

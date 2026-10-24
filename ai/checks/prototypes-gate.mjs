@@ -1,7 +1,13 @@
 #!/usr/bin/env node
 // G-224 同源与零裸值 + G-225 契约完备 + G-228 类允许清单与 role=alert 舞台政策
-// （specs/2026-10-21-archetype-prototypes；G-228 为 prototype-application 片基座）
+// + G-229 单一源 CSS 层扩面（specs/2026-10-21-archetype-prototypes / 2026-10-24-site-application）
 // 用法：node ai/checks/prototypes-gate.mjs   （在 Meridian Design/ 仓根运行）exit 0=绿
+//
+// G-229 探针（site-application 片新增）：
+// [扫描面] 类允许清单取 ai/ CSS 层闭合五件（tokens / brand-tokens / meridian-ui /
+//   admin / site）的并集——三份新组合层因此在门内，缺任何一件即红。
+// [前缀纪律] ad-* 只许后台原型 01-07 使用，sf-* 只许店面原型 08-11，互不引用。
+// [动效守卫] site.css 的 .rv/.rv--fade 入场动画必须自带 prefers-reduced-motion 段。
 //
 // G-228 探针（prototype-application 片新增，机制在此定档）：
 // [类允许清单] 每个原型的 class="..." token 必须能在 ai/meridian-ui.css 选择器里
@@ -26,14 +32,20 @@ for (const f of EXPECT) if (!existsSync(join(dir, f))) fail.push(`G-225 缺文�
 let files = [];
 try { files = readdirSync(dir).filter(f => f.endsWith(".html")); } catch { console.error("G-225 prototypes/ 目录不存在"); process.exit(1); }
 // ---- G-228 探针基座 ----
-// 类允许清单：meridian-ui.css 选择器类名全集 + 显式原型本地结构类
-const cssText = existsSync(join(root, "ai", "meridian-ui.css")) ? readFileSync(join(root, "ai", "meridian-ui.css"), "utf8") : "";
+// 类允许清单：ai/ CSS 层选择器类名全集 + 显式原型本地结构类。
+// G-229 扩面：单一源的 CSS 层是闭合五件（tokens / brand-tokens / meridian-ui /
+// admin / site）。舞台类在 tokens.css（.stage-admin / .stage-storefront），组件在
+// meridian-ui.css（m-*），组合层分别持有 ad-* 与 sf-*。只扫 meridian-ui.css 会把
+// 组合层与舞台类全判成"未定义"——纳管三份新文件的前提就是它们进门的扫描面。
+const CSS_LAYER = ["tokens.css", "brand-tokens.css", "meridian-ui.css", "admin.css", "site.css"];
 const cssClasses = new Set();
-for (const m of cssText.matchAll(/\.([a-z][a-z0-9_-]*)/g)) cssClasses.add(m[1]);
+for (const name of CSS_LAYER) {
+  const p = join(root, "ai", name);
+  if (!existsSync(p)) { fail.push(`G-229 单一源缺 ai/${name}（CSS 层是闭合五件）`); continue; }
+  for (const m of readFileSync(p, "utf8").matchAll(/\.([a-z][a-z0-9_-]*)/g)) cssClasses.add(m[1]);
+}
 const CLASS_ALLOW = new Set([
-  // admin 舞台根标记类（ai/prompts.md 舞台约定：Root element carries .stage-admin）。
-  // 店面对应 .stage-storefront 在 meridian-ui.css 有规则（toast 定位），admin 侧为纯语义钩子，CSS 无规则——故显式登记。
-  "stage-admin",
+  // 组合层本地结构类的例外入口（当前为空）。登记必须带来由注释。
 ]);
 const ALERT_FREE = new Set(["08-home.html","09-plp.html","10-pdp.html","11-checkout.html"]);
 const ALERT_ADMIN = new Set(["01-auth.html","02-dashboard.html","03-list.html","04-detail.html","05-form.html","06-builder.html","07-reports.html"]);
@@ -54,10 +66,15 @@ for (const f of files) {
     if (COLOR.test(v)) fail.push(`G-224 ${f} style= 内联裸色值: ${v.slice(0,60)}`);
   }
   if (/lorem ipsum/i.test(html)) fail.push(`G-224 ${f} lorem ipsum 样例数据`);
-  // G-228 探针 A：类允许清单（class token ∉ meridian-ui.css 且 ∉ CLASS_ALLOW 即红）
+  // G-228 探针 A：类允许清单（class token ∉ ai/ CSS 层且 ∉ CLASS_ALLOW 即红）
+  // G-229 探针 A：命名前缀纪律（ad- 仅后台 01-07、sf- 仅店面 08-11，互不引用）
+  const ADMIN_PROTO = /^0[1-7]-/, STORE_PROTO = /^(?:0[89]|1[01])-/;
   for (const m of html.matchAll(/class\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) {
     for (const tok of (m[1] ?? m[2]).split(/\s+/)) {
-      if (tok && !cssClasses.has(tok) && !CLASS_ALLOW.has(tok)) fail.push(`G-228 ${f} 类 .${tok} 未在 meridian-ui.css 定义且不在允许清单`);
+      if (!tok) continue;
+      if (!cssClasses.has(tok) && !CLASS_ALLOW.has(tok)) fail.push(`G-228 ${f} 类 .${tok} 未在 ai/ CSS 层定义且不在允许清单`);
+      if (STORE_PROTO.test(f) && tok.startsWith("ad-")) fail.push(`G-229 ${f} 店面原型引用后台组合层类 .${tok}`);
+      if (ADMIN_PROTO.test(f) && tok.startsWith("sf-")) fail.push(`G-229 ${f} 后台原型引用店面组合层类 .${tok}`);
     }
   }
   // G-228 探针 B：role="alert" 舞台政策（机制见文件头注释）
@@ -72,6 +89,10 @@ for (const f of files) {
     }
   }
 }
+// G-229 探针 B：组合层自有入场动效的 reduced-motion 守卫
+const siteCss = existsSync(join(root, "ai", "site.css")) ? readFileSync(join(root, "ai", "site.css"), "utf8") : "";
+if (/\.rv\b/.test(siteCss) && !/@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)/.test(siteCss))
+  fail.push("G-229 ai/site.css 的 .rv 入场动效缺 prefers-reduced-motion 守卫");
 if (!files.includes("02-dashboard.html") || !readFileSync(join(dir,"02-dashboard.html"),"utf8").includes("双稿：英雄指标") || !readFileSync(join(dir,"02-dashboard.html"),"utf8").includes("双稿：等分栅格")) fail.push("G-225 02-dashboard 双稿标记缺失");
 if (fail.length) { console.error(fail.join("\n")); process.exit(1); }
 console.log(`prototypes-gate: OK (${files.length} html)`);

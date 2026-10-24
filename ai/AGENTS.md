@@ -74,6 +74,14 @@ Semantic categories: `bg-*` (page/surface/surface-hover/surface-selected/inset/b
 
 Never import admin patterns (data tables, save bars) into storefront, and never import marketing patterns (hero sections, banding) into admin.
 
+### 2.1 组合层与单一源（G-229）
+
+单一源的 CSS 层是**闭合五件**：`ai/tokens.css`（token）→ `ai/brand-tokens.css`（品牌插槽，唯一允许原始色值的地方）→ `ai/meridian-ui.css`（组件 `m-*`）→ `ai/admin.css`（后台组合层 `ad-*`）/ `ai/site.css`（店面组合层 `sf-*`）。引入顺序即此顺序。产品侧持有逐字节副本并在 `assets_md5.txt` 记录（闭合集：盘上有而记录无 = 红，反之亦然）。
+
+- **前缀纪律**：`ad-*` 只出现在后台组合层与后台页面，`sf-*` 只出现在店面组合层与店面页面，**互不引用**；组合层**不新增 `m-*` 的规则块**（`m-*` 归 `meridian-ui.css`；组合层可组合使用它，也可在自己的 `ad-*`/`sf-*` 作用域里补上下文规则）。**舞台作用域**（`stage-admin` / `stage-storefront`）只在 `tokens.css`。跨层重复的同一个类只许留一份 —— 删副本，而不是留两份同值。
+- **`.rv` 动效守卫**：`site.css` 的入场动效族（`.rv` / `.rv--fade` / `.rv-N`）必须自带 `@media (prefers-reduced-motion: reduce)` 段；新增任何组合层 keyframes 同此。`tokens.css` 的全局收缩是兜底，不是免写守卫的理由。
+- **门**：`node ai/checks/prototypes-gate.mjs` 的 G-229 探针（CSS 层五件全扫 + 前缀纪律 + `.rv` 守卫）。
+
 ## 3. Interaction state contract
 
 State priority (highest wins): `disabled` → `loading` → `active` → `focus-visible` → `hover` → default.

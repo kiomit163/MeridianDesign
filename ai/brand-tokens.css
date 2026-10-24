@@ -1,0 +1,26 @@
+/* ============================================================================
+   LOCUST · BRAND KIT — 商品色卡（Brand slot）
+   ----------------------------------------------------------------------------
+   本文件是品牌插槽的一部分，按 Meridian 治理规则承载"原始色值"：
+   商品/面料的真实染色不属于 UI 语义，页面只能以 var(--m-swatch-*) 引用。
+   换季换色、换品牌色带时只改这里，业务页面零改动。
+   引入顺序：tokens.css → brand-tokens.css → meridian-ui.css → site/admin.css
+   ============================================================================ */
+:root {
+  --m-swatch-graphite: #3E444C;  /* 石墨灰 */
+  --m-swatch-oat:      #E8E2D6;  /* 燕麦白 */
+  --m-swatch-pine:     #2F5D50;  /* 松林绿 */
+  --m-swatch-clay:     #8C5B44;  /* 陶土棕 */
+  --m-swatch-camel:    #D9CDB8;  /* 米驼 */
+  --m-swatch-brick:    #7C3B33;  /* 砖红 */
+  --m-swatch-cream:    #EFE9DD;  /* 米白 */
+  --m-swatch-navy:     #2B3A4A;  /* 深蓝 */
+  --m-swatch-chalk:    #F4F1EA;  /* 本白 */
+  --m-swatch-ink:      #1F2530;  /* 黑 */
+  --m-swatch-moss:     #6B7A63;  /* 苔绿 */
+  --m-swatch-sand:     #F4E1B6;  /* 沙色 */
+  --m-swatch-ochre:    #A87510;  /* 赭黄 */
+  --m-swatch-mist:     #CBD2DC;  /* 雾灰 */
+  --m-swatch-sky:      #A9CDF1;  /* 浅蓝 */
+  --m-swatch-poppy:    #CD3336;  /* 朱红 */
+}
