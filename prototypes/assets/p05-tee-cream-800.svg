@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img"><defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0EBE2"/><stop offset="1" stop-color="#DCD3C4"/></linearGradient></defs><rect width="800" height="1000" fill="url(#bg)"/><defs><filter id="ps" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#3B3226" flood-opacity=".20"/></filter></defs><ellipse cx="400" cy="843" rx="212" ry="26" fill="#3A3329" opacity=".12"/><g transform="translate(400 560) scale(1.12) translate(-400 -560)" filter="url(#ps)" stroke="#6B5A40" stroke-opacity=".22" stroke-width="2.23">
+  <path d="M300 326 L238 438 L302 470 L302 762 Q400 786 498 762 L498 470 L562 438 L500 326 Q452 306 400 306 Q348 306 300 326 Z" fill="#FBF5E7"/>
+  <path d="M358 314 Q400 366 442 314" stroke="#DACDB6" stroke-width="7" fill="none"/>
+  <path d="M302 762 Q400 786 498 762" stroke="#DACDB6" stroke-width="4" fill="none" opacity=".8"/>
+  <path d="M318 356 L318 742 M482 356 L482 742" stroke="#DACDB6" stroke-width="2" opacity=".45"/>
+  <path d="M340 600 H460" stroke="#DACDB6" stroke-width="2" opacity=".3"/></g></svg>

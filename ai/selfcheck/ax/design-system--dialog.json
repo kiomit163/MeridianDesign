@@ -1,0 +1,23 @@
+{
+  "page": "design-system.html",
+  "scenario": "dialog",
+  "count": 4,
+  "nodes": [
+    {
+      "role": "dialog",
+      "name": "Delete 3 products?"
+    },
+    {
+      "role": "textbox",
+      "name": "Confirm count"
+    },
+    {
+      "role": "button",
+      "name": "Cancel"
+    },
+    {
+      "role": "button",
+      "name": "Delete 3 products"
+    }
+  ]
+}

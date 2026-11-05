@@ -1,0 +1,374 @@
+{
+  "page": "prototypes/09-plp.html",
+  "scenario": "default",
+  "count": 90,
+  "nodes": [
+    {
+      "role": "link",
+      "name": "Skip to content"
+    },
+    {
+      "role": "banner",
+      "name": ""
+    },
+    {
+      "role": "main",
+      "name": ""
+    },
+    {
+      "role": "contentinfo",
+      "name": ""
+    },
+    {
+      "role": "link",
+      "name": "Locust 首页"
+    },
+    {
+      "role": "navigation",
+      "name": "店面主导航"
+    },
+    {
+      "role": "button",
+      "name": "主题：浅色（点击切换到深色）"
+    },
+    {
+      "role": "button",
+      "name": "搜索"
+    },
+    {
+      "role": "button",
+      "name": "购物袋（3 件）"
+    },
+    {
+      "role": "heading",
+      "name": "女装",
+      "level": 1
+    },
+    {
+      "role": "button",
+      "name": "筛选（2）",
+      "expanded": true
+    },
+    {
+      "role": "button",
+      "name": "移除尺码筛选"
+    },
+    {
+      "role": "button",
+      "name": "移除颜色筛选"
+    },
+    {
+      "role": "button",
+      "name": "清除全部"
+    },
+    {
+      "role": "navigation",
+      "name": "分页"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · 商店"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · 帮助"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · 公司"
+    },
+    {
+      "role": "link",
+      "name": "Impressum"
+    },
+    {
+      "role": "link",
+      "name": "隐私政策"
+    },
+    {
+      "role": "link",
+      "name": "服务条款"
+    },
+    {
+      "role": "link",
+      "name": "退货说明"
+    },
+    {
+      "role": "link",
+      "name": "新品"
+    },
+    {
+      "role": "link",
+      "name": "女装"
+    },
+    {
+      "role": "link",
+      "name": "男配"
+    },
+    {
+      "role": "link",
+      "name": "关于"
+    },
+    {
+      "role": "combobox",
+      "name": "排序"
+    },
+    {
+      "role": "button",
+      "name": "XS"
+    },
+    {
+      "role": "button",
+      "name": "S"
+    },
+    {
+      "role": "button",
+      "name": "M"
+    },
+    {
+      "role": "button",
+      "name": "L"
+    },
+    {
+      "role": "button",
+      "name": "XL"
+    },
+    {
+      "role": "button",
+      "name": "燕麦色"
+    },
+    {
+      "role": "button",
+      "name": "石墨灰"
+    },
+    {
+      "role": "button",
+      "name": "黑色"
+    },
+    {
+      "role": "button",
+      "name": "鼠尾草绿"
+    },
+    {
+      "role": "button",
+      "name": "焦棕"
+    },
+    {
+      "role": "button",
+      "name": "米白"
+    },
+    {
+      "role": "link",
+      "name": "有机棉连帽衫"
+    },
+    {
+      "role": "link",
+      "name": "羊毛围巾"
+    },
+    {
+      "role": "link",
+      "name": "羊毛针织帽"
+    },
+    {
+      "role": "link",
+      "name": "帆布托特包"
+    },
+    {
+      "role": "link",
+      "name": "有机棉 T 恤"
+    },
+    {
+      "role": "link",
+      "name": "陶瓷马克杯 350ml"
+    },
+    {
+      "role": "link",
+      "name": "冷萃玻璃壶 1L"
+    },
+    {
+      "role": "link",
+      "name": "皮革护照夹"
+    },
+    {
+      "role": "link",
+      "name": "羊毛混纺毯"
+    },
+    {
+      "role": "link",
+      "name": "亚麻餐巾六件组"
+    },
+    {
+      "role": "link",
+      "name": "陶瓷餐盘四件组"
+    },
+    {
+      "role": "link",
+      "name": "橄榄木砧板"
+    },
+    {
+      "role": "button",
+      "name": "上一页",
+      "disabled": true
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "下一页"
+    },
+    {
+      "role": "link",
+      "name": "新品"
+    },
+    {
+      "role": "link",
+      "name": "女装"
+    },
+    {
+      "role": "link",
+      "name": "男配"
+    },
+    {
+      "role": "link",
+      "name": "生活家居"
+    },
+    {
+      "role": "link",
+      "name": "礼品卡"
+    },
+    {
+      "role": "link",
+      "name": "配送与运费"
+    },
+    {
+      "role": "link",
+      "name": "退换政策"
+    },
+    {
+      "role": "link",
+      "name": "尺码指南"
+    },
+    {
+      "role": "link",
+      "name": "联系客服"
+    },
+    {
+      "role": "link",
+      "name": "关于 Locust"
+    },
+    {
+      "role": "link",
+      "name": "可持续承诺"
+    },
+    {
+      "role": "link",
+      "name": "门店与快闪"
+    },
+    {
+      "role": "link",
+      "name": "加入我们"
+    },
+    {
+      "role": "combobox",
+      "name": "语言"
+    },
+    {
+      "role": "combobox",
+      "name": "货币"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €89.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €59.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €29.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €45.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €28.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €18.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €45.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €79.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €95.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €32.00"
+    },
+    {
+      "role": "button",
+      "name": "快速加购 · €68.00"
+    },
+    {
+      "role": "button",
+      "name": "已售罄",
+      "disabled": true
+    },
+    {
+      "role": "option",
+      "name": "精选排序",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "价格从低到高"
+    },
+    {
+      "role": "option",
+      "name": "价格从高到低"
+    },
+    {
+      "role": "option",
+      "name": "上新优先"
+    },
+    {
+      "role": "option",
+      "name": "Deutsch",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "English"
+    },
+    {
+      "role": "option",
+      "name": "EUR €",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "CHF Fr"
+    }
+  ]
+}

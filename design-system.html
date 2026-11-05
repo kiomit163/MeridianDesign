@@ -2,50 +2,52 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Meridian Design System · 可视化设计规范 v1.2.0</title>
-<link rel="stylesheet" href="ai/tokens.css?v=12">
-<link rel="stylesheet" href="ai/meridian-ui.css?v=12">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meridian Design System · 可视化设计规范 v1.6.0</title>
+<link rel="stylesheet" href="ai/tokens.css?v=13">
+<link rel="stylesheet" href="ai/brand-tokens.css?v=13">
+<link rel="stylesheet" href="ai/meridian-ui.css?v=13">
+<link rel="stylesheet" href="ai/site.css?v=13">
 <style>
 /* ============ 文档页面外壳（documentation chrome） ============ */
 body.ds { font-size: var(--m-text-md); }
 .ds-nav { position: fixed; inset: 0 auto 0 0; width: 248px; background: var(--m-bg-surface); border-right: 1px solid var(--m-border); padding:var(--m-space-5) var(--m-space-4); overflow-y: auto; z-index: var(--m-z-nav); display: flex; flex-direction: column; gap:var(--m-radius-sm); }
 .ds-logo { display: flex; align-items: center; gap:var(--m-space-3); padding:var(--m-radius-sm) var(--m-space-2) var(--m-space-4); }
-.ds-logo .mark { width: 34px; height: 34px; border-radius:var(--m-radius-md); background: linear-gradient(135deg, var(--m-brand-7), var(--m-brand-10)); display: grid; place-items: center; color: #fff; font-weight: var(--m-weight-bold); font-size: 18px; }
-.ds-logo b { font-size: 15px; letter-spacing: .02em; }
+.ds-logo .mark { width: var(--m-space-8); height: var(--m-space-8); border-radius:var(--m-radius-md); background: linear-gradient(135deg, var(--m-logo-from), var(--m-logo-to)); display: grid; place-items: center; color: var(--m-fg-inverse); font-weight: var(--m-weight-bold); font-size: var(--m-text-xl); }
+.ds-logo b { font-size: var(--m-text-md); letter-spacing: .02em; }
 .ds-logo small { display: block; color: var(--m-fg-subtle); font-size: var(--m-text-xs); }
 .ds-nav .toggles { display: flex; gap:var(--m-space-2); padding:0 var(--m-radius-sm) var(--m-space-3); flex-wrap: wrap; }
-.ds-nav a { display: block; padding:var(--m-space-2) var(--m-space-3); border-radius:var(--m-space-2); font-size: 13px; color: var(--m-fg-muted); text-decoration: none; }
+.ds-nav a { display: block; padding:var(--m-space-2) var(--m-space-3); border-radius:var(--m-space-2); font-size: var(--m-text-sm); color: var(--m-fg-muted); text-decoration: none; }
 .ds-nav a:hover { background: var(--m-bg-surface-hover); color: var(--m-fg); text-decoration: none; }
 .ds-nav a.on { background: var(--m-primary-tint); color: var(--m-primary-text); font-weight: var(--m-weight-medium); }
 .ds-nav .foot { margin-top: auto; padding:var(--m-space-3) var(--m-space-2) 0; font-size: var(--m-text-xs); color: var(--m-fg-subtle); border-top: 1px solid var(--m-border); }
 .ds-main { margin-inline-start: 248px; padding:var(--m-space-10) var(--m-space-12) 80px; max-width: 1180px; }
 section.ds-sec { padding:var(--m-space-10) 0 var(--m-space-2); border-bottom: 1px solid var(--m-border); scroll-margin-top: 16px; }
 section.ds-sec:last-of-type { border-bottom: none; }
-.kicker { font-size: 12px; font-weight: var(--m-weight-semibold); letter-spacing: .08em; text-transform: uppercase; color: var(--m-primary-text); margin:0 0 var(--m-space-2); }
-h2.ds-h2 { margin:0 0 var(--m-space-2); font-size: var(--m-text-3xl); font-weight: var(--m-weight-semibold); letter-spacing: var(--m-tracking-tight); }
+.kicker { font-size: var(--m-text-xs); font-weight: var(--m-weight-semibold); letter-spacing: .08em; text-transform: uppercase; color: var(--m-primary-text); margin:0 0 var(--m-space-2); }
+h2.ds-h2 { margin:0 0 var(--m-space-2); font-size: var(--m-text-3xl); font-weight: var(--m-weight-semibold); letter-spacing: 0; }
 .ds-lead { color: var(--m-fg-muted); max-width: 70ch; margin:0 0 var(--m-space-5); }
 h3.ds-h3 { margin:28px 0 var(--m-space-3); font-size: var(--m-text-lg); font-weight: var(--m-weight-semibold); }
 p.ds-p { max-width: 74ch; }
-.demo { border: 1px solid var(--m-border); border-radius:var(--m-radius-lg); background: var(--m-bg-surface); margin:0 0 var(--m-space-4); scroll-margin-top: 16px; overflow: hidden; }
-.demo-tag { display: flex; align-items: center; gap:var(--m-space-2); padding:var(--m-space-2) var(--m-space-4); border-bottom: 1px solid var(--m-border); background: var(--m-bg-inset); font-size: 12px; color: var(--m-fg-muted); }
+.demo { border: 1px solid var(--m-border); border-radius:var(--m-radius-lg); background: var(--m-bg-surface); margin:0 0 var(--m-space-4); scroll-margin-top: 16px; overflow-x: auto; overflow-y: hidden; }
+.demo-tag { display: flex; align-items: center; gap:var(--m-space-2); padding:var(--m-space-2) var(--m-space-4); border-bottom: 1px solid var(--m-border); background: var(--m-bg-inset); font-size: var(--m-text-xs); color: var(--m-fg-muted); }
 .demo-tag code { color: var(--m-primary-text); font-family: var(--m-font-mono); }
 .demo-tag .en { font-weight: var(--m-weight-medium); color: var(--m-fg); }
 .demo-body { padding:var(--m-space-5); display: flex; flex-wrap: wrap; gap:var(--m-space-4); align-items: flex-start; }
 .demo-body.col { flex-direction: column; align-items: stretch; }
-.demo-note { padding:var(--m-space-2) var(--m-space-4); border-top: 1px dashed var(--m-border); font-size: 12px; color: var(--m-fg-subtle); }
-.g2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap:var(--m-space-4); width: 100%; }
+.demo-note { padding:var(--m-space-2) var(--m-space-4); border-top: 1px dashed var(--m-border); font-size: var(--m-text-xs); color: var(--m-fg-subtle); }
+.g2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr)); gap:var(--m-space-4); width: 100%; }
 .g2 .wide { grid-column: 1 / -1; }
 .g3 { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:var(--m-space-3); width: 100%; }
 .g4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap:var(--m-space-3); width: 100%; }
-table.ds-t { width: 100%; border-collapse: collapse; font-size: 13px; margin:var(--m-space-2) 0 16px; }
+table.ds-t { width: 100%; border-collapse: collapse; font-size: var(--m-text-sm); margin:var(--m-space-2) 0 var(--m-space-4); }
 table.ds-t th { text-align: left; padding:var(--m-space-2) var(--m-space-3); background: var(--m-bg-inset); color: var(--m-fg-muted); font-weight: var(--m-weight-medium); border-bottom: 1px solid var(--m-border-strong); white-space: nowrap; }
 table.ds-t td { padding:var(--m-space-2) var(--m-space-3); border-bottom: 1px solid var(--m-border); vertical-align: top; }
-table.ds-t code, .ds-inline-code { font-family: var(--m-font-mono); font-size: 12px; background: var(--m-bg-inset); border: 1px solid var(--m-border); border-radius:var(--m-radius-sm); padding:var(--m-space-05) var(--m-space-2); color: var(--m-primary-text); }
-.dot-swatch { display: inline-block; width: 14px; height: 14px; border-radius:var(--m-radius-sm); border: 1px solid rgb(0 0 0/.1); vertical-align: -2px; margin-inline-end: 6px; }
+table.ds-t code, .ds-inline-code { font-family: var(--m-font-mono); font-size: var(--m-text-xs); background: var(--m-bg-inset); border: 1px solid var(--m-border); border-radius:var(--m-radius-sm); padding:var(--m-space-05) var(--m-space-2); color: var(--m-primary-text); }
+.dot-swatch { display: inline-block; width: 14px; height: 14px; border-radius:var(--m-radius-sm); border: 1px solid var(--m-border); vertical-align: -2px; margin-inline-end: 6px; }
 /* 色板 */
 .ramp { border: 1px solid var(--m-border); border-radius:var(--m-space-3); overflow: hidden; }
-.ramp h4 { margin:0; padding:var(--m-space-2) var(--m-space-3); font-size: 13px; display: flex; justify-content: space-between; background: var(--m-bg-surface); }
+.ramp h4 { margin:0; padding:var(--m-space-2) var(--m-space-3); font-size: var(--m-text-sm); display: flex; justify-content: space-between; background: var(--m-bg-surface); }
 .ramp h4 small { color: var(--m-fg-subtle); font-weight: 400; }
 .ramp .cells { display: grid; grid-template-columns: repeat(6, 1fr); }
 .ramp .cell { aspect-ratio: 1.15; position: relative; cursor: pointer; border: 0; padding:0; font: inherit; }
@@ -55,7 +57,7 @@ table.ds-t code, .ds-inline-code { font-family: var(--m-font-mono); font-size: 1
 .type-row { display: flex; align-items: baseline; gap:var(--m-space-5); padding:var(--m-space-3) 0; border-bottom: 1px solid var(--m-border); }
 .type-row .spec { width: 210px; flex: none; font-family: var(--m-font-mono); font-size: var(--m-text-xs); color: var(--m-fg-subtle); }
 /* 间距 */
-.space-row { display: flex; align-items: center; gap:var(--m-space-3); margin:var(--m-radius-sm) 0; font-size: 12px; color: var(--m-fg-subtle); font-family: var(--m-font-mono); }
+.space-row { display: flex; align-items: center; gap:var(--m-space-3); margin:var(--m-space-1) 0; font-size: var(--m-text-xs); color: var(--m-fg-subtle); font-family: var(--m-font-mono); }
 .space-row i { display: block; height: 14px; background: var(--m-primary-tint); border: 1px solid var(--m-primary-border); border-radius:var(--m-radius-sm); }
 /* 动效 */
 .mv { width: 72px; height: 40px; border-radius:var(--m-space-5); background: var(--m-bg-inset); display: grid; place-items: center; cursor: pointer; border: 1px solid var(--m-border); }
@@ -64,12 +66,12 @@ table.ds-t code, .ds-inline-code { font-family: var(--m-font-mono); font-size: 1
 @keyframes mvmove { from { translate: -22px 0; } to { translate: 22px 0; } }
 /* 断点 */
 .bp-bar { display: flex; gap:var(--m-space-2); flex-wrap: wrap; }
-.bp-bar span { border: 1px solid var(--m-border); border-radius:var(--m-space-2); padding:var(--m-space-2) var(--m-space-3); font-size: 12px; font-family: var(--m-font-mono); color: var(--m-fg-muted); background: var(--m-bg-inset); }
+.bp-bar span { border: 1px solid var(--m-border); border-radius:var(--m-space-2); padding:var(--m-space-2) var(--m-space-3); font-size: var(--m-text-xs); font-family: var(--m-font-mono); color: var(--m-fg-muted); background: var(--m-bg-inset); }
 /* 占位图 */
-.ph { border-radius:var(--m-space-2); display: grid; place-items: center; color: rgb(255 255 255/.85); font-size: 12px; letter-spacing: .04em; }
+.ph { border-radius:var(--m-space-2); display: grid; place-items: center; color: var(--m-fg-inverse); font-size: var(--m-text-xs); letter-spacing: .04em; }
 /* 组件索引 */
 .comp-index { display: flex; flex-wrap: wrap; gap:var(--m-space-2); margin:var(--m-space-3) 0 var(--m-space-6); }
-.comp-index a { font-size: 12px; padding:var(--m-radius-sm) var(--m-space-3); border: 1px solid var(--m-border); border-radius:var(--m-radius-pill); color: var(--m-fg-muted); text-decoration: none; background: var(--m-bg-surface); }
+.comp-index a { font-size: var(--m-text-xs); padding:var(--m-radius-sm) var(--m-space-3); border: 1px solid var(--m-border); border-radius:var(--m-radius-pill); color: var(--m-fg-muted); text-decoration: none; background: var(--m-bg-surface); }
 .comp-index a:hover { border-color: var(--m-primary); color: var(--m-primary-text); text-decoration: none; }
 .comp-group-h { display: flex; align-items: baseline; gap:var(--m-space-3); margin:var(--m-space-8) 0 var(--m-space-3); }
 .comp-group-h h3 { margin:0; font-size: var(--m-text-lg); }
@@ -80,23 +82,29 @@ table.ds-t code, .ds-inline-code { font-family: var(--m-font-mono); font-size: 1
 #toasts { position: fixed; right: 20px; bottom: 20px; display: flex; flex-direction: column; gap:var(--m-space-2); z-index: var(--m-z-toast); }
 /* hero */
 .ds-hero { padding:var(--m-space-2) 0 36px; }
-.ds-hero h1 { margin:0 0 var(--m-space-3); font-size: clamp(30px, 4vw, 44px); font-weight: var(--m-weight-bold); letter-spacing: var(--m-tracking-tightest); line-height: 1.1; }
+.ds-hero h1 { margin:0 0 var(--m-space-3); font-size: clamp(30px, 4vw, 44px); font-weight: var(--m-weight-bold); letter-spacing: 0; line-height: var(--m-leading-title-1); }
 .ds-hero .stats { display: flex; gap:var(--m-space-3); flex-wrap: wrap; margin-top: 18px; }
-.ds-hero .stats span { border: 1px solid var(--m-border); background: var(--m-bg-surface); border-radius:var(--m-radius-pill); padding:var(--m-space-1) var(--m-space-4); font-size: 12px; color: var(--m-fg-muted); }
+.ds-hero .stats span { border: 1px solid var(--m-border); background: var(--m-bg-surface); border-radius:var(--m-radius-pill); padding:var(--m-space-1) var(--m-space-4); font-size: var(--m-text-xs); color: var(--m-fg-muted); }
 .ds-hero .stats b { color: var(--m-fg); }
 .principles { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap:var(--m-space-3); }
 .principles .p { border: 1px solid var(--m-border); border-radius:var(--m-space-3); padding:var(--m-space-4); background: var(--m-bg-surface); }
-.principles .p b { display: block; font-size: 13px; margin-bottom: 4px; }
-.principles .p span { font-size: 12px; color: var(--m-fg-muted); }
+.principles .p b { display: block; font-size: var(--m-text-sm); margin-bottom: var(--m-space-1); }
+.principles .p span { font-size: var(--m-text-xs); color: var(--m-fg-muted); }
 .never { border-left: 3px solid var(--m-critical-solid); }
 .always { border-inline-start: 3px solid var(--m-success-solid); }
-ul.ds-ul { margin:var(--m-space-2) 0 var(--m-space-4); padding-inline-start: 20px; color: var(--m-fg-muted); font-size: 13px; }
-ul.ds-ul li { margin:var(--m-radius-sm) 0; }
+ul.ds-ul { margin:var(--m-space-2) 0 var(--m-space-4); padding-inline-start: var(--m-space-5); color: var(--m-fg-muted); font-size: var(--m-text-sm); }
+ul.ds-ul li { margin:var(--m-space-1) 0; }
 @media (max-width: 1024px) { .ds-nav { display: none; } .ds-main { margin-inline-start: 0; padding:24px var(--m-space-5) 60px; } }
+@media (max-width: 767px) {
+  table.ds-t { display: block; overflow-x: auto; }
+  table.ds-t th { white-space: normal; }
+}
 @media print { .ds-nav { display: none; } .ds-main { margin:0; } }
 </style>
 </head>
 <body class="ds stage-storefront">
+
+<a class="m-skip-link" href="#main">跳至主内容</a>
 
 <!-- ============ SVG 图标库（24 网格 / 1.5 笔触） ============ -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -136,19 +144,20 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <symbol id="i-copy" viewBox="0 0 24 24"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V6a2 2 0 0 1 2-2h9"/></symbol>
     <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></symbol>
     <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14A8.5 8.5 0 0 1 10 4a8 8 0 1 0 10 10z"/></symbol>
+    <symbol id="i-auto" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
     <symbol id="i-ai" viewBox="0 0 24 24"><path d="M12 4l1.8 4.6L18 10l-4.2 1.4L12 16l-1.8-4.6L6 10l4.2-1.4L12 4z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8.8-2z"/></symbol>
   </defs>
 </svg>
 
 <!-- ============ 侧边导航 ============ -->
 <nav class="ds-nav">
-  <div class="ds-logo"><div class="mark">M</div><div><b>MERIDIAN</b><small>Design System v1.2.0</small></div></div>
+  <div class="ds-logo"><div class="mark">M</div><div><b>MERIDIAN</b><small>Design System v1.6.0</small></div></div>
   <div class="toggles">
     <div class="m-seg" id="stageSeg" style="flex:1">
       <button class="is-active" data-stage="storefront">前台</button>
       <button data-stage="admin">后台</button>
     </div>
-    <button class="m-btn m-btn--secondary m-icon-btn" id="themeBtn" title="切换深色模式" aria-label="切换深色模式"><svg class="m-i"><use href="#i-moon"/></svg></button>
+    <button class="m-btn m-btn--secondary m-icon-btn" id="themeBtn" title="主题：浅色（点击切换到深色）" aria-label="主题：浅色（点击切换到深色）"><svg class="m-i"><use href="#i-moon"/></svg></button>
   </div>
   <a href="#overview" class="on">总览与原则</a>
   <a href="#color">色彩 Color</a>
@@ -164,7 +173,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   <div class="foot">数据来源：Polaris / Carbon / Primer /<br>Radix / M3 / Atlassian / Baymard。<br>规范文档见 docs/ 目录。</div>
 </nav>
 
-<main class="ds-main">
+<main class="ds-main" id="main" tabindex="-1">
 
 <!-- ============ 总览 ============ -->
 <section class="ds-sec" id="overview">
@@ -173,7 +182,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <h1>一套 token 骨架，<br>驱动卖货的前台与运营的后台。</h1>
     <p class="ds-lead">面向欧美市场的企业级电商视觉设计规范。语义先于字面 —— 本页所有颜色、间距、圆角、阴影都来自 <span class="ds-inline-code">ai/tokens.css</span>，点击色块可复制 token 名。试试右上角切换「前台 / 后台」与「深色模式」，整个系统随之切换而业务代码零改动。</p>
     <div class="stats">
-      <span><b>8</b> 条 12 阶色带</span><span><b>4</b> 套主题（前台浅/后台浅/深色×2）</span><span><b>22</b> 组件契约 · <b>87</b> 演示组件</span>
+      <span><b>8</b> 条 12 阶色带</span><span><b>4</b> 套主题（前台浅/后台浅/深色×2）</span><span><b>15</b> 组组件契约 · <b>87</b> 演示组件</span>
       <span><b>4px</b> 基数网格</span><span><b>WCAG 2.2 AA</b> 对比契约</span><span><b>14</b> 项欧美合规规格</span>
     </div>
   </div>
@@ -243,13 +252,13 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
         <tr><td>emphasis 强调/促销</td><td><span class="dot-swatch" style="background:var(--m-emphasis-fg)"></span></td><td><span class="dot-swatch" style="background:var(--m-emphasis-bg)"></span></td><td><span class="dot-swatch" style="background:var(--m-emphasis-solid)"></span></td></tr>
         <tr><td>ai（仅限 AI 功能）</td><td><span class="dot-swatch" style="background:var(--m-ai-fg)"></span></td><td><span class="dot-swatch" style="background:var(--m-ai-bg)"></span></td><td><span class="dot-swatch" style="background:var(--m-ai-solid)"></span></td></tr>
       </table>
-      <p style="font-size:12px;color:var(--m-fg-subtle);margin:var(--m-radius-sm) 0 12px">命名即对比度规则：<code>*-fg</code> 配 <code>*-bg</code>，<code>*-solid-fg</code> 配 <code>*-solid</code>，交叉组合 = 校验违规。</p> </div> </div> <h3 class="ds-h3">表面层级（Surface Ranks）与两种拓扑</h3> <p class="ds-lead" style="margin-bottom:12px">背景是<b>有序阶梯</b>不是颜色集合。浅色下越亮 = 越靠前（内容），越暗 = 越后退（结构）；深色数值反向但语义指向不变。点左上角切「后台」可看 chrome 阶梯生效。</p> <div class="g2"> <div class="demo"><div class="demo-tag"><code>surface-ranks</code><span class="en">四级阶梯（实时值，随主题变化）</span></div> <div class="demo-body col" style="gap:8px"> <div style="display:grid;grid-template-columns:130px 1fr;gap:var(--m-space-2);font-size:12px;align-items:center">
+      <p style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:var(--m-radius-sm) 0 12px">命名即对比度规则：<code>*-fg</code> 配 <code>*-bg</code>，<code>*-solid-fg</code> 配 <code>*-solid</code>，交叉组合 = 校验违规。</p> </div> </div> <h3 class="ds-h3">表面层级（Surface Ranks）与两种拓扑</h3> <p class="ds-lead" style="margin-bottom:12px">背景是<b>有序阶梯</b>不是颜色集合。浅色下越亮 = 越靠前（内容），越暗 = 越后退（结构）；深色数值反向但语义指向不变。点左上角切「后台」可看 chrome 阶梯生效。</p> <div class="g2"> <div class="demo"><div class="demo-tag"><code>surface-ranks</code><span class="en">四级阶梯（实时值，随主题变化）</span></div> <div class="demo-body col" style="gap:8px"> <div style="display:grid;grid-template-columns:130px 1fr;gap:var(--m-space-2);font-size:var(--m-text-xs);align-items:center">
           <span><code>inset</code> −2 凹槽</span><span style="height:26px;border-radius:var(--m-radius-sm);border:1px solid var(--m-border);background:var(--m-bg-inset)"></span>
           <span><code>chrome</code> −1 框架</span><span style="height:26px;border-radius:var(--m-radius-sm);border:1px solid var(--m-border);background:var(--m-bg-chrome)"></span>
           <span><code>surface</code> 0 台面</span><span style="height:26px;border-radius:var(--m-radius-sm);border:1px solid var(--m-border);background:var(--m-bg-surface)"></span>
           <span><code>overlay</code> +1 浮层</span><span style="height:26px;border-radius:var(--m-radius-sm);border:1px solid var(--m-border);background:var(--m-bg-surface);box-shadow:var(--m-shadow-e2)"></span>
         </div>
-        <p style="font-size:12px;color:var(--m-fg-subtle);margin:var(--m-radius-sm) 0 0">口诀：<b>用户的眼睛停在哪里，哪里就是 rank 0</b>。框架内 hover 必须换梯度（<code>chrome-hover</code>）——因为 <code>surface-hover</code> 与 chrome <b>同值</b>，直接用会完全不可见。</p> </div> </div> <div class="demo"><div class="demo-tag"><code>topology</code><span class="en">A 画布+卡片 / B 框架+台面</span></div> <div class="demo-body col" style="gap:12px"> <div> <small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">A · 记录型页面（灰底白卡）—— 订单/商品/设置/仪表盘</small>
+        <p style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:var(--m-radius-sm) 0 0">口诀：<b>用户的眼睛停在哪里，哪里就是 rank 0</b>。框架内 hover 必须换梯度（<code>chrome-hover</code>）——因为 <code>surface-hover</code> 与 chrome <b>同值</b>，直接用会完全不可见。</p> </div> </div> <div class="demo"><div class="demo-tag"><code>topology</code><span class="en">A 画布+卡片 / B 框架+台面</span></div> <div class="demo-body col" style="gap:12px"> <div> <small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">A · 记录型页面（灰底白卡）—— 订单/商品/设置/仪表盘</small>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--m-space-2);background:var(--m-bg-page);border:1px solid var(--m-border);border-radius:var(--m-space-2);padding:var(--m-space-3);margin-top:4px">
             <div style="height:40px;border-radius:var(--m-radius-sm);background:var(--m-bg-surface);border:1px solid var(--m-border)"></div>
             <div style="height:40px;border-radius:var(--m-radius-sm);background:var(--m-bg-surface);border:1px solid var(--m-border)"></div>
@@ -263,10 +272,12 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
             <div style="height:60px;background:var(--m-bg-chrome);border-left:1px solid var(--m-border)"></div>
           </div>
         </div>
-        <p style="font-size:12px;color:var(--m-fg-subtle);margin:0">判据："内容是一块块<b>可数的卡片</b> → A；一整片<b>连续的流</b>（对话/文档/代码）→ B"。把 A 强加给外壳 = 层级颠倒（框架与台面同灰，作者再靠直觉改白 → 出现"两个侧栏一灰一白"）。</p> </div> </div> </div> <h3 class="ds-h3">状态层公式（M3）与数据可视化色板</h3> <div class="g2"> <div class="demo"><div class="demo-tag"><code>state-layer</code><span class="en">hover 8% · pressed 12% · selected 10%</span></div> <div class="demo-body col"> <div style="padding:var(--m-space-4);border:1px solid var(--m-border);border-radius:var(--m-radius-md)" onmouseover="this.style.background='color-mix(in oklab, var(--m-fg) 8%, transparent)'" onmouseout="this.style.background='transparent'">鼠标悬停我 — 状态层 8% 覆盖（对任意表面通用，无需逐色调 hover 色）</div> <p style="font-size:12px;color:var(--m-fg-subtle);margin:0">实底组件用显式 token：浅色主题 hover 变深（9→10），深色主题 hover 变浅（9→8）。方向规则写死。</p> </div> </div> <div class="demo"><div class="demo-tag"><code>data-viz</code><span class="en">固定 8 色 · 按序取用 · 色觉安全排序</span></div> <div class="demo-body" id="vizRow"></div> </div> </div> </section> <!-- ============ 字体 ============ --> <section class="ds-sec" id="type"> <p class="kicker">Foundations · Typography</p> <h2 class="ds-h2">字体：字阶是有限菜单，不是自由市场</h2> <p class="ds-lead">Inter Variable（权重调校 450/550/650，Polaris/Atlassian 同款策略）。后台正文 14px，前台正文 16px；正文最小 12px；数字一律 tabular-nums。</p> <div class="demo"><div class="demo-tag"><code>type-scale</code><span class="en">通用刻度（token / px·行高 / 实际渲染）</span></div> <div class="demo-body col"> <div class="type-row"><div class="spec">--m-text-display · 36→60/700</div><div style="font-size:var(--m-text-display);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);line-height:1.05">Display 前台首屏</div></div>
-      <div class="type-row"><div class="spec">--m-text-5xl · 36/44 · 650</div><div style="font-size:var(--m-text-5xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight);line-height:1.2">H1 商品名 / 页面标题</div></div>
-      <div class="type-row"><div class="spec">--m-text-3xl · 24/32 · 650</div><div style="font-size:var(--m-text-3xl);font-weight:var(--m-weight-semibold)">区块标题 Heading</div></div>
-      <div class="type-row"><div class="spec">--m-text-2xl · 20/28 · 650</div><div style="font-size:var(--m-text-2xl);font-weight:var(--m-weight-semibold)">后台页面标题上限</div></div>
+        <p style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:0">判据："内容是一块块<b>可数的卡片</b> → A；一整片<b>连续的流</b>（对话/文档/代码）→ B"。把 A 强加给外壳 = 层级颠倒（框架与台面同灰，作者再靠直觉改白 → 出现"两个侧栏一灰一白"）。</p> </div> </div> </div> <h3 class="ds-h3">状态层公式（M3）与数据可视化色板</h3> <div class="g2"> <div class="demo"><div class="demo-tag"><code>state-layer</code><span class="en">hover 8% · pressed 12% · selected 10%</span></div> <div class="demo-body col"> <div style="padding:var(--m-space-4);border:1px solid var(--m-border);border-radius:var(--m-radius-md)" onmouseover="this.style.background='color-mix(in oklab, var(--m-fg) 8%, transparent)'" onmouseout="this.style.background='transparent'">鼠标悬停我 — 状态层 8% 覆盖（对任意表面通用，无需逐色调 hover 色）</div> <p style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:0">实底组件用显式 token：浅色主题 hover 变深（9→10），深色主题 hover 变浅（9→8）。方向规则写死。</p> </div> </div> <div class="demo"><div class="demo-tag"><code>data-viz</code><span class="en">固定 8 色 · 按序取用 · 色觉安全排序</span></div> <div class="demo-body" id="vizRow"></div> </div> </div> </section> <!-- ============ 字体 ============ --> <section class="ds-sec" id="type"> <p class="kicker">Foundations · Typography</p> <h2 class="ds-h2">字体：字阶是有限菜单，不是自由市场</h2> <p class="ds-lead">Inter Variable（四档权重 400/500/600/700）。后台正文 14px，前台正文 16px；正文最小 12px；数字一律 tabular-nums。前台叙事档三档：display-sm / display / display-lg（上限 96px）。</p> <div class="demo"><div class="demo-tag"><code>type-scale</code><span class="en">通用刻度（token / px·行高 / 实际渲染）</span></div> <div class="demo-body col"> <div class="type-row"><div class="spec">--m-text-display-lg · 44→96/700</div><div style="font-size:var(--m-text-display-lg);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);line-height:var(--m-leading-display)">Display-lg 首屏 hero</div></div>
+      <div class="type-row"><div class="spec">--m-text-display · 36→60/700</div><div style="font-size:var(--m-text-display);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);line-height:var(--m-leading-display)">Display 页面级叙事</div></div>
+      <div class="type-row"><div class="spec">--m-text-display-sm · 32→48/700</div><div style="font-size:var(--m-text-display-sm);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);line-height:var(--m-leading-display)">Display-sm 次级叙事</div></div>
+      <div class="type-row"><div class="spec">--m-text-5xl · 36/44 · semibold</div><div style="font-size:var(--m-text-5xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight);line-height:var(--m-leading-title-2)">H1 商品名 / 页面标题</div></div>
+      <div class="type-row"><div class="spec">--m-text-3xl · 24/32 · semibold</div><div style="font-size:var(--m-text-3xl);font-weight:var(--m-weight-semibold)">区块标题 Heading</div></div>
+      <div class="type-row"><div class="spec">--m-text-2xl · 20/28 · semibold</div><div style="font-size:var(--m-text-2xl);font-weight:var(--m-weight-semibold)">后台页面标题上限</div></div>
       <div class="type-row"><div class="spec">--m-text-xl · 18/28</div><div style="font-size:var(--m-text-xl)">Lead 副标题文本</div></div>
       <div class="type-row"><div class="spec">--m-text-lg · 16/24</div><div style="font-size:var(--m-text-lg)">前台正文默认 — The quick brown fox jumps over the lazy dog 0123456789</div></div>
       <div class="type-row"><div class="spec">--m-text-md · 14/20</div><div style="font-size:var(--m-text-md)">后台正文默认 — Product details and inventory status.</div></div>
@@ -276,7 +287,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   </div>
   <div class="g2">
     <div class="demo"><div class="demo-tag"><code>weights</code><span class="en">调校权重（禁用 400/500/600）</span></div>
-      <div class="demo-body col" style="gap:var(--m-space-2)"> <div style="font-weight:var(--m-weight-regular)">Regular 450 — 正文正文正文</div> <div style="font-weight:var(--m-weight-medium)">Medium 550 — 标签 / 按钮 / 次强调</div> <div style="font-weight:var(--m-weight-semibold)">Semibold 650 — 标题 / 表头</div> <div style="font-weight:var(--m-weight-bold)">Bold 700 — 仅前台 display</div> </div> </div> <div class="demo"><div class="demo-tag"><code>price-type</code><span class="en">价格排版（合规核心）</span></div> <div class="demo-body col"> <div class="m-price m-price--sale m-price--lg"><span class="cur">$68.00</span><s>$85.00</s><span class="m-badge m-badge--solid m-badge--critical">Save 20%</span><span class="bnpl">or <b>4 interest-free payments</b> of <b>$17.00</b> with Klarna</span><span class="note">Incl. VAT · Free shipping over $75 · = $0.68/ml (DE)</span></div> <p style="font-size:12px;color:var(--m-fg-subtle);margin:0">划线原价必须由后端 30 天最低价提供（EU Omnibus）；税注随市场切换（EU/UK 含 VAT，US/CA 结算另计）。</p> </div> </div> </div> </section> <!-- ============ 间距与层级 ============ --> <section class="ds-sec" id="space"> <p class="kicker">Foundations · Space / Elevation</p> <h2 class="ds-h2">间距 · 网格 · 海拔 · 焦点</h2> <p class="ds-lead">4px 基数；编号 = px/4。8 的倍数优先，2px 仅控件内部。切换「后台」可看密度变化（表格行 48→36px、正文 16→14px）。</p> <div class="g2"> <div class="demo"><div class="demo-tag"><code>spacing</code><span class="en">4px 基数刻度（点击无效，仅供量尺）</span></div> <div class="demo-body col" id="spaceRows" style="gap:var(--m-space-2)"></div> </div> <div class="demo"><div class="demo-tag"><code>radius</code><span class="en">圆角（主旋钮 --m-radius: var(--m-space-2) 派生）</span></div> <div class="demo-body"> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-sm)"></div>sm 4</div> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-md)"></div>md 8 控件</div> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-lg)"></div>lg 12 后台卡</div> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-xl)"></div>xl 16 前台卡</div> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-pill)"></div>pill</div> </div> </div> </div> <div class="g2"> <div class="demo"><div class="demo-tag"><code>elevation</code><span class="en">海拔 e1-e4（后台边框优先，前台 e1 常规）</span></div> <div class="demo-body"> <div style="flex:1;min-width:120px;background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-space-3);padding:var(--m-space-4);box-shadow:var(--m-shadow-e1)">e1 卡片</div>
+      <div class="demo-body col" style="gap:var(--m-space-2)"> <div style="font-weight:var(--m-weight-regular)">Regular 450 — 正文正文正文</div> <div style="font-weight:var(--m-weight-medium)">Medium 550 — 标签 / 按钮 / 次强调</div> <div style="font-weight:var(--m-weight-semibold)">Semibold 650 — 标题 / 表头</div> <div style="font-weight:var(--m-weight-bold)">Bold 700 — 仅前台 display</div> </div> </div> <div class="demo"><div class="demo-tag"><code>price-type</code><span class="en">价格排版（合规核心）</span></div> <div class="demo-body col"> <div class="m-price m-price--sale m-price--lg"><span class="cur">$68.00</span><s>$85.00</s><span class="m-badge m-badge--solid m-badge--critical">Save 20%</span><span class="bnpl">or <b>4 interest-free payments</b> of <b>$17.00</b> with Klarna</span><span class="note">Incl. VAT · Free shipping over $75 · = $0.68/ml (DE)</span></div> <p style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:0">划线原价必须由后端 30 天最低价提供（EU Omnibus）；税注随市场切换（EU/UK 含 VAT，US/CA 结算另计）。</p> </div> </div> </div> </section> <!-- ============ 间距与层级 ============ --> <section class="ds-sec" id="space"> <p class="kicker">Foundations · Space / Elevation</p> <h2 class="ds-h2">间距 · 网格 · 海拔 · 焦点</h2> <p class="ds-lead">4px 基数；编号 = px/4。8 的倍数优先，2px 仅控件内部。切换「后台」可看密度变化（表格行 48→36px、正文 16→14px）。</p> <div class="g2"> <div class="demo"><div class="demo-tag"><code>spacing</code><span class="en">4px 基数刻度（点击无效，仅供量尺）</span></div> <div class="demo-body col" id="spaceRows" style="gap:var(--m-space-2)"></div> </div> <div class="demo"><div class="demo-tag"><code>radius</code><span class="en">圆角（主旋钮 --m-radius: var(--m-space-2) 派生）</span></div> <div class="demo-body"> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-sm)"></div>sm 4</div> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-md)"></div>md 8 控件</div> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-lg)"></div>lg 12 后台卡</div> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-xl)"></div>xl 16 前台卡</div> <div class="m-col" style="align-items:center;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><div style="width:64px;height:64px;background:var(--m-primary-tint);border:1.5px solid var(--m-primary-border);border-radius:var(--m-radius-pill)"></div>pill</div> </div> </div> </div> <div class="g2"> <div class="demo"><div class="demo-tag"><code>elevation</code><span class="en">海拔 e1-e4（后台边框优先，前台 e1 常规）</span></div> <div class="demo-body"> <div style="flex:1;min-width:120px;background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-space-3);padding:var(--m-space-4);box-shadow:var(--m-shadow-e1)">e1 卡片</div>
         <div style="flex:1;min-width:120px;background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-space-3);padding:var(--m-space-4);box-shadow:var(--m-shadow-e2)">e2 弹出</div>
         <div style="flex:1;min-width:120px;background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-space-3);padding:var(--m-space-4);box-shadow:var(--m-shadow-e3)">e3 抽屉/模态</div>
         <div style="flex:1;min-width:120px;background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-space-3);padding:var(--m-space-4);box-shadow:var(--m-shadow-e4)">e4 Toast</div>
@@ -285,7 +296,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <div class="demo"><div class="demo-tag"><code>focus · targets</code><span class="en">焦点环双规格 + 触达尺寸</span></div>
       <div class="demo-body col">
         <div class="m-row">用 <kbd>Tab</kbd> 键走过这些按钮 →<button class="m-btn m-btn--primary">前台：外环 offset 2px</button><button class="m-btn m-btn--secondary m-btn--sm">后台：内嵌环</button></div>
-        <div class="m-row" style="font-size:12px;color:var(--m-fg-subtle)">
+        <div class="m-row" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">
           <span style="width:24px;height:24px;border:1.5px dashed var(--m-critical-solid);display:inline-grid;place-items:center;font-size: var(--m-text-xs)">24</span> WCAG 2.5.8 最小触达
           <span style="width:44px;height:44px;border:1.5px dashed var(--m-success-solid);display:grid;place-items:center;font-size: var(--m-text-xs);margin-inline-start:10px">44</span> 移动端主目标
           <span style="margin-inline-start:10px">相邻目标间距 ≥8px</span>
@@ -297,10 +308,10 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <div class="demo-body col">
       <div class="bp-bar"><span>xs 480</span><span>sm 768</span><span>md 1024</span><span>lg 1280</span><span>xl 1440</span><span style="border-style:dashed">320px 可用性底线</span></div>
       <div class="bp-bar"><span>raised 10</span><span>nav 100</span><span>drawer 300</span><span>modal 400</span><span>toast 500</span><span>tooltip 600</span></div>
-      <p style="font-size:12px;color:var(--m-fg-subtle);margin:0">自造 z-index 数值 = validate.mjs 校验失败。模态内只允许 tooltip(600) 与自身 toast。</p> </div> </div> </section> <!-- ============ 动效 ============ --> <section class="ds-sec" id="motion"> <p class="kicker">Foundations · Motion</p> <h2 class="ds-h2">动效：双人格系统</h2> <p class="ds-lead">后台 Productive（100-300ms 快而克制），前台 Expressive（200-600ms 有空间叙事）。点击任意曲线重放动画。系统对 prefers-reduced-motion 全局降级。</p> <div class="demo"><div class="demo-tag"><code>duration × easing</code><span class="en">点击重放 · 标准 / 入场 / 退场</span></div> <div class="demo-body"> <div class="m-col" style="align-items:center"><button class="mv" data-d="150" style="--d:150ms"><i></i></button><small>150ms standard</small></div> <div class="m-col" style="align-items:center"><button class="mv" data-d="200" style="--d:200ms"><i></i></button><small>200ms standard</small></div> <div class="m-col" style="align-items:center"><button class="mv" data-d="300" style="--d:300ms;--e:var(--m-ease-enter)"><i></i></button><small>300ms enter</small></div>
-      <div class="m-col" style="align-items:center"><button class="mv" data-d="450" style="--d:450ms;--e:var(--m-ease-enter)"><i></i></button><small>450ms enter（前台）</small></div>
-      <div class="m-col" style="align-items:center"><button class="mv" data-d="300" style="--d:300ms;--e:var(--m-ease-exit)"><i></i></button><small>300ms exit</small></div>
-      <div class="m-col" style="align-items:center"><button class="mv" data-d="600" style="--d:600ms;--e:var(--m-ease-enter)"><i></i></button><small>600ms 前台上限</small></div>
+      <p style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:0">自造 z-index 数值 = validate.mjs 校验失败。模态内只允许 tooltip(600) 与自身 toast。</p> </div> </div> </section> <!-- ============ 动效 ============ --> <section class="ds-sec" id="motion"> <p class="kicker">Foundations · Motion</p> <h2 class="ds-h2">动效：双人格系统</h2> <p class="ds-lead">后台 Productive（100-300ms 快而克制），前台 Expressive（200-600ms 有空间叙事）。点击任意曲线重放动画。系统对 prefers-reduced-motion 全局降级。</p> <div class="demo"><div class="demo-tag"><code>duration × easing</code><span class="en">点击重放 · 标准 / 入场 / 退场</span></div> <div class="demo-body"> <div class="m-col" style="align-items:center"><button class="mv" aria-label="播放动效" data-d="150" style="--d:150ms"><i></i></button><small>150ms standard</small></div> <div class="m-col" style="align-items:center"><button class="mv" aria-label="播放动效" data-d="200" style="--d:200ms"><i></i></button><small>200ms standard</small></div> <div class="m-col" style="align-items:center"><button class="mv" aria-label="播放动效" data-d="300" style="--d:300ms;--e:var(--m-ease-enter)"><i></i></button><small>300ms enter</small></div>
+      <div class="m-col" style="align-items:center"><button class="mv" aria-label="播放动效" data-d="450" style="--d:450ms;--e:var(--m-ease-enter)"><i></i></button><small>450ms enter（前台）</small></div>
+      <div class="m-col" style="align-items:center"><button class="mv" aria-label="播放动效" data-d="300" style="--d:300ms;--e:var(--m-ease-exit)"><i></i></button><small>300ms exit</small></div>
+      <div class="m-col" style="align-items:center"><button class="mv" aria-label="播放动效" data-d="600" style="--d:600ms;--e:var(--m-ease-enter)"><i></i></button><small>600ms 前台上限</small></div>
     </div>
     <div class="demo-note">缓动：standard cubic-bezier(0.2,0,0,1) · enter (0.05,0.7,0.1,1) · exit (0.3,0,0.8,0.15)。入场永远比退场慢 —— 用户等着走。只动 transform/opacity。</div>
   </div>
@@ -310,7 +321,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
 <section class="ds-sec" id="icons">
   <p class="kicker">Foundations · Icons / Imagery</p>
   <h2 class="ds-h2">图标与图像纪律</h2>
-  <p class="ds-lead">24px 网格、1.5px 笔触、outline 为主；尺寸封闭三档 16/20/24。图像：商品 4:5、生活方式 3:2、LCP 图永不懒加载。</p>
+  <p class="ds-lead">24px 网格、1.5px 笔触、outline 为主；尺寸封闭三档 16/20/24。图像：商品 4:5、生活方式 3:2、竖版 story 9:16；LCP 图永不懒加载，srcset 五档 400/800/1200/1600/2400。</p>
   <div class="demo"><div class="demo-tag"><code>icon-set</code><span class="en">内置 SVG sprite（currentColor 继承）</span></div>
     <div class="demo-body" style="gap:var(--m-space-5)"> <div style="display:flex;gap:var(--m-space-4);flex-wrap:wrap" id="iconGrid"></div>
     </div>
@@ -318,11 +329,13 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   </div>
   <div class="demo"><div class="demo-tag"><code>aspect-ratio</code><span class="en">宽高比纪律（防 CLS）</span></div>
     <div class="demo-body">
-      <div class="ph" style="aspect-ratio:4/5;width:120px;background:linear-gradient(135deg,var(--m-brand-6),var(--m-brand-9))">商品 4:5</div>
-      <div class="ph" style="aspect-ratio:3/2;width:180px;background:linear-gradient(135deg,var(--m-info-6),var(--m-info-9))">生活方式 3:2</div>
-      <div class="ph" style="aspect-ratio:16/9;width:200px;background:linear-gradient(135deg,var(--m-mystic-6),var(--m-mystic-9))">Banner 16:9</div>
-      <div class="ph" style="aspect-ratio:1;width:72px;background:linear-gradient(135deg,var(--m-accent-5),var(--m-accent-8))">头像 1:1</div>
+      <div class="ph" style="aspect-ratio:4/5;width:120px;background:linear-gradient(135deg,var(--m-chart-7),var(--m-chart-3))">商品 4:5</div>
+      <div class="ph" style="aspect-ratio:3/2;width:180px;background:linear-gradient(135deg,var(--m-chart-1),var(--m-chart-1))">生活方式 3:2</div>
+      <div class="ph" style="aspect-ratio:16/9;width:200px;background:linear-gradient(135deg,var(--m-chart-5),var(--m-chart-5))">Banner 16:9</div>
+      <div class="ph" style="aspect-ratio:9/16;width:72px;background:linear-gradient(135deg,var(--m-chart-4),var(--m-chart-4))">竖版 9:16</div>
+      <div class="ph" style="aspect-ratio:1;width:72px;background:linear-gradient(135deg,var(--m-chart-2),var(--m-chart-2))">头像 1:1</div>
     </div>
+    <div class="demo-note">竖版 9:16 只用于 story / reel / 视频封面（组件类 <code>.sf-media--story</code>）；视频必须带 poster、默认不自动播。商品图与内容卡禁用玻璃遮罩。</div>
   </div>
 </section>
 
@@ -356,17 +369,17 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     </div>
   </div>
   <div class="demo" id="c06"><div class="demo-tag"><code>c06</code><span class="en">Link 链接</span></div>
-    <div class="demo-body"><a href="#c06" onclick="return false">Default link</a><a href="#c06" onclick="return false" style="display:inline-flex;align-items:center;gap:4px">With arrow <svg class="m-i m-i--16"><use href="#i-arrow-r"/></svg></a></div> </div> <!-- Forms --> <div class="comp-group-h"><h3>Forms · 表单</h3><small>13 个</small></div> <div class="g2"> <div class="demo" id="c07"><div class="demo-tag"><code>c07</code><span class="en">TextField 文本框</span><span>label 顶部 · help 永久显示 · 错误说修法</span></div> <div class="demo-body col"> <div class="m-field" style="width:100%"><label class="m-field__label" for="f1">Product title</label><input class="m-input" id="f1" placeholder="Merino wool crew sweater"><span class="m-field__help">Appears in your online store and in search engines.</span></div> <div class="m-field" style="width:100%"><label class="m-field__label" for="f2">Email <span class="opt">(Optional)</span></label><input class="m-input is-error" id="f2" value="jane@invalid" aria-invalid="true"><span class="m-field__error"><svg class="m-i m-i--16"><use href="#i-crit"/></svg>Enter a valid email address, like name@example.com</span></div> <div class="m-field" style="width:100%"><label class="m-field__label">Disabled</label><input class="m-input" disabled value="Locked value"></div> </div> </div> <div class="demo" id="c08"><div class="demo-tag"><code>c08</code><span class="en">Textarea 多行文本</span></div> <div class="demo-body col"><div class="m-field" style="width:100%"><label class="m-field__label">Description</label><textarea class="m-textarea" placeholder="Describe the product…"></textarea></div></div> </div> <div class="demo" id="c09"><div class="demo-tag"><code>c09</code><span class="en">Select 下拉选择</span><span>选项 ≤5 时改用 Radio</span></div> <div class="demo-body col" style="width:100%"><div class="m-field"><label class="m-field__label">Category</label><span class="m-select-wrap"><select><option>Apparel</option><option>Home</option><option>Accessories</option></select><svg class="m-i m-i--16"><use href="#i-chev-d"/></svg></span></div></div> </div> <div class="demo" id="c10"><div class="demo-tag"><code>c10</code><span class="en">Combobox 可搜索选择</span></div> <div class="demo-body col" style="width:100%;position:relative"><div class="m-combobox is-open"><input class="m-input" role="combobox" aria-expanded="true" aria-label="Search country" placeholder="Search country…" value="Ger"><div class="m-combobox__list" role="listbox"><div class="m-combobox__opt" aria-selected="true"><span>🇩🇪 Germany</span></div><div class="m-combobox__opt"><span>🇬🇷 Greece</span></div><div class="m-combobox__opt"><span>🇬🇪 Georgia</span></div><div class="m-combobox__empty" hidden>No results</div></div></div>
+    <div class="demo-body"><a href="#c06" onclick="return false">Default link</a><a href="#c06" onclick="return false" style="display:inline-flex;align-items:center;gap:4px">With arrow <svg class="m-i m-i--16"><use href="#i-arrow-r"/></svg></a></div> </div> <!-- Forms --> <div class="comp-group-h"><h3>Forms · 表单</h3><small>13 个</small></div> <div class="g2"> <div class="demo" id="c07"><div class="demo-tag"><code>c07</code><span class="en">TextField 文本框</span><span>label 顶部 · help 永久显示 · 错误说修法</span></div> <div class="demo-body col"> <div class="m-field" style="width:100%"><label class="m-field__label" for="f1">Product title</label><input class="m-input" id="f1" placeholder="Merino wool crew sweater"><span class="m-field__help">Appears in your online store and in search engines.</span></div> <div class="m-field" style="width:100%"><label class="m-field__label" for="f2">Email <span class="opt">(Optional)</span></label><input class="m-input is-error" id="f2" value="jane@invalid" aria-invalid="true"><span class="m-field__error"><svg class="m-i m-i--16"><use href="#i-crit"/></svg>Enter a valid email address, like name@example.com</span></div> <div class="m-field" style="width:100%"><label class="m-field__label">Disabled</label><input class="m-input" disabled value="Locked value" aria-label="Disabled example"></div> </div> </div> <div class="demo" id="c08"><div class="demo-tag"><code>c08</code><span class="en">Textarea 多行文本</span></div> <div class="demo-body col"><div class="m-field" style="width:100%"><label class="m-field__label">Description</label><textarea class="m-textarea" placeholder="Describe the product…" aria-label="Description"></textarea></div></div> </div> <div class="demo" id="c09"><div class="demo-tag"><code>c09</code><span class="en">Select 下拉选择</span><span>选项 ≤5 时改用 Radio</span></div> <div class="demo-body col" style="width:100%"><div class="m-field"><label class="m-field__label">Category</label><span class="m-select-wrap"><select aria-label="Category"><option>Apparel</option><option>Home</option><option>Accessories</option></select><svg class="m-i m-i--16"><use href="#i-chev-d"/></svg></span></div></div> </div> <div class="demo" id="c10"><div class="demo-tag"><code>c10</code><span class="en">Combobox 可搜索选择</span></div> <div class="demo-body col" style="width:100%;position:relative"><div class="m-combobox is-open" data-combobox><input class="m-input" role="combobox" aria-expanded="true" aria-controls="country-list" aria-label="Search country" placeholder="Search country…" value="Ger"><div class="m-combobox__list" id="country-list" role="listbox" aria-label="Countries"><div class="m-combobox__opt" role="option" aria-selected="true"><span>🇩🇪 Germany</span></div><div class="m-combobox__opt" role="option"><span>🇬🇷 Greece</span></div><div class="m-combobox__opt" role="option"><span>🇬🇪 Georgia</span></div><div class="m-combobox__empty" hidden>No results</div></div></div>
     </div>
   </div>
   <div class="demo" id="c11"><div class="demo-tag"><code>c11</code><span class="en">DatePicker 日期选择</span><span>locale 格式 + 解析预览</span></div>
-    <div class="demo-body col"><div class="m-field"><label class="m-field__label">Sale ends</label><input class="m-input" type="date" value="2026-09-30"></div><span style="font-size:12px;color:var(--m-fg-subtle)">显示预览: Wed, Sep 30 · 永远 locale 格式化，禁手填歧义格式</span></div>
+    <div class="demo-body col"><div class="m-field"><label class="m-field__label">Sale ends</label><input class="m-input" type="date" value="2026-09-30" aria-label="Sale ends"></div><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">显示预览: Wed, Sep 30 · 永远 locale 格式化，禁手填歧义格式</span></div>
   </div>
   <div class="demo" id="c12"><div class="demo-tag"><code>c12</code><span class="en">SearchField 搜索框</span></div>
-    <div class="demo-body col" style="width:100%"><div class="m-search"><svg class="m-i m-i--16"><use href="#i-search"/></svg><input class="m-input" placeholder="Search orders, products, customers…"></div><span style="font-size:12px;color:var(--m-fg-subtle)">快捷键 <kbd>/</kbd> 聚焦</span></div>
+    <div class="demo-body col" style="width:100%"><div class="m-search"><svg class="m-i m-i--16"><use href="#i-search"/></svg><input class="m-input" placeholder="Search orders, products, customers…" aria-label="Search orders, products, customers"></div><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">快捷键 <kbd>/</kbd> 聚焦</span></div>
   </div>
   <div class="demo" id="c13"><div class="demo-tag"><code>c13</code><span class="en">OTPInput 验证码输入</span><span>3DS / 无密码登录</span></div>
-    <div class="demo-body"><div class="m-otp"><input class="m-input" maxlength="1" value="7"><input class="m-input" maxlength="1" value="2"><input class="m-input" maxlength="1" value="4"><input class="m-input" maxlength="1" value=""></div></div>
+    <div class="demo-body"><div class="m-otp"><input class="m-input" maxlength="1" value="7" aria-label="验证码第 1 位"><input class="m-input" maxlength="1" value="2" aria-label="验证码第 2 位"><input class="m-input" maxlength="1" value="4" aria-label="验证码第 3 位"><input class="m-input" maxlength="1" value="" aria-label="验证码第 4 位"></div></div>
     <div class="demo-note">SCA 挑战容器规格：超时倒计时 + "Didn't receive the code? Resend"</div>
   </div>
   <div class="demo" id="c14"><div class="demo-tag"><code>c14</code><span class="en">Checkbox 复选框</span><span>默认永不预勾选（合规硬编码）</span></div>
@@ -393,17 +406,17 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <div class="demo-body"><div class="m-seg" data-seg><button class="is-active">Ship</button><button>Refund</button><button>Archive</button></div></div>
   </div>
   <div class="demo" id="c18"><div class="demo-tag"><code>c18</code><span class="en">Slider 滑块</span><span>必须带键盘路径（WCAG 2.5.7）</span></div>
-    <div class="demo-body col"><div class="m-range-row"><span>$0</span><input type="range" class="m-slider" min="0" max="200" value="120"><span>$200</span></div></div>
+    <div class="demo-body col"><div class="m-range-row"><span>$0</span><input type="range" class="m-slider" min="0" max="200" value="120" aria-label="Price range"><span>$200</span></div></div>
   </div>
   <div class="demo" id="c19"><div class="demo-tag"><code>c19</code><span class="en">QuantityStepper 数量步进器</span><span>触达 44px · 长按步进</span></div>
-    <div class="demo-body"><div class="m-stepper"><button aria-label="减少数量"><svg class="m-i m-i--16"><use href="#i-minus"/></svg></button><input value="1" aria-label="数量"><button aria-label="增加数量"><svg class="m-i m-i--16"><use href="#i-plus"/></svg></button></div><div class="m-stepper m-stepper--sm"><button aria-label="减少"><svg class="m-i m-i--16"><use href="#i-minus"/></svg></button><input value="3" aria-label="数量"><button aria-label="增加"><svg class="m-i m-i--16"><use href="#i-plus"/></svg></button></div><span style="font-size:12px;color:var(--m-fg-subtle)">Max 4 per customer</span></div>
+    <div class="demo-body"><div class="m-stepper"><button aria-label="减少数量"><svg class="m-i m-i--16"><use href="#i-minus"/></svg></button><input value="1" aria-label="数量"><button aria-label="增加数量"><svg class="m-i m-i--16"><use href="#i-plus"/></svg></button></div><div class="m-stepper m-stepper--sm"><button aria-label="减少"><svg class="m-i m-i--16"><use href="#i-minus"/></svg></button><input value="3" aria-label="数量"><button aria-label="增加"><svg class="m-i m-i--16"><use href="#i-plus"/></svg></button></div><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Max 4 per customer</span></div>
   </div>
 
   <!-- Feedback -->
   <div class="comp-group-h"><h3>Feedback · 反馈</h3><small>10 个</small></div>
   <div class="g2">
   <div class="demo" id="c20"><div class="demo-tag"><code>c20</code><span class="en">Badge 徽章</span><span>tint / solid / outline × 8 tones</span></div>
-    <div class="demo-body col" style="gap:8px"> <div class="m-row"><span class="m-badge m-badge--tint m-badge--success">✓ Paid</span><span class="m-badge m-badge--tint m-badge--warning">⏳ Pending</span><span class="m-badge m-badge--tint m-badge--critical">Unfulfilled</span><span class="m-badge m-badge--tint m-badge--info">Info</span><span class="m-badge m-badge--tint m-badge--emphasis">New</span><span class="m-badge m-badge--tint m-badge--neutral">Draft</span><span class="m-badge m-badge--tint m-badge--ai"><svg class="m-i m-i--16"><use href="#i-ai"/></svg>AI</span></div> <div class="m-row"><span class="m-badge m-badge--solid m-badge--critical">Sale</span><span class="m-badge m-badge--tint m-badge--promo">Promo</span><span class="m-badge m-badge--outline m-badge--success">Refunded</span></div> </div> </div> <div class="demo" id="c21"><div class="demo-tag"><code>c21</code><span class="en">StatusBadge 订单状态徽章</span><span>语义必须有 sr-only 文本</span></div> <div class="demo-body"><span class="m-badge m-badge--tint m-badge--success">Fulfilled</span><span class="m-badge m-badge--tint m-badge--warning">Partially fulfilled</span><span class="m-badge m-badge--tint m-badge--info">In transit</span><span class="m-badge m-badge--tint m-badge--critical">Returned</span><span class="m-badge m-badge--tint m-badge--neutral">Cancelled</span></div> </div> <div class="demo" id="c22"><div class="demo-tag"><code>c22</code><span class="en">Tag 可移除标签</span></div> <div class="demo-body"><span class="m-tag">Status: Unfulfilled <button class="x" aria-label="移除筛选"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></span><span class="m-tag">Size: M <button class="x" aria-label="移除筛选"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></span><span class="m-tag">Color: Black <button class="x" aria-label="移除筛选"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></span></div> </div> <div class="demo" id="c23"><div class="demo-tag"><code>c23</code><span class="en">Banner 横幅</span><span>critical 不可关闭 · role=alert/status</span></div> <div class="demo-body col"> <div class="m-banner m-banner--info" role="status"><svg class="m-i"><use href="#i-info"/></svg><div class="m-banner__body"><b>New market available.</b> You can now sell to Austria with EUR pricing.</div><div class="m-banner__actions"><button class="m-btn m-btn--tertiary m-btn--sm" style="color:var(--m-info-fg)">Review</button></div></div> <div class="m-banner m-banner--success" role="status"><svg class="m-i"><use href="#i-check"/></svg><div class="m-banner__body">Refund of <b>$42.00</b> was issued to Visa •••• 4242.</div></div> <div class="m-banner m-banner--warning" role="alert"><svg class="m-i"><use href="#i-warn"/></svg><div class="m-banner__body"><b>Inventory is negative</b> for 5 variants.</div><div class="m-banner__actions"><button class="m-btn m-btn--tertiary m-btn--sm" style="color:var(--m-warning-fg)">Fix now</button></div></div> <div class="m-banner m-banner--critical" role="alert"><svg class="m-i"><use href="#i-crit"/></svg><div class="m-banner__body"><b>Payments are disabled</b> because your billing information expired.</div><div class="m-banner__actions"><button class="m-btn m-btn--primary m-btn--sm">Update billing</button></div></div> </div> </div> <div class="demo" id="c24"><div class="demo-tag"><code>c24</code><span class="en">InlineError 行内错误</span></div> <div class="demo-body"><span class="m-inline-error"><svg class="m-i m-i--16"><use href="#i-crit"/></svg>Card number is incomplete. Enter all 16 digits.</span></div> </div> <div class="demo" id="c25"><div class="demo-tag"><code>c25</code><span class="en">Toast 轻提示</span><span>≤3 词 · 1 动作 · 5s · aria-live=polite</span></div> <div class="demo-body"><button class="m-btn m-btn--secondary" onclick="showToast('Product updated')">触发 Toast</button><button class="m-btn m-btn--secondary" onclick="showToast('3 items exported','View file')">带动作</button></div> </div> <div class="demo" id="c26"><div class="demo-tag"><code>c26</code><span class="en">Progress 进度条</span></div> <div class="demo-body col" style="width:100%"><div class="m-progress"><i style="width:64%"></i></div><div class="m-progress m-progress--success"><i style="width:100%"></i></div></div> </div> <div class="demo" id="c27"><div class="demo-tag"><code>c27</code><span class="en">Spinner 加载指示</span><span>&lt;300ms 不显示指示器</span></div>
+    <div class="demo-body col" style="gap:8px"> <div class="m-row"><span class="m-badge m-badge--tint m-badge--success">✓ Paid</span><span class="m-badge m-badge--tint m-badge--warning">⏳ Pending</span><span class="m-badge m-badge--tint m-badge--critical">Unfulfilled</span><span class="m-badge m-badge--tint m-badge--info">Info</span><span class="m-badge m-badge--tint m-badge--emphasis">New</span><span class="m-badge m-badge--tint m-badge--neutral">Draft</span><span class="m-badge m-badge--tint m-badge--ai"><svg class="m-i m-i--16"><use href="#i-ai"/></svg>AI</span></div> <div class="m-row"><span class="m-badge m-badge--solid m-badge--critical">Sale</span><span class="m-badge m-badge--tint m-badge--promo">Promo</span><span class="m-badge m-badge--outline m-badge--success">Refunded</span></div> </div> </div> <div class="demo" id="c21"><div class="demo-tag"><code>c21</code><span class="en">StatusBadge 订单状态徽章</span><span>语义必须有 sr-only 文本</span></div> <div class="demo-body"><span class="m-badge m-badge--tint m-badge--success">Fulfilled</span><span class="m-badge m-badge--tint m-badge--warning">Partially fulfilled</span><span class="m-badge m-badge--tint m-badge--info">In transit</span><span class="m-badge m-badge--tint m-badge--critical">Returned</span><span class="m-badge m-badge--tint m-badge--neutral">Cancelled</span></div> </div> <div class="demo" id="c22"><div class="demo-tag"><code>c22</code><span class="en">Tag 可移除标签</span></div> <div class="demo-body"><span class="m-tag">Status: Unfulfilled <button class="x" aria-label="移除筛选"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></span><span class="m-tag">Size: M <button class="x" aria-label="移除筛选"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></span><span class="m-tag">Color: Black <button class="x" aria-label="移除筛选"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></span></div> </div> <div class="demo" id="c23"><div class="demo-tag"><code>c23</code><span class="en">Banner 横幅</span><span>critical 不可关闭 · role=alert/status</span></div> <div class="demo-body col"> <div class="m-banner m-banner--info" role="status"><svg class="m-i"><use href="#i-info"/></svg><div class="m-banner__body"><b>New market available.</b> You can now sell to Austria with EUR pricing.</div><div class="m-banner__actions"><button class="m-btn m-btn--tertiary m-btn--sm" style="color:var(--m-info-fg)">Review</button></div></div> <div class="m-banner m-banner--success" role="status"><svg class="m-i"><use href="#i-check"/></svg><div class="m-banner__body">Refund of <b>$42.00</b> was issued to Visa •••• 4242.</div></div> <div class="m-banner m-banner--warning" role="alert"><svg class="m-i"><use href="#i-warn"/></svg><div class="m-banner__body"><b>Inventory is negative</b> for 5 variants.</div><div class="m-banner__actions"><button class="m-btn m-btn--tertiary m-btn--sm" style="color:var(--m-warning-fg)">Fix now</button></div></div> <div class="m-banner m-banner--critical" role="alert"><svg class="m-i"><use href="#i-crit"/></svg><div class="m-banner__body"><b>Payments are disabled</b> because your billing information expired.</div><div class="m-banner__actions"><button class="m-btn m-btn--primary m-btn--sm">Update billing</button></div></div> </div> </div> <div class="demo" id="c24"><div class="demo-tag"><code>c24</code><span class="en">InlineError 行内错误</span></div> <div class="demo-body"><span class="m-inline-error"><svg class="m-i m-i--16"><use href="#i-crit"/></svg>Card number is incomplete. Enter all 16 digits.</span></div> </div> <div class="demo" id="c25"><div class="demo-tag"><code>c25</code><span class="en">Toast 轻提示</span><span>≤3 词 · 1 动作 · 5s · aria-live=polite</span></div> <div class="demo-body"><button class="m-btn m-btn--secondary" onclick="showToast('Product updated')">触发 Toast</button><button class="m-btn m-btn--secondary" onclick="showToast('3 items exported','View file')">带动作</button></div> </div> <div class="demo" id="c26"><div class="demo-tag"><code>c26</code><span class="en">Progress 进度条</span></div> <div class="demo-body col" style="width:100%"><div class="m-progress"><i style="--m-progress:.64"></i></div><div class="m-progress m-progress--success"><i style="--m-progress:1"></i></div></div> </div> <div class="demo" id="c27"><div class="demo-tag"><code>c27</code><span class="en">Spinner 加载指示</span><span>&lt;300ms 不显示指示器</span></div>
     <div class="demo-body"><span class="m-spinner" role="status" aria-label="加载中"></span><span class="m-spinner" style="width:32px;height:32px"></span></div>
   </div>
   <div class="demo" id="c28"><div class="demo-tag"><code>c28</code><span class="en">Skeleton 骨架屏</span><span>形状 = 最终布局 · aria-busy</span></div>
@@ -423,11 +436,11 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <div class="demo-body"><button class="m-btn m-btn--destructive" onclick="dlg2.showModal()">Delete 3 products</button></div>
   </div>
   <div class="demo" id="c32"><div class="demo-tag"><code>c32</code><span class="en">Drawer 抽屉</span><span>300ms enter / 150ms exit</span></div>
-    <div class="demo-body"><button class="m-btn m-btn--primary" onclick="openDrawer()">Open drawer</button></div>
+    <div class="demo-body"><button class="m-btn m-btn--primary" data-overlay-open="drawer" data-overlay-kind="cart">Open drawer</button></div>
   </div>
   <div class="demo" id="c33"><div class="demo-tag"><code>c33</code><span class="en">Popover 气泡卡片</span></div>
     <div class="demo-body" style="position:relative"><button class="m-btn m-btn--secondary" onclick="togglePop('pop-1',this)">Filter <svg class="m-i m-i--16"><use href="#i-chev-d"/></svg></button>
-      <div class="m-popover" id="pop-1" style="top:calc(100% + 6px);left:0"><div class="m-col" style="gap:var(--m-space-2);font-size:13px"><b style="font-size:12px;color:var(--m-fg-muted)">AVAILABILITY</b><label class="m-check"><input type="checkbox"><span class="box"></span>In stock (128)</label><label class="m-check"><input type="checkbox"><span class="box"></span>Out of stock (12)</label><div class="m-row" style="justify-content:flex-end;margin-top:6px"><button class="m-btn m-btn--primary m-btn--sm">Done</button></div></div></div>
+      <div class="m-popover" id="pop-1" style="top:calc(100% + 6px);left:0"><div class="m-col" style="gap:var(--m-space-2);font-size:var(--m-text-sm)"><b style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">AVAILABILITY</b><label class="m-check"><input type="checkbox"><span class="box"></span>In stock (128)</label><label class="m-check"><input type="checkbox"><span class="box"></span>Out of stock (12)</label><div class="m-row" style="justify-content:flex-end;margin-top:6px"><button class="m-btn m-btn--primary m-btn--sm">Done</button></div></div></div>
     </div>
   </div>
   <div class="demo" id="c34"><div class="demo-tag"><code>c34</code><span class="en">Tooltip 工具提示</span><span>可悬停/可消失/可持续（WCAG 1.4.13）</span></div>
@@ -437,17 +450,17 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <div class="demo-body"><button class="m-btn m-btn--primary" onclick="dlg3.showModal()">⌘K 打开命令面板</button></div>
   </div>
   <div class="demo" id="c36"><div class="demo-tag"><code>c36</code><span class="en">FilterDrawer 筛选抽屉</span><span>移动端 PLP · h-85vh</span></div>
-    <div class="demo-body"><button class="m-btn m-btn--secondary" onclick="openDrawer('filter')">Open filter drawer</button></div>
+    <div class="demo-body"><button class="m-btn m-btn--secondary" data-overlay-open="drawer" data-overlay-kind="filter">Open filter drawer</button></div>
   </div>
   <div class="demo" id="c37"><div class="demo-tag"><code>c37</code><span class="en">Lightbox 灯箱</span><span>键盘 ←→ · Esc 关闭</span></div>
-    <div class="demo-body"><button class="m-btn m-btn--secondary" onclick="openLightbox()">Open lightbox</button></div>
+    <div class="demo-body"><button class="m-btn m-btn--secondary" data-overlay-open="lightbox">Open lightbox</button></div>
   </div>
 
   <!-- Navigation -->
   <div class="comp-group-h"><h3>Navigation · 导航</h3><small>10 个</small></div>
   <div class="g2">
   <div class="demo" id="c38"><div class="demo-tag"><code>c38</code><span class="en">Tabs 标签页</span><span>键盘 ←→；PDP 信息区禁用 Tabs（用手风琴）</span></div>
-    <div class="demo-body col" style="width:100%"><div class="m-tabs" data-tabs><button class="m-tab is-active">Overview</button><button class="m-tab">Activity</button><button class="m-tab">Timeline</button></div><div style="padding-top:10px;font-size:13px;color:var(--m-fg-muted)">Panel content of the active tab.</div></div>
+    <div class="demo-body col" style="width:100%"><div class="m-tabs" data-tabs><button class="m-tab is-active">Overview</button><button class="m-tab">Activity</button><button class="m-tab">Timeline</button></div><div style="padding-top:10px;font-size:var(--m-text-sm);color:var(--m-fg-muted)">Panel content of the active tab.</div></div>
   </div>
   <div class="demo" id="c39"><div class="demo-tag"><code>c39</code><span class="en">Accordion 手风琴</span><span>PDP 信息区标准载体</span></div>
     <div class="demo-body col" style="width:100%"><div class="m-accordion">
@@ -460,13 +473,13 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <div class="demo-body"><nav class="m-crumbs" aria-label="Breadcrumb"><a href="#c40" onclick="return false"><svg class="m-i m-i--16"><use href="#i-home"/></svg> Home</a><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg><a href="#c40" onclick="return false">Women</a><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg><span aria-current="page">Outerwear</span></nav></div>
   </div>
   <div class="demo" id="c41"><div class="demo-tag"><code>c41</code><span class="en">Pagination 分页</span><span>禁无限滚动（运营需要位置感）</span></div>
-    <div class="demo-body"><div class="m-pagination"><button class="m-page" aria-label="上一页"><svg class="m-i m-i--16"><use href="#i-chev-l"/></svg></button><button class="m-page is-active">1</button><button class="m-page">2</button><button class="m-page">3</button><span style="color:var(--m-fg-subtle)">…</span><button class="m-page">42</button><button class="m-page" aria-label="下一页"><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg></button><span style="font-size:12px;color:var(--m-fg-subtle);margin-inline-start:8px">1,042 orders</span></div></div>
+    <div class="demo-body"><div class="m-pagination"><button class="m-page" aria-label="上一页"><svg class="m-i m-i--16"><use href="#i-chev-l"/></svg></button><button class="m-page is-active">1</button><button class="m-page">2</button><button class="m-page">3</button><span style="color:var(--m-fg-subtle)">…</span><button class="m-page">42</button><button class="m-page" aria-label="下一页"><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg></button><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin-inline-start:8px">1,042 orders</span></div></div>
   </div>
   <div class="demo" id="c42"><div class="demo-tag"><code>c42</code><span class="en">Sidenav 侧边导航</span><span>240px · ≤1024 折叠 56px</span></div>
-    <div class="demo-body"><nav class="m-sidenav" style="width:220px;border:1px solid var(--m-border);border-radius:var(--m-space-3);padding:8px"><div class="m-sidenav__group">Sales channels</div><a href="#c42" onclick="return false"><svg class="m-i m-i--16"><use href="#i-box"/></svg>Orders <span class="count">23</span></a><a href="#c42" onclick="return false" class="is-active"><svg class="m-i m-i--16"><use href="#i-tag"/></svg>Products</a><a href="#c42" onclick="return false"><svg class="m-i m-i--16"><use href="#i-user"/></svg>Customers</a></nav></div> </div> <div class="demo" id="c43"><div class="demo-tag"><code>c43</code><span class="en">PageHeader 页面标题</span><span>主动作永远只有一个</span></div> <div class="demo-body col" style="width:100%"><div class="m-pagehead"><div><nav class="m-crumbs"><a href="#c43" onclick="return false">Orders</a><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg><span>#1042</span></nav><h1>Order #1042</h1><div class="sub">Placed Sep 12, 2026 · Jane Doe</div></div><div class="m-row"><button class="m-btn m-btn--secondary">Print</button><button class="m-btn m-btn--primary">Fulfill order</button></div></div></div> </div> <div class="demo" id="c44"><div class="demo-tag"><code>c44</code><span class="en">SaveBar 保存栏</span><span>Polaris Contextual Save Bar · dirty 时出现</span></div> <div class="demo-body col" style="width:100%"><div class="m-savebar"><span class="msg"><svg class="m-i m-i--16"><use href="#i-edit"/></svg>Unsaved changes</span><span class="m-row"><button class="m-btn m-btn--tertiary">Discard</button><button class="m-btn m-btn--primary">Save</button></span></div></div> </div> <div class="demo" id="c45"><div class="demo-tag"><code>c45</code><span class="en">TopBar 顶栏</span><span>56px · ⌘K · 帮助 · 账户</span></div> <div class="demo-body col" style="width:100%"><div style="display:flex;align-items:center;gap:var(--m-space-3);height:56px;padding:0 var(--m-space-3);background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-radius-lg)"><svg class="m-i"><use href="#i-menu"/></svg><div class="m-search" style="flex:1;max-width:320px"><svg class="m-i m-i--16"><use href="#i-search"/></svg><input class="m-input" placeholder="Search" style="height:34px"></div><span style="flex:1"></span><kbd>⌘K</kbd><button class="m-btn m-btn--tertiary m-icon-btn" aria-label="帮助"><svg class="m-i"><use href="#i-info"/></svg></button><span class="m-avatar">HK</span></div></div>
+    <div class="demo-body"><nav class="m-sidenav" style="width:220px;border:1px solid var(--m-border);border-radius:var(--m-space-3);padding:8px"><div class="m-sidenav__group">Sales channels</div><a href="#c42" onclick="return false"><svg class="m-i m-i--16"><use href="#i-box"/></svg>Orders <span class="count">23</span></a><a href="#c42" onclick="return false" class="is-active"><svg class="m-i m-i--16"><use href="#i-tag"/></svg>Products</a><a href="#c42" onclick="return false"><svg class="m-i m-i--16"><use href="#i-user"/></svg>Customers</a></nav></div> </div> <div class="demo" id="c43"><div class="demo-tag"><code>c43</code><span class="en">PageHeader 页面标题</span><span>主动作永远只有一个</span></div> <div class="demo-body col" style="width:100%"><div class="m-pagehead"><div><nav class="m-crumbs"><a href="#c43" onclick="return false">Orders</a><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg><span>#1042</span></nav><h1>Order #1042</h1><div class="sub">Placed Sep 12, 2026 · Jane Doe</div></div><div class="m-row"><button class="m-btn m-btn--secondary">Print</button><button class="m-btn m-btn--primary">Fulfill order</button></div></div></div> </div> <div class="demo" id="c44"><div class="demo-tag"><code>c44</code><span class="en">SaveBar 保存栏</span><span>Polaris Contextual Save Bar · dirty 时出现</span></div> <div class="demo-body col" style="width:100%"><div class="m-savebar"><span class="msg"><svg class="m-i m-i--16"><use href="#i-edit"/></svg>Unsaved changes</span><span class="m-row"><button class="m-btn m-btn--tertiary">Discard</button><button class="m-btn m-btn--primary">Save</button></span></div></div> </div> <div class="demo" id="c45"><div class="demo-tag"><code>c45</code><span class="en">TopBar 顶栏</span><span>56px · ⌘K · 帮助 · 账户</span></div> <div class="demo-body col" style="width:100%"><div style="display:flex;align-items:center;gap:var(--m-space-3);height:56px;padding:0 var(--m-space-3);background:var(--m-bg-surface);border:1px solid var(--m-border);border-radius:var(--m-radius-lg)"><svg class="m-i"><use href="#i-menu"/></svg><div class="m-search" style="flex:1;max-width:320px"><svg class="m-i m-i--16"><use href="#i-search"/></svg><input class="m-input" placeholder="Search" aria-label="Search"></div><span style="flex:1"></span><kbd>⌘K</kbd><button class="m-btn m-btn--tertiary m-icon-btn" aria-label="帮助"><svg class="m-i"><use href="#i-info"/></svg></button><span class="m-avatar">HK</span></div></div>
   </div>
   <div class="demo" id="c46"><div class="demo-tag"><code>c46</code><span class="en">AnnouncementBar 宣告条</span><span>brand-9 反白 · 可关闭 24px</span></div>
-    <div class="demo-body col" style="width:100%"><div style="display:flex;align-items:center;justify-content:center;gap:var(--m-space-3);height:40px;background:var(--m-brand-9);color:#fff;border-radius:var(--m-radius-md);font-size:13px">Free shipping on orders over $75 · <a href="#c46" onclick="return false" style="color:#fff;text-decoration:underline">Shop now</a><button class="m-icon-btn" style="border:none;background:none;color:#fff;cursor:pointer" aria-label="关闭宣告"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></div></div>
+    <div class="demo-body col" style="width:100%"><div style="display:flex;align-items:center;justify-content:center;gap:var(--m-space-3);height:40px;background:var(--m-announce-bg);color:var(--m-announce-fg);border-radius:var(--m-radius-md);font-size:var(--m-text-sm)">Free shipping on orders over $75 · <a href="#c46" onclick="return false" style="color:var(--m-announce-fg);text-decoration:underline">Shop now</a><button class="m-icon-btn" style="border:none;background:none;color:var(--m-announce-fg);cursor:pointer" aria-label="关闭宣告"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></div></div>
   </div>
   <div class="demo" id="c47"><div class="demo-tag"><code>c47</code><span class="en">ProgressSteps 步骤指示器</span><span>已完成步可折叠回看（Baymard）</span></div>
     <div class="demo-body"><div class="m-steps"><div class="m-step is-done"><span class="dot"><svg class="m-i m-i--16"><use href="#i-check"/></svg></span>Contact</div><span class="m-step-sep"></span><div class="m-step is-current"><span class="dot">2</span>Shipping</div><span class="m-step-sep"></span><div class="m-step"><span class="dot">3</span>Payment</div></div></div>
@@ -483,7 +496,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   </div>
   <div class="demo wide" id="c49"><div class="demo-tag"><code>c49</code><span class="en">DataTable 数据表格</span><span>数字右对齐 tnum · wrap 优先 · 选择跨页</span></div>
     <div class="demo-body col" style="width:100%;gap:8px"> <div class="m-bulkbar" id="bulk" hidden><b id="bulkN">0</b>&nbsp;selected <span style="flex:1"></span><button class="m-btn m-btn--secondary m-btn--sm">Fulfill</button><button class="m-btn m-btn--tertiary m-btn--sm" style="color:var(--m-critical-fg)">Cancel orders</button></div>
-      <div class="m-table-wrap"><table class="m-table" id="demoTable">
+      <div class="m-table-wrap"><table class="m-table" id="demoTable" data-grid>
         <thead><tr><th style="width:36px"><input type="checkbox" id="selAll" style="width:16px;height:16px;accent-color:var(--m-primary)" aria-label="全选"></th><th>Order <svg class="m-i m-i--16" style="vertical-align:-3px"><use href="#i-chev-d"/></svg></th><th>Date</th><th>Customer</th><th>Payment</th><th class="num">Total</th></tr></thead>
         <tbody>
           <tr><td><input type="checkbox" class="rowSel" style="width:16px;height:16px;accent-color:var(--m-primary)" aria-label="选择 #1042"></td><td><div class="cell-main">#1042</div></td><td>Sep 12</td><td>Jane Doe</td><td><span class="m-badge m-badge--tint m-badge--success">Paid</span></td><td class="num">$142.00</td></tr>
@@ -491,13 +504,13 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
           <tr><td><input type="checkbox" class="rowSel" style="width:16px;height:16px;accent-color:var(--m-primary)" aria-label="选择 #1040"></td><td><div class="cell-main">#1040</div></td><td>Sep 11</td><td>Oliver Smith</td><td><span class="m-badge m-badge--tint m-badge--critical">Refunded</span></td><td class="num">$68.00</td></tr>
         </tbody>
       </table></div>
-      <p style="font-size:12px;color:var(--m-fg-subtle);margin:0">完整规格（sticky 表头/首列冻结/斑马纹策略/行内编辑/导出）见 admin/15-admin-data-tables.md</p> </div> </div> <div class="demo" id="c51"><div class="demo-tag"><code>c51</code><span class="en">DescriptionList 描述列表</span></div> <div class="demo-body col"><dl class="m-desc"><dt>Tracking number</dt><dd style="font-family:var(--m-font-mono)">1Z999AA10123456784</dd><dt>Carrier</dt><dd>UPS Ground</dd><dt>Estimated delivery</dt><dd>Wed, Sep 17 – Fri, Sep 19</dd></dl></div> </div> <div class="demo" id="c52"><div class="demo-tag"><code>c52</code><span class="en">KpiCard 指标卡</span><span>永远带对比期（vs previous 30 days）</span></div> <div class="demo-body col" style="width:100%"><div class="g4"> <div class="m-card m-kpi"><div class="label">Total sales</div><div class="value">$48,210</div><div class="delta up">↑ 12% <span class="vs">vs prev. 30d</span></div></div> <div class="m-card m-kpi"><div class="label">Orders</div><div class="value">1,204</div><div class="delta up">↑ 4% <span class="vs">vs prev. 30d</span></div></div> <div class="m-card m-kpi"><div class="label">Conversion</div><div class="value">2.8%</div><div class="delta down">↓ 1% <span class="vs">vs prev. 30d</span></div></div> <div class="m-card m-kpi"><div class="label">AOV</div><div class="value">$40.04</div><div class="delta up">↑ 3% <span class="vs">vs prev. 30d</span></div></div> </div></div> </div> <div class="demo" id="c53"><div class="demo-tag"><code>c53</code><span class="en">Sparkline 迷你趋势图</span></div> <div class="demo-body"><svg width="140" height="40" aria-label="Sales trend, up 12 percent"><polyline points="0,32 20,28 40,30 60,22 80,24 100,14 120,16 140,6" fill="none" stroke="var(--m-info-9)" stroke-width="2" stroke-linecap="round"/></svg><svg width="140" height="40" aria-label="Conversion trend, down"><polyline points="0,10 20,14 40,12 60,20 80,18 100,26 120,24 140,32" fill="none" stroke="var(--m-danger-6)" stroke-width="2" stroke-linecap="round"/></svg></div> </div> <div class="demo" id="c54"><div class="demo-tag"><code>c54</code><span class="en">LineChart 折线图</span><span>8 色按序取用 · 轴文本 xs muted</span></div> <div class="demo-body col" style="width:100%"><svg viewBox="0 0 320 120" style="width:100%" aria-label="Revenue by month"><line x1="0" y1="100" x2="320" y2="100" stroke="var(--m-border)"/><line x1="0" y1="60" x2="320" y2="60" stroke="var(--m-border)" stroke-dasharray="3 4"/><line x1="0" y1="20" x2="320" y2="20" stroke="var(--m-border)" stroke-dasharray="3 4"/><polyline points="10,90 60,70 110,78 160,50 210,42 260,30 310,18" fill="none" stroke="var(--m-info-9)" stroke-width="2.5" stroke-linecap="round"/><polyline points="10,100 60,92 110,95 160,80 210,76 260,66 310,60" fill="none" stroke="var(--m-brand-9)" stroke-width="2.5" stroke-linecap="round"/></svg><div style="display:flex;gap:16px;font-size:12px;color:var(--m-fg-muted)"><span>● This year (info-9)</span><span>● Last year (brand-9)</span></div></div>
+      <p style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:0">完整规格（sticky 表头/首列冻结/斑马纹策略/行内编辑/导出）见 admin/15-admin-data-tables.md</p> </div> </div> <div class="demo" id="c51"><div class="demo-tag"><code>c51</code><span class="en">DescriptionList 描述列表</span></div> <div class="demo-body col"><dl class="m-desc"><dt>Tracking number</dt><dd style="font-family:var(--m-font-mono)">1Z999AA10123456784</dd><dt>Carrier</dt><dd>UPS Ground</dd><dt>Estimated delivery</dt><dd>Wed, Sep 17 – Fri, Sep 19</dd></dl></div> </div> <div class="demo" id="c52"><div class="demo-tag"><code>c52</code><span class="en">KpiCard 指标卡</span><span>永远带对比期（vs previous 30 days）</span></div> <div class="demo-body col" style="width:100%"><div class="g4"> <div class="m-card m-kpi"><div class="label">Total sales</div><div class="value">$48,210</div><div class="delta up">↑ 12% <span class="vs">vs prev. 30d</span></div></div> <div class="m-card m-kpi"><div class="label">Orders</div><div class="value">1,204</div><div class="delta up">↑ 4% <span class="vs">vs prev. 30d</span></div></div> <div class="m-card m-kpi"><div class="label">Conversion</div><div class="value">2.8%</div><div class="delta down">↓ 1% <span class="vs">vs prev. 30d</span></div></div> <div class="m-card m-kpi"><div class="label">AOV</div><div class="value">$40.04</div><div class="delta up">↑ 3% <span class="vs">vs prev. 30d</span></div></div> </div></div> </div> <div class="demo" id="c53"><div class="demo-tag"><code>c53</code><span class="en">Sparkline 迷你趋势图</span></div> <div class="demo-body"><svg width="140" height="40" aria-label="Sales trend, up 12 percent"><polyline points="0,32 20,28 40,30 60,22 80,24 100,14 120,16 140,6" fill="none" stroke="var(--m-chart-1)" stroke-width="2" stroke-linecap="round"/></svg><svg width="140" height="40" aria-label="Conversion trend, down"><polyline points="0,10 20,14 40,12 60,20 80,18 100,26 120,24 140,32" fill="none" stroke="var(--m-chart-6)" stroke-width="2" stroke-linecap="round"/></svg></div> </div> <div class="demo" id="c54"><div class="demo-tag"><code>c54</code><span class="en">LineChart 折线图</span><span>8 色按序取用 · 轴文本 xs muted</span></div> <div class="demo-body col" style="width:100%"><svg viewBox="0 0 320 120" style="width:100%" aria-label="Revenue by month"><line x1="0" y1="100" x2="320" y2="100" stroke="var(--m-border)"/><line x1="0" y1="60" x2="320" y2="60" stroke="var(--m-border)" stroke-dasharray="3 4"/><line x1="0" y1="20" x2="320" y2="20" stroke="var(--m-border)" stroke-dasharray="3 4"/><polyline points="10,90 60,70 110,78 160,50 210,42 260,30 310,18" fill="none" stroke="var(--m-chart-1)" stroke-width="2.5" stroke-linecap="round"/><polyline points="10,100 60,92 110,95 160,80 210,76 260,66 310,60" fill="none" stroke="var(--m-chart-3)" stroke-width="2.5" stroke-linecap="round"/></svg><div style="display:flex;gap:16px;font-size:var(--m-text-xs);color:var(--m-fg-muted)"><span>● This year (info-9)</span><span>● Last year (brand-9)</span></div></div>
   </div>
   <div class="demo" id="c55"><div class="demo-tag"><code>c55</code><span class="en">BarChart 柱状图</span></div>
-    <div class="demo-body col" style="width:100%"><svg viewBox="0 0 320 100" style="width:100%" aria-label="Orders by channel"><rect x="10" y="30" width="40" height="70" rx="4" fill="var(--m-info-9)"/><rect x="70" y="55" width="40" height="45" rx="4" fill="var(--m-info-9)" opacity=".55"/><rect x="130" y="15" width="40" height="85" rx="4" fill="var(--m-info-9)"/><rect x="190" y="45" width="40" height="55" rx="4" fill="var(--m-info-9)" opacity=".55"/><rect x="250" y="62" width="40" height="38" rx="4" fill="var(--m-ink-9)"/></svg><div style="font-size:12px;color:var(--m-fg-muted)">Web · App · Wholesale · POS · Other</div></div>
+    <div class="demo-body col" style="width:100%"><svg viewBox="0 0 320 100" style="width:100%" aria-label="Orders by channel"><rect x="10" y="30" width="40" height="70" rx="4" fill="var(--m-chart-1)"/><rect x="70" y="55" width="40" height="45" rx="4" fill="var(--m-chart-1)" opacity=".55"/><rect x="130" y="15" width="40" height="85" rx="4" fill="var(--m-chart-1)"/><rect x="190" y="45" width="40" height="55" rx="4" fill="var(--m-chart-1)" opacity=".55"/><rect x="250" y="62" width="40" height="38" rx="4" fill="var(--m-chart-6)"/></svg><div style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">Web · App · Wholesale · POS · Other</div></div>
   </div>
   <div class="demo" id="c56"><div class="demo-tag"><code>c56</code><span class="en">DonutChart 环形图</span><span>≤4 段，超出 = 图表设计错误</span></div>
-    <div class="demo-body"><svg width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Traffic sources"><circle cx="60" cy="60" r="48" fill="none" stroke="var(--m-bg-inset)" stroke-width="16"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--m-info-9)" stroke-width="16" pathLength="100" stroke-dasharray="52 50" transform="rotate(-90 60 60)"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--m-brand-9)" stroke-width="16" pathLength="100" stroke-dasharray="28 72" stroke-dashoffset="-52" transform="rotate(-90 60 60)"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--m-accent-6)" stroke-width="16" pathLength="100" stroke-dasharray="12 88" stroke-dashoffset="-80" transform="rotate(-90 60 60)"/><text x="60" y="65" text-anchor="middle" style="font-size:16px;font-weight:650" fill="var(--m-fg)">52%</text></svg><span style="font-size:12px;color:var(--m-fg-muted)">Organic 52% · Paid 28% · Email 12%</span></div>
+    <div class="demo-body"><svg width="120" height="120" viewBox="0 0 120 120" role="img" aria-label="Traffic sources"><circle cx="60" cy="60" r="48" fill="none" stroke="var(--m-bg-inset)" stroke-width="16"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--m-chart-1)" stroke-width="16" pathLength="100" stroke-dasharray="52 50" transform="rotate(-90 60 60)"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--m-chart-3)" stroke-width="16" pathLength="100" stroke-dasharray="28 72" stroke-dashoffset="-52" transform="rotate(-90 60 60)"/><circle cx="60" cy="60" r="48" fill="none" stroke="var(--m-chart-2)" stroke-width="16" pathLength="100" stroke-dasharray="12 88" stroke-dashoffset="-80" transform="rotate(-90 60 60)"/><text x="60" y="65" text-anchor="middle" style="font-size:var(--m-text-lg);font-weight:var(--m-weight-semibold)" fill="var(--m-fg)">52%</text></svg><span style="font-size:var(--m-text-xs);color:var(--m-fg-muted)">Organic 52% · Paid 28% · Email 12%</span></div>
   </div>
   <div class="demo" id="c57"><div class="demo-tag"><code>c57</code><span class="en">Timeline 时间线</span></div>
     <div class="demo-body col"><ul class="m-timeline"><li class="is-done">Order placed <div class="t">Sep 12, 09:41</div></li><li class="is-current">Packed at warehouse <div class="t">Sep 13, 14:02</div></li><li>Shipped <div class="t">Pending</div></li><li>Delivered <div class="t">Est. Sep 19</div></li></ul></div>
@@ -519,13 +532,13 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   <div class="comp-group-h"><h3>Media · 媒体</h3><small>3 个</small></div>
   <div class="g2">
   <div class="demo" id="c62"><div class="demo-tag"><code>c62</code><span class="en">MediaGallery 媒体画廊</span><span>主图 eager+LCP · 其余 lazy · 缩略选中环</span></div>
-    <div class="demo-body col" style="width:100%"><div class="ph" style="aspect-ratio:4/5;width:100%;max-width:280px;background:linear-gradient(135deg,var(--m-brand-5),var(--m-brand-9))">Main image 4:5 (eager · fetchpriority=high)</div><div class="m-row"><span style="width:48px;height:48px;border-radius:var(--m-space-2);background:var(--m-brand-9);box-shadow:0 0 0 2px var(--m-bg-surface),0 0 0 4px var(--m-primary)"></span><span style="width:48px;height:48px;border-radius:var(--m-space-2);background:var(--m-info-8)"></span><span style="width:48px;height:48px;border-radius:var(--m-space-2);background:var(--m-accent-7);display:grid;place-items:center;color:#fff;font-size: var(--m-text-xs)">▶ video</span><span style="width:48px;height:48px;border-radius:var(--m-space-2);background:var(--m-mystic-8);display:grid;place-items:center;color:#fff;font-size: var(--m-text-xs)">UGC</span></div></div>
+    <div class="demo-body col" style="width:100%"><div class="ph" style="aspect-ratio:4/5;width:100%;max-width:280px;background:linear-gradient(135deg,var(--m-chart-7),var(--m-chart-3))">Main image 4:5 (eager · fetchpriority=high)</div><div class="m-row"><span style="width:48px;height:48px;border-radius:var(--m-space-2);background:var(--m-chart-3);box-shadow:0 0 0 2px var(--m-bg-surface),0 0 0 4px var(--m-primary)"></span><span style="width:48px;height:48px;border-radius:var(--m-space-2);background:var(--m-chart-1)"></span><span style="width:48px;height:48px;border-radius:var(--m-space-2);background:var(--m-chart-7);display:grid;place-items:center;color:var(--m-fg-inverse);font-size: var(--m-text-xs)">▶ video</span><span style="width:48px;height:48px;border-radius:var(--m-space-2);background:var(--m-chart-5);display:grid;place-items:center;color:var(--m-fg-inverse);font-size: var(--m-text-xs)">UGC</span></div></div>
   </div>
   <div class="demo" id="c63"><div class="demo-tag"><code>c63</code><span class="en">AspectRatio 宽高比容器</span></div>
-    <div class="demo-body"><div class="ph" style="aspect-ratio:4/5;width:96px;background:var(--m-ink-9)">4:5</div><div class="ph" style="aspect-ratio:1;width:96px;background:var(--m-ink-9)">1:1</div><div class="ph" style="aspect-ratio:3/2;width:144px;background:var(--m-ink-9)">3:2</div></div>
+    <div class="demo-body"><div class="ph" style="aspect-ratio:4/5;width:96px;background:var(--m-chart-6)">4:5</div><div class="ph" style="aspect-ratio:1;width:96px;background:var(--m-chart-6)">1:1</div><div class="ph" style="aspect-ratio:3/2;width:144px;background:var(--m-chart-6)">3:2</div></div>
   </div>
   <div class="demo" id="c64"><div class="demo-tag"><code>c64</code><span class="en">ImageWithAlt 图像与替代文本</span></div>
-    <div class="demo-body col" style="font-size:12px;color:var(--m-fg-subtle)"><code>alt="Drum coffee table in walnut with glass top"</code> — 描述产品本身；<code>alt="image of"</code> 禁用；装饰图 <code>alt=""</code></div>
+    <div class="demo-body col" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)"><code>alt="Drum coffee table in walnut with glass top"</code> — 描述产品本身；<code>alt="image of"</code> 禁用；装饰图 <code>alt=""</code></div>
   </div>
 
   <!-- Commerce -->
@@ -534,11 +547,11 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   <div class="demo" id="c65"><div class="demo-tag"><code>c65</code><span class="en">ProductCard 商品卡</span><span>整卡单链接 · 徽章 ≤1 · 无货保留</span></div>
     <div class="demo-body"><a class="m-product-card" href="#c65" onclick="return false" style="width:190px">
       <div class="media"><span class="m-badge m-badge--solid m-badge--critical badge">Sale -20%</span></div>
-      <div class="info"><span class="meta">Outerwear</span><span class="name">Merino wool crew sweater</span><span class="m-rating"><span class="stars">★★★★★</span>4.8 (312)</span><div class="m-price m-price--sale" style="font-size:14px"><span class="cur">$68.00</span><s>$85.00</s></div></div>
+      <div class="info"><span class="meta">Outerwear</span><span class="name">Merino wool crew sweater</span><span class="m-rating"><span class="stars">★★★★★</span>4.8 (312)</span><div class="m-price m-price--sale" style="font-size:var(--m-text-md)"><span class="cur">$68.00</span><s>$85.00</s></div></div>
     </a>
     <a class="m-product-card" href="#c65" onclick="return false" style="width:190px">
-      <div class="media" style="filter:grayscale(.7)"><span class="m-badge m-badge--tint m-badge--neutral badge" style="background:#fff">Sold out</span></div>
-      <div class="info"><span class="meta">Home</span><span class="name">Drum coffee table — walnut</span><div class="m-price" style="font-size:14px"><span class="cur">$329.00</span></div></div>
+      <div class="media" style="filter:grayscale(.7)"><span class="m-badge m-badge--tint m-badge--neutral badge" style="background:var(--m-bg-surface)">Sold out</span></div>
+      <div class="info"><span class="meta">Home</span><span class="name">Drum coffee table — walnut</span><div class="m-price" style="font-size:var(--m-text-md)"><span class="cur">$329.00</span></div></div>
     </a></div>
   </div>
   <div class="demo" id="c66"><div class="demo-tag"><code>c66</code><span class="en">Price 价格组件</span><span>locale/税注/compareAt 守卫全内置</span></div>
@@ -549,7 +562,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     </div>
   </div>
   <div class="demo" id="c67"><div class="demo-tag"><code>c67</code><span class="en">Swatch 色号样本</span><span>无货显示但置灰（禁隐藏）</span></div>
-    <div class="demo-body"><button class="m-swatch is-selected" style="background:#2F3A34" aria-label="Forest"></button><button class="m-swatch" style="background:#B9A48C" aria-label="Sand"></button><button class="m-swatch" style="background:#33506B" aria-label="Navy"></button><button class="m-swatch is-oos" style="background:#8E3B3B;color:#8E3B3B" aria-label="Rust — sold out"></button></div>
+    <div class="demo-body"><button class="m-swatch is-selected" style="--m-swatch-color:var(--m-swatch-pine)" aria-label="Forest"></button><button class="m-swatch" style="--m-swatch-color:var(--m-swatch-camel)" aria-label="Sand"></button><button class="m-swatch" style="--m-swatch-color:var(--m-swatch-navy)" aria-label="Navy"></button><button class="m-swatch is-oos" style="--m-swatch-color:var(--m-swatch-brick);color:var(--m-swatch-brick)" aria-label="Rust — sold out"></button></div>
   </div>
   <div class="demo" id="c68"><div class="demo-tag"><code>c68</code><span class="en">Rating 星级评分</span></div>
     <div class="demo-body"><span class="m-rating"><span class="stars">★★★★★</span>4.8 (312 reviews)</span><span class="m-rating"><span class="stars" style="opacity:.35">★★★★★</span>No reviews yet</span></div>
@@ -567,36 +580,36 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   </div>
   <div class="demo" id="c71"><div class="demo-tag"><code>c71</code><span class="en">FreeShippingBar 免邮进度</span><span>最强单一转化杠杆</span></div>
     <div class="demo-body col" style="width:100%">
-      <div class="m-freeship"><span>You're <b>$12.00</b> away from free shipping</span><div class="m-progress"><i style="width:72%"></i></div></div>
-      <div class="m-freeship"><span style="color:var(--m-success-fg);font-weight:var(--m-weight-medium)">✓ You've unlocked free shipping</span><div class="m-progress m-progress--success"><i style="width:100%"></i></div></div>
+      <div class="m-freeship"><span>You're <b>$12.00</b> away from free shipping</span><div class="m-progress"><i style="--m-progress:.72"></i></div></div>
+      <div class="m-freeship"><span style="color:var(--m-success-fg);font-weight:var(--m-weight-medium)">✓ You've unlocked free shipping</span><div class="m-progress m-progress--success"><i style="--m-progress:1"></i></div></div>
     </div>
   </div>
   <div class="demo" id="c72"><div class="demo-tag"><code>c72</code><span class="en">TrustStrip 信任条</span></div>
     <div class="demo-body"><div class="m-trust"><span><svg class="m-i m-i--16"><use href="#i-lock"/></svg>Secure checkout</span><span><svg class="m-i m-i--16"><use href="#i-refresh"/></svg>Free 30-day returns</span><span><svg class="m-i m-i--16"><use href="#i-truck"/></svg>Free shipping over $75</span><span><svg class="m-i m-i--16"><use href="#i-star"/></svg>4.8 · 312 reviews</span></div></div>
   </div>
   <div class="demo" id="c73"><div class="demo-tag"><code>c73</code><span class="en">UrgencyBadge 紧迫感提示</span><span>无 verified 数据源 = 渲染为空</span></div>
-    <div class="demo-body"><span class="m-urgency"><span class="dot"></span>Low stock · Only 3 left</span><span style="font-size:12px;color:var(--m-fg-subtle)">绑定真实库存（阈值 ≤10）；假倒计时/假销量 Toast = 结构上不可能</span></div>
+    <div class="demo-body"><span class="m-urgency"><span class="dot"></span>Low stock · Only 3 left</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">绑定真实库存（阈值 ≤10）；假倒计时/假销量 Toast = 结构上不可能</span></div>
   </div>
   <div class="demo" id="c74"><div class="demo-tag"><code>c74</code><span class="en">ExpressCheckout 快捷支付</span><span>置于普通通道上方 · 钱包品牌色为锁定例外</span></div>
-    <div class="demo-body col" style="width:100%"><div class="m-express"><button class="m-wallet" style="background:#5A31F4">Shop <b>Pay</b></button><div class="m-row"><button class="m-wallet" style="flex:1;background:#000;border-color:#000"> Pay</button><button class="m-wallet" style="flex:1;background:#fff;color:#3c4043">G Pay</button></div><button class="m-wallet" style="background:#0070BA;border-color:#0070BA">PayPal</button></div><p style="font-size:12px;color:var(--m-fg-subtle);margin:0">钱包不可用时整块隐藏；DE 市场 PayPal 置顶（本地主流）。</p></div> </div> <div class="demo" id="c75"><div class="demo-tag"><code>c75</code><span class="en">PaymentMethodsRow 支付方式行</span></div> <div class="demo-body col"><div class="m-payrow"><span>VISA</span><span>MC</span><span>AMEX</span><span>PayPal</span><span>Klarna</span><span>iDEAL</span><span>SEPA</span></div><span style="font-size:12px;color:var(--m-fg-subtle)">footer/checkout 展示；方法排序随市场本地化</span></div>
+    <div class="demo-body col" style="width:100%"><div class="m-express"><button class="m-wallet m-wallet--shop-pay">Shop <b>Pay</b></button><div class="m-row"><button class="m-wallet m-wallet--apple-pay" style="flex:1"> Pay</button><button class="m-wallet m-wallet--google-pay" style="flex:1">G Pay</button></div><button class="m-wallet m-wallet--paypal">PayPal</button></div><p style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin:0">钱包不可用时整块隐藏；DE 市场 PayPal 置顶（本地主流）。</p></div> </div> <div class="demo" id="c75"><div class="demo-tag"><code>c75</code><span class="en">PaymentMethodsRow 支付方式行</span></div> <div class="demo-body col"><div class="m-payrow"><span>VISA</span><span>MC</span><span>AMEX</span><span>PayPal</span><span>Klarna</span><span>iDEAL</span><span>SEPA</span></div><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">footer/checkout 展示；方法排序随市场本地化</span></div>
   </div>
   <div class="demo" id="c76"><div class="demo-tag"><code>c76</code><span class="en">BNPLMessage 分期消息</span></div>
     <div class="demo-body"><div class="m-price" style="flex-direction:column;align-items:flex-start"><span class="bnpl">or <b>4 interest-free payments</b> of <b>$17.00</b> with <b>Klarna</b>. <a href="#c76" onclick="return false">See schedule</a></span></div></div>
   </div>
   <div class="demo" id="c77"><div class="demo-tag"><code>c77</code><span class="en">WithdrawalButton 一键撤回</span><span>EU 2026-06-19 法定组件</span></div>
-    <div class="demo-body col" style="width:100%"><button class="m-btn m-btn--secondary m-withdraw"><svg class="m-i"><use href="#i-shield"/></svg>Request withdrawal · 14-day right of withdrawal</button><span style="font-size:12px;color:var(--m-fg-subtle)">仅 EU/UK market 渲染；含 14 天倒计时与状态回执</span></div>
+    <div class="demo-body col" style="width:100%"><button class="m-btn m-btn--secondary m-withdraw"><svg class="m-i"><use href="#i-shield"/></svg>Request withdrawal · 14-day right of withdrawal</button><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">仅 EU/UK market 渲染；含 14 天倒计时与状态回执</span></div>
   </div>
   <div class="demo" id="c78"><div class="demo-tag"><code>c78</code><span class="en">ConsentBanner Cookie 合意</span><span>Reject=Accept 同尺寸 · 零预勾选</span></div>
-    <div class="demo-body col" style="width:100%;align-items:center;background:var(--m-bg-inset);border-radius:var(--m-space-3);padding:var(--m-space-5) 0"><div class="m-consent"><b style="font-size:15px">We value your privacy</b><span style="font-size:13px;color:var(--m-fg-muted)">We use cookies to improve your experience. Choose which categories you allow.</span>
+    <div class="demo-body col" style="width:100%;align-items:center;background:var(--m-bg-inset);border-radius:var(--m-space-3);padding:var(--m-space-5) 0"><div class="m-consent"><b style="font-size:var(--m-text-lg)">We value your privacy</b><span style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">We use cookies to improve your experience. Choose which categories you allow.</span>
       <div class="m-col" style="gap:8px"><label class="m-switch" style="pointer-events:none;opacity:.6"><input type="checkbox" checked disabled><span class="track"></span>Essential (always on)</label><label class="m-switch"><input type="checkbox"><span class="track"></span>Analytics</label><label class="m-switch"><input type="checkbox"><span class="track"></span>Marketing</label></div>
-      <div class="btns"><button class="m-btn m-btn--secondary">Reject all</button><button class="m-btn m-btn--primary">Accept all</button></div><a href="#c78" onclick="return false" style="font-size:12px">Manage preferences</a>
+      <div class="btns"><button class="m-btn m-btn--secondary">Reject all</button><button class="m-btn m-btn--primary">Accept all</button></div><a href="#c78" onclick="return false" style="font-size:var(--m-text-xs)">Manage preferences</a>
     </div></div>
   </div>
   <div class="demo" id="c79"><div class="demo-tag"><code>c79</code><span class="en">SizeGuide 尺码表</span><span>US/UK/EU 对照（服饰退货主因）</span></div>
-    <div class="demo-body col"><table class="m-sizeguide"><tr><th>Size</th><th>US</th><th>UK</th><th>EU</th><th>Chest (cm)</th></tr><tr><td>S</td><td>4</td><td>8</td><td>36</td><td>88–92</td></tr><tr><td>M</td><td>8</td><td>12</td><td>40</td><td>96–100</td></tr><tr><td>L</td><td>12</td><td>16</td><td>44</td><td>104–108</td></tr></table><span style="font-size:12px;color:var(--m-fg-subtle)">Model is 5'9" wearing size M · Metric per market (imperial for US)</span></div>
+    <div class="demo-body col"><table class="m-sizeguide"><tr><th>Size</th><th>US</th><th>UK</th><th>EU</th><th>Chest (cm)</th></tr><tr><td>S</td><td>4</td><td>8</td><td>36</td><td>88–92</td></tr><tr><td>M</td><td>8</td><td>12</td><td>40</td><td>96–100</td></tr><tr><td>L</td><td>12</td><td>16</td><td>44</td><td>104–108</td></tr></table><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Model is 5'9" wearing size M · Metric per market (imperial for US)</span></div>
   </div>
   <div class="demo" id="c80"><div class="demo-tag"><code>c80</code><span class="en">EmailCapture 邮件订阅</span><span>不预勾选 · CASL double opt-in</span></div>
-    <div class="demo-body col"><div class="m-emailcap"><input class="m-input" placeholder="Email address"><button class="m-btn m-btn--primary">Get 10% off</button></div><span style="font-size:12px;color:var(--m-fg-subtle)">Unsubscribe anytime. 触发时机：访问 ≥30s 或滚动 50%，同会话不再弹。</span></div>
+    <div class="demo-body col"><div class="m-emailcap"><input class="m-input" placeholder="Email address" aria-label="Email address"><button class="m-btn m-btn--primary">Get 10% off</button></div><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Unsubscribe anytime. 触发时机：访问 ≥30s 或滚动 50%，同会话不再弹。</span></div>
   </div>
   </div>
 
@@ -608,7 +621,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
         <span class="spacer"></span>
         <button class="m-tool m-tool--send" aria-label="发送"><svg class="m-i m-i--16"><use href="#i-send"/></svg></button>
       </div>
-      <div class="m-toolbar m-toolbar--sm" style="border:1px dashed var(--m-border);border-radius:var(--m-space-2);padding:var(--m-space-3)"> <span style="font-size:12px;color:var(--m-fg-subtle);margin-inline-end:var(--m-space-2)">--m-toolbar--sm（28px 次级工具条）：</span>
+      <div class="m-toolbar m-toolbar--sm" style="border:1px dashed var(--m-border);border-radius:var(--m-space-2);padding:var(--m-space-3)"> <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin-inline-end:var(--m-space-2)">--m-toolbar--sm（28px 次级工具条）：</span>
         <button class="m-tool m-tool--square" aria-label="返回"><svg class="m-i m-i--16"><use href="#i-chev-l"/></svg></button>
         <button class="m-tool m-tool--square" aria-label="前进"><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg></button>
         <button class="m-tool m-tool--pill is-active">Month</button>
@@ -635,13 +648,13 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   <div class="demo wide" id="c83"><div class="demo-tag"><code>c83</code><span class="en">Composer 输入容器</span><span>上部文本域 + 下部工具条 · focus-within 单一边框来源</span></div>
     <div class="demo-body col">
       <div class="m-composer" style="max-width:720px">
-        <textarea class="m-composer__input" rows="2" placeholder="输入消息… (输入 / 唤起命令)"></textarea>
+        <textarea class="m-composer__input" rows="2" placeholder="输入消息… (输入 / 唤起命令)" aria-label="Message"></textarea>
         <div class="m-composer__bar m-toolbar">
           <button class="m-tool m-tool--square" aria-label="添加附件"><svg class="m-i m-i--16"><use href="#i-plus"/></svg></button>
           <button class="m-tool m-tool--pill"><svg class="m-i m-i--16"><use href="#i-shield"/></svg><span>始终授权</span></button>
           <span class="spacer"></span>
           <button class="m-tool m-tool--square" aria-label="重新生成"><svg class="m-i m-i--16"><use href="#i-refresh"/></svg></button>
-          <button class="m-tool m-tool--pill m-composer__model" aria-label="选择模型"><svg class="m-i m-i--16"><use href="#i-ai"/></svg><span class="label">Meridian · M3</span><svg class="m-i m-i--16" style="width:14px;height:14px"><use href="#i-chev-d"/></svg></button>
+          <button class="m-tool m-tool--pill m-composer__model" aria-label="选择模型：Meridian · M3"><svg class="m-i m-i--16"><use href="#i-ai"/></svg><span class="label">Meridian · M3</span><svg class="m-i m-i--16" style="width:14px;height:14px"><use href="#i-chev-d"/></svg></button>
           <button class="m-tool m-tool--send" aria-label="发送"><svg class="m-i m-i--16"><use href="#i-send"/></svg></button>
         </div>
       </div>
@@ -652,20 +665,20 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   <div class="g2">
   <div class="demo" id="c84"><div class="demo-tag"><code>c84</code><span class="en">OverflowMenu 溢出菜单</span><span>空间不足时折叠低频工具，不折行</span></div>
     <div class="demo-body" style="position:relative"><div class="m-toolbar">
-      <button class="m-tool m-tool--square" aria-label="加粗" style="font-size:12px;font-weight:var(--m-weight-semibold)">B</button>
-      <button class="m-tool m-tool--square" aria-label="斜体" style="font-size:12px;font-style:italic">I</button>
+      <button class="m-tool m-tool--square" aria-label="加粗" style="font-size:var(--m-text-xs);font-weight:var(--m-weight-semibold)">B</button>
+      <button class="m-tool m-tool--square" aria-label="斜体" style="font-size:var(--m-text-xs);font-style:italic">I</button>
       <button class="m-tool m-tool--square" aria-label="链接"><svg class="m-i m-i--16"><use href="#i-arrow-r"/></svg></button>
       <span class="sep"></span>
       <button class="m-tool m-tool--square" aria-label="更多" onclick="togglePop('pop-ov')"><svg class="m-i m-i--16"><use href="#i-dots"/></svg></button>
     </div>
-    <div class="m-popover" id="pop-ov" style="top:44px;left:0"><div class="m-col" style="gap:var(--m-space-05);font-size:13px"><span>H1 Heading</span><span>H2 Heading</span><span>Code block</span><span>Divider</span></div></div>
+    <div class="m-popover" id="pop-ov" style="top:44px;left:0"><div class="m-col" style="gap:var(--m-space-05);font-size:var(--m-text-sm)"><span>H1 Heading</span><span>H2 Heading</span><span>Code block</span><span>Divider</span></div></div>
     </div>
   </div>
   <div class="demo" id="c85"><div class="demo-tag"><code>c85</code><span class="en">StickyComposer 粘性输入区</span><span>实底 + 顶边线，禁用渐隐遮罩</span></div>
     <div class="demo-body col" style="gap:8px"> <div style="height:64px;overflow:hidden;background:var(--m-bg-page);border-radius:var(--m-space-2);border:1px solid var(--m-border);display:flex;flex-direction:column;justify-content:flex-end">
-        <div style="padding:var(--m-space-2) var(--m-space-3);background:var(--m-bg-page);border-top:1px solid var(--m-border);font-size:12px;color:var(--m-fg-subtle)">↑ 上方滚动内容被实底遮住（不是渐隐）</div>
+        <div style="padding:var(--m-space-2) var(--m-space-3);background:var(--m-bg-page);border-top:1px solid var(--m-border);font-size:var(--m-text-xs);color:var(--m-fg-subtle)">↑ 上方滚动内容被实底遮住（不是渐隐）</div>
       </div>
-      <span style="font-size:12px;color:var(--m-fg-subtle)">渐变遮罩会吃掉工具图标的对比度 —— 粘性底部一律用"实底 + 1px 顶边线"。</span>
+      <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">渐变遮罩会吃掉工具图标的对比度 —— 粘性底部一律用"实底 + 1px 顶边线"。</span>
     </div>
   </div>
   <div class="demo" id="c86"><div class="demo-tag"><code>c86</code><span class="en">ToolGroup 工具分组</span><span>分隔线切分语义层级</span></div>
@@ -706,15 +719,15 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
       <div class="demo-body col">
         <nav class="m-crumbs"><span>Home</span><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg><span>Women</span><svg class="m-i m-i--16"><use href="#i-chev-r"/></svg><span>Outerwear</span></nav>
         <div class="m-pagehead"><div><h1 style="font-size:var(--m-text-3xl)">Outerwear</h1><span class="sub">128 items</span></div><div class="m-row"><button class="m-btn m-btn--secondary m-btn--sm"><svg class="m-i m-i--16"><use href="#i-filter"/></svg>Filters</button><button class="m-btn m-btn--secondary m-btn--sm">Sort: Featured</button></div></div>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:var(--m-space-3)"> <a class="m-product-card" href="#pages-store" onclick="return false"><div class="media"></div><div class="info"><span class="name" style="font-size:12px">Wool trench coat</span><div class="m-price" style="font-size:13px"><span class="cur">$228.00</span></div></div></a> <a class="m-product-card" href="#pages-store" onclick="return false"><div class="media"><span class="m-badge m-badge--solid m-badge--critical badge">-20%</span></div><div class="info"><span class="name" style="font-size:12px">Puffer jacket</span><div class="m-price m-price--sale" style="font-size:13px"><span class="cur">$96.00</span><s>$120</s></div></div></a> <a class="m-product-card" href="#pages-store" onclick="return false"><div class="media"></div><div class="info"><span class="name" style="font-size:12px">Quilted vest</span><div class="m-price" style="font-size:13px"><span class="cur">$88.00</span></div></div></a> <a class="m-product-card" href="#pages-store" onclick="return false"><div class="media"></div><div class="info"><span class="name" style="font-size:12px">Rain parka</span><div class="m-price" style="font-size:13px"><span class="cur">$148.00</span></div></div></a> </div> <button class="m-btn m-btn--secondary" style="align-self:center">Load more · Showing 24 of 128</button> </div> </div> <div class="demo"><div class="demo-tag"><code>PDP</code><span class="en">商品详情页骨架（11 章）</span></div> <div class="demo-body col"> <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--m-space-4)"> <div class="ph" style="aspect-ratio:4/5;background:linear-gradient(135deg,var(--m-brand-5),var(--m-brand-9))">Gallery 4:5</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:var(--m-space-3)"> <a class="m-product-card" href="#pages-store" onclick="return false"><div class="media"></div><div class="info"><span class="name" style="font-size:var(--m-text-xs)">Wool trench coat</span><div class="m-price" style="font-size:var(--m-text-sm)"><span class="cur">$228.00</span></div></div></a> <a class="m-product-card" href="#pages-store" onclick="return false"><div class="media"><span class="m-badge m-badge--solid m-badge--critical badge">-20%</span></div><div class="info"><span class="name" style="font-size:var(--m-text-xs)">Puffer jacket</span><div class="m-price m-price--sale" style="font-size:var(--m-text-sm)"><span class="cur">$96.00</span><s>$120</s></div></div></a> <a class="m-product-card" href="#pages-store" onclick="return false"><div class="media"></div><div class="info"><span class="name" style="font-size:var(--m-text-xs)">Quilted vest</span><div class="m-price" style="font-size:var(--m-text-sm)"><span class="cur">$88.00</span></div></div></a> <a class="m-product-card" href="#pages-store" onclick="return false"><div class="media"></div><div class="info"><span class="name" style="font-size:var(--m-text-xs)">Rain parka</span><div class="m-price" style="font-size:var(--m-text-sm)"><span class="cur">$148.00</span></div></div></a> </div> <button class="m-btn m-btn--secondary" style="align-self:center">Load more · Showing 24 of 128</button> </div> </div> <div class="demo"><div class="demo-tag"><code>PDP</code><span class="en">商品详情页骨架（11 章）</span></div> <div class="demo-body col"> <div style="display:grid;grid-template-columns:1fr 1fr;gap:var(--m-space-4)"> <div class="ph" style="aspect-ratio:4/5;background:linear-gradient(135deg,var(--m-chart-7),var(--m-chart-3))">Gallery 4:5</div>
           <div class="m-col" style="gap:8px"> <span class="meta" style="font-size: var(--m-text-xs);color:var(--m-fg-muted)">Women / Knitwear</span>
-            <b style="font-size:17px;line-height:1.3">Merino wool crew sweater</b>
+            <b style="font-size:var(--m-text-lg);line-height:var(--m-leading-title-3)">Merino wool crew sweater</b>
             <span class="m-rating"><span class="stars">★★★★★</span>4.8 (312)</span>
             <div class="m-price m-price--sale"><span class="cur">$68.00</span><s>$85.00</s><span class="bnpl">or 4 × $17.00 with Klarna</span><span class="note">Incl. VAT · Free shipping over $75</span></div>
-            <div class="m-row">Color <button class="m-swatch is-selected" style="background:#2F3A34" aria-label="Forest"></button><button class="m-swatch" style="background:#B9A48C" aria-label="Sand"></button></div>
-            <div class="m-row">Size <button class="m-size-pill is-selected" style="min-width:40px;height:36px">M</button><button class="m-size-pill" style="min-width:40px;height:36px">L</button><button class="m-size-pill is-oos" style="min-width:40px;height:36px">XL</button><a href="#pages-store" onclick="return false" style="font-size:12px">Size guide</a></div>
+            <div class="m-row">Color <button class="m-swatch is-selected" style="--m-swatch-color:var(--m-swatch-pine)" aria-label="Forest"></button><button class="m-swatch" style="--m-swatch-color:var(--m-swatch-camel)" aria-label="Sand"></button></div>
+            <div class="m-row">Size <button class="m-size-pill is-selected">M</button><button class="m-size-pill">L</button><button class="m-size-pill is-oos">XL</button><a href="#pages-store" onclick="return false" style="font-size:var(--m-text-xs)">Size guide</a></div>
             <span class="m-urgency"><span class="dot"></span>Only 3 left</span>
-            <span style="font-size:12px;color:var(--m-fg-muted)"><svg class="m-i m-i--16"><use href="#i-truck"/></svg> Get it Wed, Sep 17 – Fri, Sep 19</span>
+            <span style="font-size:var(--m-text-xs);color:var(--m-fg-muted)"><svg class="m-i m-i--16"><use href="#i-truck"/></svg> Get it Wed, Sep 17 – Fri, Sep 19</span>
             <button class="m-btn m-btn--primary m-btn--cta" style="width:100%">Add to cart</button>
             <div class="m-trust"><span><svg class="m-i m-i--16"><use href="#i-lock"/></svg>Secure</span><span><svg class="m-i m-i--16"><use href="#i-refresh"/></svg>30-day returns</span></div>
           </div>
@@ -724,11 +737,28 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <div class="demo"><div class="demo-tag"><code>Checkout</code><span class="en">结算骨架（12 章）· guest-first · 可折叠已完成步</span></div>
       <div class="demo-body col">
         <div class="m-steps" style="margin-bottom:6px"><div class="m-step is-done"><span class="dot"><svg class="m-i m-i--16"><use href="#i-check"/></svg></span>Contact · jane@example.com</div><span class="m-step-sep"></span><div class="m-step is-current"><span class="dot">2</span>Shipping</div><span class="m-step-sep"></span><div class="m-step"><span class="dot">3</span>Payment</div></div>
-        <div class="m-field"><label class="m-field__label">Address</label><input class="m-input" value="487 Main St, New York, NY 10012" style="max-width:320px"></div>
+        <div class="m-field"><label class="m-field__label">Address</label><input class="m-input" value="487 Main St, New York, NY 10012" style="max-width:320px" aria-label="Address"></div>
         <div class="m-row"><label class="m-check m-radio"><input type="radio" name="sh" checked><span class="box"></span>Standard · Free (Sep 17–19)</label><label class="m-check m-radio"><input type="radio" name="sh"><span class="box"></span>Express · $12.00</label></div>
         <div class="m-shiprow" style="max-width:320px;border-top:1px solid var(--m-border);padding-top:10px"><span>Subtotal</span><span class="v">$204.00</span><span>Shipping</span><span class="v">Free</span><span>Tax</span><span class="v">$18.36</span><span class="total">Total</span><span class="v total tnum">$222.36</span></div>
-        <p style="font-size: var(--m-text-xs);color:var(--m-fg-subtle);margin:0">🔒 Secure checkout · Total 从第一步起显示且永不后期跳涨（反 drip pricing）</p> </div> </div> <div class="demo"><div class="demo-tag"><code>Footer</code><span class="en">页脚骨架（09 章）· 法定链接区</span></div> <div class="demo-body col"> <div style="display:flex;gap:32px;flex-wrap:wrap;font-size:12px;color:var(--m-fg-muted)"><div><b style="color:var(--m-fg)">Shop</b><br>New · Best sellers · Sale</div><div><b style="color:var(--m-fg)">Help</b><br>Shipping · Returns · Contact</div><div><b style="color:var(--m-fg)">Company</b><br>About · Careers · Sustainability</div><div style="margin-inline-start:auto"><div class="m-emailcap"><input class="m-input" placeholder="Email" style="height:34px"><button class="m-btn m-btn--primary m-btn--sm">Sign up</button></div></div></div>
-        <div class="m-row" style="justify-content:space-between;border-top:1px solid var(--m-border);padding-top:10px;font-size: var(--m-text-xs);color:var(--m-fg-subtle)"><span>© 2026 Meridian · Privacy · Terms · Shipping · Returns · <b>Cookie Preferences</b> · Impressum(DE)</span><span class="m-payrow" style="gap:4px"><span style="height:18px;font-size: var(--m-text-xs)">VISA</span><span style="height:18px;font-size: var(--m-text-xs)">MC</span><span style="height:18px;font-size: var(--m-text-xs)">PayPal</span></span></div>
+        <p style="font-size: var(--m-text-xs);color:var(--m-fg-subtle);margin:0">🔒 Secure checkout · Total 从第一步起显示且永不后期跳涨（反 drip pricing）</p> </div> </div> <div class="demo" style="grid-column:1/-1"><div class="demo-tag"><code>Footer</code><span class="en">页脚骨架（09 章）· 色带分离，无横线</span></div>
+      <div class="demo-body col" style="padding:0">
+        <div class="sf-footer" style="width:100%">
+          <div class="sf-container sf-footer__inner">
+            <div class="sf-footer__grid">
+              <nav aria-label="页脚 · Shop" class="sf-footer__col"><b>Shop</b><a href="#" onclick="return false">New</a><a href="#" onclick="return false">Best sellers</a><a href="#" onclick="return false">Sale</a></nav>
+              <nav aria-label="页脚 · Help" class="sf-footer__col"><b>Help</b><a href="#" onclick="return false">Shipping</a><a href="#" onclick="return false">Returns</a><a href="#" onclick="return false">Contact</a></nav>
+              <nav aria-label="页脚 · Company" class="sf-footer__col"><b>Company</b><a href="#" onclick="return false">About</a><a href="#" onclick="return false">Careers</a><a href="#" onclick="return false">Sustainability</a></nav>
+            </div>
+            <div class="sf-footer__bottom">
+              <div class="m-row" style="gap:var(--m-space-3)">
+                <div class="m-select-wrap" style="width:150px"><select aria-label="语言"><option selected>Deutsch</option><option>English</option></select><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></div>
+                <div class="m-select-wrap" style="width:150px"><select aria-label="货币"><option selected>EUR €</option><option>USD $</option></select><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></div>
+              </div>
+              <div class="m-payrow" aria-label="支持的支付方式"><span>VISA</span><span>MC</span><span>PayPal</span></div>
+            </div>
+            <div class="sf-footer__legal"><span class="sf-meta">© 2026 Meridian</span><div class="m-row" style="gap:var(--m-space-4)"><a class="sf-meta" href="#" onclick="return false">Privacy</a><a class="sf-meta" href="#" onclick="return false">Terms</a><a class="sf-meta" href="#" onclick="return false">Cookie Preferences</a><a class="sf-meta" href="#" onclick="return false">Impressum (DE)</a></div></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -744,7 +774,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
       <div class="demo-body col">
         <div class="m-savebar"><span class="msg">Unsaved changes</span><span class="m-row"><button class="m-btn m-btn--tertiary m-btn--sm">Discard</button><button class="m-btn m-btn--primary m-btn--sm">Save</button></span></div>
         <div style="display:grid;grid-template-columns:2fr 1fr;gap:var(--m-space-3);width:100%">
-          <div class="m-card"><div class="m-card__header">Fulfillment<button class="m-btn m-btn--primary m-btn--sm">Fulfill items</button></div><div class="m-card__body" style="padding:12px"><ul class="m-timeline"><li class="is-done">Order placed <div class="t">Sep 12, 09:41</div></li><li class="is-current">Packed <div class="t">Sep 13, 14:02</div></li><li>Shipped <div class="t">Pending</div></li></ul></div></div> <div class="m-col" style="gap:var(--m-space-3)"><div class="m-card m-kpi"><div class="label">Order total</div><div class="value" style="font-size:var(--m-text-xl)">$142.00</div></div><div class="m-card"><div class="m-card__body" style="padding:12px"><dl class="m-desc" style="font-size:12px"><dt>Customer</dt><dd>Jane Doe</dd><dt>Market</dt><dd>🇺🇸 US</dd><dt>Payment</dt><dd>Visa •••• 4242</dd></dl></div></div></div> </div> </div> </div> <div class="demo"><div class="demo-tag"><code>Settings</code><span class="en">设置页（16 章：autosave 开关 + 最后修改人）</span></div> <div class="demo-body col"><div class="m-card"><div class="m-card__header">Inventory</div><div class="m-card__body m-col" style="gap:12px"> <label class="m-switch"><input type="checkbox" checked><span class="track"></span>Track inventory</label> <label class="m-switch"><input type="checkbox"><span class="track"></span>Continue selling when out of stock</label> <div class="m-field" style="max-width:220px"><label class="m-field__label">Low stock threshold</label><input class="m-input" value="10"></div> <span style="font-size:12px;color:var(--m-fg-subtle)">Last updated Sep 12, 2026 by HK · [Restore default]</span>
+          <div class="m-card"><div class="m-card__header">Fulfillment<button class="m-btn m-btn--primary m-btn--sm">Fulfill items</button></div><div class="m-card__body" style="padding:12px"><ul class="m-timeline"><li class="is-done">Order placed <div class="t">Sep 12, 09:41</div></li><li class="is-current">Packed <div class="t">Sep 13, 14:02</div></li><li>Shipped <div class="t">Pending</div></li></ul></div></div> <div class="m-col" style="gap:var(--m-space-3)"><div class="m-card m-kpi"><div class="label">Order total</div><div class="value" style="font-size:var(--m-text-xl)">$142.00</div></div><div class="m-card"><div class="m-card__body" style="padding:12px"><dl class="m-desc" style="font-size:var(--m-text-xs)"><dt>Customer</dt><dd>Jane Doe</dd><dt>Market</dt><dd>🇺🇸 US</dd><dt>Payment</dt><dd>Visa •••• 4242</dd></dl></div></div></div> </div> </div> </div> <div class="demo"><div class="demo-tag"><code>Settings</code><span class="en">设置页（16 章：autosave 开关 + 最后修改人）</span></div> <div class="demo-body col"><div class="m-card"><div class="m-card__header">Inventory</div><div class="m-card__body m-col" style="gap:12px"> <label class="m-switch"><input type="checkbox" checked><span class="track"></span>Track inventory</label> <label class="m-switch"><input type="checkbox"><span class="track"></span>Continue selling when out of stock</label> <div class="m-field" style="max-width:220px"><label class="m-field__label">Low stock threshold</label><input class="m-input" value="10" aria-label="Quantity"></div> <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Last updated Sep 12, 2026 by HK · [Restore default]</span>
       </div></div></div>
     </div>
     <div class="demo" id="dashDemo"><div class="demo-tag"><code>Dashboard</code><span class="en">仪表盘（17 章：KPI + 趋势 + 待办）</span></div>
@@ -755,9 +785,9 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
           <div class="m-card m-kpi"><div class="label">Conversion</div><div class="value">2.8%</div><div class="delta down">↓ 1% <span class="vs">vs prev. 30d</span></div></div>
           <div class="m-card m-kpi"><div class="label">Refunds</div><div class="value">$1,890</div><div class="delta down">↓ 6% <span class="vs">vs prev. 30d</span></div></div>
         </div>
-        <div class="m-card"><div class="m-card__header">Sales trend<button class="m-btn m-btn--secondary m-btn--sm">Last 30 days ▾</button></div><div class="m-card__body"><svg viewBox="0 0 600 110" style="width:100%" aria-label="Sales trend"><polyline points="10,90 60,80 110,84 160,60 210,66 260,48 310,52 360,38 410,44 460,28 510,32 590,15" fill="none" stroke="var(--m-info-9)" stroke-width="2.5" stroke-linecap="round"/><line x1="10" y1="100" x2="590" y2="100" stroke="var(--m-border)"/></svg></div></div>
-        <div class="m-card"><div class="m-card__header">Needs attention</div><div class="m-card__body m-col" style="gap:8px"> <div class="m-row" style="justify-content:space-between;width:100%;font-size:13px"><span class="m-row"><span class="m-badge m-badge--tint m-badge--critical">23</span>Orders awaiting fulfillment</span><button class="m-btn m-btn--tertiary m-btn--sm">Review →</button></div>
-          <div class="m-row" style="justify-content:space-between;width:100%;font-size:13px"><span class="m-row"><span class="m-badge m-badge--tint m-badge--warning">5</span>Negative inventory variants</span><button class="m-btn m-btn--tertiary m-btn--sm">Fix →</button></div>
+        <div class="m-card"><div class="m-card__header">Sales trend<button class="m-btn m-btn--secondary m-btn--sm">Last 30 days ▾</button></div><div class="m-card__body"><svg viewBox="0 0 600 110" style="width:100%" aria-label="Sales trend"><polyline points="10,90 60,80 110,84 160,60 210,66 260,48 310,52 360,38 410,44 460,28 510,32 590,15" fill="none" stroke="var(--m-chart-1)" stroke-width="2.5" stroke-linecap="round"/><line x1="10" y1="100" x2="590" y2="100" stroke="var(--m-border)"/></svg></div></div>
+        <div class="m-card"><div class="m-card__header">Needs attention</div><div class="m-card__body m-col" style="gap:8px"> <div class="m-row" style="justify-content:space-between;width:100%;font-size:var(--m-text-sm)"><span class="m-row"><span class="m-badge m-badge--tint m-badge--critical">23</span>Orders awaiting fulfillment</span><button class="m-btn m-btn--tertiary m-btn--sm">Review →</button></div>
+          <div class="m-row" style="justify-content:space-between;width:100%;font-size:var(--m-text-sm)"><span class="m-row"><span class="m-badge m-badge--tint m-badge--warning">5</span>Negative inventory variants</span><button class="m-btn m-btn--tertiary m-btn--sm">Fix →</button></div>
         </div></div>
       </div>
     </div>
@@ -771,7 +801,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
   <p class="ds-lead">完整规格见 docs/06-accessibility-compliance.md。以下是上线前必过检查单。</p>
   <div class="g2">
     <div class="demo"><div class="demo-tag"><code class="always" style="border:none">WCAG 2.2 AA</code><span class="en">核心条款 → 系统落点</span></div>
-      <div class="demo-body col" style="font-size:13px">
+      <div class="demo-body col" style="font-size:var(--m-text-sm)">
         <ul class="m-list-check">
           <li><svg class="m-i m-i--16"><use href="#i-check"/></svg>1.4.3 对比度 → 02 章对比契约，唯一允许组合</li>
           <li><svg class="m-i m-i--16"><use href="#i-check"/></svg>2.4.7 焦点可见 → 全局焦点环，禁移除</li>
@@ -782,7 +812,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
       </div>
     </div>
     <div class="demo"><div class="demo-tag"><code class="never" style="border:none">NEVER LIST</code><span class="en">暗黑模式禁令（结构性杜绝）</span></div>
-      <div class="demo-body col" style="font-size:13px">
+      <div class="demo-body col" style="font-size:var(--m-text-sm)">
         <ul class="ds-ul">
           <li>❌ Drip pricing（总价后期跳涨）</li>
           <li>❌ 假紧迫感（未绑定真实库存/时间的倒计时）</li>
@@ -801,7 +831,7 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
 <section class="ds-sec" id="tokens">
   <p class="kicker">Reference · Tokens</p>
   <h2 class="ds-h2">Token 浏览器</h2>
-  <input class="m-input" id="tokFilter" placeholder="筛选 token… 例如 fg / space / duration">
+  <input class="m-input" id="tokFilter" placeholder="筛选 token… 例如 fg / space / duration" aria-label="Filter tokens">
   <table class="ds-t" id="tokTable">
     <tr><th>Token</th><th>值 / 指向</th><th>用途</th></tr>
     <tr><td><code>--m-bg-page</code></td><td><span class="dot-swatch" style="background:var(--m-bg-page)"></span>semantic</td><td>页面底色</td></tr>
@@ -832,51 +862,59 @@ ul.ds-ul li { margin:var(--m-radius-sm) 0; }
     <tr><td><code>--m-state-hover/pressed/selected</code></td><td>8% / 12% / 10%</td><td>状态层透明度（M3 公式）</td></tr>
     <tr><td><code>--m-ai-fg / --m-ai-bg</code></td><td><span class="dot-swatch" style="background:var(--m-ai-fg)"></span><span class="dot-swatch" style="background:var(--m-ai-bg)"></span>mystic</td><td>仅限 AI 功能 UI</td></tr>
   </table>
-  <p class="ds-p" style="font-size:12px;color:var(--m-fg-subtle)">完整机器层：<code>ai/tokens.json</code>（DTCG 唯一事实来源）· <code>ai/tokens.css</code> · <code>ai/tailwind-theme.css</code>。校验：<code>node ai/validate.mjs src</code></p>
+  <p class="ds-p" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">完整机器层：<code>ai/tokens.css</code>（运行时事实来源）· <code>ai/tokens.json</code>（DTCG 主题层镜像）· <code>ai/tailwind-theme.css</code>。校验：<code>node ai/validate.mjs . --exclude ai/selfcheck/fixtures</code></p>
 </section>
 
-<footer style="padding:32px 0 0;color:var(--m-fg-subtle);font-size:12px">
-  Meridian Design System v1.2.0 · 2026-09-19 · 精髓承接：Polaris / Carbon / Primer / Radix / Material 3 / Atlassian / shadcn · 合规依据：WCAG 2.2 AA · EAA · GDPR · FTC · Omnibus · PSD2
+<footer style="padding:32px 0 0;color:var(--m-fg-subtle);font-size:var(--m-text-xs)">
+  Meridian Design System v1.5.0 · 2026-11-05 · 精髓承接：Polaris / Carbon / Primer / Radix / Material 3 / Atlassian / shadcn · 合规依据：WCAG 2.2 AA · EAA · GDPR · FTC · Omnibus · PSD2
 </footer>
 </main>
 
 <!-- ============ 浮层挂载点 ============ -->
-<dialog id="dlg1" class="m-modal">
-  <div class="m-modal__header">Export 24 orders <button class="m-btn m-btn--tertiary m-icon-btn m-btn--sm" onclick="dlg1.close()" aria-label="关闭"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></div>
-  <div class="m-modal__body" style="font-size:14px;color:var(--m-fg-muted)">Export follows the current view's filters and sorting. Files over 1,000 rows are processed as background tasks.</div>
+<dialog id="dlg1" class="m-modal" aria-labelledby="dlg1-title">
+  <div class="m-modal__header"><span id="dlg1-title">Export 24 orders</span> <button class="m-btn m-btn--tertiary m-icon-btn m-btn--sm" onclick="dlg1.close()" aria-label="关闭"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></div>
+  <div class="m-modal__body" style="font-size:var(--m-text-md);color:var(--m-fg-muted)">Export follows the current view's filters and sorting. Files over 1,000 rows are processed as background tasks.</div>
   <div class="m-modal__footer"><button class="m-btn m-btn--tertiary" onclick="dlg1.close()">Cancel</button><button class="m-btn m-btn--primary" onclick="dlg1.close();showToast('Export started')">Export CSV</button></div>
 </dialog>
-<dialog id="dlg2" class="m-modal">
-  <div class="m-modal__header">Delete 3 products?</div>
-  <div class="m-modal__body" style="font-size:14px;color:var(--m-fg-muted)">This removes the products from all sales channels. Storefront links will return 404. <div class="m-field" style="margin-top:12px"><label class="m-field__label" for="confirmN">Type <b style="color:var(--m-critical-fg)">3</b> to confirm</label><input class="m-input" id="confirmN" placeholder="3"></div></div>
+<dialog id="dlg2" class="m-modal" aria-labelledby="dlg2-title">
+  <div class="m-modal__header"><span id="dlg2-title">Delete 3 products?</span></div>
+  <div class="m-modal__body" style="font-size:var(--m-text-md);color:var(--m-fg-muted)">This removes the products from all sales channels. Storefront links will return 404. <div class="m-field" style="margin-top:12px"><label class="m-field__label" for="confirmN">Type <b style="color:var(--m-critical-fg)">3</b> to confirm</label><input class="m-input" id="confirmN" placeholder="3" aria-label="Confirm count"></div></div>
   <div class="m-modal__footer"><button class="m-btn m-btn--tertiary" onclick="dlg2.close()">Cancel</button><button class="m-btn m-btn--destructive" onclick="dlg2.close();showToast('3 products deleted')">Delete 3 products</button></div>
 </dialog>
-<dialog id="dlg3" class="m-modal" style="--m-modal-max-w:480px">
+<dialog id="dlg3" class="m-modal" aria-label="命令面板" style="--m-modal-max-w:480px">
   <div class="m-palette" style="border:none">
     <div class="m-palette__input"><svg class="m-i m-i--16"><use href="#i-search"/></svg>Type a command or search… <span style="margin-inline-start:auto"><kbd>Esc</kbd></span></div>
     <ul><li><span>▸ New product</span><kbd>C</kbd></li><li><span>▸ Orders</span><kbd>G O</kbd></li><li><span>▸ Products</span><kbd>G P</kbd></li><li><span>▸ Toggle dark mode</span><kbd>⇧ D</kbd></li><li><span>▸ Help center</span></li></ul>
   </div>
 </dialog>
-<div class="m-scrim" id="scrim" onclick="closeDrawer()"></div>
-<aside class="m-drawer" id="drawer" aria-label="Cart drawer demo">
+<div class="m-scrim" id="scrim" data-overlay-keep onclick="closeDrawer()"></div>
+<aside class="m-drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" tabindex="-1" inert>
   <div class="m-drawer__header"><span id="drawerTitle">Cart · 3 items</span><button class="m-btn m-btn--tertiary m-icon-btn m-btn--sm" onclick="closeDrawer()" aria-label="关闭"><svg class="m-i m-i--16"><use href="#i-x"/></svg></button></div>
   <div class="m-drawer__body" id="drawerBody"></div>
   <div class="m-drawer__footer m-col"><div class="m-shiprow"><span>Subtotal</span><span class="v">$204.00</span><span class="total">Total</span><span class="v total tnum">$204.00</span></div><button class="m-btn m-btn--primary m-btn--cta">Checkout</button><div class="m-trust" style="justify-content:center"><span><svg class="m-i m-i--16"><use href="#i-lock"/></svg>Secure checkout</span><span><svg class="m-i m-i--16"><use href="#i-refresh"/></svg>Free returns</span></div></div>
 </aside>
-<div class="m-lightbox" id="lightbox" onclick="this.classList.remove('is-open')" role="dialog" aria-label="Image lightbox"><img alt="Product image, enlarged" width="720" height="560" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='720' height='560'%3E%3Crect width='720' height='560' fill='%230F6B57'/%3E%3C/svg%3E"><span style="position:fixed;top:16px;right:16px;color:#fff;font-size:13px">点击任意处关闭 · Esc</span></div>
+<div class="m-lightbox" id="lightbox" onclick="MeridianBehavior.close(this)" role="dialog" aria-modal="true" aria-label="Image lightbox" tabindex="-1" inert><img alt="Product image, enlarged" width="720" height="560" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='720' height='560'%3E%3Crect width='720' height='560' fill='%230F6B57'/%3E%3C/svg%3E"><span style="position:fixed;top:16px;right:16px;color:var(--m-fg-inverse);font-size:var(--m-text-sm)">点击任意处关闭 · Esc</span></div>
 <div id="toasts"></div>
 
+<script src="ai/meridian-behavior.js"></script>
 <script>
 /* ============ Meridian 文档页交互 ============ */
 const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 
 /* ---- 主题与舞台 ---- */
-$('#themeBtn').onclick = () => {
-  document.documentElement.classList.toggle('theme-dark');
-  const dark = document.documentElement.classList.contains('theme-dark');
-  $('#themeBtn').innerHTML = `<svg class="m-i"><use href="#i-${dark ? 'sun' : 'moon'}"/></svg>`;
-};
+const THEME_LABEL = { light: '浅色', dark: '深色', auto: '跟随系统' };
+const THEME_NEXT = { light: '深色', dark: '跟随系统', auto: '浅色' };
+// 图标显示"下一步动作"：浅色→月亮（切深色），深色→显示器（切跟随系统），auto→太阳（切浅色）
+const THEME_ICON = { light: 'moon', dark: 'auto', auto: 'sun' };
+function syncThemeBtn(mode) {
+  const label = `主题：${THEME_LABEL[mode]}（点击切换到${THEME_NEXT[mode]}）`;
+  $('#themeBtn').innerHTML = `<svg class="m-i"><use href="#i-${THEME_ICON[mode]}"/></svg>`;
+  $('#themeBtn').title = label;
+  $('#themeBtn').setAttribute('aria-label', label);
+}
+$('#themeBtn').onclick = () => syncThemeBtn(MeridianBehavior.theme.cycle());
+syncThemeBtn(MeridianBehavior.theme.get());
 $$('#stageSeg button').forEach(b => b.onclick = () => {
   $$('#stageSeg button').forEach(x => x.classList.remove('is-active'));
   b.classList.add('is-active');
@@ -886,17 +924,15 @@ $$('#stageSeg button').forEach(b => b.onclick = () => {
 });
 
 /* ---- 色板网格（从 :root 计算值读取，单一事实来源） ---- */
-const RAMPS = [['ink', 'Ink 中性骨架'], ['brand', 'Pine 品牌'], ['accent', 'Amber 促销'], ['info', 'Info 通知'], ['success', 'Success 成功'], ['warning', 'Warning 告警'], ['danger', 'Danger 危险'], ['mystic', 'Mystic AI 专属']];
+const RAMPS = [['ink', 'Ink 中性骨架'], ['brand', 'Pine 品牌'], ['accent', 'Terracotta 促销'], ['info', 'Info 通知'], ['success', 'Success 成功'], ['warning', 'Warning 告警'], ['danger', 'Danger 危险'], ['mystic', 'Mystic AI 专属']];
 const css = getComputedStyle(document.documentElement);
-const lum = h => { const n = parseInt(h.slice(1), 16); return (0.2126 * (n >> 16 & 255) + 0.7152 * (n >> 8 & 255) + 0.0722 * (n & 255)) / 255; };
 $('#rampGrid').innerHTML = RAMPS.map(([r, label]) => `
   <div class="ramp"><h4>${label}<small>${r === 'brand' ? 'brand · 可整体替换' : r}</small></h4><div class="cells">
   ${Array.from({length: 12}, (_, i) => { const step = i + 1; const v = css.getPropertyValue(`--m-${r}-${step}`).trim();
-    const fg = lum(v) > 0.55 ? 'rgba(0,0,0,.72)' : 'rgba(255,255,255,.85)';
-    return `<button class="cell" style="background:${v}" data-copy="--m-${r}-${step}" title="var(--m-${r}-${step}) = ${v}"><small style="color:${fg}">${step}</small></button>`; }).join('')}
+    return `<button class="cell" style="background:${v}" data-copy="--m-${r}-${step}" title="var(--m-${r}-${step}) = ${v}"><small style="color:var(--m-fg);background:var(--m-bg-surface);padding:0 2px;border-radius:var(--m-radius-xs)">${step}</small></button>`; }).join('')}
   </div></div>`).join('');
-$('#vizRow').innerHTML = [['info-9', '1'], ['brand-9', '2'], ['warning-9', '3'], ['mystic-9', '4'], ['danger-6', '5'], ['brand-8', '6'], ['accent-6', '7'], ['ink-9', '8']]
-  .map(([t, n]) => `<div style="text-align:center"><div style="width:44px;height:44px;border-radius:var(--m-radius-md);background:var(--m-${t})"></div><small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">${n} · ${t}</small></div>`).join('');
+$('#vizRow').innerHTML = ['var(--m-chart-1)', 'var(--m-chart-2)', 'var(--m-chart-3)', 'var(--m-chart-4)', 'var(--m-chart-5)', 'var(--m-chart-6)', 'var(--m-chart-7)', 'var(--m-chart-8)']
+  .map((v, i) => `<div style="text-align:center"><div style="width:44px;height:44px;border-radius:var(--m-radius-md);background:${v}"></div><small style="font-size: var(--m-text-xs);color:var(--m-fg-subtle)">${i + 1} · chart-${i + 1}</small></div>`).join('');
 
 /* ---- 复制 ---- */
 function copyText(t) {
@@ -936,9 +972,9 @@ $('#compCount').innerHTML = `✓ <b>${COMP.length} / ${COMP.length}</b> 组件�
 /* ---- 通用交互 ---- */
 function showToast(msg, action) {
   const t = document.createElement('div');
-  t.className = 'm-toast'; t.setAttribute('role', 'status');
-  t.innerHTML = `<span>${msg}</span>` + (action ? `<button class="m-btn m-btn--tertiary m-btn--sm" style="color:#fff;text-decoration:underline" onclick="this.parentNode.remove()">${action}</button>` : '');
-  t.style.cssText = 'display:flex;align-items:center;gap:var(--m-space-3);padding:var(--m-space-3) 16px;background:var(--m-toast-bg);color:var(--m-toast-fg);border-radius:var(--m-radius-md);box-shadow:var(--m-shadow-e4);font-size:13px;animation:toastIn 200ms var(--m-ease-enter)';
+  t.className = 'm-toast'; t.setAttribute('role', 'status'); t.setAttribute('aria-atomic', 'true');
+  t.innerHTML = `<span>${msg}</span>` + (action ? `<button class="m-btn m-btn--tertiary m-btn--sm" style="color:var(--m-fg-inverse);text-decoration:underline" onclick="this.parentNode.remove()">${action}</button>` : '');
+  t.style.cssText = 'display:flex;align-items:center;gap:var(--m-space-3);padding:var(--m-space-3) 16px;background:var(--m-toast-bg);color:var(--m-toast-fg);border-radius:var(--m-radius-md);box-shadow:var(--m-shadow-e4);font-size:var(--m-text-sm);animation:toastIn 200ms var(--m-ease-enter)';
   $('#toasts').appendChild(t);
   setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 150ms'; setTimeout(() => t.remove(), 160); }, 4000);
 }
@@ -949,25 +985,20 @@ document.head.appendChild(style);
 function togglePop(id) { const p = $('#' + id); $$('.m-popover.is-open').forEach(x => x !== p && x.classList.remove('is-open')); p.classList.toggle('is-open'); }
 document.addEventListener('click', e => { if (!e.target.closest('.m-popover') && !e.target.closest('[onclick^="togglePop"]')) $$('.m-popover.is-open').forEach(x => x.classList.remove('is-open')); });
 
-$$('[data-tabs]').forEach(t => $$('.m-tab', t).forEach(b => b.onclick = () => {
-  $$('.m-tab', t).forEach(x => x.classList.remove('is-active')); b.classList.add('is-active');
-}));
-$$('[data-seg]').forEach(t => $$('button', t).forEach(b => b.onclick = () => {
-  $$('button', t).forEach(x => x.classList.remove('is-active')); b.classList.add('is-active');
-}));
+/* 标签页与分段控件：键盘/ARIA 由 ai/meridian-behavior.js 统一接管 */
 
-/* 抽屉 */
-function openDrawer(kind) {
+/* 抽屉：焦点陷阱 / inert / Esc / 焦点归还在 ai/meridian-behavior.js，这里只渲染内容与遮罩 */
+function closeDrawer() { MeridianBehavior.close($('#drawer')); }
+$('#drawer').addEventListener('meridian:open', (e) => {
+  const kind = e.detail.trigger && e.detail.trigger.dataset.overlayKind;
   $('#drawerTitle').textContent = kind === 'filter' ? 'Filters' : 'Your cart · 3 items';
   $('#drawerBody').innerHTML = kind === 'filter'
     ? `<div class="m-col">${['Size','Color','Price','Availability'].map(g => `<div class="m-accordion"><details open><summary>${g} <svg class="m-i m-i--16"><use href="#i-chev-d"/></svg></summary><div class="acc-body">${['Option A (24)','Option B (12)','Option C (8)'].map(o => `<label class="m-check"><input type="checkbox"><span class="box"></span>${o}</label>`).join('')}</div></details></div>`).join('')}</div>`
-    : `<div class="m-freeship" style="margin-bottom:10px"><span>You're <b>$12.00</b> away from free shipping</span><div class="m-progress"><i style="width:72%"></i></div></div>
-       <div class="m-cartline"><img alt="" width="72" height="90" style="border-radius:var(--m-radius-sm)" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='90'%3E%3Crect width='72' height='90' fill='%23D0E9DF'/%3E%3C/svg%3E"><div class="grow"><span class="name">Merino wool crew sweater</span><span class="var">Forest / Medium</span><div class="row2"><span class="tnum" style="font-size:13px">$68.00</span><div class="m-stepper m-stepper--sm"><button aria-label="减少">−</button><input value="1" aria-label="数量"><button aria-label="增加">+</button></div></div></div></div> <div class="m-cartline"><img alt="" width="72" height="90" style="border-radius:var(--m-radius-sm)" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='90'%3E%3Crect width='72' height='90' fill='%23CCE2F6'/%3E%3C/svg%3E"><div class="grow"><span class="name">Drum coffee table</span><span class="var">Walnut</span><div class="row2"><span class="tnum" style="font-size:13px">$136.00</span><span style="font-size:12px;color:var(--m-fg-subtle)">Qty 1</span></div></div></div>`;
-  $('#scrim').classList.add('is-open'); $('#drawer').classList.add('is-open');
-}
-function closeDrawer() { $('#scrim').classList.remove('is-open'); $('#drawer').classList.remove('is-open'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDrawer(); $('#lightbox').classList.remove('is-open'); } });
-function openLightbox() { $('#lightbox').classList.add('is-open'); }
+    : `<div class="m-freeship" style="margin-bottom:10px"><span>You're <b>$12.00</b> away from free shipping</span><div class="m-progress"><i style="--m-progress:.72"></i></div></div>
+       <div class="m-cartline"><img alt="" width="72" height="90" style="border-radius:var(--m-radius-sm)" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='90'%3E%3Crect width='72' height='90' fill='%23D0E9DF'/%3E%3C/svg%3E"><div class="grow"><span class="name">Merino wool crew sweater</span><span class="var">Forest / Medium</span><div class="row2"><span class="tnum" style="font-size:var(--m-text-sm)">$68.00</span><div class="m-stepper m-stepper--sm"><button aria-label="减少">−</button><input value="1" aria-label="数量"><button aria-label="增加">+</button></div></div></div></div> <div class="m-cartline"><img alt="" width="72" height="90" style="border-radius:var(--m-radius-sm)" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='72' height='90'%3E%3Crect width='72' height='90' fill='%23CCE2F6'/%3E%3C/svg%3E"><div class="grow"><span class="name">Drum coffee table</span><span class="var">Walnut</span><div class="row2"><span class="tnum" style="font-size:var(--m-text-sm)">$136.00</span><span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Qty 1</span></div></div></div>`;
+  $('#scrim').classList.add('is-open');
+});
+$('#drawer').addEventListener('meridian:close', () => $('#scrim').classList.remove('is-open'));
 
 /* 表格选择 */
 function syncBulk() {

@@ -37,15 +37,17 @@ export function run({ files, rules, cfg = {}, fs = null }) {
         if (file.layer === "demo" && rule.offInDemo) continue;
         for (const raw of rule.check(fact, { cfg, file, fs, allows }) ?? []) {
           const line = raw.line ?? fact.line;
-          const key = `${rule.id}|${file.path}|${line}|${raw.message}`;
-          if (seen.has(key)) continue;
+          // dedupe:false 的规则逐站点计数（R18：同一行多个带 style 的标签是不同债务），
+          // 其余规则保留跨事实通道的去重，避免 R01/R11 在同一位置重复三次。
+          const key = rule.dedupe === false ? null : `${rule.id}|${file.path}|${line}|${raw.message}`;
+          if (key !== null && seen.has(key)) continue;
           // D3（S2）：消耗"未消耗且行距最近"的 marker。原先 find() 只取第一个 ±2 行内的 marker，
           // 相邻两处违规会同时命中同一个 marker（先行者吸收后来者），后来者自己的 marker 永不消耗 → 假 stale。
           const marker = [...allows.byLine.keys()]
             .filter((l) => !used.has(l) && near(l, line))
             .sort((a, b) => Math.abs(a - line) - Math.abs(b - line))[0];
-          if (marker !== undefined) { used.add(marker); seen.add(key); continue; }
-          seen.add(key);
+          if (marker !== undefined) { used.add(marker); if (key !== null) seen.add(key); continue; }
+          if (key !== null) seen.add(key);
           violations.push({ rule: rule.id, file: file.path, line, message: raw.message, fix: raw.fix });
         }
       }

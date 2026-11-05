@@ -9,7 +9,7 @@
 ├─ 是（破坏性/不可逆/冲突）→ Modal（z-modal，焦点禁锢）
 ├─ 否 → 是页面级、持续存在的状态吗？
 │   ├─ 是 → Banner（页面顶部或 Card 内）
-│   └─ 否 → 短暂结果通知 → Toast（右下，5s，≤3 词 + 1 动作）
+│   └─ 否 → 短暂结果通知 → Toast（右下，5s；带动作 10s，≤3 词 + 1 动作）
 └─ 需要就地解释某控件 → Tooltip / Help text
 ```
 
@@ -22,13 +22,13 @@
 | warning | 需要行动但未阻塞（库存告急） | ✅ | `role="alert"` |
 | critical | 阻塞运营（支付被禁用） | **❌ 常驻至解决** | `role="alert"` |
 
-结构：图标（24，`*-fg`）+ 标题（550）+ 一句正文 + 动作按钮（右侧，≤2）。位置：页面级在最上，Card 级在卡内顶部（弱化内边距）。同屏页面级 ≤2 条，超出收敛成 1 条 + "View all 4 issues"。
+结构：图标（24，`*-fg`）+ 标题（`--m-weight-semibold`）+ 一句正文 + 动作按钮（右侧，≤2）。位置：页面级在最上，Card 级在卡内顶部（弱化内边距）。同屏页面级 ≤2 条，超出收敛成 1 条 + "View all 4 issues"。
 
 ### Toast 规格
 
 参考实现见 `ai/meridian-ui.css` §11（`.m-toast-stack` / `.m-toast`）。`--m-toast-duration` 由 JS 读取（`getComputedStyle(el).getPropertyValue('--m-toast-duration')`），hover 暂停计时由 JS 实现。
 
-右下角（后台）/底部居中（前台）；e4 阴影、深底反白（`--m-toast-*`）；栈叠 ≤3（多余排队）；单条 5000ms（hover 暂停计时）；结构 = 文本（≤3 词）+ 可选 1 动作（Undo/View）；错误不走 Toast（用 Banner/Modal）。
+右下角（后台）/底部居中（前台）；e4 阴影、深底反白（`--m-toast-*`）；栈叠 ≤3（多余排队）；常规单条 5000ms（`--m-toast-duration`），**带动作（Undo/View）10000ms（`--m-toast-duration-action`）**；hover 与 focus 均暂停计时；结构 = 文本（≤3 词）+ 可选 1 动作（Undo/View）；错误不走 Toast（用 Banner/Modal）。
 
 ### Modal vs Popover vs Drawer
 
@@ -49,7 +49,7 @@
 | >1s | 骨架屏（结构未知）/ 现有数据 + 局部 spinner（刷新） |
 | 异步任务 | 14 章任务中心 + 进度百分比 |
 
-按钮 loading：文本换 "Saving…"，宽度锁定（防跳动），`aria-busy`，期间禁点。
+按钮 loading：保留文本占位以锁定宽度（防跳动），文本视觉隐藏，显示 16px spinner（颜色取该变体的 `*-fg`，见 `meridian-ui.css`）；`aria-busy`，期间禁点。次级按钮的 spinner 必须对白底可见，不能沿用 `primary-fg`。
 
 ## 三、仪表盘（Dashboard）
 
@@ -69,7 +69,7 @@
 | 规则 | 规格 |
 |---|---|
 | KPI 卡 | 数值 3xl + tnum；趋势：↑↓ 箭头 + 百分比（success/critical fg）+ sparkline（图表色 1）；**永远带对比期**（无对比的涨跌是噪音） |
-| 图表 | 用 docs/02-color-system.md §数据可视化 8 色按序取用；线图/柱图/堆叠图/环形（≤4 段）；网格线 ink-5、轴文本 xs fg-muted |
+| 图表 | 用 docs/02-color-system.md §数据可视化 8 色按序取用；线图/柱图/堆叠图/环形（≤4 段）；网格线 `--m-chart-grid`、轴文本 xs fg-muted |
 | 图表 a11y | `<table>` 等效数据提供（sr-only）或数据点可聚焦读出 |
 | 日期范围 | 封闭枚举（Today/7d/30d/90d/Custom）默认 30d；Custom 用双 DatePicker |
 | 待处理区 | 行动导向卡片列表：每项 = 数量徽章 + 名称 + [Review] 深链——仪表盘的本质是**待办**，不是报表集 |

@@ -5,7 +5,9 @@ export const TEXT_MENU = ["xs", "sm", "md", "lg", "xl", "2xl", "3xl", "4xl", "5x
 // `none`(0) 与 `full`(9999px) 不是 token 但是合法 utility，保留。
 export const RADIUS_MENU = ["none", "xs", "sm", "md", "lg", "xl", "2xl", "full", "pill"];
 export const DURATION_MENU = ["100", "150", "200", "300", "450", "600"];
-export const Z_LADDER = ["raised", "nav", "drawer", "modal", "toast", "tooltip"];
+// z 档位菜单必须与 tokens.css 的 `--m-z-*` 逐项同源（conformance.test.mjs 的 V-02 用例钉死）。
+// 这里曾长期缺 `cover`：S1 之后新增的档位没回流，任何将来消费本菜单的规则会一开机就拿到假名单。
+export const Z_LADDER = ["raised", "nav", "cover", "sticky-cta", "drawer", "modal", "toast", "tooltip"];
 
 export const SPACING_STANDARD_PX = {
   0: 0, "0.5": 2, 1: 4, "1.5": 6, 2: 8, "2.5": 10, 3: 12, "3.5": 14, 4: 16,

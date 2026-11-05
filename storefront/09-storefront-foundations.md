@@ -15,9 +15,9 @@
 ## 二、页面骨架
 
 ```
-Header（sticky, h-64 移动 / h-72 桌面）
+Header（sticky, h: var(--m-header-h-mobile) 移动 / var(--m-header-h) 桌面）
   ├─ Logo ｜ 主导航（≤6 项，更多进 Menu）｜ 搜索（图标或输入框，≥md 展开）｜ 账户 ｜ 购物袋(icon + count badge)
-  └─ 宣告条（可选, announcement bar）: 一句 + 链接，bg-brand-9 反白，h-40，可关闭（24px 触达）
+  └─ 宣告条（可选, announcement bar）: 一句 + 链接，背景 `--m-announce-bg` / 文字 `--m-announce-fg`（品牌插槽，brand-tokens.css），h-var(--m-announce-h)，可关闭（24px 触达）
 Main
   ├─ 内容容器 max-w-1280 gutter 16/24
   └─ 区块节奏 --m-space-section，交替底 bg-band（同页 ≤3 次）
@@ -27,7 +27,7 @@ Footer
         · 支付图标行（卡组织 + PayPal/钱包）· 市场切换（货币/国家）
 ```
 
-Header 规则：滚动后收缩至 56px（300ms standard）；移动端主导航全屏抽屉（drawer z-300）；搜索是独立覆盖层（z-nav+），打开即聚焦输入框。
+Header 规则：滚动后加 `.is-stuck` 收缩至 `--m-header-h-stuck`（56px，300ms standard；运行时由页面脚本切换）；移动端主导航全屏抽屉（drawer z-300）；搜索是独立覆盖层（`--m-z-cover`，200），打开即聚焦输入框。
 
 ## 三、区块模式库（首页构件）
 
@@ -52,12 +52,18 @@ Header 规则：滚动后收缩至 56px（300ms standard）；移动端主导航
 
 ## 五、性能预算（设计侧可查表）
 
+完整分配表见 `docs/05 §四`（本表是店面视角的摘要，口径以该表为准）。
+
 | 项 | 预算 |
 |---|---|
-| 首屏图（LCP） | ≤150KB（AVIF），`fetchpriority="high"`，永不 lazy |
-| 整页 JS（gzip） | ≤170KB 自有 + ≤100KB 第三方 |
-| 字体 | ≤2 个变量字体文件，WOFF2 |
-| 第三方脚本 | ≤3 个（分析/评论/客服），全部 `defer`，评论 widget 延迟到交互后水合（INP 保护） |
+| LCP 元素（hero / PDP 首图） | ≤100KB 移动 / ≤150KB 桌面（AVIF），`fetchpriority="high"`，永不 lazy，禁止 blur-up |
+| 首屏非 LCP 图片 | 合计 ≤250KB |
+| 自有 JS | 首屏 ≤120KB，单路由 ≤170KB（brotli） |
+| 异步三方 JS | 首次 ≤100KB，**LCP 之后**加载；评论区点击后再水合 |
+| 同步三方 JS | **0KB**（唯一例外：CMP stub ≤20KB 内联）；"≤3 个脚本"计数条款废止 |
+| 字体 | ≤2 个 WOFF2 变量字体，合计 ≤180KB |
+| 首次传输总量 | ≤1.2MB（目标 1.0MB），含 HTML/CSS/JS/字体/首屏图 |
+| 主线程 | 加载期长任务合计 ≤200ms，单任务 ≤50ms |
 | 布局稳定 | 所有媒体声明宽高比；骨架占位等高；字体 `size-adjust` |
 
 ## 六、前台专属 token 覆盖（`.stage-storefront`）
@@ -79,6 +85,28 @@ Header 规则：滚动后收缩至 56px（300ms standard）；移动端主导航
 }
 ```
 
-正文 16px（text-lg）、CTA 高 52px（`--m-btn-h-cta`）、区块 expressive 动效解锁（450–600ms）。
+正文 16px（text-lg）、CTA 高 52px（`--m-btn-h-cta`）、区块 expressive 动效解锁（450–600ms）。**移动端表单控件统一 44px 高 / 16px 字号**（tokens.css 移动端块；低于 16px 会触发 iOS 聚焦缩放）。
 
 **为什么前台主按钮是近黑而不是品牌绿**：商品图是彩色的，品牌色实底按钮与商品争抢视觉焦点；近黑 CTA 让商品当主角，是欧美 DTC 的成熟范式（Everlane / Aritzia / SSENSE / Shopify Dawn 默认主题）。品牌色退守"品牌时刻"：logo、宣告条、营销区块、强调徽章。后台不受影响（`--m-primary` 仍指向品牌绿）——组件 API 完全相同，只有舞台 token 层不同。
+
+## 七、安全区与吸底容器
+
+iOS 的刘海与小白条会把贴边元素压住，因此四个 token 与四条吸底容器是绑定的契约：
+
+`--m-safe-top` / `--m-safe-right` / `--m-safe-bottom` / `--m-safe-left` = `env(safe-area-inset-*, 0px)`。
+
+| 吸底/贴边容器 | 必须让开的轴 |
+|---|---|
+| `.sf-sticky-atc__inner`（PDP 粘性加购条） | 底 + 左右 |
+| `.sf-mobilenav__head` / `__body`（全屏移动导航） | 顶 + 底 + 左右 |
+| `.m-drawer__footer`（购物车抽屉底栏） | 底 |
+| `.m-toast-stack`（Toast 栈） | 底 |
+
+写法固定为 `padding-block-end: calc(基准内边距 + var(--m-safe-bottom))`，不得裸写 `env()`（否则宿主未声明 cover 时得到未定义而非 0）。
+
+**两条不可拆的契约**（`conformance.test.mjs` 机器锁定）：
+
+1. `env(safe-area-inset-*)` 只有在宿主声明 `<meta name="viewport" content="… viewport-fit=cover">` 时才非 0——**渲染上表任一容器的页面必须声明 `cover`**。
+2. 反之，**声明了 `cover` 的页面必须至少消费一个 `--m-safe-*` token**：只扩视口不让位，等于把正文推进小白条里。所以 `cover` 只加在真正有吸底件的页面上（当前：`05-form`、`08-home`、`09-plp`、`10-pdp`、`design-system`），不做全量铺开。
+
+**为什么左右用 `padding-left/right` 而不是逻辑属性**：安全区是物理量，缺口在设备的物理左侧，不随 RTL 镜像。用 `padding-inline-start` 会在 RTL 下把左缺口内边距加到右侧。这四处因此是 R15 的行级例外，理由标记 `meridian-allow: safe-area-inset-is-physical` 留在声明行上。

@@ -1,5 +1,5 @@
 /* ============================================================================
-   MERIDIAN DESIGN SYSTEM — Design Tokens v1.2.0
+   MERIDIAN DESIGN SYSTEM — Design Tokens v1.6.0
    面向欧美市场的电商视觉设计规范 · 机器可读令牌层
    ----------------------------------------------------------------------------
    命名语法:  --m-{category}-{concept}(-{variant})(-{state})
@@ -7,7 +7,8 @@
    主题机制:  :root = Storefront 浅色(默认)
               .stage-admin = Admin 浅色覆盖
               [data-theme="dark"] / .theme-dark = 深色覆盖
-   同步约定:  tokens.json 是唯一事实来源；修改请先改 JSON 再同步本文件。
+   同步约定:  tokens.css 是运行时事实来源；tokens.json 是 primitive + semantic 主题层的机器可读镜像。
+              两者由 ai/selfcheck/tokens-sync.test.mjs 做全量值比对，禁止单边修改。
    ============================================================================ */
 
 /* ============================================================================
@@ -20,19 +21,23 @@
    ============================================================================ */
 
 :root {
-  /* ---- Neutral: Ink (冷中性，页面骨架) ---- */
-  --m-ink-1:  #FBFCFE;
-  --m-ink-2:  #F6F8FA;
-  --m-ink-3:  #EFF2F6;
-  --m-ink-4:  #E6EAF0;
-  --m-ink-5:  #DBE0E8;
-  --m-ink-6:  #CBD2DC;
-  --m-ink-7:  #AEB7C4;
-  --m-ink-8:  #8E99AA;
-  --m-ink-9:  #66738A;
-  --m-ink-10: #57647B;
-  --m-ink-11: #5C6675;
-  --m-ink-12: #1F2530;
+  /* v1.6 · 原生表面纳入主题。
+     不声明 color-scheme 时，UA 自绘表面（滚动条、select 弹层、date picker、
+     自动填充、光标）在深色主题下仍是亮的——实测深色页滚动条为 #FCFCFC。 */
+  color-scheme: light;
+  /* ---- Neutral: Ink (中性微冷，页面骨架；v1.7 降 chroma，去掉蓝灰罩) ---- */
+  --m-ink-1:  #FBFCFD;
+  --m-ink-2:  #F7F8F9;
+  --m-ink-3:  #F0F2F4;
+  --m-ink-4:  #E8EAEC;
+  --m-ink-5:  #DEE0E3;
+  --m-ink-6:  #CFD2D5;
+  --m-ink-7:  #B3B6BC;
+  --m-ink-8:  #84888F;   /* v1.3：加深以满足控件边界 ≥3:1（白底 3.56 / ink-2 3.34 / ink-3 3.17） */
+  --m-ink-9:  #676B73;   /* v1.4：加深以满足 fg-subtle 对 ink-2/ink-3 ≥4.5:1（5.02 / 4.76） */
+  --m-ink-10: #62676E;
+  --m-ink-11: #61666C;
+  --m-ink-12: #232529;
 
   /* ---- Brand: Pine (品牌绿，可在 brandkit 中整体替换) ---- */
   --m-brand-1:  #F3FAF7;
@@ -48,19 +53,19 @@
   --m-brand-11: #14664F;   /* 品牌色文本（浅底 ≥4.5:1） */
   --m-brand-12: #0A3B30;
 
-  /* ---- Accent: Amber (促销/活动强调，实底配深色字) ---- */
-  --m-accent-1:  #FDF8EE;
-  --m-accent-2:  #FAF0D9;
-  --m-accent-3:  #F4E1B6;
-  --m-accent-4:  #ECCE8B;
-  --m-accent-5:  #E3B95C;
-  --m-accent-6:  #D8A437;
-  --m-accent-7:  #C48D22;
-  --m-accent-8:  #A87510;
-  --m-accent-9:  #F2A20C;  /* 实底：促销标签（深字 ≥7:1） */
-  --m-accent-10: #D98E07;
-  --m-accent-11: #8A5E09;  /* 琥珀色文本（v1.2 加深：accent-2 上 5.0:1，修复 4.41 不达标） */
-  --m-accent-12: #573906;
+  /* ---- Accent: Terracotta（促销/活动强调；v1.3 从 Amber 改为赤陶，与 warning 黄色分离） ---- */
+  --m-accent-1:  #FDF7F4;
+  --m-accent-2:  #FBEADF;
+  --m-accent-3:  #F6D2BF;
+  --m-accent-4:  #EFB29A;
+  --m-accent-5:  #E58C70;
+  --m-accent-6:  #D96B4E;
+  --m-accent-7:  #C65336;
+  --m-accent-8:  #A63D22;
+  --m-accent-9:  #C2410C;  /* 实底：促销标签（白字 5.18:1） */
+  --m-accent-10: #9A3412;
+  --m-accent-11: #8C3315;  /* 赤陶色文本（accent-2 上 6.90:1） */
+  --m-accent-12: #5C210F;
 
   /* ---- Info (Blue) ---- */
   --m-info-1:  #F3F8FD;
@@ -76,19 +81,19 @@
   --m-info-11: #1B5AA8;
   --m-info-12: #0E3A70;
 
-  /* ---- Success (Green) ---- */
-  --m-success-1:  #F2FBF6;
-  --m-success-2:  #E4F6EC;
-  --m-success-3:  #C9EBD8;
-  --m-success-4:  #A4DDBE;
-  --m-success-5:  #79CAA0;
-  --m-success-6:  #52B582;
-  --m-success-7:  #329C68;
-  --m-success-8:  #228657;
-  --m-success-9:  #178356;
-  --m-success-10: #136F49;
-  --m-success-11: #147550;
-  --m-success-12: #0A3D27;
+  /* ---- Success (Leaf Green；v1.3 色相从 147–157 移到 130，与品牌 Pine 拉开距离) ---- */
+  --m-success-1:  #F3FBF5;
+  --m-success-2:  #E4F6E7;
+  --m-success-3:  #C7EACD;
+  --m-success-4:  #A2DDAC;
+  --m-success-5:  #78C986;
+  --m-success-6:  #54B664;
+  --m-success-7:  #329A43;
+  --m-success-8:  #228732;
+  --m-success-9:  #178229;
+  --m-success-10: #126D22;
+  --m-success-11: #147624;
+  --m-success-12: #0A3D13;
 
   /* ---- Warning (Amber-Ochre，实底配深色字) ---- */
   --m-warning-1:  #FEF9EC;
@@ -148,11 +153,42 @@
   --m-text-4xl: 1.875rem;  /* 30px / 38px */
   --m-text-5xl: 2.25rem;   /* 36px / 44px */
   --m-text-6xl: 2.75rem;   /* 44px / 52px */
+  --m-text-display-sm: clamp(2rem, 1.5rem + 2vw, 3rem);       /* 32→48px 前台叙事副档 */
   --m-text-display: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem); /* 36→60px 前台展示标题 */
+  --m-text-display-lg: clamp(2.75rem, 1.9rem + 3.8vw, 6rem); /* 44→96px 前台首屏大标题 */
 
-  --m-weight-regular: 450;   /* Inter 变量字体调校权重（Polaris 同款策略） */
-  --m-weight-medium: 550;
-  --m-weight-semibold: 650;
+  /* 行高与字阶成对（v1.3：此前只有 px 表，没有 token，Tailwind 会落到默认行高） */
+  --m-leading-xs: 1rem;
+  --m-leading-sm: 1.25rem;
+  --m-leading-md: 1.25rem;
+  --m-leading-lg: 1.5rem;
+  --m-leading-xl: 1.75rem;
+  --m-leading-2xl: 1.75rem;
+  --m-leading-3xl: 2rem;
+  --m-leading-4xl: 2.375rem;
+  --m-leading-5xl: 2.75rem;
+  --m-leading-6xl: 3.25rem;
+  --m-leading-display: 1.05;
+  /* 光学行高族（v1.5）：无单位比值，随字号缩放；供展示型标题与组合层使用。
+     组件层/组合层不得再写裸行高（校验规则 R16）。 */
+  --m-leading-title-1: 1.08;
+  --m-leading-title-2: 1.15;
+  --m-leading-title-3: 1.3;
+  --m-leading-tight: 1.25;
+  --m-leading-lead: 1.55;
+  --m-leading-copy: 1.65;
+  --m-leading-note: 1.45;
+  --m-leading-label: 1.5;
+  --m-leading-none: 1;
+
+  /* v1.6 · 字重回到静态阶梯 400/500/600/700。
+     原 450/550/650 是为 Inter 变量字体做的调校；系统不交付字体时，
+     浏览器按"就近匹配"回落到静态档，三档语义在中文环境下只剩两档。
+     静态阶梯至少在 Apple / Android 上可分辨；Windows 雅黑只有 400/700，
+     medium(500) 会落到 400 —— 因此**标题层级不得只靠字重表达**。 */
+  --m-weight-regular: 400;
+  --m-weight-medium: 500;
+  --m-weight-semibold: 600;
   --m-weight-bold: 700;      /* 仅前台 display 使用 */
   --m-tracking-tight: -0.02em;
   --m-tracking-tightest: -0.035em;
@@ -176,7 +212,7 @@
 
   /* ---- Radius（主旋钮 --m-radius，缩放派生） ---- */
   --m-radius: 0.5rem;                      /* 8px 全局主旋钮 */
-  --m-radius-xs: calc(var(--m-radius) * 0.25);  /*  2px */
+  --m-radius-xs: max(2px, calc(var(--m-radius) * 0.25));  /*  2px（6px 旋钮下仍保底 2px） */
   --m-radius-sm: calc(var(--m-radius) * 0.5);   /*  4px */
   --m-radius-md: var(--m-radius);               /*  8px 控件/输入框 */
   --m-radius-lg: calc(var(--m-radius) * 1.5);   /* 12px 卡片(后台) */
@@ -189,6 +225,13 @@
   --m-shadow-e2: 0 4px 8px -2px rgb(16 24 40 / 0.12), 0 2px 4px -2px rgb(16 24 40 / 0.06);
   --m-shadow-e3: 0 20px 24px -4px rgb(16 24 40 / 0.12), 0 8px 12px -6px rgb(16 24 40 / 0.10);
   --m-shadow-e4: 0 24px 48px -12px rgb(16 24 40 / 0.24), 0 12px 16px -8px rgb(16 24 40 / 0.10);
+
+  /* Glass · 仅限 chrome 与 overlay（docs/04 §三、docs/05 §三）
+     内容卡与商品图禁用：玻璃会改写商品色的第一事实。
+     dim 是玻璃边缘的调暗发丝线——玻璃没有边界就会读成"糊"。 */
+  --m-glass-blur: 20px;
+  --m-glass-alpha: 72%;
+  --m-glass-dim: rgb(15 18 24 / 0.08);
 
   /* ---- Motion ---- */
   --m-duration-100: 100ms;  /* 微交互：开关、hover 色变辅助 */
@@ -204,6 +247,8 @@
   /* ---- Z-index ladder（禁止越级/自造数值） ---- */
   --m-z-raised: 10;
   --m-z-nav: 100;
+  --m-z-cover: 200;      /* 覆盖层：搜索 / 筛选浮层（高于常驻框架，低于抽屉） */
+  --m-z-sticky-cta: 250; /* 吸底转化条（sticky ATC / 快速下单栏）：高于一切常驻框架与浮层，低于抽屉——CartDrawer 必须盖住它 */
   --m-z-drawer: 300;
   --m-z-modal: 400;
   --m-z-toast: 500;
@@ -234,7 +279,7 @@
 
      rank  浅色      深色      角色
      ────  ────────  ────────  ──────────────────────────────────────────────
-     -2   ink-3     #0E1218   inset  表面内部的"凹槽"（输入框内衬、代码底、空态区）
+     -2   ink-3     #0B0E12 / #090C10   inset  表面内部的"凹槽"（输入框内衬、代码底、空态区）
      -1   ink-2     #0B0E12   chrome 常驻框架（导航/检视栏/工具栏/顶栏）
      -1   ink-2     #0F1216   canvas 画布（最外层底，仅在缝隙可见）
       0   #FFFFFF   #141821   surface 工作台面 · 卡片 · 内容（**注意力在此**）
@@ -250,78 +295,87 @@
    ============================================================================ */
 
 :root, .stage-storefront {
-  /* Surfaces */
-  --m-bg-page: #FFFFFF;
-  --m-bg-surface: #FFFFFF;
-  --m-bg-surface-hover: var(--m-ink-2);
-  --m-bg-surface-selected: var(--m-ink-3);
-  --m-bg-inset: var(--m-ink-2);          /* 输入框、次级面板内衬 */
-  --m-bg-band: var(--m-ink-2);           /* 前台区块交替底色 */
-  --m-bg-scrim: rgb(15 18 24 / 0.48);    /* 弹层遮罩 */
-  --m-bg-chrome: #FFFFFF;                /* 前台：顶栏与页面同色（导航融入内容，时尚站惯例） */
-  --m-bg-chrome-hover: var(--m-ink-2);
-  --m-bg-chrome-selected: var(--m-ink-3);
+  /* Surfaces —— v1.6：light-dark(浅, 深)。一次声明覆盖两个主题，
+     深色块不再重复声明，因此"声明压过继承"这一整类 bug 不可表示。 */
+  --m-bg-page: light-dark(#FFFFFF, #0F1216);
+  --m-bg-surface: light-dark(#FFFFFF, #161A20);
+  --m-bg-surface-hover: light-dark(var(--m-ink-2), #1C2129);
+  --m-bg-surface-selected: light-dark(var(--m-ink-3), #232935);
+  --m-bg-inset: light-dark(var(--m-ink-2), #0B0E12);          /* 输入框、次级面板内衬 */
+  --m-bg-band: light-dark(var(--m-ink-2), #10141A);           /* 前台区块交替底色 */
+  --m-bg-scrim: light-dark(rgb(15 18 24 / 0.48), rgb(0 0 0 / 0.6));    /* 弹层遮罩 */
+  --m-bg-chrome: light-dark(#FFFFFF, #0F1216);                /* 前台：顶栏与页面同色（导航融入内容，时尚站惯例） */
+  --m-bg-chrome-hover: light-dark(var(--m-ink-2), #1A1F27);
+  --m-bg-chrome-selected: light-dark(var(--m-ink-3), #232A35);
 
   /* Content */
-  --m-fg: var(--m-ink-12);
-  --m-fg-muted: var(--m-ink-11);
-  --m-fg-subtle: var(--m-ink-9);         /* 占位符、辅助注脚 */
-  --m-fg-disabled: var(--m-ink-8);
-  --m-fg-inverse: #FFFFFF;
+  --m-fg: light-dark(var(--m-ink-12), #DEE0E2);
+  --m-fg-muted: light-dark(var(--m-ink-11), #B3B6BC);
+  --m-fg-subtle: light-dark(var(--m-ink-9), #95989E);         /* 占位符、辅助注脚 */
+  --m-fg-disabled: light-dark(var(--m-ink-8), #61666C);
+  --m-fg-inverse: light-dark(#FFFFFF, #161A20);
 
   /* Border */
-  --m-border: var(--m-ink-5);
-  --m-border-strong: var(--m-ink-6);
-  --m-border-focus: var(--m-info-9);
+  --m-border: light-dark(var(--m-ink-6), #262C36);
+  --m-border-strong: light-dark(var(--m-ink-8), var(--m-ink-9));     /* 控件边界：白底 3.54 / ink-2 3.33 / ink-3 3.16，满足 WCAG 1.4.11 */
+  --m-border-focus: light-dark(var(--m-info-9), var(--m-info-5));
 
   /* Primary (storefront defaults: near-black, gallery stage principle) */
   --m-primary: var(--m-ink-12);
-  --m-primary-hover: color-mix(in oklab, var(--m-ink-12) 86%, #FFFFFF);
-  --m-primary-active: color-mix(in oklab, var(--m-ink-12) 94%, #FFFFFF);
+  --m-primary-hover: color-mix(in oklab, var(--m-ink-12) 92%, #FFFFFF);
+  --m-primary-active: color-mix(in oklab, var(--m-ink-12) 86%, #FFFFFF);
   --m-primary-fg: #FFFFFF;
   --m-primary-text: var(--m-ink-12);
-  --m-primary-tint: var(--m-ink-2);
-  --m-primary-border: var(--m-ink-7);
+  --m-primary-tint: var(--m-ink-3);     /* v1.5：选中底必须比 hover 深一档（原 ink-2 与 band/hover 同值，导致“选中比 hover 浅”） */
+  --m-primary-border: var(--m-border-strong);
   --m-fg-link: var(--m-ink-12);
-  --m-fg-link-hover: var(--m-ink-9);
+  --m-fg-link-hover: var(--m-ink-12);   /* v1.5：hover 不再变浅（原 ink-9 把链接压成“禁用相”），反馈交给下划线加重 */
+
   --m-card-shadow: var(--m-shadow-e1);
   --m-card-radius: var(--m-radius-xl);
   --m-overlay-blur: 4px;
   --m-body-fs: var(--m-text-lg);
+  --m-body-leading: 1.6;                 /* 前台正文行高；后台见 .stage-admin */
 
   /* Status families（success/warning/critical/info/emphasis 通用五件套）
      fg=文本与图标  bg=浅色衬底  border=描边  solid=徽章/实底按钮  solid-fg=实底上的文字 */
   --m-success-fg: var(--m-success-11);
   --m-success-bg: var(--m-success-2);
-  --m-success-border: var(--m-success-5);
+  --m-success-border: var(--m-success-7);   /* 对 success-bg 3.07:1 */
   --m-success-solid: var(--m-success-9);
   --m-success-solid-fg: #FFFFFF;
+  --m-success-solid-hover: var(--m-success-10);
+  --m-success-solid-active: var(--m-success-12);
 
   --m-warning-fg: var(--m-warning-11);
   --m-warning-bg: var(--m-warning-2);
-  --m-warning-border: var(--m-warning-5);
+  --m-warning-border: var(--m-warning-8);   /* 暖色需到第 8 阶才对 warning-bg 3.28:1 */
   --m-warning-solid: var(--m-warning-9);
   --m-warning-solid-fg: #2B1F02;
 
   --m-critical-fg: var(--m-danger-11);
   --m-critical-bg: var(--m-danger-2);
-  --m-critical-border: var(--m-danger-5);
+  --m-critical-border: var(--m-danger-7);   /* 对 critical-bg 3.51:1 */
   --m-critical-solid: var(--m-danger-9);
   --m-critical-solid-fg: #FFFFFF;
   --m-critical-solid-hover: var(--m-danger-10);
-  --m-critical-solid-active: var(--m-danger-10);
+  --m-critical-solid-active: var(--m-danger-12);
 
   --m-info-fg: var(--m-info-11);
   --m-info-bg: var(--m-info-2);
-  --m-info-border: var(--m-info-5);
+  --m-info-border: var(--m-info-7);         /* 对 info-bg 3.52:1 */
   --m-info-solid: var(--m-info-9);
   --m-info-solid-fg: #FFFFFF;
+  --m-info-solid-hover: var(--m-info-10);
+  --m-info-solid-active: var(--m-info-12);
 
   --m-emphasis-fg: var(--m-accent-11);   /* New/Featured/活动强调 */
   --m-emphasis-bg: var(--m-accent-2);
-  --m-emphasis-border: var(--m-accent-5);
+  --m-emphasis-border: var(--m-accent-8);   /* 对 emphasis-bg 5.42:1 */
   --m-emphasis-solid: var(--m-accent-9);
-  --m-emphasis-solid-fg: #2B1F02;
+  --m-emphasis-solid-fg: #FFFFFF;
+  --m-emphasis-solid-hover: var(--m-accent-10);
+  --m-emphasis-solid-active: var(--m-accent-12);
 
   /* 控件/工具中性族：off-bg、tooltip、中性实底 */
   --m-control-off-bg: var(--m-ink-8);
@@ -376,20 +430,20 @@
    ============================================================================ */
 
 .stage-admin {
-  --m-bg-page: var(--m-ink-2);
-  --m-bg-surface: #FFFFFF;
-  --m-bg-surface-hover: var(--m-ink-2);
-  --m-bg-surface-selected: var(--m-ink-3);
-  --m-bg-inset: var(--m-ink-3);
-  --m-border: var(--m-ink-5);
-  --m-fg: var(--m-ink-12);
-  --m-fg-muted: var(--m-ink-11);
+  --m-bg-page: light-dark(var(--m-ink-2), #0B0E12);
+  --m-bg-surface: light-dark(#FFFFFF, #141821);
+  --m-bg-surface-hover: light-dark(var(--m-ink-2), #1A1F29);
+  --m-bg-surface-selected: light-dark(var(--m-ink-3), #222835);
+  --m-bg-inset: light-dark(var(--m-ink-3), #090C10);
+  --m-border: light-dark(var(--m-ink-6), #242A34);
+  --m-fg: light-dark(var(--m-ink-12), #DEE0E2);
+  --m-fg-muted: light-dark(var(--m-ink-11), #B3B6BC);
   --m-shadow-e1: 0 1px 2px rgb(16 24 40 / 0.05);   /* 后台阴影更克制 */
   --m-shadow-e2: 0 2px 6px rgb(16 24 40 / 0.08);
   /* chrome 阶梯：框架比台面后退一档，且自带更深一档的 hover/selected */
-  --m-bg-chrome: var(--m-ink-2);
-  --m-bg-chrome-hover: var(--m-ink-3);
-  --m-bg-chrome-selected: var(--m-ink-4);
+  --m-bg-chrome: light-dark(var(--m-ink-2), #0B0E12);
+  --m-bg-chrome-hover: light-dark(var(--m-ink-3), #151A21);
+  --m-bg-chrome-selected: light-dark(var(--m-ink-4), #1D2430);
   /* 主操作：后台保留品牌绿（Polaris 同哲学 — 运营工具需要品牌识别度） */
   --m-primary: var(--m-brand-9);
   --m-primary-hover: var(--m-brand-10);
@@ -397,13 +451,24 @@
   --m-primary-fg: #FFFFFF;
   --m-primary-text: var(--m-brand-11);
   --m-primary-tint: var(--m-brand-2);
-  --m-primary-border: var(--m-brand-7);
+  --m-primary-border: var(--m-brand-8);
   --m-fg-link: var(--m-brand-11);
   --m-fg-link-hover: var(--m-brand-12);
   --m-card-shadow: none;
   --m-card-radius: var(--m-radius-lg);
   --m-overlay-blur: 0px;
   --m-body-fs: var(--m-text-md);
+  --m-body-leading: 1.45;                /* 后台密度：14/20.3，接近 4px 网格的 20px */
+}
+
+/* v1.5 · 密度旋钮（Density dial）
+   作用域四类：表格行高 / 卡片内距 / 字段间距 / 正文行高。
+   只在这四类上收紧，不改间距刻度本身（避免页面级节奏失控）。 */
+.stage-admin[data-density="productive"] {
+  --m-card-padding: var(--m-space-3);                       /* 16 → 12 */
+  --m-field-gap: var(--m-space-2);                          /* 4 → 8（productive 行高更矮，字段内距反而放宽以保证可读） */
+  --m-body-leading: 1.38;                                   /* 14/19.3 ≈ 4px 网格 */
+  --m-table-row-h-comfortable: var(--m-table-row-h-productive); /* 48 → 36 */
 }
 
 /* ADMIN DARK — 关键修复：.stage-admin 直接声明在 body 上的浅色值会遮蔽
@@ -413,19 +478,9 @@
 .stage-admin[data-theme="dark"],
 .theme-dark .stage-admin,
 [data-theme="dark"] .stage-admin {
-  --m-bg-page: #0B0E12;                     /* admin 页底比 storefront 暗色再深一档 */
-  --m-bg-surface: #141821;
-  --m-bg-surface-hover: #1A1F29;
-  --m-bg-surface-selected: #222835;
-  --m-bg-inset: #0E1218;
-  --m-bg-chrome: #0B0E12;                   /* 框架 = 页底（深色下框架最暗） */
-  --m-bg-chrome-hover: #151A21;
-  --m-bg-chrome-selected: #1D2430;
-  --m-border: #242A34;
-  --m-fg: #F1F3F6;
-  --m-fg-muted: #AEB7C4;
-  --m-fg-subtle: #8E99AA;
-  --m-fg-disabled: #5C6675;
+  /* v1.6 · 表层/文本/边框已迁到 .stage-admin 的 light-dark()，此处不再重复声明。
+     迁移后「自定义属性自身声明优先于继承」这类错配在语义层不可表示；
+     这里保留的只剩品牌向 token（primary / link）与阴影——它们本就该按舞台+主题各自决定。 */
   --m-shadow-e1: 0 1px 2px rgb(0 0 0 / 0.4);
   --m-shadow-e2: 0 2px 6px rgb(0 0 0 / 0.5);
   /* 后台在深色下保留品牌绿 primary（与浅色后台一致） */
@@ -442,33 +497,18 @@
 
 /* ============================================================================
    LAYER 2 — SEMANTIC · Dark（深色：语义指向同色阶反向端，保证成对对比度）
-   方向规则：浅色主题 hover 变深，深色主题 hover 变浅。
+   方向规则：浅色主题 hover 变深，深色主题 hover 变浅（端点色除外：
+   近黑/近白主操作按“远离端点”处理，见 docs/02-color-system.md §七）。
    ============================================================================ */
 
 [data-theme="dark"],
-.theme-dark {
-  --m-bg-page: #0F1216;
-  --m-bg-surface: #161A20;
-  --m-bg-surface-hover: #1C2129;
-  --m-bg-surface-selected: #232935;
-  --m-bg-inset: #10141A;
-  --m-bg-band: #10141A;
-  --m-bg-scrim: rgb(0 0 0 / 0.6);
-  --m-bg-chrome: #0F1216;               /* 深色：框架比台面暗一档（与浅色同向语义） */
-  --m-bg-chrome-hover: #1A1F27;
-  --m-bg-chrome-selected: #232A35;
-
-  --m-fg: #F1F3F6;
-  --m-fg-muted: #AEB7C4;
-  --m-fg-subtle: #8E99AA;
-  --m-fg-disabled: #5C6675;
-  --m-fg-inverse: #161A20;
+.theme-dark,
+.theme-dark .stage-storefront,
+[data-theme="dark"] .stage-storefront {
+  /* v1.6 · 表层/文本/边框已迁到 :root 的 light-dark()。深色块只保留
+     必须按主题单独决定的项：链接色与主操作（"远离端点"规则）。 */
   --m-fg-link: var(--m-ink-2);
   --m-fg-link-hover: #FFFFFF;
-
-  --m-border: #262C36;
-  --m-border-strong: #363D49;
-  --m-border-focus: var(--m-info-5);
 
   --m-primary: var(--m-ink-2);
   --m-primary-hover: var(--m-ink-4);
@@ -479,20 +519,24 @@
   --m-primary-border: var(--m-border-strong);
 
   --m-success-fg: var(--m-success-4);
-  --m-success-bg: rgb(23 131 86 / 0.16);
-  --m-success-border: rgb(23 131 86 / 0.45);
+  /* v1.6 修复：原值 rgb(23 131 86) 的蓝通道是 86，与 --m-success-9 (#178229 = rgb(23 130 41))
+     不是同一色相，深色下成功色偏青。tint 必须由 9 阶派生，不得手抄。 */
+  --m-success-bg: rgb(23 130 41 / 0.16);
+  --m-success-border: var(--m-success-6);   /* 对深色 surface 6.89:1 */
   --m-success-solid: var(--m-success-9);
   --m-success-solid-fg: #FFFFFF;
+  --m-success-solid-hover: var(--m-success-8);
+  --m-success-solid-active: var(--m-success-7);
 
   --m-warning-fg: var(--m-warning-4);
   --m-warning-bg: rgb(239 176 0 / 0.14);
-  --m-warning-border: rgb(239 176 0 / 0.45);
+  --m-warning-border: var(--m-warning-6);   /* 8.34:1 */
   --m-warning-solid: var(--m-warning-9);
   --m-warning-solid-fg: #2B1F02;
 
   --m-critical-fg: var(--m-danger-4);
   --m-critical-bg: rgb(210 35 44 / 0.16);
-  --m-critical-border: rgb(210 35 44 / 0.45);
+  --m-critical-border: var(--m-danger-6);   /* 5.62:1 */
   --m-critical-solid: var(--m-danger-9);
   --m-critical-solid-fg: #FFFFFF;
   --m-critical-solid-hover: var(--m-danger-8);
@@ -500,18 +544,22 @@
 
   --m-info-fg: var(--m-info-4);
   --m-info-bg: rgb(30 99 195 / 0.16);
-  --m-info-border: rgb(30 99 195 / 0.45);
+  --m-info-border: var(--m-info-6);         /* 5.91:1 */
   --m-info-solid: var(--m-info-9);
   --m-info-solid-fg: #FFFFFF;
+  --m-info-solid-hover: var(--m-info-8);
+  --m-info-solid-active: var(--m-info-7);
 
   --m-emphasis-fg: var(--m-accent-4);
-  --m-emphasis-bg: rgb(242 162 12 / 0.14);
-  --m-emphasis-border: rgb(242 162 12 / 0.45);
+  --m-emphasis-bg: rgb(194 65 12 / 0.14);
+  --m-emphasis-border: var(--m-accent-6);   /* 5.12:1 */
   --m-emphasis-solid: var(--m-accent-9);
-  --m-emphasis-solid-fg: #2B1F02;
+  --m-emphasis-solid-fg: #FFFFFF;
+  --m-emphasis-solid-hover: var(--m-accent-8);
+  --m-emphasis-solid-active: var(--m-accent-7);
 
   /* 控件/工具中性族：off-bg、tooltip、中性实底（深色覆写） */
-  --m-control-off-bg: #5C6675;
+  --m-control-off-bg: #61666C;
   --m-tooltip-bg: var(--m-ink-6);
   --m-tooltip-fg: var(--m-ink-12);
   --m-neutral-solid: var(--m-ink-9);
@@ -529,6 +577,7 @@
   --m-shadow-e2: 0 4px 8px -2px rgb(0 0 0 / 0.5);
   --m-shadow-e3: 0 20px 24px -4px rgb(0 0 0 / 0.55);
   --m-shadow-e4: 0 24px 48px -12px rgb(0 0 0 / 0.65);
+  --m-glass-dim: rgb(255 255 255 / 0.10);
 }
 
 /* ============================================================================
@@ -536,6 +585,22 @@
    ============================================================================ */
 
 :root {
+  /* App shell / storefront header（文档 09 的 h-64/72/40/56 在这里成为 token） */
+  --m-header-h-mobile: 4rem;    /* 64px */
+  --m-header-h: 4.5rem;         /* 72px 桌面 */
+  --m-header-h-stuck: 3.5rem;   /* 56px 滚动收缩 */
+  --m-announce-h: 2.5rem;       /* 40px 宣告条 */
+
+  /* 安全区（刘海 / 挖孔 / 小白条）：env() 只有在宿主声明 viewport-fit=cover 时才非 0，
+     未声明的宿主自动回落 0px——所以这四个 token 是渐进增强，不是兼容负担。
+     吸底/吸顶与全屏抽屉必须把它们算进内边距，否则 iOS 上按钮会被小白条压住。
+     刻意用物理四轴命名：屏幕缺口是硬件几何，不随 writing-mode 镜像；
+     逻辑轴（inline-start/end）在 RTL 下会把左右取反，反而错——消费处一律用 padding-left/right。 */
+  --m-safe-top: env(safe-area-inset-top, 0px);
+  --m-safe-right: env(safe-area-inset-right, 0px);
+  --m-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --m-safe-left: env(safe-area-inset-left, 0px);
+
   /* Button：sm=32 / md=36 / lg=44+（前台主 CTA 用 --m-btn-h-cta=52 触达优先） */
   --m-btn-h-sm: 2rem;
   --m-btn-h-md: 2.25rem;
@@ -555,13 +620,20 @@
   --m-input-radius: var(--m-radius-md);
   --m-input-font: var(--m-text-md);
   --m-input-placeholder: var(--m-fg-subtle);
+  --m-field-gap: var(--m-space-1);          /* label / 输入 / help 之间的纵向间距（密度旋钮作用点） */
 
-  /* Card */
+  /* Card（radius/shadow/blur 归语义舞台层，此处不得重复声明——同特异性后者会反覆盖前台） */
   --m-card-bg: var(--m-bg-surface);
-  --m-card-border: var(--m-border);
-  --m-card-radius: var(--m-radius-lg);
+  /* v1.7 · tinted：白画布上的灰卡（无描边）。前台默认画布与卡面同为白色，
+     filled 在那里无法成立；tinted 用一档灰完成分离，是前台"灰卡无描边"的唯一合法档。 */
+  --m-card-bg-tinted: light-dark(var(--m-bg-inset), var(--m-bg-surface-hover));
+  /* v1.6 · 卡片分隔线与语义边界分离。
+     --m-border 是"控件边界"，v1.5 为满足 3:1 把它提到 ink-6（对白 1.52:1）——这是对的。
+     但卡片描边是**装饰线**，不需要 3:1；直接复用 --m-border 会让每张卡都获得一条 1.52:1 的硬框，
+     与 1.06:1 的画布差叠加成"双弱边缘"。对照 Arco：卡片描边 1.25:1 且 bordered 是可选变体。
+     取 ink-5（对白 1.33:1）落在装饰带内，且仍明显轻于语义边界。 */
+  --m-card-border: var(--m-ink-5);
   --m-card-padding: var(--m-space-4);
-  --m-card-shadow: none;                    /* 后台默认；前台覆盖为 e1 */
 
   /* Table */
   --m-table-row-h-comfortable: 3rem;        /* 48px */
@@ -574,6 +646,8 @@
   --m-badge-font: var(--m-text-xs);
   --m-badge-px: var(--m-space-2);
   --m-badge-py: var(--m-space-05);
+  --m-badge-h: 20px;
+  --m-badge-gap: 4px;
 
   /* Banner */
   --m-banner-px: var(--m-space-4);
@@ -585,12 +659,13 @@
   --m-toast-fg: #FFFFFF;
   --m-toast-radius: var(--m-radius-md);
   --m-toast-duration: 5000ms;
+  --m-toast-duration-action: 10000ms;   /* 带动作（Undo/View）的 Toast：驻留翻倍，避免撤销窗口丢失 */
 
   /* Modal / Drawer */
   --m-modal-radius: var(--m-radius-xl);
   --m-modal-max-w: 32rem;
   --m-drawer-w: 28rem;
-  --m-overlay-blur: 0px;                    /* 前台可设 4px，后台保持 0 */
+  /* overlay-blur 归舞台语义层（前台 4px / 后台 0），此处不得重复声明 */
 
   /* Toolbar / Composer（复合工具栏：一个容器容纳异质子控件）
      ★ 关键规范：同一条 toolbar 内所有子控件的"基线尺寸"必须相等，
@@ -623,6 +698,20 @@
      GitHub Light、Carbon(g10/g90/g100) 一致。浅色值全部取自各色带第 11/12 阶
      （该阶位的设计用途就是"浅底上的彩色文本"，已预校准 ≥4.5:1）。 */
   --m-code-bg: var(--m-ink-3);              /* 凹槽（rank −2），配 1px 边框与台面分离 */
+  --m-code-leading: 1.7;                    /* 代码块光学行高（唯一允许脱离 4px 网格的文本场景） */
+
+  /* Chart categorical palette（独立分类色板，8 色；不继承状态语义）
+     对白底 ≥3:1；CVD 模拟（protan/deutan/tritan）下最小 CIEDE2000 浅色 ≥12 / 深色 ≥10。
+     阈值与深色表面亮度有关（深色对无 CVD 时对比更低），由 chart-cvd.test.mjs 守卫。 */
+  --m-chart-1: #0072B2;
+  --m-chart-2: #D55E00;
+  --m-chart-3: #009E73;
+  --m-chart-4: #CC79A7;
+  --m-chart-5: #5B21B6;
+  --m-chart-6: #5F6C80;
+  --m-chart-7: #264653;
+  --m-chart-8: #000000;
+  --m-chart-grid: var(--m-ink-5);           /* 图表网格线（语义位，禁止文档里写 ink-5） */
   --m-code-bar-bg: rgb(16 24 40 / 0.045);   /* 代码块标题条 */
   --m-code-fg: var(--m-ink-12);             /* 默认代码文字 */
   --m-code-muted: var(--m-ink-11);          /* 标题条文字、行号（凹槽底上仍需 ≥4.5:1，故用 muted 档） */
@@ -637,14 +726,29 @@
   --m-code-del: var(--m-danger-11);         /* diff 删行 */
 }
 
+/* Chart palette · dark-surface override（同一语义，浅色化以保证 ≥3:1） */
+[data-theme="dark"],
+.theme-dark {
+  color-scheme: dark;   /* v1.6：让滚动条/表单控件/自动填充跟随深色 */
+  --m-chart-1: #1E63C3;
+  --m-chart-2: #D55E00;
+  --m-chart-3: #009E73;
+  --m-chart-4: #A64B7A;
+  --m-chart-5: #B49BF2;
+  --m-chart-6: #F7D378;
+  --m-chart-7: #7FC8C0;
+  --m-chart-8: #FFFFFF;
+  --m-chart-grid: #2A3140;
+}
+
 /* 深色主题下的语法色板（深底浅字）。必须置于上面 :root 之后 —— 同优先级下靠后生效。 */
 [data-theme="dark"],
 .theme-dark {
   --m-code-bg: #0E1117;
   --m-code-bar-bg: rgb(255 255 255 / 0.04);
   --m-code-fg: #E6EAF0;
-  --m-code-muted: #AEB7C4;
-  --m-code-dot: #5C6675;
+  --m-code-muted: #B3B6BC;
+  --m-code-dot: #61666C;
   --m-code-key: #82AAFF;
   --m-code-fn: #C792EA;
   --m-code-str: #C3E88D;
@@ -653,6 +757,170 @@
   --m-code-tag: #FFCB6B;
   --m-code-add: #C3E88D;
   --m-code-del: #F19192;
+  /* Toast 在深色下必须离开页底一档，否则容器边界消失 */
+  --m-toast-bg: #232935;
+  --m-toast-fg: #F1F3F6;
+}
+
+/* ============================================================================
+   AUTO THEME — v1.7 · [data-theme="auto"] / .theme-auto 跟随系统
+   ----------------------------------------------------------------------------
+   主题选择仍是显式三态：默认浅色 / data-theme="dark" / data-theme="auto"。
+   auto 只改 color-scheme 与深色块的重新指向，不改默认舞台（默认翻转 = v2 MAJOR，
+   见 docs/00 O11）。light-dark() 已覆盖表层/文本/边框，这里只需镜像深色块中
+   仍按主题单独决定的项；镜像由 auto-theme-parity.test.mjs 逐项断言。
+   ============================================================================ */
+
+[data-theme="auto"],
+.theme-auto,
+[data-theme="auto"] .stage-storefront,
+.theme-auto .stage-storefront,
+.stage-storefront[data-theme="auto"],
+.stage-storefront.theme-auto,
+[data-theme="auto"] .stage-admin,
+.theme-auto .stage-admin,
+.stage-admin[data-theme="auto"],
+.stage-admin.theme-auto {
+  color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* AUTO-DARK-PARITY · main */
+  [data-theme="auto"],
+  .theme-auto,
+  [data-theme="auto"] .stage-storefront,
+  .theme-auto .stage-storefront,
+  .stage-storefront[data-theme="auto"],
+  .stage-storefront.theme-auto {
+    --m-fg-link: var(--m-ink-2);
+    --m-fg-link-hover: #FFFFFF;
+
+    --m-primary: var(--m-ink-2);
+    --m-primary-hover: var(--m-ink-4);
+    --m-primary-active: var(--m-ink-5);
+    --m-primary-fg: var(--m-ink-12);
+    --m-primary-text: var(--m-ink-2);
+    --m-primary-tint: rgb(255 255 255 / 0.08);
+    --m-primary-border: var(--m-border-strong);
+
+    --m-success-fg: var(--m-success-4);
+    --m-success-bg: rgb(23 130 41 / 0.16);
+    --m-success-border: var(--m-success-6);
+    --m-success-solid: var(--m-success-9);
+    --m-success-solid-fg: #FFFFFF;
+    --m-success-solid-hover: var(--m-success-8);
+    --m-success-solid-active: var(--m-success-7);
+
+    --m-warning-fg: var(--m-warning-4);
+    --m-warning-bg: rgb(239 176 0 / 0.14);
+    --m-warning-border: var(--m-warning-6);
+    --m-warning-solid: var(--m-warning-9);
+    --m-warning-solid-fg: #2B1F02;
+
+    --m-critical-fg: var(--m-danger-4);
+    --m-critical-bg: rgb(210 35 44 / 0.16);
+    --m-critical-border: var(--m-danger-6);
+    --m-critical-solid: var(--m-danger-9);
+    --m-critical-solid-fg: #FFFFFF;
+    --m-critical-solid-hover: var(--m-danger-8);
+    --m-critical-solid-active: var(--m-danger-7);
+
+    --m-info-fg: var(--m-info-4);
+    --m-info-bg: rgb(30 99 195 / 0.16);
+    --m-info-border: var(--m-info-6);
+    --m-info-solid: var(--m-info-9);
+    --m-info-solid-fg: #FFFFFF;
+    --m-info-solid-hover: var(--m-info-8);
+    --m-info-solid-active: var(--m-info-7);
+
+    --m-emphasis-fg: var(--m-accent-4);
+    --m-emphasis-bg: rgb(194 65 12 / 0.14);
+    --m-emphasis-border: var(--m-accent-6);
+    --m-emphasis-solid: var(--m-accent-9);
+    --m-emphasis-solid-fg: #FFFFFF;
+    --m-emphasis-solid-hover: var(--m-accent-8);
+    --m-emphasis-solid-active: var(--m-accent-7);
+
+    --m-control-off-bg: #61666C;
+    --m-tooltip-bg: var(--m-ink-6);
+    --m-tooltip-fg: var(--m-ink-12);
+    --m-neutral-solid: var(--m-ink-9);
+
+    --m-ai-fg: var(--m-mystic-4);
+    --m-ai-bg: rgb(108 63 224 / 0.16);
+    --m-ai-solid: var(--m-mystic-9);
+    --m-ai-solid-fg: #FFFFFF;
+
+    --m-price-sale: var(--m-danger-4);
+    --m-price-compare: var(--m-fg-subtle);
+    --m-price-fg: var(--m-fg);
+
+    --m-shadow-e1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --m-shadow-e2: 0 4px 8px -2px rgb(0 0 0 / 0.5);
+    --m-shadow-e3: 0 20px 24px -4px rgb(0 0 0 / 0.55);
+    --m-shadow-e4: 0 24px 48px -12px rgb(0 0 0 / 0.65);
+    --m-glass-dim: rgb(255 255 255 / 0.10);
+  }
+
+  /* AUTO-DARK-PARITY · admin */
+  [data-theme="auto"] .stage-admin,
+  .theme-auto .stage-admin,
+  .stage-admin[data-theme="auto"],
+  .stage-admin.theme-auto {
+    --m-shadow-e1: 0 1px 2px rgb(0 0 0 / 0.4);
+    --m-shadow-e2: 0 2px 6px rgb(0 0 0 / 0.5);
+    --m-primary: var(--m-brand-9);
+    --m-primary-hover: var(--m-brand-8);
+    --m-primary-active: var(--m-brand-7);
+    --m-primary-fg: #FFFFFF;
+    --m-primary-text: var(--m-brand-4);
+    --m-primary-tint: rgb(15 107 87 / 0.16);
+    --m-primary-border: var(--m-brand-6);
+    --m-fg-link: var(--m-brand-4);
+    --m-fg-link-hover: var(--m-brand-3);
+  }
+
+  /* AUTO-DARK-PARITY · chart */
+  [data-theme="auto"],
+  .theme-auto,
+  [data-theme="auto"] .stage-storefront,
+  .theme-auto .stage-storefront,
+  .stage-storefront[data-theme="auto"],
+  .stage-storefront.theme-auto {
+    --m-chart-1: #1E63C3;
+    --m-chart-2: #D55E00;
+    --m-chart-3: #009E73;
+    --m-chart-4: #A64B7A;
+    --m-chart-5: #B49BF2;
+    --m-chart-6: #F7D378;
+    --m-chart-7: #7FC8C0;
+    --m-chart-8: #FFFFFF;
+    --m-chart-grid: #2A3140;
+  }
+
+  /* AUTO-DARK-PARITY · code */
+  [data-theme="auto"],
+  .theme-auto,
+  [data-theme="auto"] .stage-storefront,
+  .theme-auto .stage-storefront,
+  .stage-storefront[data-theme="auto"],
+  .stage-storefront.theme-auto {
+    --m-code-bg: #0E1117;
+    --m-code-bar-bg: rgb(255 255 255 / 0.04);
+    --m-code-fg: #E6EAF0;
+    --m-code-muted: #B3B6BC;
+    --m-code-dot: #61666C;
+    --m-code-key: #82AAFF;
+    --m-code-fn: #C792EA;
+    --m-code-str: #C3E88D;
+    --m-code-num: #F78C6C;
+    --m-code-comment: #8B93A7;
+    --m-code-tag: #FFCB6B;
+    --m-code-add: #C3E88D;
+    --m-code-del: #F19192;
+    --m-toast-bg: #232935;
+    --m-toast-fg: #F1F3F6;
+  }
 }
 
 /* ============================================================================
@@ -682,18 +950,62 @@
 }
 
 /* ============================================================================
+   MOBILE FORM FLOOR — iOS Safari 在 font-size < 16px 时聚焦会强制缩放视口
+   （结算页会因此版式崩坏，并连带 WCAG 1.4.10 Reflow）。移动端输入统一 16px / 44px。
+   ============================================================================ */
+
+@media (max-width: 767px) {
+  :root, .stage-storefront, .stage-admin {
+    --m-input-font: 1rem;
+    --m-input-h: 2.75rem;
+  }
+}
+
+/* ============================================================================
    REDUCED MOTION — 全系统强制契约
    ============================================================================ */
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
+    /* 位移/缩放/旋转类动画一律不播放（前庭反应来自空间运动，不来自明暗变化）。 */
     /* meridian-allow: reduced-motion-contract */
     animation-duration: 0.01ms !important;
     /* meridian-allow: reduced-motion-contract */
-    animation-iteration-count: 1 !important;
+    animation-delay: 0ms !important;
     /* meridian-allow: reduced-motion-contract */
-    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
     /* meridian-allow: reduced-motion-contract */
     scroll-behavior: auto !important;
   }
+  /* 分级契约：保留透明度与颜色过渡（100ms），其余过渡属性一律不成立——
+     transform/translate/scale/rotate 与尺寸过渡在降级下直接跳到终态。 */
+  *, *::before, *::after {
+    /* meridian-allow: reduced-motion-contract */
+    transition-property: opacity, color, background-color, border-color, box-shadow, fill, stroke !important;
+    /* meridian-allow: reduced-motion-contract */
+    transition-duration: var(--m-duration-100) !important;
+    /* meridian-allow: reduced-motion-contract */
+    transition-delay: 0ms !important;
+  }
 }
+
+/* ============================================================================
+   v1.6 · CJK 排版覆盖（zh / ja / ko）
+
+   为什么单列：本系统的行高与字距是按拉丁文校准的——正文 1.6、后台 1.45、
+   标题 -0.02em。汉字是满格方块、笔画密：1.45 行高在 14px 中文正文下过挤，
+   负字距会让汉字互相贴合。这两条不是审美偏好，是脚本差异。
+
+   放置位置：必须置于所有舞台/主题声明之后。与 .stage-admin 同优先级时靠后者生效；
+   productive 密度是多类选择器（0,2,0），故单独覆盖。
+   ============================================================================ */
+:lang(zh), :lang(ja), :lang(ko) { --m-body-leading: 1.75; }
+.stage-admin:lang(zh), .stage-admin:lang(ja), .stage-admin:lang(ko) { --m-body-leading: 1.6; }
+.stage-admin[data-density="productive"]:lang(zh),
+.stage-admin[data-density="productive"]:lang(ja),
+.stage-admin[data-density="productive"]:lang(ko) { --m-body-leading: 1.5; }
+
+/* 汉字标题禁止负字距：0 就是 0，不给"轻微收紧"留口子 */
+:lang(zh) h1, :lang(zh) h2, :lang(zh) h3, :lang(zh) h4,
+:lang(ja) h1, :lang(ja) h2, :lang(ja) h3, :lang(ja) h4,
+:lang(ko) h1, :lang(ko) h2, :lang(ko) h3, :lang(ko) h4 { letter-spacing: 0; }

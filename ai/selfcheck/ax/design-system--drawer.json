@@ -1,0 +1,31 @@
+{
+  "page": "design-system.html",
+  "scenario": "drawer",
+  "count": 6,
+  "nodes": [
+    {
+      "role": "dialog",
+      "name": "Your cart · 3 items"
+    },
+    {
+      "role": "button",
+      "name": "关闭"
+    },
+    {
+      "role": "button",
+      "name": "Checkout"
+    },
+    {
+      "role": "button",
+      "name": "减少"
+    },
+    {
+      "role": "textbox",
+      "name": "数量"
+    },
+    {
+      "role": "button",
+      "name": "增加"
+    }
+  ]
+}

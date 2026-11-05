@@ -6,6 +6,7 @@
 <title>03 列表表格页 · 订单列表 · Locust 原型</title>
 <link rel="stylesheet" href="../ai/tokens.css">
 <link rel="stylesheet" href="../ai/meridian-ui.css">
+<link rel="stylesheet" href="../ai/admin.css">
 </head>
 <body class="stage-admin m-ui">
 <!-- 对标卡：
@@ -52,7 +53,7 @@
         <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
         <span style="position:relative;display:inline-flex">
           <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
-          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;inset-inline-end:-5px">3</span>
         </span>
         <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
@@ -88,7 +89,7 @@
             <div class="m-toolbar">
               <div class="m-search" style="width:280px">
                 <svg class="m-i m-i--16" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-                <input class="m-input" type="text" placeholder="搜索订单号、客户或邮箱" style="height:var(--m-tool-h)" aria-label="搜索订单">
+                <input class="m-input" type="text" placeholder="搜索订单号、客户或邮箱" aria-label="搜索订单">
               </div>
               <button type="button" class="m-tool m-tool--pill m-tool--outlined"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>筛选</button>
               <span class="sep"></span>

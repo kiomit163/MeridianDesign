@@ -52,7 +52,8 @@ const ALERT_ADMIN = new Set(["01-auth.html","02-dashboard.html","03-list.html","
 for (const f of files) {
   const html = readFileSync(join(dir, f), "utf8");
   if (f !== "index.html") {
-    const deq = html.replace(/href\s*=\s*(["'])\.\.\/ai\/(tokens|meridian-ui)\.css\1/g, "");
+    // 白名单 = 闭合五件（G-229）：先剔除全部合法层，再查是否还有残留 CSS 引用。
+    const deq = html.replace(/href\s*=\s*(["'])\.\.\/ai\/(tokens|brand-tokens|meridian-ui|admin|site)\.css\1/g, "");
     if (!/href\s*=\s*(["'])\.\.\/ai\/tokens\.css\1/.test(html)) fail.push(`G-224 ${f} 未引用 ../ai/tokens.css`);
     if (!/href\s*=\s*(["'])\.\.\/ai\/meridian-ui\.css\1/.test(html)) fail.push(`G-224 ${f} 未引用 ../ai/meridian-ui.css`);
     if (html.indexOf("对标卡：") > 400) fail.push(`G-225 ${f} 对标卡不在头部区（须在前 400 字符内）`);
@@ -89,6 +90,16 @@ for (const f of files) {
     }
   }
 }
+// G-230 探针（2.6）：店面影像存在性。R12 只判"已存在的 <img> 是否有内在尺寸"，
+// 零 <img> 的店面页会让它空转报绿——缺图不是合规，而是影像契约整段未测。
+// 图片是电商视觉的主体：08-11 每页至少一张真实 <img>（hero / 商品卡 / 图组 / 购物车行项）。
+const STOREFRONT_MEDIA = ["08-home.html", "09-plp.html", "10-pdp.html", "11-checkout.html"];
+for (const f of STOREFRONT_MEDIA) {
+  if (!existsSync(join(dir, f))) continue; // G-225 已报缺文件
+  const html = readFileSync(join(dir, f), "utf8");
+  if (!/<img\b/i.test(html)) fail.push(`G-230 ${f} 零 <img>：R12 空转，店面影像契约未测`);
+}
+
 // G-229 探针 B：组合层自有入场动效的 reduced-motion 守卫
 const siteCss = existsSync(join(root, "ai", "site.css")) ? readFileSync(join(root, "ai", "site.css"), "utf8") : "";
 if (/\.rv\b/.test(siteCss) && !/@media\s*\(\s*prefers-reduced-motion:\s*reduce\s*\)/.test(siteCss))

@@ -19,7 +19,7 @@ Requirements:
 - Data: use the fixtures in {{mock-data.ts}}; all prices go through <Price market="US">
 - States: skeleton on first load (8 cards), empty, error with retry
 
-Acceptance: node ai/validate.mjs exits 0; keyboard-only walkthrough passes; no layout shift at 320px.
+Acceptance: `node ai/validate.mjs . --exclude ai/selfcheck/fixtures` exits 0; keyboard-only walkthrough passes; no layout shift at 320px.
 ```
 
 ## 2. 新建后台页面（列表型）
@@ -33,12 +33,12 @@ Root element carries .stage-admin (and .theme-dark when the dark theme is on).
 Requirements:
 - App shell slot (sidebar stays untouched), PageHeader with one primary action [New order] + secondary [Export]
 - Saved views row: All / Awaiting fulfillment (badge counts), search, filter chips, sort
-- DataTable per §15: numeric right + tnum, sticky header, first-col sticky on overflow, row hover/selected states, 36px rows
+- DataTable per §15: numeric right + tnum, sticky header, first-col sticky on overflow, row hover/selected states, 48px comfortable rows（可用 data-density="productive" 切 36px）
 - Selection: cross-page selection pool, bulk bar replaces filter row, bulk delete requires type-to-confirm (16 §五)
 - Pagination: numeric, 50/page default; loading skeleton; empty states (none / no-match)
 - Save current filter+sort as view; "Modified" state offers [Save as view]
 
-Acceptance: aria-sort on sortable headers, focus trap in all overlays, validate.mjs passes.
+Acceptance: aria-sort on sortable headers, focus trap in all overlays, `node ai/validate.mjs . --exclude ai/selfcheck/fixtures` exits 0.
 ```
 
 ## 3. 新建组件
@@ -68,9 +68,9 @@ Storefront stage needs no class (:root is storefront); never add .stage-admin to
 1. Replace every raw color with the closest semantic token (docs/02 §三 mapping table)
 2. Replace spacing with --m-space-* on the 4px grid (docs/04 §一)
 3. Replace z-index/transition values with ladder tokens
-4. Replace font sizes with --m-text-* and weights with 450/550/650
+4. Replace font sizes with --m-text-* and weights with --m-weight-* (regular/medium/semibold/bold); never emit 450/550/650 — the system ships no @font-face, so those numeric weights collapse to two steps on Windows (docs/03 §2.1)
 5. Do NOT change any visual output beyond: off-grid spacing snaps to nearest step, raw shadows map to e1–e4
-Run node ai/validate.mjs {{path}} after; iterate until exit 0. Show a diff summary table (before → after) per rule.
+Run `node ai/validate.mjs {{path}} --exclude ai/selfcheck/fixtures` after; iterate until exit 0. Show a diff summary table (before → after) per rule.
 ```
 
 ## 5. 上线前合规/无障碍审计
@@ -92,5 +92,5 @@ Report format: per checkpoint — ✅ pass / ❌ fail + file:line + the exact ru
 ### 使用心法
 
 1. **先让 AI 读规范再写代码**——把对应文档路径写进 prompt（如上），不要只说 "use the design system"。
-2. **验收条件写进 prompt**——`validate.mjs` 退出码、键盘走查、320px 检查都是可执行验收。
+2. **验收条件写进 prompt**——`node ai/validate.mjs . --exclude ai/selfcheck/fixtures` 退出码、键盘走查、320px 检查都是可执行验收。
 3. **改造类任务要求 diff 摘要**——防止 AI 静默重写。

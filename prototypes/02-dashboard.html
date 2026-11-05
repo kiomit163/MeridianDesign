@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>02 仪表盘 · 双稿对比 · Locust 原型</title>
-<link rel="stylesheet" href="../ai/tokens.css">
-<link rel="stylesheet" href="../ai/meridian-ui.css">
-</head>
-<body class="stage-admin m-ui">
 <!-- 对标卡：
   Shopify 形态要点：Admin Home = 单一英雄指标 + 「需要关注的事」+ 洞察，而非 KPI 墙；顶栏右侧 = 通知铃 + 账户菜单；
   首访向导横幅可关闭（关闭后不占位）；所有数字带时效标注与同比。
@@ -18,6 +11,16 @@
   账户菜单：稿 A 展开态示意（遮挡为有意展示）、稿 B 收起态；通知铃 = 数字角标形态。
   漏项落地：顶栏账户菜单 ✓ 通知铃 ✓（宿主 #2）；SSE 徽章 ✓ 向导横幅 ✓。
 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>02 仪表盘 · 双稿对比 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+<link rel="stylesheet" href="../ai/admin.css">
+</head>
+<body class="stage-admin m-ui">
+<a class="m-skip-link" href="#main">跳至主内容</a>
+<h1 class="m-sr-only">02 仪表盘 · 双稿对比</h1>
 <div style="max-width:var(--m-container-admin);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
   <div class="m-accordion">
     <details>
@@ -43,32 +46,61 @@
 </div>
 
 <div class="m-shell">
-  <aside class="m-shell__sidenav">
-    <nav class="m-sidenav" aria-label="主导航（稿 A）" style="padding:var(--m-space-2)">
-      <div class="m-sidenav__group">后台</div>
-      <a href="/admin/" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
-      <a href="/admin/sell"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">卖</span><span class="m-navfull">卖货</span></a>
-      <a href="/admin/orders"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">接</span><span class="m-navfull">接单</span></a>
-      <a href="/admin/attract"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="m-navshort">拉</span><span class="m-navfull">拉客</span></a>
-      <a href="/admin/settings"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
-      <a href="/admin/onboarding"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="m-navshort">开</span><span class="m-navfull">开店向导</span></a>
-      <a href="/admin/compliance"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="m-navshort">合</span><span class="m-navfull">合规</span></a>
-      <a href="/admin/automation"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="m-navshort">自</span><span class="m-navfull">自动化</span></a>
-      <a href="/admin/i18n"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="m-navshort">译</span><span class="m-navfull">翻译</span></a>
-    </nav>
+  <aside class="m-shell__sidenav ad-sidenav">
+    <!-- Sidebar v2（admin/14 §2.2）：店铺切换 → 可滚动主导航 → 底部工具区；折叠态见 ai/admin.css 的 is-rail 段 -->
+    <div class="ad-side__store">
+      <button type="button" class="ad-storebtn" aria-haspopup="menu" aria-expanded="false" aria-controls="store-menu-a">
+        <span class="ad-storebtn__mark" aria-hidden="true">L</span>
+        <span class="ad-storebtn__meta"><b>Locust 欧洲站</b><span>locust.store · EUR</span></span>
+        <svg class="m-i ad-storebtn__caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="m-popover" id="store-menu-a" role="menu" aria-label="切换店铺">
+        <div class="m-combobox__opt" role="menuitem" aria-selected="true">Locust 欧洲站</div>
+        <div class="m-combobox__opt" role="menuitem">Locust 日本站</div>
+        <div class="m-combobox__opt" role="menuitem">管理店铺…</div>
+      </div>
+    </div>
+    <div class="ad-nav">
+      <nav class="m-sidenav" aria-label="主导航（稿 A）">
+        <div class="m-sidenav__group">后台</div>
+        <a class="ad-navlink is-active" href="/admin/" aria-current="page"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="ad-navlink__label">今日</span></a>
+        <div class="ad-navrow">
+          <a class="ad-navlink" href="/admin/sell"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="ad-navlink__label">卖货</span></a>
+          <button type="button" class="ad-navtoggle" aria-expanded="false" aria-controls="nav-sell-a" aria-label="展开卖货子导航"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
+        <div class="ad-subnav" id="nav-sell-a">
+          <a href="/admin/products">商品</a>
+          <a href="/admin/builder">页面构建器</a>
+          <a href="/admin/discounts">折扣</a>
+        </div>
+        <a class="ad-navlink" href="/admin/orders"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="ad-navlink__label">接单</span><span class="ad-navlink__badge count">12</span></a>
+        <a class="ad-navlink" href="/admin/attract"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="ad-navlink__label">拉客</span></a>
+        <div class="ad-navsep"></div>
+        <a class="ad-navlink" href="/admin/settings"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="ad-navlink__label">设置</span></a>
+        <a class="ad-navlink" href="/admin/onboarding"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="ad-navlink__label">开店向导</span></a>
+        <a class="ad-navlink" href="/admin/compliance"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="ad-navlink__label">合规</span></a>
+        <a class="ad-navlink" href="/admin/automation"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="ad-navlink__label">自动化</span></a>
+        <a class="ad-navlink" href="/admin/i18n"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="ad-navlink__label">翻译</span></a>
+      </nav>
+    </div>
+    <div class="ad-side__foot">
+      <a class="ad-side__link" href="/admin/help"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 1 1 3.4 2.5c-.7.3-1.1.9-1.1 1.6v.4"/><path d="M12 18h.01"/></svg><span class="ad-side__label">帮助与支持</span></a>
+      <button type="button" class="ad-side__link ad-side__collapse" data-side-rail aria-pressed="false"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-6 7 6 7"/><path d="M20 4v16"/></svg><span class="ad-side__label">收起侧栏</span></button>
+    </div>
   </aside>
   <div class="m-shell__body">
-    <header class="m-topbar">
+    <header class="m-topbar ad-topbar">
       <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 今日</span></div>
+      <button type="button" class="ad-topbar__search" aria-keyshortcuts="Meta+K Control+K"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span class="lbl">搜索订单、商品、顾客</span><span class="keys"><kbd>⌘</kbd><kbd>K</kbd></span></button>
       <div class="m-topbar__actions">
         <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
         <span style="position:relative;display:inline-flex">
           <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
-          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;inset-inline-end:-5px">3</span>
         </span>
         <span style="position:relative;display:inline-flex">
-          <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="true"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
-          <div class="m-popover is-open" role="menu" aria-label="账户菜单" style="top:calc(100% + 4px);right:0;width:224px">
+          <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="true"><span class="m-avatar">林</span><span class="lbl">林薇</span><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="m-popover is-open" role="menu" aria-label="账户菜单" style="top:calc(100% + 4px);inset-inline-end:0;width:224px">
             <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);padding-bottom:var(--m-space-2)">lin.wei@locust.store</div>
             <div class="m-combobox__opt" role="menuitem">账户设置</div>
             <div class="m-combobox__opt" role="menuitem">通知偏好</div>
@@ -78,16 +110,19 @@
         </span>
       </div>
     </header>
-    <main class="m-shell__main">
-      <div class="m-container">
+    <main class="m-shell__main" id="main" tabindex="-1">
+      <div class="m-container ad-stack">
 
-        <div class="m-pagehead">
+        <div class="m-pagehead ad-pagehead">
           <div>
-            <h1>今日</h1>
-            <div class="sub">2026年10月21日 星期三 · 数据每 5 分钟自动刷新</div>
+            <h2>今日</h2>
+            <div class="ad-pagehead__meta">
+              <span class="sub">2026年10月21日 星期三</span>
+              <span class="sub">数据每 5 分钟自动刷新</span>
+            </div>
           </div>
           <div class="m-row">
-            <div class="m-seg" role="group" aria-label="时间范围">
+            <div class="m-seg" data-seg role="group" aria-label="时间范围">
               <button type="button">昨天</button>
               <button type="button" class="is-active">今天</button>
               <button type="button">7 天</button>
@@ -98,12 +133,12 @@
         </div>
 
         <!-- 向导横幅（显态；用户关闭后整条移除，不占位） -->
-        <div class="m-banner m-banner--info" role="status" style="margin-top:var(--m-space-4)">
+        <div class="m-banner m-banner--info" role="status">
           <svg class="m-i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
           <div class="m-banner__body">
             <b>完成开店最后 2 步，店面即可开始接单</b><br>
             连接支付渠道并发布运费模板后，欧洲站将自动上线。已完成 2 / 4 步。
-            <div class="m-progress" style="margin-top:var(--m-space-2)"><i style="width:50%"></i></div>
+            <div class="m-progress" style="margin-top:var(--m-space-2)"><i style="--m-progress:.5"></i></div>
           </div>
           <div class="m-banner__actions">
             <button type="button" class="m-btn m-btn--sm m-btn--primary">继续设置</button>
@@ -112,7 +147,7 @@
         </div>
 
         <!-- 英雄指标卡 -->
-        <div class="m-card" style="margin-top:var(--m-space-4)">
+        <div class="m-card">
           <div class="m-card__header">今日销售<span class="m-badge m-badge--success m-badge--tint">● 实时</span></div>
           <div class="m-card__body m-row" style="align-items:flex-end;justify-content:space-between;gap:var(--m-space-6)">
             <div class="m-kpi" style="padding:0">
@@ -143,7 +178,7 @@
           </div>
         </div>
 
-        <div class="m-grid-2" style="margin-top:var(--m-space-4)">
+        <div class="m-grid-2">
           <div class="m-card">
             <div class="m-card__header">需要处理<span class="m-badge m-badge--neutral m-badge--tint">4 项</span></div>
             <div class="m-card__body m-col">
@@ -194,13 +229,13 @@
           </div>
         </div>
 
-        <div class="m-grid-2" style="margin-top:var(--m-space-4);padding-bottom:var(--m-space-6)">
+        <div class="m-grid-2">
           <div class="m-card">
             <div class="m-card__header">实时商品<span class="m-badge m-badge--success m-badge--tint">● SSE 推送</span></div>
             <div class="m-card__body">
               <div class="m-empty">
                 <svg class="m-i" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
-                <h4>暂无正在浏览的商品</h4>
+                <h3>暂无正在浏览的商品</h3>
                 <p>有顾客浏览店面时，热门商品与实时浏览人数会出现在这里。</p>
                 <a href="#" class="m-btn m-btn--secondary m-btn--sm">去店面看商品</a>
               </div>
@@ -236,42 +271,73 @@
 </div>
 
 <div class="m-shell">
-  <aside class="m-shell__sidenav">
-    <nav class="m-sidenav" aria-label="主导航（稿 B）" style="padding:var(--m-space-2)">
-      <div class="m-sidenav__group">后台</div>
-      <a href="/admin/" class="is-active" aria-current="page"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="m-navshort">今</span><span class="m-navfull">今日</span></a>
-      <a href="/admin/sell"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="m-navshort">卖</span><span class="m-navfull">卖货</span></a>
-      <a href="/admin/orders"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="m-navshort">接</span><span class="m-navfull">接单</span></a>
-      <a href="/admin/attract"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="m-navshort">拉</span><span class="m-navfull">拉客</span></a>
-      <a href="/admin/settings"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="m-navshort">设</span><span class="m-navfull">设置</span></a>
-      <a href="/admin/onboarding"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="m-navshort">开</span><span class="m-navfull">开店向导</span></a>
-      <a href="/admin/compliance"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="m-navshort">合</span><span class="m-navfull">合规</span></a>
-      <a href="/admin/automation"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="m-navshort">自</span><span class="m-navfull">自动化</span></a>
-      <a href="/admin/i18n"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="m-navshort">译</span><span class="m-navfull">翻译</span></a>
-    </nav>
+  <aside class="m-shell__sidenav ad-sidenav">
+    <div class="ad-side__store">
+      <button type="button" class="ad-storebtn" aria-haspopup="menu" aria-expanded="false" aria-controls="store-menu-b">
+        <span class="ad-storebtn__mark" aria-hidden="true">L</span>
+        <span class="ad-storebtn__meta"><b>Locust 欧洲站</b><span>locust.store · EUR</span></span>
+        <svg class="m-i ad-storebtn__caret" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+      </button>
+      <div class="m-popover" id="store-menu-b" role="menu" aria-label="切换店铺">
+        <div class="m-combobox__opt" role="menuitem" aria-selected="true">Locust 欧洲站</div>
+        <div class="m-combobox__opt" role="menuitem">Locust 日本站</div>
+        <div class="m-combobox__opt" role="menuitem">管理店铺…</div>
+      </div>
+    </div>
+    <div class="ad-nav">
+      <nav class="m-sidenav" aria-label="主导航（稿 B）">
+        <div class="m-sidenav__group">后台</div>
+        <a class="ad-navlink is-active" href="/admin/" aria-current="page"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg><span class="ad-navlink__label">今日</span></a>
+        <div class="ad-navrow">
+          <a class="ad-navlink" href="/admin/sell"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.6 13.4 12 22l-9-9V4h9l8.6 8.6z"/><circle cx="7.5" cy="7.5" r="1.5"/></svg><span class="ad-navlink__label">卖货</span></a>
+          <button type="button" class="ad-navtoggle" aria-expanded="false" aria-controls="nav-sell-b" aria-label="展开卖货子导航"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
+        <div class="ad-subnav" id="nav-sell-b">
+          <a href="/admin/products">商品</a>
+          <a href="/admin/builder">页面构建器</a>
+          <a href="/admin/discounts">折扣</a>
+        </div>
+        <a class="ad-navlink" href="/admin/orders"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg><span class="ad-navlink__label">接单</span><span class="ad-navlink__badge count">12</span></a>
+        <a class="ad-navlink" href="/admin/attract"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg><span class="ad-navlink__label">拉客</span></a>
+        <div class="ad-navsep"></div>
+        <a class="ad-navlink" href="/admin/settings"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h9"/><path d="M17 6h3"/><circle cx="15" cy="6" r="2"/><path d="M4 12h3"/><path d="M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 18h11"/><path d="M19 18h1"/><circle cx="17" cy="18" r="2"/></svg><span class="ad-navlink__label">设置</span></a>
+        <a class="ad-navlink" href="/admin/onboarding"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><path d="M4 22v-7"/></svg><span class="ad-navlink__label">开店向导</span></a>
+        <a class="ad-navlink" href="/admin/compliance"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-3.5 8-10V5l-8-3-8 3v7c0 6.5 8 10 8 10z"/></svg><span class="ad-navlink__label">合规</span></a>
+        <a class="ad-navlink" href="/admin/automation"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg><span class="ad-navlink__label">自动化</span></a>
+        <a class="ad-navlink" href="/admin/i18n"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></svg><span class="ad-navlink__label">翻译</span></a>
+      </nav>
+    </div>
+    <div class="ad-side__foot">
+      <a class="ad-side__link" href="/admin/help"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 1 1 3.4 2.5c-.7.3-1.1.9-1.1 1.6v.4"/><path d="M12 18h.01"/></svg><span class="ad-side__label">帮助与支持</span></a>
+      <button type="button" class="ad-side__link ad-side__collapse" data-side-rail aria-pressed="false"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-6 7 6 7"/><path d="M20 4v16"/></svg><span class="ad-side__label">收起侧栏</span></button>
+    </div>
   </aside>
   <div class="m-shell__body">
-    <header class="m-topbar">
+    <header class="m-topbar ad-topbar">
       <div class="m-topbar__brand">Locust <span class="m-topbar__page">/ 今日</span></div>
+      <button type="button" class="ad-topbar__search" aria-keyshortcuts="Meta+K Control+K"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg><span class="lbl">搜索订单、商品、顾客</span><span class="keys"><kbd>⌘</kbd><kbd>K</kbd></span></button>
       <div class="m-topbar__actions">
         <span class="m-badge m-badge--success m-badge--tint">● 实时已连接</span>
         <span style="position:relative;display:inline-flex">
           <button type="button" class="m-tool m-tool--square" aria-label="通知（3 条未读）"><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></button>
-          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+          <span class="m-badge m-badge--critical m-badge--solid" style="position:absolute;top:-5px;inset-inline-end:-5px">3</span>
         </span>
-        <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span>林薇<svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button type="button" class="m-tool m-tool--pill" aria-haspopup="menu" aria-expanded="false"><span class="m-avatar">林</span><span class="lbl">林薇</span><svg class="m-i m-i--16" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>
       </div>
     </header>
     <main class="m-shell__main">
-      <div class="m-container">
+      <div class="m-container ad-stack">
 
-        <div class="m-pagehead">
+        <div class="m-pagehead ad-pagehead">
           <div>
-            <h1>今日</h1>
-            <div class="sub">2026年10月21日 星期三 · 数据每 5 分钟自动刷新</div>
+            <h2>今日</h2>
+            <div class="ad-pagehead__meta">
+              <span class="sub">2026年10月21日 星期三</span>
+              <span class="sub">数据每 5 分钟自动刷新</span>
+            </div>
           </div>
           <div class="m-row">
-            <div class="m-seg" role="group" aria-label="时间范围">
+            <div class="m-seg" data-seg role="group" aria-label="时间范围">
               <button type="button">昨天</button>
               <button type="button" class="is-active">今天</button>
               <button type="button">7 天</button>
@@ -282,12 +348,12 @@
         </div>
 
         <!-- 向导横幅（公共件，显态） -->
-        <div class="m-banner m-banner--info" role="status" style="margin-top:var(--m-space-4)">
+        <div class="m-banner m-banner--info" role="status">
           <svg class="m-i" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/></svg>
           <div class="m-banner__body">
             <b>完成开店最后 2 步，店面即可开始接单</b><br>
             连接支付渠道并发布运费模板后，欧洲站将自动上线。已完成 2 / 4 步。
-            <div class="m-progress" style="margin-top:var(--m-space-2)"><i style="width:50%"></i></div>
+            <div class="m-progress" style="margin-top:var(--m-space-2)"><i style="--m-progress:.5"></i></div>
           </div>
           <div class="m-banner__actions">
             <button type="button" class="m-btn m-btn--sm m-btn--primary">继续设置</button>
@@ -296,7 +362,7 @@
         </div>
 
         <!-- KPI 栅格 4 -->
-        <div class="m-grid-kpi" style="margin-top:var(--m-space-4)">
+        <div class="m-grid-kpi">
           <div class="m-card"><div class="m-kpi">
             <div class="label">今日销售</div>
             <div class="value tnum">€48,265.00</div>
@@ -320,7 +386,7 @@
         </div>
 
         <!-- KPI 栅格 2 -->
-        <div class="m-grid-kpi" style="margin-top:var(--m-space-4)">
+        <div class="m-grid-kpi">
           <div class="m-card"><div class="m-kpi">
             <div class="label">访客数</div>
             <div class="value tnum">9,248</div>
@@ -334,7 +400,7 @@
         </div>
 
         <!-- KPI 栅格 1 -->
-        <div class="m-grid-kpi" style="margin-top:var(--m-space-4)">
+        <div class="m-grid-kpi">
           <div class="m-card"><div class="m-kpi">
             <div class="label">库存预警 SKU</div>
             <div class="value tnum">23</div>
@@ -345,7 +411,7 @@
           </div></div>
         </div>
 
-        <div class="m-grid-2" style="margin-top:var(--m-space-4);padding-bottom:var(--m-space-6)">
+        <div class="m-grid-2">
           <div class="m-card">
             <div class="m-card__header">实时订单<span class="m-badge m-badge--success m-badge--tint">● SSE 推送</span></div>
             <div class="m-table-wrap">
@@ -381,7 +447,7 @@
             <div class="m-card__body">
               <div class="m-empty">
                 <svg class="m-i" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.7l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.7l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
-                <h4>暂无正在浏览的商品</h4>
+                <h3>暂无正在浏览的商品</h3>
                 <p>有顾客浏览店面时，热门商品与实时浏览人数会出现在这里。</p>
                 <a href="#" class="m-btn m-btn--secondary m-btn--sm">去店面看商品</a>
               </div>
@@ -393,7 +459,17 @@
     </main>
   </div>
 </div>
+<script src="../ai/meridian-behavior.js"></script>
 <!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
+  0. v1.7 接线轮（计划 2.2）改动盘面可见项，请一并过目：
+     a) 店铺切换从顶栏账户菜单移入侧栏顶部（Sidebar v2：.ad-side__store + .ad-storebtn，菜单为 .m-popover role=menu）。
+        依据 admin/14 §2.1「多店铺切换属于侧栏店铺上下文，不占顶栏」；账户菜单里的「切换店铺 · 欧洲站」一行随之删除。
+     b) 页脚工具行（帮助与支持 / 收起侧栏）落在 .ad-side__foot；「收起侧栏」= 64px 图标轨，状态写 localStorage 持久化，
+        折叠态标签走裁剪（读屏仍读得到名字），不是 display:none。
+     c) 顶栏挂 .ad-topbar（滚动时吸顶）+ 中置搜索框 .ad-topbar__search（⌘K 提示，纯展示，未接搜索面板）。
+     d) 页面纵向节奏交给 .ad-stack（24px gap），删除各块行内 margin-top:16px；页头 .ad-pagehead 进栈后不再叠加自身下间距。
+        → 块间距 16px 变 24px，页头到首块 32px 变 24px；若要维持 32px 请把 .ad-stack 的 gap 降回 --m-space-4，请裁决。
+     e) 时间范围段控件挂 [data-seg]：方向键/Home/End 可切，aria-pressed 由行为层同步（此前只有 is-active，键盘不可切换）。
   1. 侧栏图标体系：本稿临时借用通用 1.5px stroke 线性图标示意（今日/订单/商品/客户/营销/折扣/报表/设置）——正式图标体系（图标集、尺寸档、「无图标 vs 有图标」对比）由宿主 03 顺带出对比后由用户裁决。
   2. 迷你趋势条为纯 CSS 临时造型（div 柱 + token 底色）；若稿 A 定稿，建议套用片为 m-spark 迷你趋势组件立项。
   3. SSE 徽章的「呼吸点」动效未做——需新增 motion token（周期/幅度），超 token 范围，呈报后定。

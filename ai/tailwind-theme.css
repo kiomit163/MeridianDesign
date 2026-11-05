@@ -9,7 +9,7 @@
 
 @import "tailwindcss";
 
-@custom-variant dark (&:is(.theme-dark *));
+@custom-variant dark (&:is(.theme-dark, .theme-dark *, [data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
   /* Typography */
@@ -18,17 +18,27 @@
   --font-mono: var(--m-font-mono);
 
   --text-xs: var(--m-text-xs);
+  --text-xs--line-height: var(--m-leading-xs);
   --text-sm: var(--m-text-sm);
+  --text-sm--line-height: var(--m-leading-sm);
   --text-md: var(--m-text-md);
+  --text-md--line-height: var(--m-leading-md);
   --text-lg: var(--m-text-lg);
+  --text-lg--line-height: var(--m-leading-lg);
   --text-xl: var(--m-text-xl);
+  --text-xl--line-height: var(--m-leading-xl);
   --text-2xl: var(--m-text-2xl);
+  --text-2xl--line-height: var(--m-leading-2xl);
   --text-3xl: var(--m-text-3xl);
+  --text-3xl--line-height: var(--m-leading-3xl);
   --text-4xl: var(--m-text-4xl);
+  --text-4xl--line-height: var(--m-leading-4xl);
   --text-5xl: var(--m-text-5xl);
+  --text-5xl--line-height: var(--m-leading-5xl);
   --text-6xl: var(--m-text-6xl);
+  --text-6xl--line-height: var(--m-leading-6xl);
   --text-display: var(--m-text-display);
-  --text-display--line-height: 1.05;
+  --text-display--line-height: var(--m-leading-display);
   --text-display--letter-spacing: var(--m-tracking-tightest);
   --text-display--font-weight: var(--m-weight-bold);
 
@@ -47,12 +57,15 @@
   --color-fg: var(--m-fg);
   --color-muted: var(--m-fg-muted);
   --color-subtle: var(--m-fg-subtle);
+  --color-fg-disabled: var(--m-fg-disabled);
+  --color-scrim: var(--m-bg-scrim);
   --color-link: var(--m-fg-link);
   --color-link-hover: var(--m-fg-link-hover);
 
   /* Border */
   --color-line: var(--m-border);
   --color-line-strong: var(--m-border-strong);
+  --color-focus: var(--m-border-focus);
 
   /* Primary */
   --color-primary: var(--m-primary);
@@ -94,10 +107,14 @@
 
   --color-ai: var(--m-ai-fg);
   --color-ai-bg: var(--m-ai-bg);
+  --color-ai-solid: var(--m-ai-solid);
+  --color-ai-solid-fg: var(--m-ai-solid-fg);
+  --color-neutral-solid: var(--m-neutral-solid);
 
   /* Commerce */
   --color-price-sale: var(--m-price-sale);
   --color-price-compare: var(--m-price-compare);
+  --color-price: var(--m-price-fg);
 
   /* Radius */
   --radius-xs: var(--m-radius-xs);
@@ -106,6 +123,7 @@
   --radius-lg: var(--m-radius-lg);
   --radius-xl: var(--m-radius-xl);
   --radius-2xl: var(--m-radius-2xl);
+  --radius-pill: var(--m-radius-pill);
 
   /* Elevation */
   --shadow-e1: var(--m-shadow-e1);
@@ -137,7 +155,7 @@
     font-family: var(--font-sans);
     font-weight: var(--m-weight-regular);
     font-size: var(--m-body-fs);
-    line-height: 1.6;
+    line-height: var(--m-body-leading);
     -webkit-font-smoothing: antialiased;
   }
   /* 数字表格/价格统一 tabular-nums */

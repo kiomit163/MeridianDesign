@@ -1,0 +1,29 @@
+{
+  "page": "design-system.html",
+  "scenario": "combobox",
+  "count": 5,
+  "nodes": [
+    {
+      "role": "combobox",
+      "name": "Search country",
+      "expanded": true
+    },
+    {
+      "role": "listbox",
+      "name": "Countries"
+    },
+    {
+      "role": "option",
+      "name": "🇩🇪 Germany",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "🇬🇷 Greece"
+    },
+    {
+      "role": "option",
+      "name": "🇬🇪 Georgia"
+    }
+  ]
+}

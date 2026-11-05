@@ -26,7 +26,7 @@
 | 规则 | 说明 |
 |---|---|
 | 对齐 | **数字右对齐 + tnum，文本左对齐，永远不居中**（Polaris/Carbon 共识） |
-| 首列 | 行选择 checkbox（44px 热区）或主标识（单号/名称，链接色，进入详情） |
+| 首列 | 行选择 checkbox（热区 ≥24px；comfortable 行可扩至 44px，productive 行保持 24px 以免与相邻行重叠）或主标识（单号/名称，链接色，进入详情） |
 | 排序列 | 表头是按钮 + `aria-sort`；箭头 16px；默认排序列高亮 |
 | 截断策略 | **wrap 优先**（换行不截断，Polaris 原则）；仅名称类可 1 行 ellipsis + tooltip 全文；金额/日期/状态永不截断 |
 | 列冻结 | 横向滚动时首列 sticky（数据 >1200px 宽必开） |
@@ -40,7 +40,7 @@
 | Comfortable | 48px（`--m-table-row-h-comfortable`） | 默认；含两行信息或缩略图 |
 | Productive | 36px（`--m-table-row-h-productive`） | 用户可切换；纯数字扫描型表格 |
 
-斑马纹：**关闭**为默认（边框分隔足够）；>12 列宽表可开（`odd: bg-inset`）。行 hover = `bg-surface-hover`；选中 = `bg-primary-tint` + checkbox 勾选。
+斑马纹：**关闭**为默认（边框分隔足够）；仅在 ≥6 列的宽表且行内容容易串行时可开（`odd: bg-inset`）。行 hover = `bg-surface-hover`；选中 = `bg-primary-tint` + checkbox 勾选。
 
 ## 四、选择与批量
 

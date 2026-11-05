@@ -1,0 +1,2071 @@
+{
+  "page": "design-system.html",
+  "scenario": "default",
+  "count": 495,
+  "nodes": [
+    {
+      "role": "link",
+      "name": "跳至主内容"
+    },
+    {
+      "role": "navigation",
+      "name": ""
+    },
+    {
+      "role": "main",
+      "name": ""
+    },
+    {
+      "role": "button",
+      "name": "主题：浅色（点击切换到深色）"
+    },
+    {
+      "role": "link",
+      "name": "总览与原则"
+    },
+    {
+      "role": "link",
+      "name": "色彩 Color"
+    },
+    {
+      "role": "link",
+      "name": "字体 Typography"
+    },
+    {
+      "role": "link",
+      "name": "间距与层级 Space"
+    },
+    {
+      "role": "link",
+      "name": "动效 Motion"
+    },
+    {
+      "role": "link",
+      "name": "图标与图像 Icons"
+    },
+    {
+      "role": "link",
+      "name": "组件 ×87 Components"
+    },
+    {
+      "role": "link",
+      "name": "前台页面合成"
+    },
+    {
+      "role": "link",
+      "name": "后台页面合成"
+    },
+    {
+      "role": "link",
+      "name": "无障碍与合规"
+    },
+    {
+      "role": "link",
+      "name": "Token 浏览器"
+    },
+    {
+      "role": "button",
+      "name": "前台"
+    },
+    {
+      "role": "button",
+      "name": "后台"
+    },
+    {
+      "role": "heading",
+      "name": "一套 token 骨架， 驱动卖货的前台与运营的后台。",
+      "level": 1
+    },
+    {
+      "role": "heading",
+      "name": "十条设计原则",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "色彩：色板不是颜色集合，是对比度的承诺",
+      "level": 2
+    },
+    {
+      "role": "heading",
+      "name": "12 阶语义速查",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "语义 Token（业务代码唯一可用层）— 随主题实时切换",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "表面层级（Surface Ranks）与两种拓扑",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "状态层公式（M3）与数据可视化色板",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "字体：字阶是有限菜单，不是自由市场",
+      "level": 2
+    },
+    {
+      "role": "heading",
+      "name": "间距 · 网格 · 海拔 · 焦点",
+      "level": 2
+    },
+    {
+      "role": "button",
+      "name": "前台：外环 offset 2px"
+    },
+    {
+      "role": "button",
+      "name": "后台：内嵌环"
+    },
+    {
+      "role": "heading",
+      "name": "动效：双人格系统",
+      "level": 2
+    },
+    {
+      "role": "button",
+      "name": "播放动效"
+    },
+    {
+      "role": "button",
+      "name": "播放动效"
+    },
+    {
+      "role": "button",
+      "name": "播放动效"
+    },
+    {
+      "role": "button",
+      "name": "播放动效"
+    },
+    {
+      "role": "button",
+      "name": "播放动效"
+    },
+    {
+      "role": "button",
+      "name": "播放动效"
+    },
+    {
+      "role": "heading",
+      "name": "图标与图像纪律",
+      "level": 2
+    },
+    {
+      "role": "heading",
+      "name": "87 个组件，全部可交互",
+      "level": 2
+    },
+    {
+      "role": "heading",
+      "name": "Actions · 动作",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "Forms · 表单",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "Feedback · 反馈",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "Overlays · 浮层",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "Navigation · 导航",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "Data · 数据展示",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "Media · 媒体",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "Commerce · 电商扩展（Polaris 没有，Meridian 补齐）",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "Toolbar / Composer · 复合容器",
+      "level": 3
+    },
+    {
+      "role": "heading",
+      "name": "前台页面合成",
+      "level": 2
+    },
+    {
+      "role": "navigation",
+      "name": ""
+    },
+    {
+      "role": "heading",
+      "name": "Outerwear",
+      "level": 1
+    },
+    {
+      "role": "button",
+      "name": "Filters"
+    },
+    {
+      "role": "button",
+      "name": "Sort: Featured"
+    },
+    {
+      "role": "link",
+      "name": "Wool trench coat $228.00"
+    },
+    {
+      "role": "link",
+      "name": "-20% Puffer jacket $96.00 $120"
+    },
+    {
+      "role": "link",
+      "name": "Quilted vest $88.00"
+    },
+    {
+      "role": "link",
+      "name": "Rain parka $148.00"
+    },
+    {
+      "role": "button",
+      "name": "Load more · Showing 24 of 128"
+    },
+    {
+      "role": "textbox",
+      "name": "Address"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · Shop"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · Help"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · Company"
+    },
+    {
+      "role": "link",
+      "name": "Privacy"
+    },
+    {
+      "role": "link",
+      "name": "Terms"
+    },
+    {
+      "role": "link",
+      "name": "Cookie Preferences"
+    },
+    {
+      "role": "link",
+      "name": "Impressum (DE)"
+    },
+    {
+      "role": "heading",
+      "name": "后台页面合成",
+      "level": 2
+    },
+    {
+      "role": "button",
+      "name": "Fulfill items"
+    },
+    {
+      "role": "textbox",
+      "name": "Quantity"
+    },
+    {
+      "role": "heading",
+      "name": "无障碍与合规速览",
+      "level": 2
+    },
+    {
+      "role": "heading",
+      "name": "Token 浏览器",
+      "level": 2
+    },
+    {
+      "role": "textbox",
+      "name": "Filter tokens"
+    },
+    {
+      "role": "heading",
+      "name": "Ink 中性骨架 ink",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "4"
+    },
+    {
+      "role": "button",
+      "name": "5"
+    },
+    {
+      "role": "button",
+      "name": "6"
+    },
+    {
+      "role": "button",
+      "name": "7"
+    },
+    {
+      "role": "button",
+      "name": "8"
+    },
+    {
+      "role": "button",
+      "name": "9"
+    },
+    {
+      "role": "button",
+      "name": "10"
+    },
+    {
+      "role": "button",
+      "name": "11"
+    },
+    {
+      "role": "button",
+      "name": "12"
+    },
+    {
+      "role": "heading",
+      "name": "Pine 品牌 brand · 可整体替换",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "4"
+    },
+    {
+      "role": "button",
+      "name": "5"
+    },
+    {
+      "role": "button",
+      "name": "6"
+    },
+    {
+      "role": "button",
+      "name": "7"
+    },
+    {
+      "role": "button",
+      "name": "8"
+    },
+    {
+      "role": "button",
+      "name": "9"
+    },
+    {
+      "role": "button",
+      "name": "10"
+    },
+    {
+      "role": "button",
+      "name": "11"
+    },
+    {
+      "role": "button",
+      "name": "12"
+    },
+    {
+      "role": "heading",
+      "name": "Terracotta 促销 accent",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "4"
+    },
+    {
+      "role": "button",
+      "name": "5"
+    },
+    {
+      "role": "button",
+      "name": "6"
+    },
+    {
+      "role": "button",
+      "name": "7"
+    },
+    {
+      "role": "button",
+      "name": "8"
+    },
+    {
+      "role": "button",
+      "name": "9"
+    },
+    {
+      "role": "button",
+      "name": "10"
+    },
+    {
+      "role": "button",
+      "name": "11"
+    },
+    {
+      "role": "button",
+      "name": "12"
+    },
+    {
+      "role": "heading",
+      "name": "Info 通知 info",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "4"
+    },
+    {
+      "role": "button",
+      "name": "5"
+    },
+    {
+      "role": "button",
+      "name": "6"
+    },
+    {
+      "role": "button",
+      "name": "7"
+    },
+    {
+      "role": "button",
+      "name": "8"
+    },
+    {
+      "role": "button",
+      "name": "9"
+    },
+    {
+      "role": "button",
+      "name": "10"
+    },
+    {
+      "role": "button",
+      "name": "11"
+    },
+    {
+      "role": "button",
+      "name": "12"
+    },
+    {
+      "role": "heading",
+      "name": "Success 成功 success",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "4"
+    },
+    {
+      "role": "button",
+      "name": "5"
+    },
+    {
+      "role": "button",
+      "name": "6"
+    },
+    {
+      "role": "button",
+      "name": "7"
+    },
+    {
+      "role": "button",
+      "name": "8"
+    },
+    {
+      "role": "button",
+      "name": "9"
+    },
+    {
+      "role": "button",
+      "name": "10"
+    },
+    {
+      "role": "button",
+      "name": "11"
+    },
+    {
+      "role": "button",
+      "name": "12"
+    },
+    {
+      "role": "heading",
+      "name": "Warning 告警 warning",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "4"
+    },
+    {
+      "role": "button",
+      "name": "5"
+    },
+    {
+      "role": "button",
+      "name": "6"
+    },
+    {
+      "role": "button",
+      "name": "7"
+    },
+    {
+      "role": "button",
+      "name": "8"
+    },
+    {
+      "role": "button",
+      "name": "9"
+    },
+    {
+      "role": "button",
+      "name": "10"
+    },
+    {
+      "role": "button",
+      "name": "11"
+    },
+    {
+      "role": "button",
+      "name": "12"
+    },
+    {
+      "role": "heading",
+      "name": "Danger 危险 danger",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "4"
+    },
+    {
+      "role": "button",
+      "name": "5"
+    },
+    {
+      "role": "button",
+      "name": "6"
+    },
+    {
+      "role": "button",
+      "name": "7"
+    },
+    {
+      "role": "button",
+      "name": "8"
+    },
+    {
+      "role": "button",
+      "name": "9"
+    },
+    {
+      "role": "button",
+      "name": "10"
+    },
+    {
+      "role": "button",
+      "name": "11"
+    },
+    {
+      "role": "button",
+      "name": "12"
+    },
+    {
+      "role": "heading",
+      "name": "Mystic AI 专属 mystic",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "4"
+    },
+    {
+      "role": "button",
+      "name": "5"
+    },
+    {
+      "role": "button",
+      "name": "6"
+    },
+    {
+      "role": "button",
+      "name": "7"
+    },
+    {
+      "role": "button",
+      "name": "8"
+    },
+    {
+      "role": "button",
+      "name": "9"
+    },
+    {
+      "role": "button",
+      "name": "10"
+    },
+    {
+      "role": "button",
+      "name": "11"
+    },
+    {
+      "role": "button",
+      "name": "12"
+    },
+    {
+      "role": "link",
+      "name": "01 Button 按钮"
+    },
+    {
+      "role": "link",
+      "name": "02 IconButton 图标按钮"
+    },
+    {
+      "role": "link",
+      "name": "03 ButtonGroup 按钮组"
+    },
+    {
+      "role": "link",
+      "name": "04 SplitButton 分裂按钮"
+    },
+    {
+      "role": "link",
+      "name": "05 ActionMenu 动作菜单"
+    },
+    {
+      "role": "link",
+      "name": "06 Link 链接"
+    },
+    {
+      "role": "link",
+      "name": "07 TextField 文本框"
+    },
+    {
+      "role": "link",
+      "name": "08 Textarea 多行文本"
+    },
+    {
+      "role": "link",
+      "name": "09 Select 下拉"
+    },
+    {
+      "role": "link",
+      "name": "10 Combobox 可搜索选择"
+    },
+    {
+      "role": "link",
+      "name": "11 DatePicker 日期"
+    },
+    {
+      "role": "link",
+      "name": "12 SearchField 搜索框"
+    },
+    {
+      "role": "link",
+      "name": "13 OTPInput 验证码"
+    },
+    {
+      "role": "link",
+      "name": "14 Checkbox 复选框"
+    },
+    {
+      "role": "link",
+      "name": "15 Radio 单选"
+    },
+    {
+      "role": "link",
+      "name": "16 Switch 开关"
+    },
+    {
+      "role": "link",
+      "name": "17 SegmentedControl 分段"
+    },
+    {
+      "role": "link",
+      "name": "18 Slider 滑块"
+    },
+    {
+      "role": "link",
+      "name": "19 QuantityStepper 步进器"
+    },
+    {
+      "role": "link",
+      "name": "20 Badge 徽章"
+    },
+    {
+      "role": "link",
+      "name": "21 StatusBadge 状态徽章"
+    },
+    {
+      "role": "link",
+      "name": "22 Tag 可移除标签"
+    },
+    {
+      "role": "link",
+      "name": "23 Banner 横幅"
+    },
+    {
+      "role": "link",
+      "name": "24 InlineError 行内错误"
+    },
+    {
+      "role": "link",
+      "name": "25 Toast 轻提示"
+    },
+    {
+      "role": "link",
+      "name": "26 Progress 进度条"
+    },
+    {
+      "role": "link",
+      "name": "27 Spinner 加载"
+    },
+    {
+      "role": "link",
+      "name": "28 Skeleton 骨架屏"
+    },
+    {
+      "role": "link",
+      "name": "29 EmptyState 空状态"
+    },
+    {
+      "role": "link",
+      "name": "30 Modal 模态"
+    },
+    {
+      "role": "link",
+      "name": "31 ConfirmDialog 确认框"
+    },
+    {
+      "role": "link",
+      "name": "32 Drawer 抽屉"
+    },
+    {
+      "role": "link",
+      "name": "33 Popover 气泡"
+    },
+    {
+      "role": "link",
+      "name": "34 Tooltip 工具提示"
+    },
+    {
+      "role": "link",
+      "name": "35 CommandPalette 命令面板"
+    },
+    {
+      "role": "link",
+      "name": "36 FilterDrawer 筛选抽屉"
+    },
+    {
+      "role": "link",
+      "name": "37 Lightbox 灯箱"
+    },
+    {
+      "role": "link",
+      "name": "38 Tabs 标签页"
+    },
+    {
+      "role": "link",
+      "name": "39 Accordion 手风琴"
+    },
+    {
+      "role": "link",
+      "name": "40 Breadcrumbs 面包屑"
+    },
+    {
+      "role": "link",
+      "name": "41 Pagination 分页"
+    },
+    {
+      "role": "link",
+      "name": "42 Sidenav 侧边导航"
+    },
+    {
+      "role": "link",
+      "name": "43 PageHeader 页头"
+    },
+    {
+      "role": "link",
+      "name": "44 SaveBar 保存栏"
+    },
+    {
+      "role": "link",
+      "name": "45 TopBar 顶栏"
+    },
+    {
+      "role": "link",
+      "name": "46 AnnouncementBar 宣告条"
+    },
+    {
+      "role": "link",
+      "name": "47 ProgressSteps 步骤条"
+    },
+    {
+      "role": "link",
+      "name": "48 Card 卡片"
+    },
+    {
+      "role": "link",
+      "name": "49 DataTable 数据表格"
+    },
+    {
+      "role": "link",
+      "name": "50 FilterChips 筛选chips"
+    },
+    {
+      "role": "link",
+      "name": "51 DescriptionList 描述列表"
+    },
+    {
+      "role": "link",
+      "name": "52 KpiCard 指标卡"
+    },
+    {
+      "role": "link",
+      "name": "53 Sparkline 迷你图"
+    },
+    {
+      "role": "link",
+      "name": "54 LineChart 折线图"
+    },
+    {
+      "role": "link",
+      "name": "55 BarChart 柱状图"
+    },
+    {
+      "role": "link",
+      "name": "56 DonutChart 环形图"
+    },
+    {
+      "role": "link",
+      "name": "57 Timeline 时间线"
+    },
+    {
+      "role": "link",
+      "name": "58 Avatar 头像"
+    },
+    {
+      "role": "link",
+      "name": "59 Thumbnail 缩略图"
+    },
+    {
+      "role": "link",
+      "name": "60 CopyField 复制字段"
+    },
+    {
+      "role": "link",
+      "name": "61 Checklist 清单"
+    },
+    {
+      "role": "link",
+      "name": "62 MediaGallery 画廊"
+    },
+    {
+      "role": "link",
+      "name": "63 AspectRatio 比例容器"
+    },
+    {
+      "role": "link",
+      "name": "64 ImageWithAlt 图像alt"
+    },
+    {
+      "role": "link",
+      "name": "65 ProductCard 商品卡"
+    },
+    {
+      "role": "link",
+      "name": "66 Price 价格"
+    },
+    {
+      "role": "link",
+      "name": "67 Swatch 色号"
+    },
+    {
+      "role": "link",
+      "name": "68 Rating 星级"
+    },
+    {
+      "role": "link",
+      "name": "69 ReviewItem 评价"
+    },
+    {
+      "role": "link",
+      "name": "70 CartLineItem 购物车行"
+    },
+    {
+      "role": "link",
+      "name": "71 FreeShippingBar 免邮进度"
+    },
+    {
+      "role": "link",
+      "name": "72 TrustStrip 信任条"
+    },
+    {
+      "role": "link",
+      "name": "73 UrgencyBadge 紧迫感"
+    },
+    {
+      "role": "link",
+      "name": "74 ExpressCheckout 快捷支付"
+    },
+    {
+      "role": "link",
+      "name": "75 PaymentMethodsRow 支付行"
+    },
+    {
+      "role": "link",
+      "name": "76 BNPLMessage 分期消息"
+    },
+    {
+      "role": "link",
+      "name": "77 WithdrawalButton 一键撤回"
+    },
+    {
+      "role": "link",
+      "name": "78 ConsentBanner Cookie合意"
+    },
+    {
+      "role": "link",
+      "name": "79 SizeGuide 尺码表"
+    },
+    {
+      "role": "link",
+      "name": "80 EmailCapture 邮件订阅"
+    },
+    {
+      "role": "link",
+      "name": "81 Toolbar 工具栏容器"
+    },
+    {
+      "role": "link",
+      "name": "82 Tool 工具形状族"
+    },
+    {
+      "role": "link",
+      "name": "83 Composer 输入容器"
+    },
+    {
+      "role": "link",
+      "name": "84 OverflowMenu 溢出菜单"
+    },
+    {
+      "role": "link",
+      "name": "85 StickyComposer 粘性输入区"
+    },
+    {
+      "role": "link",
+      "name": "86 ToolGroup 工具分组"
+    },
+    {
+      "role": "link",
+      "name": "87 CodeBlock 代码块"
+    },
+    {
+      "role": "button",
+      "name": "Primary"
+    },
+    {
+      "role": "button",
+      "name": "Secondary"
+    },
+    {
+      "role": "button",
+      "name": "Tertiary"
+    },
+    {
+      "role": "button",
+      "name": "Ghost"
+    },
+    {
+      "role": "button",
+      "name": "Delete"
+    },
+    {
+      "role": "button",
+      "name": "sm 32"
+    },
+    {
+      "role": "button",
+      "name": "md 36"
+    },
+    {
+      "role": "button",
+      "name": "lg 44"
+    },
+    {
+      "role": "button",
+      "name": "Add to cart · CTA 52"
+    },
+    {
+      "role": "button",
+      "name": "Saving…"
+    },
+    {
+      "role": "button",
+      "name": "Disabled",
+      "disabled": true
+    },
+    {
+      "role": "button",
+      "name": "带图标"
+    },
+    {
+      "role": "button",
+      "name": "搜索"
+    },
+    {
+      "role": "button",
+      "name": "筛选"
+    },
+    {
+      "role": "button",
+      "name": "更多"
+    },
+    {
+      "role": "button",
+      "name": "删除"
+    },
+    {
+      "role": "button",
+      "name": "Day"
+    },
+    {
+      "role": "button",
+      "name": "Week"
+    },
+    {
+      "role": "button",
+      "name": "Month"
+    },
+    {
+      "role": "button",
+      "name": "Export view"
+    },
+    {
+      "role": "button",
+      "name": "更多导出选项"
+    },
+    {
+      "role": "link",
+      "name": "Default link"
+    },
+    {
+      "role": "link",
+      "name": "With arrow"
+    },
+    {
+      "role": "textbox",
+      "name": "Product title"
+    },
+    {
+      "role": "textbox",
+      "name": "Email (Optional)"
+    },
+    {
+      "role": "textbox",
+      "name": "Disabled example",
+      "disabled": true
+    },
+    {
+      "role": "textbox",
+      "name": "Description"
+    },
+    {
+      "role": "combobox",
+      "name": "Category"
+    },
+    {
+      "role": "textbox",
+      "name": "验证码第 1 位"
+    },
+    {
+      "role": "textbox",
+      "name": "验证码第 2 位"
+    },
+    {
+      "role": "textbox",
+      "name": "验证码第 3 位"
+    },
+    {
+      "role": "textbox",
+      "name": "验证码第 4 位"
+    },
+    {
+      "role": "button",
+      "name": "减少数量"
+    },
+    {
+      "role": "textbox",
+      "name": "数量"
+    },
+    {
+      "role": "button",
+      "name": "增加数量"
+    },
+    {
+      "role": "button",
+      "name": "减少"
+    },
+    {
+      "role": "textbox",
+      "name": "数量"
+    },
+    {
+      "role": "button",
+      "name": "增加"
+    },
+    {
+      "role": "button",
+      "name": "移除筛选"
+    },
+    {
+      "role": "button",
+      "name": "移除筛选"
+    },
+    {
+      "role": "button",
+      "name": "移除筛选"
+    },
+    {
+      "role": "status",
+      "name": "",
+      "text": "New market available. You can now sell to Austria with EUR pricing. Review",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "status",
+      "name": "",
+      "text": "Refund of $42.00 was issued to Visa •••• 4242.",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "alert",
+      "name": "",
+      "text": "Inventory is negative for 5 variants. Fix now",
+      "live": "assertive",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "alert",
+      "name": "",
+      "text": "Payments are disabled because your billing information expired. Update billing",
+      "live": "assertive",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "button",
+      "name": "触发 Toast"
+    },
+    {
+      "role": "button",
+      "name": "带动作"
+    },
+    {
+      "role": "status",
+      "name": "加载中",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "heading",
+      "name": "No orders yet",
+      "level": 4
+    },
+    {
+      "role": "button",
+      "name": "Set up payments"
+    },
+    {
+      "role": "button",
+      "name": "Import orders"
+    },
+    {
+      "role": "button",
+      "name": "Open modal"
+    },
+    {
+      "role": "button",
+      "name": "Delete 3 products"
+    },
+    {
+      "role": "button",
+      "name": "Open drawer"
+    },
+    {
+      "role": "button",
+      "name": "Hover me"
+    },
+    {
+      "role": "button",
+      "name": "⌘K 打开命令面板"
+    },
+    {
+      "role": "button",
+      "name": "Open filter drawer"
+    },
+    {
+      "role": "button",
+      "name": "Open lightbox"
+    },
+    {
+      "role": "navigation",
+      "name": "Breadcrumb"
+    },
+    {
+      "role": "button",
+      "name": "上一页"
+    },
+    {
+      "role": "button",
+      "name": "1"
+    },
+    {
+      "role": "button",
+      "name": "2"
+    },
+    {
+      "role": "button",
+      "name": "3"
+    },
+    {
+      "role": "button",
+      "name": "42"
+    },
+    {
+      "role": "button",
+      "name": "下一页"
+    },
+    {
+      "role": "navigation",
+      "name": ""
+    },
+    {
+      "role": "navigation",
+      "name": ""
+    },
+    {
+      "role": "heading",
+      "name": "Order #1042",
+      "level": 1
+    },
+    {
+      "role": "button",
+      "name": "Print"
+    },
+    {
+      "role": "button",
+      "name": "Fulfill order"
+    },
+    {
+      "role": "button",
+      "name": "帮助"
+    },
+    {
+      "role": "link",
+      "name": "Shop now"
+    },
+    {
+      "role": "button",
+      "name": "关闭宣告"
+    },
+    {
+      "role": "button",
+      "name": "Edit"
+    },
+    {
+      "role": "button",
+      "name": "Duplicate"
+    },
+    {
+      "role": "button",
+      "name": "Save"
+    },
+    {
+      "role": "button",
+      "name": "移除"
+    },
+    {
+      "role": "button",
+      "name": "移除"
+    },
+    {
+      "role": "button",
+      "name": "Clear all"
+    },
+    {
+      "role": "button",
+      "name": "复制 API key"
+    },
+    {
+      "role": "link",
+      "name": "Sale -20% Outerwear Merino wool crew sweater ★★★★★ 4.8 (312) $68.00 $85.00"
+    },
+    {
+      "role": "link",
+      "name": "Sold out Home Drum coffee table — walnut $329.00"
+    },
+    {
+      "role": "button",
+      "name": "Forest"
+    },
+    {
+      "role": "button",
+      "name": "Sand"
+    },
+    {
+      "role": "button",
+      "name": "Navy"
+    },
+    {
+      "role": "button",
+      "name": "Rust — sold out"
+    },
+    {
+      "role": "button",
+      "name": "减少"
+    },
+    {
+      "role": "textbox",
+      "name": "数量"
+    },
+    {
+      "role": "button",
+      "name": "增加"
+    },
+    {
+      "role": "button",
+      "name": "Remove"
+    },
+    {
+      "role": "button",
+      "name": "Shop Pay"
+    },
+    {
+      "role": "button",
+      "name": "Pay"
+    },
+    {
+      "role": "button",
+      "name": "G Pay"
+    },
+    {
+      "role": "button",
+      "name": "PayPal"
+    },
+    {
+      "role": "link",
+      "name": "See schedule"
+    },
+    {
+      "role": "button",
+      "name": "Request withdrawal · 14-day right of withdrawal"
+    },
+    {
+      "role": "button",
+      "name": "Reject all"
+    },
+    {
+      "role": "button",
+      "name": "Accept all"
+    },
+    {
+      "role": "link",
+      "name": "Manage preferences"
+    },
+    {
+      "role": "textbox",
+      "name": "Email address"
+    },
+    {
+      "role": "button",
+      "name": "Get 10% off"
+    },
+    {
+      "role": "button",
+      "name": "添加"
+    },
+    {
+      "role": "button",
+      "name": "筛选"
+    },
+    {
+      "role": "button",
+      "name": "始终授权"
+    },
+    {
+      "role": "button",
+      "name": "M3"
+    },
+    {
+      "role": "button",
+      "name": "发送"
+    },
+    {
+      "role": "button",
+      "name": "返回"
+    },
+    {
+      "role": "button",
+      "name": "前进"
+    },
+    {
+      "role": "button",
+      "name": "Month"
+    },
+    {
+      "role": "button",
+      "name": "Quarter"
+    },
+    {
+      "role": "button",
+      "name": "方形"
+    },
+    {
+      "role": "button",
+      "name": "描边方形"
+    },
+    {
+      "role": "button",
+      "name": "图标+标签"
+    },
+    {
+      "role": "button",
+      "name": "纯标签"
+    },
+    {
+      "role": "button",
+      "name": "描边"
+    },
+    {
+      "role": "button",
+      "name": "激活态"
+    },
+    {
+      "role": "button",
+      "name": "Status: Paid"
+    },
+    {
+      "role": "button",
+      "name": "发送"
+    },
+    {
+      "role": "textbox",
+      "name": "Message"
+    },
+    {
+      "role": "button",
+      "name": "添加附件"
+    },
+    {
+      "role": "button",
+      "name": "始终授权"
+    },
+    {
+      "role": "button",
+      "name": "重新生成"
+    },
+    {
+      "role": "button",
+      "name": "选择模型：Meridian · M3"
+    },
+    {
+      "role": "button",
+      "name": "发送"
+    },
+    {
+      "role": "button",
+      "name": "全部"
+    },
+    {
+      "role": "button",
+      "name": "待处理"
+    },
+    {
+      "role": "button",
+      "name": "已归档"
+    },
+    {
+      "role": "button",
+      "name": "Forest"
+    },
+    {
+      "role": "button",
+      "name": "Sand"
+    },
+    {
+      "role": "button",
+      "name": "M"
+    },
+    {
+      "role": "button",
+      "name": "L"
+    },
+    {
+      "role": "button",
+      "name": "XL"
+    },
+    {
+      "role": "link",
+      "name": "Size guide"
+    },
+    {
+      "role": "button",
+      "name": "Add to cart"
+    },
+    {
+      "role": "radio",
+      "name": "Standard · Free (Sep 17–19)",
+      "checked": "true"
+    },
+    {
+      "role": "radio",
+      "name": "Express · $12.00",
+      "checked": "false"
+    },
+    {
+      "role": "link",
+      "name": "New"
+    },
+    {
+      "role": "link",
+      "name": "Best sellers"
+    },
+    {
+      "role": "link",
+      "name": "Sale"
+    },
+    {
+      "role": "link",
+      "name": "Shipping"
+    },
+    {
+      "role": "link",
+      "name": "Returns"
+    },
+    {
+      "role": "link",
+      "name": "Contact"
+    },
+    {
+      "role": "link",
+      "name": "About"
+    },
+    {
+      "role": "link",
+      "name": "Careers"
+    },
+    {
+      "role": "link",
+      "name": "Sustainability"
+    },
+    {
+      "role": "combobox",
+      "name": "语言"
+    },
+    {
+      "role": "combobox",
+      "name": "货币"
+    },
+    {
+      "role": "button",
+      "name": "Discard"
+    },
+    {
+      "role": "button",
+      "name": "Save"
+    },
+    {
+      "role": "checkbox",
+      "name": "Track inventory",
+      "checked": "true"
+    },
+    {
+      "role": "checkbox",
+      "name": "Continue selling when out of stock",
+      "checked": "false"
+    },
+    {
+      "role": "button",
+      "name": "Last 30 days ▾"
+    },
+    {
+      "role": "button",
+      "name": "Review →"
+    },
+    {
+      "role": "button",
+      "name": "Fix →"
+    },
+    {
+      "role": "columnheader",
+      "name": "阶"
+    },
+    {
+      "role": "columnheader",
+      "name": "用途"
+    },
+    {
+      "role": "columnheader",
+      "name": "典型消费者"
+    },
+    {
+      "role": "columnheader",
+      "name": "阶"
+    },
+    {
+      "role": "columnheader",
+      "name": "用途"
+    },
+    {
+      "role": "columnheader",
+      "name": "典型消费者"
+    },
+    {
+      "role": "columnheader",
+      "name": "Token"
+    },
+    {
+      "role": "columnheader",
+      "name": "实时值"
+    },
+    {
+      "role": "columnheader",
+      "name": "用途"
+    },
+    {
+      "role": "columnheader",
+      "name": "状态族五件套（×5 tones + AI）"
+    },
+    {
+      "role": "columnheader",
+      "name": "fg"
+    },
+    {
+      "role": "columnheader",
+      "name": "bg"
+    },
+    {
+      "role": "columnheader",
+      "name": "solid"
+    },
+    {
+      "role": "button",
+      "name": "Actions"
+    },
+    {
+      "role": "button",
+      "name": "显示日期选择器 显示日期选择器"
+    },
+    {
+      "role": "textbox",
+      "name": "Search orders, products, customers"
+    },
+    {
+      "role": "checkbox",
+      "name": "Selected state",
+      "checked": "true"
+    },
+    {
+      "role": "checkbox",
+      "name": "Unchecked（默认态）",
+      "checked": "false"
+    },
+    {
+      "role": "checkbox",
+      "name": "Disabled",
+      "disabled": true,
+      "checked": "false"
+    },
+    {
+      "role": "checkbox",
+      "name": "Save my info for faster checkout — 事后建户，不强制注册",
+      "checked": "false"
+    },
+    {
+      "role": "radio",
+      "name": "Standard shipping · Free",
+      "checked": "true"
+    },
+    {
+      "role": "radio",
+      "name": "Express · $12.00 (Wed, Sep 17)",
+      "checked": "false"
+    },
+    {
+      "role": "checkbox",
+      "name": "Inventory tracking（autosave）",
+      "checked": "true"
+    },
+    {
+      "role": "checkbox",
+      "name": "Online store visibility",
+      "checked": "false"
+    },
+    {
+      "role": "button",
+      "name": "Ship"
+    },
+    {
+      "role": "button",
+      "name": "Refund"
+    },
+    {
+      "role": "button",
+      "name": "Archive"
+    },
+    {
+      "role": "button",
+      "name": "Review"
+    },
+    {
+      "role": "button",
+      "name": "Fix now"
+    },
+    {
+      "role": "button",
+      "name": "Update billing"
+    },
+    {
+      "role": "button",
+      "name": "Filter"
+    },
+    {
+      "role": "tab",
+      "name": "Overview",
+      "selected": true
+    },
+    {
+      "role": "tab",
+      "name": "Activity"
+    },
+    {
+      "role": "tab",
+      "name": "Timeline"
+    },
+    {
+      "role": "link",
+      "name": "Home"
+    },
+    {
+      "role": "link",
+      "name": "Women"
+    },
+    {
+      "role": "link",
+      "name": "Orders 23"
+    },
+    {
+      "role": "link",
+      "name": "Products"
+    },
+    {
+      "role": "link",
+      "name": "Customers"
+    },
+    {
+      "role": "link",
+      "name": "Orders"
+    },
+    {
+      "role": "button",
+      "name": "Discard"
+    },
+    {
+      "role": "button",
+      "name": "Save"
+    },
+    {
+      "role": "textbox",
+      "name": "Search"
+    },
+    {
+      "role": "checkbox",
+      "name": "Essential (always on)",
+      "disabled": true,
+      "checked": "true"
+    },
+    {
+      "role": "checkbox",
+      "name": "Analytics",
+      "checked": "false"
+    },
+    {
+      "role": "checkbox",
+      "name": "Marketing",
+      "checked": "false"
+    },
+    {
+      "role": "button",
+      "name": "加粗"
+    },
+    {
+      "role": "button",
+      "name": "斜体"
+    },
+    {
+      "role": "button",
+      "name": "链接"
+    },
+    {
+      "role": "button",
+      "name": "更多"
+    },
+    {
+      "role": "columnheader",
+      "name": "Token"
+    },
+    {
+      "role": "columnheader",
+      "name": "值 / 指向"
+    },
+    {
+      "role": "columnheader",
+      "name": "用途"
+    },
+    {
+      "role": "option",
+      "name": "Apparel",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "Home"
+    },
+    {
+      "role": "option",
+      "name": "Accessories"
+    },
+    {
+      "role": "combobox",
+      "name": "Search country",
+      "expanded": true
+    },
+    {
+      "role": "listbox",
+      "name": "Countries"
+    },
+    {
+      "role": "columnheader",
+      "name": "Size"
+    },
+    {
+      "role": "columnheader",
+      "name": "US"
+    },
+    {
+      "role": "columnheader",
+      "name": "UK"
+    },
+    {
+      "role": "columnheader",
+      "name": "EU"
+    },
+    {
+      "role": "columnheader",
+      "name": "Chest (cm)"
+    },
+    {
+      "role": "option",
+      "name": "Deutsch",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "English"
+    },
+    {
+      "role": "option",
+      "name": "EUR €",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "USD $"
+    },
+    {
+      "role": "option",
+      "name": "🇩🇪 Germany",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "🇬🇷 Greece"
+    },
+    {
+      "role": "option",
+      "name": "🇬🇪 Georgia"
+    },
+    {
+      "role": "columnheader",
+      "name": "全选"
+    },
+    {
+      "role": "columnheader",
+      "name": "Order"
+    },
+    {
+      "role": "columnheader",
+      "name": "Date"
+    },
+    {
+      "role": "columnheader",
+      "name": "Customer"
+    },
+    {
+      "role": "columnheader",
+      "name": "Payment"
+    },
+    {
+      "role": "columnheader",
+      "name": "Total"
+    },
+    {
+      "role": "checkbox",
+      "name": "选择 #1042",
+      "checked": "false"
+    },
+    {
+      "role": "checkbox",
+      "name": "选择 #1041",
+      "checked": "false"
+    },
+    {
+      "role": "checkbox",
+      "name": "选择 #1040",
+      "checked": "false"
+    },
+    {
+      "role": "checkbox",
+      "name": "全选",
+      "checked": "false"
+    }
+  ]
+}

@@ -39,7 +39,9 @@ test("每条规则至少 1 真阳性 + 1 真阴性 fixture", () => {
 
 test("审计植入样本：15 命中、0 误报", () => {
   const dir = `${root}/R00-audit-sample`;
-  const hits = scan(walkAll(dir)).filter((v) => !v.file.includes("manifest"));
+  // R18 不计入这 15 条基线：样本先于 R18 落地，其中 5 个标签本就带内联样式，
+  // 属于 R18 的真实新增命中而非植红样本扩容（R18 自己的 fail/pass 另测）。
+  const hits = scan(walkAll(dir)).filter((v) => !v.file.includes("manifest") && v.rule !== "R18");
   assert.equal(hits.filter((v) => v.file.includes("fail")).length, 15);
   assert.equal(hits.filter((v) => v.file.includes("pass")).length, 0);
 });

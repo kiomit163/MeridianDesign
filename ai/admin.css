@@ -32,7 +32,7 @@
 }
 .ad-idx-card h3 { margin: 0; font-size: var(--m-text-md); font-weight: var(--m-weight-semibold); }
 .ad-idx-card .en { font-size: var(--m-text-xs); color: var(--m-fg-subtle); letter-spacing: 0.04em; text-transform: uppercase; }
-.ad-idx-card p { margin: 0; font-size: var(--m-text-xs); color: var(--m-fg-muted); line-height: 1.55; }
+.ad-idx-card p { margin: 0; font-size: var(--m-text-xs); color: var(--m-fg-muted); line-height: var(--m-leading-lead); }
 .ad-idx-card .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; padding-top: var(--m-space-2); }
 .ad-idx-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--m-space-3); }
 
@@ -57,11 +57,11 @@
 
 /* ---------------------------------------------------------------------------
    01b · Sidebar v2（Shopify Admin 结构：店铺切换 → 可滚动导航 → 工具区）
-   规格：240px；项高 44px；图标 20px；分组标题 12px；≤1024 收成 56px 图标栏；
-        桌面可手动收成 64px（状态持久化）。
+   规格：240px（≥1024）；≤1024 折叠为 56px 图标栏（<768 由抽屉接管）；项高 44px；图标 20px；分组标题 12px；
+        ≥1024 可手动收成 64px 图标栏（状态持久化）。
    --------------------------------------------------------------------------- */
 .ad-sidenav {
-  position: sticky; top: 0; height: 100vh; padding: 0;
+  position: sticky; top: 0; height: 100vh; height: 100dvh; padding: 0;
   display: flex; flex-direction: column; min-height: 0;
   overflow: visible; z-index: var(--m-z-nav);
 }
@@ -83,7 +83,7 @@
 }
 .ad-storebtn__meta { display: flex; flex-direction: column; min-width: 0; }
 .ad-storebtn__meta b {
-  font-size: var(--m-text-sm); font-weight: var(--m-weight-semibold); line-height: 1.3;
+  font-size: var(--m-text-sm); font-weight: var(--m-weight-semibold); line-height: var(--m-leading-title-3);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .ad-storebtn__meta span {
@@ -91,8 +91,10 @@
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .ad-storebtn__caret { margin-inline-start: auto; color: var(--m-fg-subtle); flex: none; }
-/* 店铺菜单：展开态贴在栏内；收起态由下方 rail 规则从栏右侧弹出 */
-.ad-side__store #store-menu {
+/* 店铺菜单：展开态贴在栏内；收起态由下方 rail 规则从栏右侧弹出。
+   定位键用类而不是 id：同一份侧栏模板会在一页里渲染两稿（原型成例），id 必须唯一，
+   而 id 选择器只会命中第一个——第二个菜单会掉回 .m-popover 的默认左上角。 */
+.ad-side__store .m-popover {
   top: calc(100% + var(--m-space-1));
   inset-inline-start: var(--m-space-2);
   width: calc(100% - var(--m-space-4));
@@ -110,7 +112,11 @@
 }
 .ad-nav .m-sidenav { flex: none; }
 .ad-sidenav .m-sidenav a { min-height: 32px; padding-block: var(--m-space-1); }
-.ad-sidenav .m-sidenav a svg { width: 18px; height: 18px; }
+.ad-sidenav .m-sidenav a svg { width: 20px; height: 20px; }
+@media (max-width: 767px) {
+  /* 桌面 32px 保持密度；移动抽屉回到 44px 触达 */
+  .ad-sidenav .m-sidenav a { min-height: 44px; }
+}
 /* 平铺列表内的段落分隔（替代分组标题，保持紧凑） */
 .ad-navsep { height: 1px; background: var(--m-border); margin: var(--m-space-1) var(--m-space-2); }
 .ad-navlink__label { white-space: nowrap; }
@@ -162,35 +168,37 @@
 @media (min-width: 1024px) {
   .ad-sidenav.is-rail { width: 64px; }
   .ad-sidenav.is-rail .ad-storebtn { justify-content: center; padding-inline: 0; }
-  .ad-sidenav.is-rail .ad-storebtn__meta,
-  .ad-sidenav.is-rail .ad-storebtn__caret { display: none; }
   .ad-sidenav.is-rail .ad-nav { padding-inline: var(--m-space-1); }
   .ad-sidenav.is-rail .ad-navlink { justify-content: center; padding-inline: 0; }
-  .ad-sidenav.is-rail .ad-navlink__label {
+  .ad-sidenav.is-rail .ad-navrow { justify-content: center; }
+  .ad-sidenav.is-rail .ad-side__link { justify-content: center; padding-inline: 0; }
+  /* 图标轨：标签一律对读屏保留（admin/14 §2.2 折叠态口径；display:none 会连名字一起抹掉） */
+  .ad-sidenav.is-rail .ad-navlink__label,
+  .ad-sidenav.is-rail .ad-storebtn__meta,
+  .ad-sidenav.is-rail .ad-side__label {
     position: absolute; width: 1px; height: 1px; overflow: hidden;
     clip: rect(0 0 0 0); white-space: nowrap;
   }
+  /* 图标轨不承载的装饰：下拉箭头 / 计数 / 分组标题 / 子导航 / 键位提示 */
+  .ad-sidenav.is-rail .ad-storebtn__caret,
+  .ad-sidenav.is-rail .ad-navtoggle,
+  .ad-sidenav.is-rail .ad-subnav,
   .ad-sidenav.is-rail .ad-navlink__badge,
   .ad-sidenav.is-rail .count,
-  .ad-sidenav.is-rail .m-sidenav .count { display: none; }
+  .ad-sidenav.is-rail .m-sidenav .count,
+  .ad-sidenav.is-rail .ad-side__link kbd { display: none; }
   .ad-sidenav.is-rail .m-sidenav__group {
     color: transparent; height: 1px; overflow: hidden; padding: 0;
     margin: var(--m-space-2); background: var(--m-border);
   }
-  .ad-sidenav.is-rail .ad-navrow { justify-content: center; }
-  .ad-sidenav.is-rail .ad-navtoggle { display: none; }
-  .ad-sidenav.is-rail .ad-subnav { display: none; }
-  .ad-sidenav.is-rail .ad-side__link { justify-content: center; padding-inline: 0; }
-  .ad-sidenav.is-rail .ad-side__label,
-  .ad-sidenav.is-rail .ad-side__link kbd { display: none; }
-  .ad-sidenav .ad-side__collapse svg { rotate: 180deg; }
+  /* 箭头只在收成图标轨后转向朝外=展开；写在非 is-rail 上会让展开态显示错方向 */
+  .ad-sidenav.is-rail .ad-side__collapse svg { rotate: 180deg; }
   /* 图标栏内隐藏滚动条，保证图标真正居中 */
   .ad-sidenav.is-rail .ad-nav { scrollbar-width: none; }
   .ad-sidenav.is-rail .ad-nav::-webkit-scrollbar { display: none; }
   /* 收起态：店铺菜单从 64px 栏右侧、按钮下方展开（避开 56px 顶栏） */
-  .ad-sidenav.is-rail #store-menu {
+  .ad-sidenav.is-rail .ad-side__store .m-popover {
     inset-inline-start: calc(100% + var(--m-space-2));
-    top: calc(100% + var(--m-space-1));
     width: 15rem;
   }
 }
@@ -200,17 +208,26 @@
   display: inline-grid; place-items: center;
   background: var(--m-critical-bg); color: var(--m-critical-fg);
   border: 1px solid var(--m-critical-border); border-radius: var(--m-radius-pill);
-  font-size: var(--m-text-xs); font-weight: var(--m-weight-semibold); line-height: 1;
+  font-size: var(--m-text-xs); font-weight: var(--m-weight-semibold); line-height: var(--m-leading-none);
 }
 
 /* ---------------------------------------------------------------------------
    02 · 页面标题与工具行
    --------------------------------------------------------------------------- */
 .ad-pagehead { align-items: flex-start; margin-bottom: var(--m-space-8); }
+/* 双稿页把页面级 h1 留给了读屏（.m-sr-only），可见标题降成 h2；
+   组件层的 .m-pagehead h1 阶梯要在这里补齐，否则原型只能靠行内 style 复刻字号。 */
+.ad-pagehead h2 {
+  margin: 2px 0 0; font-size: var(--m-text-2xl);
+  font-weight: var(--m-weight-semibold); line-height: var(--m-leading-2xl);
+}
 /* 兜底：任何后台页头都带页面级下间距，避免个别页漏加 ad-pagehead 时塌陷 */
 .stage-admin .m-pagehead { margin-bottom: var(--m-space-8); }
 /* 页面级纵向节奏：横幅 / KPI / 主辅栏之间统一 24px，移除任一块后不塌陷 */
-.ad-stack { display: flex; flex-direction: column; gap: var(--m-space-6); }
+.ad-stack { display: flex; flex-direction: column; gap: var(--m-space-6); padding-block-end: var(--m-space-6); }
+/* 节奏唯一归属：进了 .ad-stack 就交给 gap，页头不再叠加自身 margin-bottom
+   （flex 子项的 margin 不与 gap 合并，两者并存会撑成 32+24 的断层）。 */
+.ad-stack > .ad-pagehead { margin-bottom: 0; }
 .ad-pagehead__meta { display: flex; align-items: center; gap: var(--m-space-2); flex-wrap: wrap; margin-top: var(--m-space-1); }
 
 .ad-views {
@@ -238,7 +255,10 @@
   display: flex; align-items: center; gap: var(--m-space-2);
   flex-wrap: wrap; padding-block: var(--m-space-3);
 }
-.ad-toolrow .spacer { flex: 1; min-width: var(--m-space-2); }
+/* 弹性占位：把右侧动作组推到行尾。组合层自带一份，不依赖 .m-toolbar 的同名件
+   （.ad-toolrow / .ad-builder__bar 都不是 m-toolbar，但都要「左内容右动作」这一形）。 */
+.ad-toolrow .spacer,
+.ad-builder__bar .spacer { flex: 1; min-width: var(--m-space-2); }
 .ad-searchfield { position: relative; }
 .ad-searchfield input { height: var(--m-tool-h); font-size: var(--m-text-sm); }
 .ad-searchfield svg { position: absolute; inset-inline-start: 10px; top: 50%; translate: 0 -50%; color: var(--m-fg-subtle); }
@@ -350,7 +370,7 @@
    --------------------------------------------------------------------------- */
 .ad-kpi-card { display: flex; flex-direction: column; gap: var(--m-space-2); padding: var(--m-space-4); }
 .ad-kpi-card .label { font-size: var(--m-text-sm); color: var(--m-fg-muted); display: flex; align-items: center; justify-content: space-between; gap: var(--m-space-2); }
-.ad-kpi-card .value { font-size: var(--m-text-4xl); font-weight: var(--m-weight-semibold); line-height: 1.15; font-variant-numeric: tabular-nums; letter-spacing: var(--m-tracking-tight); }
+.ad-kpi-card .value { font-size: var(--m-text-4xl); font-weight: var(--m-weight-semibold); line-height: var(--m-leading-title-2); font-variant-numeric: tabular-nums; letter-spacing: var(--m-tracking-tight); }
 .ad-kpi-card .foot { display: flex; align-items: center; gap: var(--m-space-2); font-size: var(--m-text-xs); color: var(--m-fg-subtle); }
 .ad-kpi-card .delta { font-size: var(--m-text-xs); font-weight: var(--m-weight-medium); display: inline-flex; align-items: center; gap: var(--m-space-1); }
 .ad-kpi-card .delta.up { color: var(--m-success-fg); }
@@ -359,7 +379,7 @@
 .ad-chart { position: relative; width: 100%; }
 .ad-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
 .ad-chart .axis { stroke: var(--m-border); stroke-width: 1; }
-.ad-chart .gl { stroke: var(--m-border); stroke-width: 1; stroke-dasharray: 3 4; }
+.ad-chart .gl { stroke: var(--m-chart-grid); stroke-width: 1; stroke-dasharray: 3 4; }
 .ad-chart .series { fill: none; stroke: var(--m-primary); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
 .ad-chart .series--alt { stroke: var(--m-info-solid); stroke-dasharray: 5 4; }
 .ad-chart .area { fill: var(--m-primary-tint); stroke: none; }
@@ -397,7 +417,13 @@
 /* ---------------------------------------------------------------------------
    07 · 构建器（三栏 IDE 形）
    --------------------------------------------------------------------------- */
-.ad-builder { display: grid; grid-template-columns: 15rem minmax(0, 1fr) 18rem; height: calc(100vh - 56px); }
+/* 高度不靠「100vh − 56px 顶栏」硬算：主区改成列弹性后由 .ad-builder 吃掉剩余空间，
+   顶栏改高、面包屑行换字阶都不会把 IDE 顶出视口。 */
+.ad-builder { display: grid; grid-template-columns: 15rem minmax(0, 1fr) 18rem; flex: 1; min-height: 0; }
+.m-shell__main:has(.ad-builder) { display: flex; flex-direction: column; padding: 0; min-height: 0; }
+/* 主区贴边是给 IDE 三栏用的，页头行自己把横向内边距补回来
+   （其它页面的 .ad-toolrow 在 .m-container 里，不吃这条，避免双重内边距）。 */
+.m-shell__main:has(.ad-builder) > .ad-toolrow { padding-inline: var(--m-space-3); }
 .ad-builder__panel { background: var(--m-bg-chrome); border-inline-end: 1px solid var(--m-border); display: flex; flex-direction: column; min-width: 0; }
 .ad-builder__panel--right { border-inline-end: 0; border-inline-start: 1px solid var(--m-border); }
 .ad-builder__panelhead {
@@ -406,26 +432,50 @@
   font-size: var(--m-text-sm); font-weight: var(--m-weight-semibold); flex: none;
 }
 .ad-builder__scroll { flex: 1; overflow: auto; padding: var(--m-space-3); display: flex; flex-direction: column; gap: var(--m-space-2); }
-.ad-builder__canvas { background: var(--m-bg-page); display: flex; flex-direction: column; min-width: 0; }
+/* 面板内分组小标题（区块 / 元素）：与上一组之间拉开一拍。 */
+.ad-builder__scroll > .ad-meta:not(:first-child) { margin-top: var(--m-space-2); }
+/* 画布自成名宽容器：工具条的收标签阈值按中栏实际宽度算，不按视口（侧栏一折叠就失真）。
+   底色由 .m-canvas（page rank 工具类）给，本类只管容器行为与栅格伸缩。 */
+.ad-builder__canvas { display: flex; flex-direction: column; min-width: 0; container-type: inline-size; }
 .ad-builder__bar {
-  height: 44px; flex: none; display: flex; align-items: center; gap: var(--m-space-2);
+  height: 44px; flex: none; display: flex; align-items: center; gap: var(--m-tool-gap);
   padding-inline: var(--m-space-3); background: var(--m-bg-chrome); border-bottom: 1px solid var(--m-border);
 }
+/* 1280 视口下中栏约 512px，而「视口切换 + 撤销重做 + SEO + 三动作」约 547px。
+   收掉视口文字（图标 + aria-label 保留名字）换 84px，保住单行 44px 基线，不做横向溢出。 */
+@container (max-width: 560px) {
+  .ad-builder__bar .lbl { display: none; }
+  .ad-builder__bar .m-seg button { padding-inline: var(--m-space-2); }
+}
+/* ≤400 中栏连图标化后的单行都放不下：换行优于把「保存 / 预览」压成两字竖排。
+   动作组包成一个 .m-toolbar，作为整体落到第二行；margin auto 让它在独行时仍靠右。 */
+.ad-builder__bar > .m-toolbar:last-child { margin-inline-start: auto; }
+@container (max-width: 400px) {
+  .ad-builder__bar { height: auto; flex-wrap: wrap; padding-block: var(--m-space-2); row-gap: var(--m-space-2); }
+  .ad-builder__bar .m-btn { white-space: nowrap; }
+}
 .ad-builder__stage { flex: 1; overflow: auto; padding: var(--m-space-6); display: flex; justify-content: center; }
+/* 预览纸 = 最亮工作对象：surface + 边框 + e1，最大宽与 06 签署裁定一致（920px，非 760）。
+   桌面 / 平板 / 手机视口在 920 内由 .ad-builder__frame 自身缩放，切换视口才改宽。 */
 .ad-builder__frame {
-  width: 100%; max-width: 760px; background: var(--m-bg-surface); border: 1px solid var(--m-border);
-  border-radius: var(--m-radius-md); box-shadow: var(--m-shadow-e2); overflow: hidden;
+  width: 100%; max-width: 920px; background: var(--m-bg-surface); border: 1px solid var(--m-border);
+  border-radius: var(--m-radius-lg); box-shadow: var(--m-shadow-e1); overflow: hidden;
 }
 .ad-elslot {
   position: relative; border: 1px solid transparent; border-radius: var(--m-radius-sm);
   padding: var(--m-space-3); display: flex; align-items: center; gap: var(--m-space-3);
-  background: var(--m-bg-surface); cursor: grab; font-size: var(--m-text-sm);
+  background: var(--m-bg-surface); cursor: grab;
+  font: inherit; font-size: var(--m-text-sm); text-align: start; width: 100%;
 }
 .ad-elslot:hover { border-color: var(--m-border-strong); background: var(--m-bg-surface-hover); }
 .ad-elslot.is-selected { border-color: var(--m-primary); box-shadow: 0 0 0 1px var(--m-primary); background: var(--m-primary-tint); }
 .ad-elslot .handle { color: var(--m-fg-subtle); cursor: grab; }
 .ad-elslot .type { margin-inline-start: auto; font-size: var(--m-text-xs); color: var(--m-fg-subtle); }
-.ad-elselement { display: flex; align-items: center; gap: var(--m-space-2); padding: var(--m-space-2); border-radius: var(--m-radius-sm); font-size: var(--m-text-sm); cursor: pointer; }
+.ad-elselement {
+  display: flex; align-items: center; gap: var(--m-space-2); padding: var(--m-space-2);
+  border: 0; border-radius: var(--m-radius-sm); background: transparent; color: var(--m-fg);
+  font: inherit; font-size: var(--m-text-sm); text-align: start; width: 100%; cursor: pointer;
+}
 .ad-elselement:hover { background: color-mix(in oklab, var(--m-fg) 8%, transparent); }
 .ad-elselement svg { color: var(--m-fg-muted); }
 .ad-propgroup { display: flex; flex-direction: column; gap: var(--m-space-2); padding-bottom: var(--m-space-3); border-bottom: 1px solid var(--m-border); }
@@ -448,7 +498,7 @@
 .ad-palette__group { font-size: var(--m-text-xs); color: var(--m-fg-subtle); padding: var(--m-space-2) var(--m-space-2) var(--m-space-1); }
 .ad-palette li .k { font-family: var(--m-font-mono); font-size: var(--m-text-xs); color: var(--m-fg-subtle); }
 
-.ad-login { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100vh; }
+.ad-login { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 100vh; min-height: 100dvh; }
 .ad-login__brand {
   background: var(--m-bg-chrome); border-inline-end: 1px solid var(--m-border);
   padding: var(--m-space-10); display: flex; flex-direction: column; justify-content: space-between;
@@ -463,29 +513,43 @@
    --------------------------------------------------------------------------- */
 @media (max-width: 1279px) {
   .ad-detail { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); }
+  /* 属性面板先于栅格退出：只隐藏子项会让 15rem/1fr/18rem 的最后一条轨空着，画布铺不满。
+     两者配套收栏，.ad-builder__stage 于是能继续居中预览纸。 */
+  .ad-builder { grid-template-columns: 15rem minmax(0, 1fr); }
   .ad-builderside { display: none; }
 }
 
 @media (max-width: 1023px) {
+  /* ≤1024：侧栏收成 56px 图标轨（与 .m-shell 同一口径）；<768 由移动抽屉接管 */
+  .ad-sidenav { width: 56px; }
   .ad-sidenav .count,
   .ad-sidenav .m-sidenav .count { display: none; }
   /* 窄栏隐藏滚动条，图标与 56px 栏居中对齐 */
   .ad-nav { scrollbar-width: none; }
   .ad-nav::-webkit-scrollbar { display: none; }
-  /* 折叠态：只留图标，标签对读屏保留 */
+  /* 折叠态：只留图标，标签对读屏保留（admin/14 §2.2 折叠态口径；display:none 会把名字一起抹掉） */
   .ad-navlink { justify-content: center; padding-inline: 0; }
-  .ad-navlink__label {
+  .ad-navlink__label,
+  .ad-storebtn__meta,
+  .ad-side__label {
     position: absolute; width: 1px; height: 1px; overflow: hidden;
     clip: rect(0 0 0 0); white-space: nowrap;
   }
   .ad-navlink__badge { display: none; }
   .ad-storebtn { justify-content: center; padding-inline: 0; }
-  .ad-storebtn__meta, .ad-storebtn__caret { display: none; }
+  .ad-storebtn__caret { display: none; }
+  /* 56px 轨里的店铺菜单同样从栏右侧弹出：贴在栏内会被裁成竖条 */
+  .ad-sidenav .ad-side__store .m-popover {
+    inset-inline-start: calc(100% + var(--m-space-2));
+    width: 15rem;
+  }
   .ad-navrow { justify-content: center; }
   .ad-navtoggle { display: none; }
-  .ad-subnav { display: none; }
+  /* 必须带 .is-open：该类的 display:flex 特异性高于裸 .ad-subnav，漏写会让展开态漏进 56px 图标轨，
+     子导航中文被挤成一列竖排（375px 实测）。 */
+  .ad-subnav.is-open { display: none; }
   .ad-side__link { justify-content: center; padding-inline: 0; }
-  .ad-side__label, .ad-side__link kbd { display: none; }
+  .ad-side__link kbd { display: none; }
   /* 折叠态：分组标题退化为分隔线，避免 56px 栏里被裁成一两个字 */
   .ad-sidenav .m-sidenav__group {
     color: transparent; height: 1px; overflow: hidden; padding: 0; letter-spacing: 0;

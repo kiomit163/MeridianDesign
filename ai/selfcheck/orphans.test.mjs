@@ -6,7 +6,7 @@ import { readFileSync } from "node:fs";
 // 非 primitive 的 --m-* token 必须被实现层或演示层消费，或在显式白名单内。
 // 白名单外的孤儿 = 声明了却没人用的死配置。消费或加白名单（附理由），禁止删 token（删除 = MAJOR）。
 
-const files = ["ai/tokens.css", "ai/meridian-ui.css", "ai/tailwind-theme.css", "design-system.html"];
+const files = ["ai/tokens.css", "ai/meridian-ui.css", "ai/site.css", "ai/admin.css", "ai/tailwind-theme.css", "design-system.html"];
 const text = files.map((f) => readFileSync(f, "utf8")).join("\n");
 const defined = [...text.matchAll(/^\s*(--m-[\w-]+)\s*:/gm)].map((m) => m[1]);
 const used = new Set([...text.matchAll(/var\((--m-[\w-]+)/g)].map((m) => m[1]));
@@ -28,6 +28,14 @@ const API_SURFACE = new Map([
   ["--m-fg-inverse", "业务自定义深底（scrim、营销区块）上的反白文本语义位"],
   ["--m-badge-py", "组件覆盖点：业务加大徽章高度时配套调节纵向内边距"],
   ["--m-toast-duration", "JS 行为层钩子：meridian-ui.css §11 约定 getComputedStyle 读取（S4 行为层落地）"],
+  ["--m-toast-duration-action", "JS 行为层钩子：带动作 Toast 的驻留时长（AUDIT A-03）"],
+  ["--m-z-cover", "Z 阶梯成员：搜索/筛选覆盖层由业务侧实现（AUDIT A-06）"],
+  ["--m-success-solid-hover", "实底按钮状态族 API 面：当前无内置 success 按钮，业务侧取用（AUDIT A-18）"],
+  ["--m-success-solid-active", "实底按钮状态族 API 面（AUDIT A-18）"],
+  ["--m-info-solid-hover", "实底按钮状态族 API 面（AUDIT A-18）"],
+  ["--m-info-solid-active", "实底按钮状态族 API 面（AUDIT A-18）"],
+  ["--m-emphasis-solid-hover", "实底按钮状态族 API 面（AUDIT A-18）"],
+  ["--m-emphasis-solid-active", "实底按钮状态族 API 面（AUDIT A-18）"],
 ]);
 
 test("非 primitive token 无孤儿（白名单制，D8 回归）", () => {

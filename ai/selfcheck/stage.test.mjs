@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 
 const css = readFileSync("ai/tokens.css", "utf8");
 const block = (sel) => {
@@ -24,6 +24,17 @@ test("主题类可与舞台类同元素", () => {
   assert.ok(/\.stage-storefront\.theme-dark/.test(css), "前台深色缺同元素写法");
   assert.ok(/\.stage-admin\.theme-dark/.test(css), "后台深色缺同元素写法");
 });
+test("主题类挂在祖先元素时前台也必须变深", () => {
+  assert.match(css, /\.theme-dark \.stage-storefront/);
+  assert.match(css, /\[data-theme="dark"\] \.stage-storefront/);
+});
+test("LAYER 3 不得反覆盖前台卡片语义", () => {
+  const start = css.indexOf("LAYER 3 — COMPONENT");
+  const layer3 = css.slice(start, css.indexOf("STOREFRONT STAGE", start));
+  assert.doesNotMatch(layer3, /--m-card-shadow:/);
+  assert.doesNotMatch(layer3, /--m-card-radius:/);
+  assert.doesNotMatch(layer3, /--m-overlay-blur:/);
+});
 test("没有同值死代码", () => {
   assert.doesNotMatch(block(".stage-admin"), /--m-text-md:/);
   assert.doesNotMatch(block(".stage-admin"), /--m-radius-md:/);
@@ -33,4 +44,13 @@ test("入口文档都提到舞台类", () => {
   assert.match(readFileSync("ai/AGENTS.md", "utf8"), /`\.stage-admin` 必写/);
   const prompts = readFileSync("ai/prompts.md", "utf8");
   assert.equal((prompts.match(/\.stage-admin/g) ?? []).length >= 3, true);
+});
+test("原型必须加载对应的组合层（site.css / admin.css）", () => {
+  for (const f of readdirSync("prototypes").filter((n) => n.endsWith(".html"))) {
+    const src = readFileSync(`prototypes/${f}`, "utf8");
+    assert.match(src, /tokens\.css/, `${f} 缺 tokens.css`);
+    assert.match(src, /meridian-ui\.css/, `${f} 缺 meridian-ui.css`);
+    if (/<body class="stage-storefront/.test(src)) assert.match(src, /site\.css/, `${f} 缺 site.css`);
+    else assert.match(src, /admin\.css/, `${f} 缺 admin.css`);
+  }
 });

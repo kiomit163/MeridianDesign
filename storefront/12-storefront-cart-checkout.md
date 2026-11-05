@@ -7,7 +7,7 @@
 ## 一、购物车抽屉（默认加购反馈面）
 
 ```
-┌ Cart (drawer, 420px, z-drawer) ──────┐
+┌ Cart (drawer, 448px = --m-drawer-w, z-drawer) ──────┐
 │ Your cart (3)                  [×]   │
 │ ▓ Free shipping progress ─────────   │
 │   $12 away from free shipping        │ ← 进度条 primary；达成后变 success "You've unlocked free shipping"
@@ -87,7 +87,7 @@
 ## 六、确认页（Conversion 完成态）
 
 ```
-✓ Order #1042 confirmed (success 大图标 + 650 标题)
+✓ Order #1042 confirmed (success 大图标 + semibold 标题)
 "Confirmation sent to jane@example.com"（真实邮箱回显）
 What happens next: 3 步时间线（Confirmed → Packed → Shipped）
 [Track order] [Create account（一键带出，可选）] [Continue shopping]

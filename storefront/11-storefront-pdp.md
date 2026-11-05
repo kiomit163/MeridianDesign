@@ -31,7 +31,7 @@
 ## 二、价格块（合规核心）
 
 ```
-$68.00   $85.00        ← 当前价(lg,650,price-sale) + 划线原价(compare)
+$68.00   $85.00        ← 当前价(lg,--m-weight-semibold,price-sale) + 划线原价(compare)
 Save 20%                ← 徽章（30 天最低价由后端校验，Omnibus）
 or 4 interest-free payments of $17.00 with Klarna   ← BNPL 行（链接计划弹层）
 Incl. VAT · Free shipping over $75                  ← 税注 + 门槛
@@ -64,15 +64,16 @@ Free shipping & free 30-day returns
 | 项 | 规格 |
 |---|---|
 | Add to cart | primary，h 52px，全宽（移动）/ 半宽（桌面）；点击 → 乐观加购 + 打开购物车抽屉 |
-| Express | 动态钱包按钮（Shop Pay/Apple Pay/Google Pay/PayPal），secondary 描边样式，置于普通按钮**上方**（钱包转化优先）；无钱包可用时隐藏整块 |
+| Express | 动态钱包按钮（Shop Pay/Apple Pay/Google Pay/PayPal），使用品牌锁定色（`m-wallet--*`）；平台不允许品牌色时退化为 secondary 描边。置于普通按钮**上方**（钱包转化优先）；无钱包可用时隐藏整块 |
 | 数量 | 步进器（−/输入/+，各 44px），默认 1；限购时显示 "Max 4 per customer" |
+| 同排基线 | 数量与加购 CTA 同排时等高：`.sf-buyrow` 把步进器外框与 −/输入/+ 三段一起对齐到 52px（`--m-btn-h-cta`，外框 52 = 内容 50 + 2px 边框）；≤767px 纵向堆叠、CTA 独占整行。禁止用 `.m-row` + 行内 gap/flex 手搓 |
 | 售罄 | 按钮变 "Sold out"（disabled）+ 下方 "Notify me when available" 次按钮 |
 
 ## 六、信息区（手风琴，默认展开 Description）
 
 | 区块 | 内容规则 |
 |---|---|
-| Description | ≤120 词 + 3-5 个要点（bullets 550 权重）；卖利益不堆参数 |
+| Description | ≤120 词 + 3-5 个要点（bullets `--m-weight-medium`）；卖利益不堆参数 |
 | Specifications | 两列表格（label: value），数据驱动 |
 | Shipping & Returns | 免运费门槛、预计送达、退换窗口与流程、退货运费承担方——**退货政策是转化杠杆，写清楚** |
 | Care / Materials | 材质成分（EU 纺织品法定）、洗护图标 |
@@ -81,14 +82,16 @@ Free shipping & free 30-day returns
 
 | 项 | 规格 |
 |---|---|
-| 构成 | 主图 4-8 张 + ≥1 视频（静音循环）+ UGC 2 张（真实评价图，FTC 溯源）|
+| 构成 | 主图 4-8 张 + ≥1 视频（默认不自动播放；若自动播必须静音循环 + **可见暂停按钮**，见 docs/06 §2.3）+ UGC 2 张（真实评价图，FTC 溯源）|
+| 真实摄影底线 | 图组**至少 1 张 `provenance="photograph"`**；`ai-generated` 不得作为唯一主图；`ai-retouched` 必须与真实摄影同组并披露。缺真实摄影时发布阻断（见 admin/16 §6.1） |
+| 来源披露 | 每张 `<img>`/`<video>` 带 `data-provenance`（`photograph` / `ai-generated` / `ai-retouched` / `illustration`）；AI 值必须带 `data-provenance-disclosure="badge|caption"` 与真实可见物；badge 规格见 docs/10 §2.4 |
 | 交互 | 桌面 hover 放大（≤2.5×）；点击开灯箱（键盘 ←→、Esc）；移动滑动 + 页码点 |
-| 缩略图 | 64px，选中 primary 环；当前索引 aria-current |
+| 缩略图 | 列宽 88px、4:5；选中 2px primary（前台即 fg）环；当前索引 aria-current |
 | 加载 | 主图 eager + fetchpriority high；其余 lazy；灯箱图预加载下一张 |
 
 ## 八、粘性加购条（移动端）
 
-主 CTA 滚出视口后出现：底部固定（z-nav），内容 = 主图 40px + 名称（1 行省略）+ 价格 + [Add to cart]（h 44px）。出现动画 200ms enter；已加购时按钮变 "View cart (2)"。
+主 CTA 滚出视口后出现：底部固定（`--m-z-sticky-cta` = 250，高于导航与浮层、**低于 `--m-z-drawer`**，购物车抽屉必须盖住它），内容 = 主图 40px + 名称（1 行省略）+ 价格 + [Add to cart]（h 44px）。出现动画 200ms enter；已加购时按钮变 "View cart (2)"。吸底容器 `padding-block-end` 与两侧 `padding-left/right` 必须加安全区 token（`--m-safe-bottom` / `--m-safe-left` / `--m-safe-right`），否则 iOS 小白条会压住按钮。
 
 ## 九、状态矩阵
 

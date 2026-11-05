@@ -1,10 +1,20 @@
 {
   "name": "meridian-design-system",
-  "version": "1.0.0",
+  "version": "1.6.0",
   "private": true,
   "type": "module",
   "scripts": {
     "test": "node --test \"ai/selfcheck/**/*.test.mjs\" \"ai/lib/**/*.test.mjs\"",
-    "lint": "node ai/validate.mjs . && npm test"
+    "lint": "node ai/validate.mjs . --exclude ai/selfcheck/fixtures --baseline ai/selfcheck/r18-baseline.json && npm test",
+    "a11y": "node ai/selfcheck/runtime-a11y.mjs",
+    "behavior": "node ai/selfcheck/runtime-behavior.mjs",
+    "batch3": "node ai/selfcheck/runtime-batch3.mjs",
+    "ax": "node ai/selfcheck/runtime-ax.mjs",
+    "i18n": "node ai/i18n/validate-catalogues.mjs",
+    "l10n": "node ai/selfcheck/runtime-l10n.mjs",
+    "verify": "npm run lint && npm run a11y && npm run behavior && npm run batch3 && npm run ax && npm run i18n && npm run l10n"
+  },
+  "devDependencies": {
+    "axe-core": "^4.14.0"
   }
 }

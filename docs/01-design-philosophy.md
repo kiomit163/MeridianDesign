@@ -1,6 +1,7 @@
 # 01 · 设计哲学与原则
 
-> Meridian（子午线）Design System v1.0 —— 面向欧美市场的企业级电商设计规范。
+> Meridian（子午线）Design System —— 面向欧美市场的企业级电商设计规范。
+> **版本唯一来源：`ai/tokens.json` 的 `$version`**（章节内不再写版本戳，避免与发布版本漂移）。
 > 子午线连接东西：一套 token 骨架，驱动"卖货的前台"与"运营的后台"两个舞台。
 
 ---
@@ -16,9 +17,9 @@
 | **Shopify Polaris** | ① 语义角色色板：`bg-surface / fg / border` + 每个状态族五件套（text/bg/border/icon/surface）；② `caution` 与 `warning` 分离的精细化告警；③ **Content-first**：每个组件文档强制微文案规则；④ 有主见的默认值（"我们替你做决定"）；⑤ Contextual Save Bar、Saved Views、Sheet 被废弃（"鼓励在新图层堆 UI，而不是改进现有 UI"）——对"何时**不给**组件"同样深思 | 状态族五件套、后台 save bar、saved views、文案规范第 docs/08-copywriting.md §一、"禁止清单"文化 |
 | **IBM Carbon** | ① 2x 编号间距刻度（spacing-01=2px…13=160px）——编号去主观化；② **相对 layer token**（嵌套表面自动解析，消灭"嵌套卡片底色错误"整类 bug）；③ productive / expressive 双动效人格 | 4px 编号刻度、前台 expressive / 后台 productive 双人格动效、surface 层级规则 |
 | **GitHub Primer** | ① 三层架构 + **"primitive 禁止直接使用"成为机器可查规则**；② `accent/success/attention/danger` 语义词汇 + `muted/emphasis` 强度后缀——**对比度由命名保证，而非靠 review**；③ 多主题（浅/深/高对比）一次 token 切换 | R1 校验规则（裸色值即违规）、muted/subtle 灰阶词汇、五件套后缀命名 |
-| **Radix Colors** | ① **12 阶语义刻度**（1-2 背景 / 3-4 组件底 / 5-8 边框 / 9-10 实底 / 11-12 文本）——每一步"是什么用途"是确定的；② **对比度由构造保证**（11/12 阶对 2 阶预校准）；③ alpha 阶按深浅模式分别计算 | 全部 8 条色带都按 12 阶构造；对比契约表（02 章）|
+| **Radix Colors** | ① **12 阶语义刻度**（1-2 背景 / 3-4 组件底 / 5 选中底 / 6-8 边框 / 9-10 实底 / 11-12 文本）——每一步"是什么用途"是确定的；② **对比度由构造保证**（11/12 阶对 2 阶预校准）；③ alpha 阶按深浅模式分别计算 | 全部 8 条色带都按 12 阶构造；对比契约表（02 章）|
 | **Material 3** | ① 状态层公式：**内容色 × 固定透明度**（hover 8% / pressed 10-12% / dragged 16%）——一套公式覆盖所有组件；② emphasized easing；③ surface-container 五级 | `--m-state-*` 透明度 token、`--m-ease-enter/exit` |
-| **Atlassian** | ① token 名携带状态（`.hovered/.pressed`）——**状态是 token 维度**；② 2px 焦点环 + offset 规范；③ Atlassian Sans = Inter Variable 派生——证明"Inter 改调校"是低成本高质量路线 | 权重调校 450/550/650（Polaris 同款）、焦点环双规格（前台外环/后台内嵌） |
+| **Atlassian** | ① token 名携带状态（`.hovered/.pressed`）——**状态是 token 维度**；② 2px 焦点环 + offset 规范；③ 对 UI 字体做字重/字距调校以适配屏显——证明"同一字体改调校"是低成本高质量路线 | 焦点环双规格（前台外环/后台内嵌）；字重调校**只在交付变量字体时成立**——本系统不交付字体文件，450/550/650 会在 Windows 雅黑上塌陷成两档，故回落 400/500/600/700（docs/03 §2.1） |
 | **shadcn/ui + Tailwind v4** | ① **CSS 变量优先 + `@theme inline`**——主题即变量；② `--radius` 单旋钮派生整套圆角；③ `data-slot` / `data-state` 作为机器可寻址挂点；④ cva 变体即 API | tailwind-theme.css、radius 主旋钮、组件契约的 data-slot 约定 |
 
 ### 刻意规避的教训
@@ -55,13 +56,13 @@
    一条规则若 AI 无法确定性执行，它就不是规则。所有约束可被 `validate.mjs` 校验，所有组件有 `data-slot` 挂点，所有决策是表格而非散文。
 
 8. **Performance is design（性能是设计的一部分）**
-   LCP ≤ 2.5s / INP ≤ 200ms / CLS ≤ 0.1 是设计约束：首图永不懒加载、媒体必须声明宽高比、字体变量化预加载、第三方脚本有主线程序预算。
+   LCP ≤ 2.5s / INP ≤ 200ms / CLS ≤ 0.1 是设计约束：首图永不懒加载、媒体必须声明宽高比、字体变量化预加载。脚本成本按**分类字节预算 + 加载阶段 + 主线程时间**约束（同步三方 = 0KB），不再用"脚本个数"计数；完整分配表见 `docs/05 §四`，本仓不设第二套口径。
 
 9. **Motion with restraint（克制的动效）**
    hover 150ms，入场 300ms，前台上限 600ms，后台上限 300ms。动效只用于"解释空间关系与因果"，不用于炫技。`prefers-reduced-motion` 一票否决。
 
 10. **Density is a dial（密度是一个旋钮）**
-    后台 comfortable（48px 行）/ productive（36px 行）两档；前台只有"呼吸感"一档。密度切换靠 token，不靠重写样式。
+    后台 comfortable（48px 行）/ productive（36px 行）两档；**旋钮作用域为四类：表格行高、卡片内距、字段间距、正文行高**（v1.5 明确定义，见 admin/14 §1.1）。前台只有"呼吸感"一档。密度切换靠 token，不靠重写样式。
 
 ---
 

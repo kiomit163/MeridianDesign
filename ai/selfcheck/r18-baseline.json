@@ -1,0 +1,15 @@
+{
+  "_readme": "R18 内联样式账本：键为 <file>|R18，值为该文件带 style 属性的标签数。必须与实测全等（只减不增）；布局声明优先清偿。重算：node --test ai/selfcheck/r18-inline-style.test.mjs 失败时按其实测值下调。",
+  "prototypes/01-auth.html|R18": 23,
+  "prototypes/02-dashboard.html|R18": 51,
+  "prototypes/03-list.html|R18": 90,
+  "prototypes/04-detail.html|R18": 48,
+  "prototypes/05-form.html|R18": 34,
+  "prototypes/06-builder.html|R18": 53,
+  "prototypes/07-reports.html|R18": 129,
+  "prototypes/08-home.html|R18": 19,
+  "prototypes/09-plp.html|R18": 35,
+  "prototypes/10-pdp.html|R18": 33,
+  "prototypes/11-checkout.html|R18": 49,
+  "prototypes/index.html|R18": 52
+}

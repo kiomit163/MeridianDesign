@@ -2,20 +2,23 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>08 店面首页 · Locust 原型</title>
-<link rel="stylesheet" href="../ai/tokens.css">
-<link rel="stylesheet" href="../ai/meridian-ui.css">
-</head>
-<body class="stage-storefront m-ui">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <!-- 对标卡：
   Shopify 形态要点：Dawn 店面首页 = 公告条（运费/促销一句话）+ 简洁头部（字标 + 导航 + 搜索 + 购物袋）+ hero 图片横幅（文字叠加或分栏）+
   精选商品横带（Featured collection）+ 内容区块（图文带）+ 多栏页脚（链接 + 本地化选择 + 支付方式）。
   Meridian 化决策：body.stage-storefront（前台专属舞台：primary = ink 近黑，画廊舞台原则——黑白灰 CTA 不抢商品图，品牌绿退守品牌时刻）；
-  公告条 = primary 实底通栏；头部 64px 白底细分割线（导航融入内容，时尚站惯例）；hero 左文右图双栏、高度自适应内容（禁 100vh，04 章）；
+  公告条 = .sf-announce（--m-announce-bg 品牌插槽实底通栏）；头部 = .sf-header 组合层壳（sticky top:0，滚过公告条后由行为层加 .is-stuck 出分割线并收缩到 --m-header-h-stuck）；hero 左文右图双栏、高度自适应内容（禁 100vh，04 章）；
   商品横带 4 卡（m-product-card）；品牌故事带 bg-band（banding 记账 1 次）；页脚 bg-band（banding 2 次，≤3 合规）。
   漏项落地：批 D 无漏项宿主任务；店面壳定式由本页定义，09/10/11 复用其头/脚形状。
 -->
+<title>08 店面首页 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/brand-tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+<link rel="stylesheet" href="../ai/site.css">
+</head>
+<body class="stage-storefront m-ui">
+<a class="m-skip-link" href="#main">Skip to content</a>
 <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
   <div class="m-accordion">
     <details>
@@ -29,47 +32,96 @@
   </div>
 </div>
 
-<!-- 公告条：primary 实底通栏（Dawn announcement bar） -->
-<div style="background:var(--m-primary);color:var(--m-primary-fg);text-align:center;padding:var(--m-space-2) var(--m-space-4);font-size:var(--m-text-xs);letter-spacing:0.02em">
-  满 €120 免标准运费 · 欧盟境内 3-5 个工作日送达
+<!-- 公告条：品牌插槽实底通栏（Dawn announcement bar）；不再借用前台 primary（近黑） -->
+<div class="sf-announce">
+  <div class="sf-announce__inner">满 €120 免标准运费 · 欧盟境内 3-5 个工作日送达</div>
 </div>
 
-<!-- 店面头部：字标 + 导航 + 搜索 + 购物袋（09/10/11 复用此形状） -->
-<header class="m-chrome" style="border-bottom:1px solid var(--m-border)">
-  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:0 var(--m-space-4);display:flex;align-items:center;gap:var(--m-space-6);height:var(--m-space-16)">
-    <a href="08-home.html" aria-label="Locust 首页" style="font-size:var(--m-text-2xl);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);text-decoration:none">Locust</a>
-    <nav aria-label="店面主导航" style="display:flex;gap:var(--m-space-5)">
-      <a href="09-plp.html" style="font-size:var(--m-text-md)">新品</a>
-      <a href="09-plp.html" style="font-size:var(--m-text-md)">女装</a>
-      <a href="09-plp.html" style="font-size:var(--m-text-md)">男配</a>
-      <a href="#" style="font-size:var(--m-text-md)">关于</a>
+<!-- 店面头部：组合层壳家族（.sf-header/.sf-brand/.sf-nav/.sf-actions/.sf-cart-*），零内联声明；09/10/11 复用此形状 -->
+<header class="sf-header">
+  <div class="sf-header__inner">
+    <a href="08-home.html" aria-label="Locust 首页" class="sf-brand sf-wordmark">Locust</a>
+    <nav aria-label="店面主导航" class="sf-nav">
+      <a href="09-plp.html">新品</a>
+      <a href="09-plp.html">女装</a>
+      <a href="09-plp.html">男配</a>
+      <a href="#">关于</a>
     </nav>
-    <div style="margin-inline-start:auto;display:flex;align-items:center;gap:var(--m-space-1)">
+    <div class="sf-actions">
+      <button type="button" class="m-tool m-tool--square sf-burger" data-overlay-open="sfm-08" aria-label="打开菜单" aria-haspopup="dialog"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <button type="button" class="m-tool m-tool--square" data-theme-cycle aria-label="切换主题：浅色、深色、跟随系统" title="切换主题"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
       <button type="button" class="m-tool m-tool--square" aria-label="搜索"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
-      <span style="position:relative;display:inline-flex">
+      <span class="sf-cart-trigger">
         <button type="button" class="m-tool m-tool--square" aria-label="购物袋（3 件）"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 11V6a3 3 0 0 1 6 0v5"/></svg></button>
-        <span class="m-badge m-badge--neutral m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        <span class="sf-cart-count">3</span>
       </span>
     </div>
   </div>
 </header>
 
-<main>
+<!-- 移动端菜单（<1023px 由 .sf-burger 打开；焦点陷阱/Esc/归还焦点由 meridian-behavior.js 提供） -->
+<div class="sf-mobilenav" id="sfm-08" role="dialog" aria-modal="true" aria-labelledby="sfm-08-title" tabindex="-1" inert>
+  <div class="sf-mobilenav__head">
+    <span id="sfm-08-title" style="font-weight:var(--m-weight-semibold)">菜单</span>
+    <button type="button" class="m-tool m-tool--square" data-overlay-close aria-label="关闭菜单"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="sf-mobilenav__body">
+    <a href="09-plp.html">新品</a>
+    <a href="09-plp.html">女装</a>
+    <a href="09-plp.html">男配</a>
+    <a href="#">关于</a>
+  </div>
+</div>
+
+<main id="main" tabindex="-1">
   <!-- hero：左文右图双栏 · 高度自适应内容（禁 100vh 锁定，04 章 §区块节奏） -->
-  <section style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-section) var(--m-space-4)">
-    <div style="display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:var(--m-space-8);align-items:center">
-      <div class="m-col" style="gap:var(--m-space-4)">
-        <span class="m-tag" style="align-self:flex-start">2026 秋冬系列</span>
-        <h1 style="margin:0;font-size:var(--m-text-display);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);line-height:1.15">为慢生活而做的基础款</h1>
+  <section class="sf-container sf-section">
+    <div class="sf-hero">
+      <div class="sf-hero__copy">
+        <span class="m-tag">2026 秋冬系列</span>
+        <h1 class="sf-display-lg">为慢生活而做的基础款</h1>
         <p style="margin:0;max-width:44ch;color:var(--m-fg-muted)">有机棉与再生羊毛，葡萄牙织造，柏林仓发货。每一件都为穿十年而设计，不为穿一季而流行。</p>
         <div class="m-row" style="gap:var(--m-space-3);margin-top:var(--m-space-2)">
           <a href="09-plp.html" class="m-btn m-btn--primary m-btn--lg">选购新品</a>
           <a href="#" class="m-btn m-btn--secondary m-btn--lg">了解品牌故事</a>
         </div>
-        <span class="m-tag" style="align-self:flex-start;margin-top:var(--m-space-2)">hero 高度自适应内容 · 禁 100vh 锁定（04 章）</span>
+        <span class="m-tag" style="margin-top:var(--m-space-2)">hero 高度自适应内容 · 禁 100vh 锁定（04 章）</span>
       </div>
-      <div style="aspect-ratio:5 / 4;background:var(--m-bg-inset);border-radius:var(--m-radius-xl);display:grid;place-items:center;border:1px solid var(--m-border)" role="img" aria-label="秋冬系列主图占位">
-        <svg class="m-i" viewBox="0 0 24 24" aria-hidden="true" style="width:64px;height:64px;color:var(--m-fg-subtle)"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.5"/><path d="m4 17 5-5 4 4 3-3 4 4"/></svg>
+      <figure class="sf-hero__figure">
+        <picture>
+          <source media="(max-width: 1023px)" srcset="assets/hero-autumn-portrait-400.svg 400w, assets/hero-autumn-portrait-800.svg 800w, assets/hero-autumn-portrait-1200.svg 1200w, assets/hero-autumn-portrait-1600.svg 1600w">
+          <img data-provenance="illustration" src="assets/hero-autumn-1200.svg"
+               srcset="assets/hero-autumn-400.svg 400w, assets/hero-autumn-800.svg 800w, assets/hero-autumn-1200.svg 1200w, assets/hero-autumn-1600.svg 1600w, assets/hero-autumn-2400.svg 2400w"
+               sizes="(max-width: 1023px) 100vw, 55vw"
+               width="1200" height="800" loading="eager" fetchpriority="high" decoding="async"
+               alt="衣架上悬挂的燕麦色有机棉连帽衫与石墨灰羊毛围巾，旁边是本白帆布托特包和米白陶瓷马克杯">
+        </picture>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 信任条：容器查询宿主，窄容器（侧栏/双列嵌入）自动转横向行式 -->
+  <section class="sf-container" aria-label="购物保障">
+    <div class="sf-usp">
+      <div class="sf-usp__item">
+        <svg class="m-i m-i--24" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 7h11v9H2zM13 10h4l3 3v3h-7"/><circle cx="6.5" cy="18" r="1.6"/><circle cx="16.5" cy="18" r="1.6"/></svg>
+        <b>满 €80 免运费</b>
+        <span>德国与奥地利 2–3 个工作日送达</span>
+      </div>
+      <div class="sf-usp__item">
+        <svg class="m-i m-i--24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v5h-5"/></svg>
+        <b>30 天无忧退货</b>
+        <span>免费上门取件，退款原路返回</span>
+      </div>
+      <div class="sf-usp__item">
+        <svg class="m-i m-i--24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+        <b>安全支付</b>
+        <span>SSL 加密 · 欧盟 PCI 合规</span>
+      </div>
+      <div class="sf-usp__item">
+        <svg class="m-i m-i--24" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-14 14z"/><path d="M5 19c3-3 6-5 9-6"/></svg>
+        <b>碳中和配送</b>
+        <span>每单抵消 4.2kg CO₂</span>
       </div>
     </div>
   </section>
@@ -77,14 +129,14 @@
   <!-- 商品横带：本周精选 4 卡横排（桌面 4 列；移动端套用片为横向滚动 scroll-snap） -->
   <section style="max-width:var(--m-container-storefront);margin-inline:auto;padding:0 var(--m-space-4) var(--m-space-section)">
     <div class="m-row" style="justify-content:space-between;margin-bottom:var(--m-space-4)">
-      <h2 style="margin:0;font-size:var(--m-text-3xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight)">本周精选</h2>
+      <h2 class="sf-display-sm">本周精选</h2>
       <a href="09-plp.html" style="font-size:var(--m-text-md)">查看全部 →</a>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--m-space-4)">
+    <div class="sf-product-grid">
 
       <a href="10-pdp.html" class="m-product-card">
         <div class="media">
-          <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span>
+          <img data-provenance="illustration" src="assets/p01-hoodie-oat-800.svg" srcset="assets/p01-hoodie-oat-400.svg 400w, assets/p01-hoodie-oat-800.svg 800w, assets/p01-hoodie-oat-1200.svg 1200w, assets/p01-hoodie-oat-1600.svg 1600w, assets/p01-hoodie-oat-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
           <span class="m-badge m-badge--emphasis m-badge--tint badge">新品</span>
         </div>
         <div class="info">
@@ -96,7 +148,7 @@
 
       <a href="10-pdp.html" class="m-product-card">
         <div class="media">
-          <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M3 8c3 0 5-2 6-4 1 2 3 4 6 4"/><path d="M4 8h16v4c0 6-3.6 9-8 9s-8-3-8-9V8z"/></svg></span>
+          <img data-provenance="illustration" src="assets/p02-scarf-graphite-800.svg" srcset="assets/p02-scarf-graphite-400.svg 400w, assets/p02-scarf-graphite-800.svg 800w, assets/p02-scarf-graphite-1200.svg 1200w, assets/p02-scarf-graphite-1600.svg 1600w, assets/p02-scarf-graphite-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
         </div>
         <div class="info">
           <span class="name">羊毛围巾</span>
@@ -107,7 +159,7 @@
 
       <a href="10-pdp.html" class="m-product-card">
         <div class="media">
-          <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M17 8h2a2 2 0 0 1 0 4h-2"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/></svg></span>
+          <img data-provenance="illustration" src="assets/p06-mug-cream-800.svg" srcset="assets/p06-mug-cream-400.svg 400w, assets/p06-mug-cream-800.svg 800w, assets/p06-mug-cream-1200.svg 1200w, assets/p06-mug-cream-1600.svg 1600w, assets/p06-mug-cream-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
         </div>
         <div class="info">
           <span class="name">陶瓷马克杯 350ml</span>
@@ -118,7 +170,7 @@
 
       <a href="10-pdp.html" class="m-product-card">
         <div class="media">
-          <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M8 3 4 6l2 4 2-1v11h8V9l2 1 2-4-4-3a4 4 0 0 1-8 0z"/></svg></span>
+          <img data-provenance="illustration" src="assets/p05-tee-cream-800.svg" srcset="assets/p05-tee-cream-400.svg 400w, assets/p05-tee-cream-800.svg 800w, assets/p05-tee-cream-1200.svg 1200w, assets/p05-tee-cream-1600.svg 1600w, assets/p05-tee-cream-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
           <span class="m-badge m-badge--promo m-badge--tint badge">促销</span>
         </div>
         <div class="info">
@@ -130,55 +182,55 @@
 
     </div>
     <div class="m-row" style="margin-top:var(--m-space-3)">
-      <span class="m-tag">横带形态：桌面 4 列 · 移动端套用片为横向滚动（scroll-snap）</span>
+      <span class="m-tag">横带形态：桌面 4 列 · 移动端 2 列</span>
     </div>
   </section>
 
-  <!-- 品牌故事带：内容区块 · banding 记账 1/3 -->
+  <!-- 品牌故事带：内容区块 · 移动端单列（banding 记账 1/3） -->
   <section style="background:var(--m-bg-band)">
-    <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-section) var(--m-space-4);display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:var(--m-space-8);align-items:center">
+    <div class="sf-container sf-section sf-two" style="gap:var(--m-space-8)">
       <div class="m-col" style="gap:var(--m-space-3)">
         <span class="m-tag" style="align-self:flex-start">品牌故事</span>
-        <h2 style="margin:0;font-size:var(--m-text-4xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight);line-height:1.25">十年衣橱，从一件好卫衣开始</h2>
+        <h2 class="sf-display">十年衣橱，从一件好卫衣开始</h2>
         <p style="margin:0;max-width:56ch;color:var(--m-fg-muted)">Locust 欧洲站与葡萄牙北部一家三代织造工坊合作，小批量生产有机棉与再生羊毛基础款。我们不做季度爆款：面料可溯源，版型只做微调，卖不完的款式次年继续。</p>
       </div>
       <div class="m-col" style="gap:var(--m-space-2);align-items:flex-end;text-align:end">
         <a href="#" class="m-btn m-btn--secondary m-btn--lg">了解我们的工坊</a>
-        <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">工坊访记 · 5 分钟阅读</span>
+        <span class="sf-meta">工坊访记 · 5 分钟阅读</span>
       </div>
     </div>
   </section>
 </main>
 
 <!-- 页脚：三栏链接 + 本地化选择 + 支付方式（banding 记账 2/3） -->
-<footer style="background:var(--m-bg-band);border-top:1px solid var(--m-border)">
-  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-12) var(--m-space-4) var(--m-space-8)">
-    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--m-space-8)">
-      <nav aria-label="页脚 · 商店" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">商店</div>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">新品</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">女装</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">男配</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">生活家居</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">礼品卡</a>
+<footer class="sf-footer">
+  <div class="sf-container sf-footer__inner">
+    <div class="sf-footer__grid">
+      <nav aria-label="页脚 · 商店" class="sf-footer__col">
+        <b>商店</b>
+        <a href="09-plp.html">新品</a>
+        <a href="09-plp.html">女装</a>
+        <a href="09-plp.html">男配</a>
+        <a href="09-plp.html">生活家居</a>
+        <a href="#">礼品卡</a>
       </nav>
-      <nav aria-label="页脚 · 帮助" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">帮助</div>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">配送与运费</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">退换政策</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">尺码指南</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">联系客服</a>
+      <nav aria-label="页脚 · 帮助" class="sf-footer__col">
+        <b>帮助</b>
+        <a href="#">配送与运费</a>
+        <a href="#">退换政策</a>
+        <a href="#">尺码指南</a>
+        <a href="#">联系客服</a>
       </nav>
-      <nav aria-label="页脚 · 公司" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">公司</div>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">关于 Locust</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">可持续承诺</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">门店与快闪</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">加入我们</a>
+      <nav aria-label="页脚 · 公司" class="sf-footer__col">
+        <b>公司</b>
+        <a href="#">关于 Locust</a>
+        <a href="#">可持续承诺</a>
+        <a href="#">门店与快闪</a>
+        <a href="#">加入我们</a>
       </nav>
     </div>
 
-    <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-10);padding-top:var(--m-space-6);border-top:1px solid var(--m-border);flex-wrap:wrap;gap:var(--m-space-4)">
+    <div class="sf-footer__bottom">
       <div class="m-row" style="gap:var(--m-space-3)">
         <div class="m-select-wrap" style="width:150px">
           <select aria-label="语言">
@@ -200,19 +252,19 @@
       </div>
     </div>
 
-    <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-6);flex-wrap:wrap;gap:var(--m-space-3)">
-      <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">© 2026 Locust Commerce Ltd. · 柏林</span>
+    <div class="sf-footer__legal">
+      <span class="sf-meta">© 2026 Locust Commerce Ltd. · 柏林</span>
       <div class="m-row" style="gap:var(--m-space-4)">
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Impressum</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">隐私政策</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">服务条款</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">退货说明</a>
+        <a href="#" class="sf-meta">Impressum</a>
+        <a href="#" class="sf-meta">隐私政策</a>
+        <a href="#" class="sf-meta">服务条款</a>
+        <a href="#" class="sf-meta">退货说明</a>
       </div>
     </div>
   </div>
 </footer>
 <!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
-  1. 店面壳定式（本页定义，09/10/11 复用）：公告条 = primary 实底通栏（近黑底白字）；头部 64px 白底 + 字标文字标；购物袋计数徽章取 neutral solid（灰蓝）。字标暂以文字承托——正式 logo 资产待品牌侧定稿（同 01 呈报 §1）；徽章色若需更强的购物车语义可改 emphasis，请裁。
+  1. 店面壳定式（本页定义，09/10/11 复用）：公告条 = .sf-announce（--m-announce-bg 品牌插槽实底通栏）；头部 = .sf-header/.sf-header__inner（高 --m-header-h，≤767px 换 --m-header-h-mobile）+ .sf-brand.sf-wordmark 字标 + .sf-nav（≤1023px 收起，改由 .sf-burger 开 .sf-mobilenav）+ .sf-actions/.sf-cart-trigger/.sf-cart-count（primary 实底计数）。字标暂以文字承托——正式 logo 资产待品牌侧定稿（同 01 呈报 §1）。计数底色随 .sf-cart-count 契约取 primary（近黑）；若要更强的购物车语义需改该契约到 emphasis，仍请裁。
   2. hero 取左文右图双栏（自适应高，未锁 100vh）：Dawn 图片横幅的「图上叠字」形态需真实摄影接入后才有对比度依据，纯 CSS 占位阶段先落分栏形；摄影接入后是否切叠加形，套用片定。
   3. 商品横带移动端形态：桌面 4 列；移动端建议横向滚动 scroll-snap（静态稿注明，套用片实现；零内联样式块，媒体查询由套用片组件 CSS 承担）。
   4. banding 记账：品牌故事带 1 次 + 页脚 1 次 = 2 次（≤3 合规）；页脚与故事带同值相邻以 border-top 分隔。
@@ -221,5 +273,6 @@
      采纳——hero 标题行高收紧至 1.15 与展示字号用 --m-text-display（clamp 36→60）；横带卡片 meta 行（色数）补在名价之间（信息节奏：名 / 变体 / 价）；品牌故事带右列 CTA 改右对齐（band 内两列视线落点对称）；可见文案过 copy self-audit 与 em-dash 纪律（零长破折，中点每行 ≤1）。
      拒绝——公告条加轮播多条促销（Dawn 单条为默认，轮播属动效域）；hero 加视差 / 淡入动效（600ms 表达性动效预算应留给图片接入后的真实素材）；ui-ux-pro-max 营销面「首屏大字不低于 64px」与 token 展示字号 clamp 上限 60 冲突，token 法优先（批 A-C 同判例）；design-taste「去卡片化」不适用（商品卡边框 + hover 抬升是 m-product-card 既有契约）。
 -->
+<script src="../ai/meridian-behavior.js"></script>
 </body>
 </html>

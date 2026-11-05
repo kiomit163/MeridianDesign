@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>09 商品列表 · Locust 原型</title>
-<link rel="stylesheet" href="../ai/tokens.css">
-<link rel="stylesheet" href="../ai/meridian-ui.css">
-</head>
-<body class="stage-storefront m-ui">
 <!-- 对标卡：
   Shopify 形态要点：Dawn 商品列表 = 集合标题 + 描述 + 工具条（筛选按钮 + 已选条件 chip + 排序下拉）+ 商品栅格（2/3/4 列三断点）+
   商品卡（图 / 名 / 价，hover 浮现快速加购）+ 分页（上一页 / 数字页 / 下一页）。
   Meridian 化决策：壳复用 08 定式（公告条 + 头部 + 页脚；导航「女装」当前态）；筛选取顶折叠形（Dawn 默认抽屉/顶折叠，本稿画展开态样例：
   尺码 pills / 颜色色块 / 价格滑杆三组）；栅格桌面 4 列形态在画，2/3 列断点以注记标明（零内联样式块，与批 A-C 同口径）；
-  商品卡三态覆盖：常规 / 促销（promo 徽章 + 划线价）/ 售罄（neutral solid 徽章 + 快加购禁用）；hover 快加购为常显示意（套用片 hover 浮现）；
-  卡容器为 div，链接挂在商品名上（快加购是真按钮，避免交互元素嵌进链接的 a11y 陷阱）。
+  商品卡三态覆盖：常规 / 促销（promo 徽章 + 划线价）/ 售罄（neutral solid 徽章 + 快加购禁用）；快加购 hover 浮现、触屏常显并抬到 44px；
+  卡容器为 div，名称链接的 ::after 伸展覆盖整卡（stretched link）；快加购为兄弟节点并 z-index:1，避免交互元素嵌进链接的 a11y 陷阱。
   漏项落地：无（批 D 无漏项宿主）。超 token 项见尾部呈报清单。
 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>09 商品列表 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/brand-tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+<link rel="stylesheet" href="../ai/site.css">
+</head>
+<body class="stage-storefront m-ui">
+<a class="m-skip-link" href="#main">Skip to content</a>
 <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
   <div class="m-accordion">
     <details>
@@ -31,35 +34,51 @@
 </div>
 
 <!-- 公告条（复用 08 定式） -->
-<div style="background:var(--m-primary);color:var(--m-primary-fg);text-align:center;padding:var(--m-space-2) var(--m-space-4);font-size:var(--m-text-xs);letter-spacing:0.02em">
-  满 €120 免标准运费 · 欧盟境内 3-5 个工作日送达
+<div class="sf-announce">
+  <div class="sf-announce__inner">满 €120 免标准运费 · 欧盟境内 3-5 个工作日送达</div>
 </div>
 
-<!-- 店面头部（复用 08 定式；「女装」当前态） -->
-<header class="m-chrome" style="border-bottom:1px solid var(--m-border)">
-  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:0 var(--m-space-4);display:flex;align-items:center;gap:var(--m-space-6);height:var(--m-space-16)">
-    <a href="08-home.html" aria-label="Locust 首页" style="font-size:var(--m-text-2xl);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);text-decoration:none">Locust</a>
-    <nav aria-label="店面主导航" style="display:flex;gap:var(--m-space-5)">
-      <a href="09-plp.html" style="font-size:var(--m-text-md)">新品</a>
-      <a href="09-plp.html" aria-current="page" style="font-size:var(--m-text-md);background:var(--m-bg-inset);border-radius:var(--m-radius-pill);padding:var(--m-space-1) var(--m-space-3);font-weight:var(--m-weight-medium)">女装</a>
-      <a href="09-plp.html" style="font-size:var(--m-text-md)">男配</a>
-      <a href="#" style="font-size:var(--m-text-md)">关于</a>
+<!-- 店面头部（复用 08 定式；「女装」当前态由 .sf-nav a[aria-current] 下划线承托） -->
+<header class="sf-header">
+  <div class="sf-header__inner">
+    <a href="08-home.html" aria-label="Locust 首页" class="sf-brand sf-wordmark">Locust</a>
+    <nav aria-label="店面主导航" class="sf-nav">
+      <a href="09-plp.html">新品</a>
+      <a href="09-plp.html" aria-current="page">女装</a>
+      <a href="09-plp.html">男配</a>
+      <a href="#">关于</a>
     </nav>
-    <div style="margin-inline-start:auto;display:flex;align-items:center;gap:var(--m-space-1)">
+    <div class="sf-actions">
+      <button type="button" class="m-tool m-tool--square sf-burger" data-overlay-open="sfm-09" aria-label="打开菜单" aria-haspopup="dialog"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <button type="button" class="m-tool m-tool--square" data-theme-cycle aria-label="切换主题：浅色、深色、跟随系统" title="切换主题"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
       <button type="button" class="m-tool m-tool--square" aria-label="搜索"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
-      <span style="position:relative;display:inline-flex">
+      <span class="sf-cart-trigger">
         <button type="button" class="m-tool m-tool--square" aria-label="购物袋（3 件）"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 11V6a3 3 0 0 1 6 0v5"/></svg></button>
-        <span class="m-badge m-badge--neutral m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        <span class="sf-cart-count">3</span>
       </span>
     </div>
   </div>
 </header>
 
-<main style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-8) var(--m-space-4) var(--m-space-section)">
+<!-- 移动端菜单（<1023px 由 .sf-burger 打开；焦点陷阱/Esc/归还焦点由 meridian-behavior.js 提供） -->
+<div class="sf-mobilenav" id="sfm-09" role="dialog" aria-modal="true" aria-labelledby="sfm-09-title" tabindex="-1" inert>
+  <div class="sf-mobilenav__head">
+    <span id="sfm-09-title" style="font-weight:var(--m-weight-semibold)">菜单</span>
+    <button type="button" class="m-tool m-tool--square" data-overlay-close aria-label="关闭菜单"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="sf-mobilenav__body">
+    <a href="09-plp.html">新品</a>
+    <a href="09-plp.html" aria-current="page">女装</a>
+    <a href="09-plp.html">男配</a>
+    <a href="#">关于</a>
+  </div>
+</div>
+
+<main id="main" tabindex="-1" style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-8) var(--m-space-4) var(--m-space-section)">
 
   <!-- 集合页头：标题 + 计数 + 描述 -->
   <div class="m-col" style="gap:var(--m-space-2);text-align:center;align-items:center;max-width:56ch;margin-inline:auto">
-    <h1 style="margin:0;font-size:var(--m-text-4xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight)">女装</h1>
+    <h1 class="sf-title" style="margin:0;font-size:var(--m-text-4xl);font-weight:var(--m-weight-semibold)">女装</h1>
     <p style="margin:0;color:var(--m-fg-muted);font-size:var(--m-text-md)">有机棉与再生羊毛基础款 · 共 36 件，全部柏林仓现货</p>
   </div>
 
@@ -86,28 +105,28 @@
   </div>
 
   <!-- 筛选展开态样例：尺码 / 颜色 / 价格 三组（套用片为顶折叠抽屉） -->
-  <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--m-space-6);padding:var(--m-space-4) 0;border-bottom:1px solid var(--m-border)">
+  <div class="sf-grid-3" style="gap:var(--m-space-6);padding:var(--m-space-4) 0;border-bottom:1px solid var(--m-border)">
     <fieldset style="border:none;margin:0;padding:0">
       <legend style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-2)">尺码</legend>
       <div class="m-row" style="gap:var(--m-space-2)">
-        <button type="button" class="m-size-pill" style="min-width:44px;height:36px">XS</button>
-        <button type="button" class="m-size-pill" style="min-width:44px;height:36px">S</button>
-        <button type="button" class="m-size-pill is-selected" style="min-width:44px;height:36px" aria-pressed="true">M</button>
-        <button type="button" class="m-size-pill" style="min-width:44px;height:36px">L</button>
-        <button type="button" class="m-size-pill" style="min-width:44px;height:36px">XL</button>
+        <button type="button" class="m-size-pill">XS</button>
+        <button type="button" class="m-size-pill">S</button>
+        <button type="button" class="m-size-pill is-selected" aria-pressed="true">M</button>
+        <button type="button" class="m-size-pill">L</button>
+        <button type="button" class="m-size-pill">XL</button>
       </div>
     </fieldset>
     <fieldset style="border:none;margin:0;padding:0">
       <legend style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-2)">颜色</legend>
       <div class="m-row" style="gap:var(--m-space-2)">
-        <button type="button" class="m-swatch is-selected" style="background:var(--m-bg-inset)" aria-label="燕麦色" aria-pressed="true"></button>
-        <button type="button" class="m-swatch" style="background:var(--m-bg-inset)" aria-label="石墨灰"></button>
-        <button type="button" class="m-swatch" style="background:var(--m-bg-inset)" aria-label="黑色"></button>
-        <button type="button" class="m-swatch" style="background:var(--m-bg-inset)" aria-label="鼠尾草绿"></button>
-        <button type="button" class="m-swatch" style="background:var(--m-bg-inset)" aria-label="焦棕"></button>
-        <button type="button" class="m-swatch" style="background:var(--m-bg-inset)" aria-label="米白"></button>
+        <button type="button" class="m-swatch is-selected" style="--m-swatch-color:var(--m-swatch-oat)" aria-label="燕麦色" aria-pressed="true"></button>
+        <button type="button" class="m-swatch" style="--m-swatch-color:var(--m-swatch-graphite)" aria-label="石墨灰"></button>
+        <button type="button" class="m-swatch" style="--m-swatch-color:var(--m-swatch-ink)" aria-label="黑色"></button>
+        <button type="button" class="m-swatch" style="--m-swatch-color:var(--m-swatch-moss)" aria-label="鼠尾草绿"></button>
+        <button type="button" class="m-swatch" style="--m-swatch-color:var(--m-swatch-clay)" aria-label="焦棕"></button>
+        <button type="button" class="m-swatch" style="--m-swatch-color:var(--m-swatch-cream)" aria-label="米白"></button>
       </div>
-      <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin-top:var(--m-space-2)">色块为占位圆；真实色属商品数据，套用片接入后填色</div>
+      <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin-top:var(--m-space-2)">颜色来自 brand-tokens.css；真实商品色由商品数据注入，业务页零硬编码色值</div>
     </fieldset>
     <fieldset style="border:none;margin:0;padding:0">
       <legend style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-2)">价格</legend>
@@ -117,13 +136,13 @@
   </div>
 
   <!-- 商品栅格：桌面 4 列形态（2 列移动 / 3 列平板断点见注记）· 12 卡 -->
-  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--m-space-4);margin-top:var(--m-space-6)">
+  <div class="sf-product-grid" style="margin-top:var(--m-space-6)">
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></span>
+        <img data-provenance="illustration" src="assets/p01-hoodie-oat-800.svg" srcset="assets/p01-hoodie-oat-400.svg 400w, assets/p01-hoodie-oat-800.svg 800w, assets/p01-hoodie-oat-1200.svg 1200w, assets/p01-hoodie-oat-1600.svg 1600w, assets/p01-hoodie-oat-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
         <span class="m-badge m-badge--emphasis m-badge--tint badge">新品</span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €89.00</button>
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €89.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">有机棉连帽衫</a>
@@ -132,10 +151,10 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M3 8c3 0 5-2 6-4 1 2 3 4 6 4"/><path d="M4 8h16v4c0 6-3.6 9-8 9s-8-3-8-9V8z"/></svg></span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €59.00</button>
+        <img data-provenance="illustration" src="assets/p02-scarf-graphite-800.svg" srcset="assets/p02-scarf-graphite-400.svg 400w, assets/p02-scarf-graphite-800.svg 800w, assets/p02-scarf-graphite-1200.svg 1200w, assets/p02-scarf-graphite-1600.svg 1600w, assets/p02-scarf-graphite-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €59.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">羊毛围巾</a>
@@ -144,11 +163,11 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M5 15a7 7 0 0 1 14 0"/><path d="M4 15h16v5H4z"/><path d="M12 8V5"/><circle cx="12" cy="4" r="1"/></svg></span>
+        <img data-provenance="illustration" src="assets/p03-beanie-moss-800.svg" srcset="assets/p03-beanie-moss-400.svg 400w, assets/p03-beanie-moss-800.svg 800w, assets/p03-beanie-moss-1200.svg 1200w, assets/p03-beanie-moss-1600.svg 1600w, assets/p03-beanie-moss-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
         <span class="m-badge m-badge--emphasis m-badge--tint badge">新品</span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €29.00</button>
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €29.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">羊毛针织帽</a>
@@ -157,10 +176,10 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M4 8h16v13H4z"/><path d="M8 8V6a4 4 0 0 1 8 0v2"/></svg></span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €45.00</button>
+        <img data-provenance="illustration" src="assets/p04-tote-canvas-800.svg" srcset="assets/p04-tote-canvas-400.svg 400w, assets/p04-tote-canvas-800.svg 800w, assets/p04-tote-canvas-1200.svg 1200w, assets/p04-tote-canvas-1600.svg 1600w, assets/p04-tote-canvas-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €45.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">帆布托特包</a>
@@ -169,11 +188,11 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M8 3 4 6l2 4 2-1v11h8V9l2 1 2-4-4-3a4 4 0 0 1-8 0z"/></svg></span>
+        <img data-provenance="illustration" src="assets/p05-tee-cream-800.svg" srcset="assets/p05-tee-cream-400.svg 400w, assets/p05-tee-cream-800.svg 800w, assets/p05-tee-cream-1200.svg 1200w, assets/p05-tee-cream-1600.svg 1600w, assets/p05-tee-cream-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
         <span class="m-badge m-badge--promo m-badge--tint badge">促销</span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €28.00</button>
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €28.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">有机棉 T 恤</a>
@@ -182,10 +201,10 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M17 8h2a2 2 0 0 1 0 4h-2"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V8z"/></svg></span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €18.00</button>
+        <img data-provenance="illustration" src="assets/p06-mug-cream-800.svg" srcset="assets/p06-mug-cream-400.svg 400w, assets/p06-mug-cream-800.svg 800w, assets/p06-mug-cream-1200.svg 1200w, assets/p06-mug-cream-1600.svg 1600w, assets/p06-mug-cream-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €18.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">陶瓷马克杯 350ml</a>
@@ -194,10 +213,10 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M12 2.7s6 6.6 6 10.8a6 6 0 0 1-12 0C6 9.3 12 2.7 12 2.7z"/></svg></span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €45.00</button>
+        <img data-provenance="illustration" src="assets/p07-carafe-glass-800.svg" srcset="assets/p07-carafe-glass-400.svg 400w, assets/p07-carafe-glass-800.svg 800w, assets/p07-carafe-glass-1200.svg 1200w, assets/p07-carafe-glass-1600.svg 1600w, assets/p07-carafe-glass-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €45.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">冷萃玻璃壶 1L</a>
@@ -206,10 +225,10 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/></svg></span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €79.00</button>
+        <img data-provenance="illustration" src="assets/p08-passport-brown-800.svg" srcset="assets/p08-passport-brown-400.svg 400w, assets/p08-passport-brown-800.svg 800w, assets/p08-passport-brown-1200.svg 1200w, assets/p08-passport-brown-1600.svg 1600w, assets/p08-passport-brown-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €79.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">皮革护照夹</a>
@@ -218,11 +237,11 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 13l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg></span>
+        <img data-provenance="illustration" src="assets/p09-blanket-oat-800.svg" srcset="assets/p09-blanket-oat-400.svg 400w, assets/p09-blanket-oat-800.svg 800w, assets/p09-blanket-oat-1200.svg 1200w, assets/p09-blanket-oat-1600.svg 1600w, assets/p09-blanket-oat-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
         <span class="m-badge m-badge--promo m-badge--tint badge">促销</span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €95.00</button>
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €95.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">羊毛混纺毯</a>
@@ -231,10 +250,10 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg></span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €32.00</button>
+        <img data-provenance="illustration" src="assets/p10-napkin-linen-800.svg" srcset="assets/p10-napkin-linen-400.svg 400w, assets/p10-napkin-linen-800.svg 800w, assets/p10-napkin-linen-1200.svg 1200w, assets/p10-napkin-linen-1600.svg 1600w, assets/p10-napkin-linen-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €32.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">亚麻餐巾六件组</a>
@@ -243,10 +262,10 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg></span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)">快速加购 · €68.00</button>
+        <img data-provenance="illustration" src="assets/p11-plates-cream-800.svg" srcset="assets/p11-plates-cream-400.svg 400w, assets/p11-plates-cream-800.svg 800w, assets/p11-plates-cream-1200.svg 1200w, assets/p11-plates-cream-1600.svg 1600w, assets/p11-plates-cream-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
+        <button type="button" class="m-btn m-btn--primary m-btn--sm quickadd">快速加购 · €68.00</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">陶瓷餐盘四件组</a>
@@ -255,11 +274,11 @@
       </div>
     </div>
 
-    <div class="m-product-card">
+    <div class="m-product-card sf-pcard">
       <div class="media">
-        <span style="position:absolute;inset:0;display:grid;place-items:center;color:var(--m-fg-subtle)" aria-hidden="true"><svg class="m-i" viewBox="0 0 24 24" style="width:48px;height:48px"><rect x="3" y="7" width="18" height="10" rx="5"/><circle cx="17" cy="12" r="1.5"/></svg></span>
+        <img data-provenance="illustration" src="assets/p12-board-olive-800.svg" srcset="assets/p12-board-olive-400.svg 400w, assets/p12-board-olive-800.svg 800w, assets/p12-board-olive-1200.svg 1200w, assets/p12-board-olive-1600.svg 1600w, assets/p12-board-olive-2400.svg 2400w" sizes="(max-width: 767px) 50vw, 25vw" width="800" height="1000" alt="" loading="lazy" decoding="async">
         <span class="m-badge m-badge--neutral m-badge--solid badge">售罄</span>
-        <button type="button" class="m-btn m-btn--primary m-btn--sm is-disabled" style="position:absolute;inset-inline:var(--m-space-2);bottom:var(--m-space-2)" aria-disabled="true">已售罄</button>
+        <button type="button" class="m-btn m-btn--primary m-btn--sm is-disabled quickadd" aria-disabled="true">已售罄</button>
       </div>
       <div class="info">
         <a href="10-pdp.html" class="name">橄榄木砧板</a>
@@ -271,7 +290,7 @@
   </div>
   <div class="m-row" style="margin-top:var(--m-space-3)">
     <span class="m-tag">栅格断点：2 列（&lt;768）/ 3 列（768-1023）/ 4 列（≥1024 · 本稿在画形态）</span>
-    <span class="m-tag">快加购为常显示意 · 套用片 hover 浮现（触屏常显）</span>
+    <span class="m-tag">快加购 hover 浮现 · 触屏常显（≥44px）</span>
   </div>
 
   <!-- 分页：Dawn 店面惯例（上一页 / 数字页 / 下一页） -->
@@ -287,33 +306,33 @@
 </main>
 
 <!-- 页脚（复用 08 定式） -->
-<footer style="background:var(--m-bg-band);border-top:1px solid var(--m-border)">
-  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-12) var(--m-space-4) var(--m-space-8)">
-    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--m-space-8)">
-      <nav aria-label="页脚 · 商店" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">商店</div>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">新品</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">女装</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">男配</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">生活家居</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">礼品卡</a>
+<footer class="sf-footer">
+  <div class="sf-container sf-footer__inner">
+    <div class="sf-footer__grid">
+      <nav aria-label="页脚 · 商店" class="sf-footer__col">
+        <b>商店</b>
+        <a href="09-plp.html">新品</a>
+        <a href="09-plp.html">女装</a>
+        <a href="09-plp.html">男配</a>
+        <a href="09-plp.html">生活家居</a>
+        <a href="#">礼品卡</a>
       </nav>
-      <nav aria-label="页脚 · 帮助" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">帮助</div>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">配送与运费</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">退换政策</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">尺码指南</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">联系客服</a>
+      <nav aria-label="页脚 · 帮助" class="sf-footer__col">
+        <b>帮助</b>
+        <a href="#">配送与运费</a>
+        <a href="#">退换政策</a>
+        <a href="#">尺码指南</a>
+        <a href="#">联系客服</a>
       </nav>
-      <nav aria-label="页脚 · 公司" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">公司</div>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">关于 Locust</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">可持续承诺</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">门店与快闪</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">加入我们</a>
+      <nav aria-label="页脚 · 公司" class="sf-footer__col">
+        <b>公司</b>
+        <a href="#">关于 Locust</a>
+        <a href="#">可持续承诺</a>
+        <a href="#">门店与快闪</a>
+        <a href="#">加入我们</a>
       </nav>
     </div>
-    <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-10);padding-top:var(--m-space-6);border-top:1px solid var(--m-border);flex-wrap:wrap;gap:var(--m-space-4)">
+    <div class="sf-footer__bottom">
       <div class="m-row" style="gap:var(--m-space-3)">
         <div class="m-select-wrap" style="width:150px">
           <select aria-label="语言"><option selected>Deutsch</option><option>English</option></select>
@@ -328,21 +347,21 @@
         <span>VISA</span><span>Mastercard</span><span>PayPal</span><span>Klarna</span><span>Apple Pay</span><span>G Pay</span>
       </div>
     </div>
-    <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-6);flex-wrap:wrap;gap:var(--m-space-3)">
-      <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">© 2026 Locust Commerce Ltd. · 柏林</span>
+    <div class="sf-footer__legal">
+      <span class="sf-meta">© 2026 Locust Commerce Ltd. · 柏林</span>
       <div class="m-row" style="gap:var(--m-space-4)">
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Impressum</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">隐私政策</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">服务条款</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">退货说明</a>
+        <a href="#" class="sf-meta">Impressum</a>
+        <a href="#" class="sf-meta">隐私政策</a>
+        <a href="#" class="sf-meta">服务条款</a>
+        <a href="#" class="sf-meta">退货说明</a>
       </div>
     </div>
   </div>
 </footer>
 <!-- 呈报清单：（超 token 决策，仅列此处，不落盘面，请用户裁决）
   1. 筛选取顶折叠形（Dawn 默认即抽屉 / 顶折叠；左侧栏形未画）：展开态为静态示意（套用片为点击「筛选」展开的抽屉，桌面可常开）；「筛选（2）」计数 = 已选 chip 数。
-  2. 颜色色块为占位圆（bg-inset + 边框，三态形状：选中双环 / 未选 / 无）：商品色属商品数据域，UI 层不持色——静态稿若伪造真实色需裸色值，违反零裸色门；建议组件契约补「色块数据色由业务层注入」说明。10-PDP 同此口径。
-  3. 快加购为常显示意（批 C 03 行内快捷动作同法）：套用片为 hover 浮现 + 触屏常显；售罄卡快加购置灰（is-disabled + aria-disabled）。卡容器为 div、链接挂商品名：快加购真按钮不得嵌进链接（交互元素嵌套禁令）；08 首页横带卡无快加购、保持整卡 a 链接。按钮文案带价格（€89.00）为 DTC 常见增强，请裁是否保留纯「加入购物袋」。
+  2. 颜色色块已接入 brand-tokens.css（`--m-swatch-*`）：商品色属品牌插槽，UI 层只消费 var()；三态形状 = 选中双环 / 未选 / 售罄划线。10-PDP 同此口径。
+  3. 快加购为常显示意（批 C 03 行内快捷动作同法）：套用片为 hover 浮现 + 触屏常显；售罄卡快加购置灰（is-disabled + aria-disabled）。卡容器为 div，名称链接 `::after` 伸展覆盖整卡；快加购为兄弟节点并 z-index:1，交互元素不得嵌进链接。08 首页横带卡无快加购、保持整卡 a 链接。
   4. 分页取数字页形（Dawn 店面惯例），与 03 的 admin keyset 分页并存：两舞台分页形态不同属舞台约定，非不一致。
   5. 断点口径：2 列（<768）/ 3 列（768-1023）/ 4 列（≥1024）；以注记标明（零内联样式块，与批 A-C 静态稿同口径），套用片在组件 CSS 落真实媒体查询。
   6. 数据连续性：12 卡含 03/04 全部既有商品（连帽衫 €89 / 围巾 €59 / 马克杯 €18 / 护照夹 €79 / 玻璃壶 €45）+ 7 件同世界新品；促销 2 件用划线价（price-compare）+ promo 徽章；第 1 件即 10-PDP 主角商品。
@@ -350,5 +369,6 @@
      采纳——集合页头居中窄栏（56ch）与工具条左筛选右排序的标准 Dawn 节奏；售罄卡价格转 subtle 色（与徽章一致降权）；分页补「第 1 / 3 页 · 每页 12 件」状态文字（可预期性）；快加购按钮从卡链接内迁出（链接只包名字，交互嵌套 a11y 修复）；可见文案过 copy self-audit 与 em-dash 纪律。
      拒绝——筛选面板加手风琴折叠（三组在桌面同屏已可扫读，折叠属移动端行为）；商品卡加第二 hover 态（换图 hover 属图片接入后范畴）；整卡可点改为 JS 代理（静态稿不做行为，名字链接 + 快加购已覆盖两条点击路径）；ui-ux-pro-max「栅格留白加大至 32px」与 token gap 16 冲突，token 法优先（批 A-C 同判例）。
 -->
+<script src="../ai/meridian-behavior.js"></script>
 </body>
 </html>

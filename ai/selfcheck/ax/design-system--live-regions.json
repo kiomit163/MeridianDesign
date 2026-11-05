@@ -1,0 +1,54 @@
+{
+  "page": "design-system.html",
+  "scenario": "live-regions",
+  "count": 6,
+  "nodes": [
+    {
+      "role": "status",
+      "name": "",
+      "text": "已保存",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "status",
+      "name": "",
+      "text": "New market available. You can now sell to Austria with EUR pricing. Review",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "status",
+      "name": "",
+      "text": "Refund of $42.00 was issued to Visa •••• 4242.",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "alert",
+      "name": "",
+      "text": "Inventory is negative for 5 variants. Fix now",
+      "live": "assertive",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "alert",
+      "name": "",
+      "text": "Payments are disabled because your billing information expired. Update billing",
+      "live": "assertive",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "status",
+      "name": "加载中",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    }
+  ]
+}

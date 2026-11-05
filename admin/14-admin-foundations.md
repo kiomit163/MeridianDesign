@@ -7,10 +7,23 @@
 ## 一、体验原则
 
 1. **商人优先于差异化**（Polaris："Match the rest of the admin, put merchant needs ahead of being different"）——熟悉感是生产力。
-2. **读多写多，皆求快**：默认密度 productive；扫描列对齐；键盘全程可操作。
+2. **读多写多，皆求快**：默认密度 comfortable（48px 行）；纯数字扫描型表格可切 productive（36px）；扫描列对齐；键盘全程可操作。
 3. **破坏性操作重摩擦，常规操作零摩擦**：删除有确认，筛选无确认。
 4. **状态永远可见**：保存中/已保存/失败/后台任务进度——运营者不敢用"静默"的系统。
 5. **复杂度可折叠**：新手默认视图 + 高手可展开（"Hide complexity, but give access to sophistication" — Polaris 经验价值观）。
+
+### 1.1 密度旋钮的作用域（v1.5）
+
+`data-density="productive"` 只改变四类值，**不重写间距刻度**：
+
+| 项 | comfortable（默认） | productive |
+|---|---|---|
+| 表格行高 | 48px | 36px |
+| 卡片内距 `--m-card-padding` | 16px | 12px |
+| 字段间距 `--m-field-gap` | 4px | 8px（行更矮，字段内距反而放宽，避免标签贴边） |
+| 正文行高 `--m-body-leading` | 1.45 | 1.38 |
+
+实现见 `ai/tokens.css` 的 `.stage-admin[data-density="productive"]`。页面级 section 节奏不随密度变化——那是页面作者的决定，不是旋钮的职责。
 
 ## 二、应用框架（App Shell）
 
@@ -56,13 +69,13 @@
 
 ```
 ┌──────────────────────────────────────────────────────┐
-│ 顶栏 56px: 搜索(⌘K 全局) | 帮助 | 市场/店铺切换 | 账户   │
+│ 顶栏 56px: 品牌/页面 | 搜索(⌘K) | 通知 | 账户           │
 ├────────┬─────────────────────────────────────────────┤
-│ 侧栏    │  Contextual Save Bar（表单脏时插入顶栏下）      │
+│ 店铺切换│  Contextual Save Bar（表单脏时插入顶栏下）      │
 │ 240px  │ ┌ PageHeader ──────────────────────────────┐ │
 │ (≤1024 │ │ ← Breadcrumbs                            │ │
-│  折叠   │ │ H1 页面标题 (2xl)                          │ │
-│  56px) │ │ [次要动作组…]              [主动作 primary] │ │
+│  56px) │ │ H1 页面标题 (2xl)                          │ │
+│        │ │ [次要动作组…]              [主动作 primary] │ │
 │        │ └──────────────────────────────────────────┘ │
 │ 分组    │   内容区（max-w-admin 1000 / 表单 640 / 宽表自适应）│
 │ 主导航  │   Card ｜ Card ｜ Card …（16px 间距）           │
@@ -73,8 +86,8 @@
 
 | 项 | 规格 |
 |---|---|
-| 侧栏 | 分组标题（xs, fg-muted, 全大写可选）+ 项（44px 高，图标 20 + label）；当前项 `bg-surface-selected` + 左侧 2px primary 指示条；徽章数字（待处理订单）用 critical-fg |
-| 折叠态 | ≤1024px 图标栏 56px（hover 展开 popover）；移动端汉堡 + 全屏抽屉 |
+| 侧栏 | 顶部店铺切换（`ad-storebtn` + 菜单）；分组标题（xs, fg-muted, 全大写可选）+ 项（桌面 32px / 移动抽屉 44px，图标 20 + label）；当前项 `bg-chrome-selected` + 左侧 2px primary 指示条；徽章数字（待处理订单）用 critical-fg；底部工具行（帮助 / 收起侧栏 `data-side-rail`） |
+| 折叠态 | **≤1024px**：56px 图标轨（标签对读屏保留，hover 展开 popover）；**<768px**：汉堡 + 全屏抽屉（项 44px）；**≥1024px**：240px，可手动收成 64px（状态持久化）。`.m-shell` 与 `.ad-sidenav` 现已同口径 |
 | 页头 | 标题 + 副题（可选）+ 动作区：**主动作永远一个**；次要动作 ≤2 平铺，更多收进 "⋯"（Polaris action groups 小屏自动 rollup） |
 | 面包屑 | 资源型页面必带（`Orders / #1042`），可点击回列表 |
 | Save Bar | 表单 dirty 时出现：`Unsaved changes` + [Discard]（plain）+ [Save]（primary）；离开路由拦截（`beforeunload` + 应用内路由守卫） |
@@ -129,6 +142,45 @@
 | 大批量（>50 项） | 后台任务：Toast "Exporting 2,400 orders…" + 顶栏任务中心（进度条 + 完成后下载/查看）；完成后 Toast 附 [View file] |
 | 失败 | 任务中心列出失败原因 + [Retry failed 12] |
 | 长任务超时 | >30min 撤回为邮件通知（后台会话可能关闭） |
+
+### 7.1 任务状态机（`data-state` 封闭取值）
+
+| `data-state` | 含义 | 必须可见 | 可执行动作 |
+|---|---|---|---|
+| `queued` | 已入队未开始 | "Queued" + 队列位置 | **Cancel** |
+| `running` | 执行中，进度已知 | 进度条 + 已完成/总数 + 预计剩余 | **Cancel** |
+| `running`（不确定） | 执行中，进度无法估算 | `.m-progress--indeterminate` + 已用时 | **Cancel** |
+| `cancelling` | 已请求取消、等待收尾 | 静默进度 + "Cancelling…" | 无（防连点） |
+| `cancelled` | 已取消 | 已处理项数 + "Cancelled" + **[Download partial]** | 重新发起 |
+| `succeeded` | 完成 | 结果数 + [View] / [Download] | — |
+| `failed` | 失败（整体或部分） | 原因 + [Retry failed N] | 重试失败项 |
+| `expired` | 结果过期清理 | "Result expired (kept 7 days)" | 重新发起 |
+
+铁律：
+
+1. **Cancel 必须真的停止服务端工作**，不是只隐藏 UI。不可中断的任务（已提交的支付/发货）**不得显示 Cancel**，改为标注「不可中断」。
+2. **取消必须保留部分产出**并给出口径："已处理 830 / 2,400，已导出的 830 条见 [Download partial]"。静默丢弃部分结果是最差解。
+3. **`cancelling` 必须防重复提交**——按钮转 `disabled` + "Cancelling…"，否则用户连点会产生重复取消请求。
+4. **刷新后必须能恢复**：任务中心状态来自服务端，不得只存在于内存。重载后 `running` 应带进度重新出现，`succeeded` 保留至过期。
+5. **进度不可估算时必须显式不确定**，不得用 0% 或伪造百分比（对应 `.m-progress--indeterminate`）。
+
+### 7.2 保留与清理
+
+| 项 | 规格 |
+|---|---|
+| 结果保留 | 7 天，到期转 `expired`，只留一行记录与原因 |
+| 任务记录保留 | 30 天（含 `cancelled` / `failed`） |
+| 并发上限 | 同一用户同时 `running` ≤3，超出排队为 `queued` |
+| 会话关闭 | **不等于取消**：`running` 继续，回到任务中心可见；>30min 额外发邮件 |
+
+### 7.3 状态与视觉的对应
+
+| 状态 | 组件 |
+|---|---|
+| 进度已知 | `.m-progress` + `--m-progress`（0–1） |
+| 进度未知 | `.m-progress--indeterminate` |
+| 已完成 | `.m-progress--success` |
+| 已取消 | `.m-progress--cancelled`（静默色，宽度冻结在取消点） |
 
 ## 八、移动后台策略
 

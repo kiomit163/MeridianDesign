@@ -1,0 +1,14 @@
+{
+  "$comment": "TMS QA 规则：校验器与人工复核共用。ratio/slack 为「相对源语言字符数」的膨胀上限。",
+  "lengthBudgets": {
+    "de": { "ratio": 1.35, "slack": 8 },
+    "ar": { "ratio": 1.4, "slack": 8 }
+  },
+  "allowedPluralCategories": {
+    "en": ["one", "other"],
+    "de": ["one", "other"],
+    "ar": ["zero", "one", "two", "few", "many", "other"]
+  },
+  "forbidden": ["  ", "!!", "TODO", "FIXME"],
+  "ignoreKeys": ["$locale", "$name"]
+}

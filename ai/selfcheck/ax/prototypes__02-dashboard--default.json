@@ -1,0 +1,371 @@
+{
+  "page": "prototypes/02-dashboard.html",
+  "scenario": "default",
+  "count": 87,
+  "nodes": [
+    {
+      "role": "link",
+      "name": "跳至主内容"
+    },
+    {
+      "role": "heading",
+      "name": "02 仪表盘 · 双稿对比",
+      "level": 1
+    },
+    {
+      "role": "heading",
+      "name": "英雄指标 · Shopify Home 哲学",
+      "level": 2
+    },
+    {
+      "role": "banner",
+      "name": ""
+    },
+    {
+      "role": "main",
+      "name": ""
+    },
+    {
+      "role": "heading",
+      "name": "等分栅格 · 现有 m-grid-kpi 4/2/1",
+      "level": 2
+    },
+    {
+      "role": "banner",
+      "name": ""
+    },
+    {
+      "role": "main",
+      "name": ""
+    },
+    {
+      "role": "navigation",
+      "name": "主导航（稿 A）"
+    },
+    {
+      "role": "link",
+      "name": "帮助与支持"
+    },
+    {
+      "role": "button",
+      "name": "收起侧栏"
+    },
+    {
+      "role": "button",
+      "name": "搜索订单、商品、顾客 ⌘ K"
+    },
+    {
+      "role": "button",
+      "name": "通知（3 条未读）"
+    },
+    {
+      "role": "button",
+      "name": "林 林薇",
+      "expanded": true
+    },
+    {
+      "role": "menu",
+      "name": "账户菜单"
+    },
+    {
+      "role": "heading",
+      "name": "今日",
+      "level": 2
+    },
+    {
+      "role": "button",
+      "name": "导出报告"
+    },
+    {
+      "role": "status",
+      "name": "",
+      "text": "完成开店最后 2 步，店面即可开始接单 连接支付渠道并发布运费模板后，欧洲站将自动上线。已完成 2 / 4 步。 继续设置",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "link",
+      "name": "待发货订单"
+    },
+    {
+      "role": "link",
+      "name": "待付款订单"
+    },
+    {
+      "role": "link",
+      "name": "售后进行中"
+    },
+    {
+      "role": "link",
+      "name": "库存预警 SKU"
+    },
+    {
+      "role": "link",
+      "name": "查看全部待办"
+    },
+    {
+      "role": "link",
+      "name": "查看全部订单"
+    },
+    {
+      "role": "heading",
+      "name": "暂无正在浏览的商品",
+      "level": 3
+    },
+    {
+      "role": "link",
+      "name": "去店面看商品"
+    },
+    {
+      "role": "button",
+      "name": "去补齐描述"
+    },
+    {
+      "role": "button",
+      "name": "本周不再提示"
+    },
+    {
+      "role": "navigation",
+      "name": "主导航（稿 B）"
+    },
+    {
+      "role": "link",
+      "name": "帮助与支持"
+    },
+    {
+      "role": "button",
+      "name": "收起侧栏"
+    },
+    {
+      "role": "button",
+      "name": "搜索订单、商品、顾客 ⌘ K"
+    },
+    {
+      "role": "button",
+      "name": "通知（3 条未读）"
+    },
+    {
+      "role": "button",
+      "name": "林 林薇"
+    },
+    {
+      "role": "heading",
+      "name": "今日",
+      "level": 2
+    },
+    {
+      "role": "button",
+      "name": "导出报告"
+    },
+    {
+      "role": "status",
+      "name": "",
+      "text": "完成开店最后 2 步，店面即可开始接单 连接支付渠道并发布运费模板后，欧洲站将自动上线。已完成 2 / 4 步。 继续设置",
+      "live": "polite",
+      "atomic": true,
+      "relevant": "additions text"
+    },
+    {
+      "role": "link",
+      "name": "去处理"
+    },
+    {
+      "role": "link",
+      "name": "查看全部订单"
+    },
+    {
+      "role": "heading",
+      "name": "暂无正在浏览的商品",
+      "level": 3
+    },
+    {
+      "role": "link",
+      "name": "去店面看商品"
+    },
+    {
+      "role": "button",
+      "name": "Locust 欧洲站 locust.store · EUR"
+    },
+    {
+      "role": "link",
+      "name": "今日"
+    },
+    {
+      "role": "link",
+      "name": "卖货"
+    },
+    {
+      "role": "button",
+      "name": "展开卖货子导航"
+    },
+    {
+      "role": "link",
+      "name": "接单 12"
+    },
+    {
+      "role": "link",
+      "name": "拉客"
+    },
+    {
+      "role": "link",
+      "name": "设置"
+    },
+    {
+      "role": "link",
+      "name": "开店向导"
+    },
+    {
+      "role": "link",
+      "name": "合规"
+    },
+    {
+      "role": "link",
+      "name": "自动化"
+    },
+    {
+      "role": "link",
+      "name": "翻译"
+    },
+    {
+      "role": "menuitem",
+      "name": "账户设置"
+    },
+    {
+      "role": "menuitem",
+      "name": "通知偏好"
+    },
+    {
+      "role": "menuitem",
+      "name": "切换店铺 · 欧洲站"
+    },
+    {
+      "role": "menuitem",
+      "name": "登出"
+    },
+    {
+      "role": "button",
+      "name": "昨天"
+    },
+    {
+      "role": "button",
+      "name": "今天"
+    },
+    {
+      "role": "button",
+      "name": "7 天"
+    },
+    {
+      "role": "button",
+      "name": "30 天"
+    },
+    {
+      "role": "button",
+      "name": "继续设置"
+    },
+    {
+      "role": "button",
+      "name": "关闭向导横幅"
+    },
+    {
+      "role": "button",
+      "name": "Locust 欧洲站 locust.store · EUR"
+    },
+    {
+      "role": "link",
+      "name": "今日"
+    },
+    {
+      "role": "link",
+      "name": "卖货"
+    },
+    {
+      "role": "button",
+      "name": "展开卖货子导航"
+    },
+    {
+      "role": "link",
+      "name": "接单 12"
+    },
+    {
+      "role": "link",
+      "name": "拉客"
+    },
+    {
+      "role": "link",
+      "name": "设置"
+    },
+    {
+      "role": "link",
+      "name": "开店向导"
+    },
+    {
+      "role": "link",
+      "name": "合规"
+    },
+    {
+      "role": "link",
+      "name": "自动化"
+    },
+    {
+      "role": "link",
+      "name": "翻译"
+    },
+    {
+      "role": "button",
+      "name": "昨天"
+    },
+    {
+      "role": "button",
+      "name": "今天"
+    },
+    {
+      "role": "button",
+      "name": "7 天"
+    },
+    {
+      "role": "button",
+      "name": "30 天"
+    },
+    {
+      "role": "button",
+      "name": "继续设置"
+    },
+    {
+      "role": "button",
+      "name": "关闭向导横幅"
+    },
+    {
+      "role": "columnheader",
+      "name": "订单"
+    },
+    {
+      "role": "columnheader",
+      "name": "客户"
+    },
+    {
+      "role": "columnheader",
+      "name": "金额"
+    },
+    {
+      "role": "columnheader",
+      "name": "时间"
+    },
+    {
+      "role": "columnheader",
+      "name": "订单"
+    },
+    {
+      "role": "columnheader",
+      "name": "客户"
+    },
+    {
+      "role": "columnheader",
+      "name": "金额"
+    },
+    {
+      "role": "columnheader",
+      "name": "时间"
+    }
+  ]
+}

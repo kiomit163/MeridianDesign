@@ -1,0 +1,19 @@
+# Crowdin / TMS 同步配置（全量 TMS 流程）
+# 凭据走环境变量，不落库：CROWDIN_PROJECT_ID / CROWDIN_PERSONAL_TOKEN
+project_id_env: CROWDIN_PROJECT_ID
+api_token_env: CROWDIN_PERSONAL_TOKEN
+preserve_hierarchy: true
+
+files:
+  - source: /i18n/en.json
+    translation: /i18n/%two_letters_code%.json
+    type: json
+    # ICU MessageFormat：占位符与复数类别由 ai/i18n/validate.mjs 与 TMS QA 双重校验
+    escape_special_characters: 0
+    languages_mapping:
+      two_letters_code:
+        ar: ar
+        de: de
+        zh-CN: zh
+
+# 术语表与 QA 规则随仓库版本化：i18n/glossary.csv、i18n/qa-rules.json

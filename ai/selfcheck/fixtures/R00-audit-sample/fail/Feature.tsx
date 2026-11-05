@@ -5,7 +5,7 @@ export const d = <div style={{ color: "var(--m-brand-9)", background: "var(--m-i
 export const e = <span className="text-[var(--m-danger-11)]">x</span>;
 export const f = <div style={{ outline: "none" }} />;
 export const g = <div className="rounded-[6px]" />;
-export const h = <img src="/p.avif" alt="product" loading="lazy" />;
+export const h = <img src="/p.avif" alt="product" loading="lazy" data-provenance="photograph" />;
 export const i = <Urgency label="Only 3 left" />;
 export const j = <div style={{ marginLeft: 8 }} />;
 export const k = <button className="icon-button"><svg /></button>;

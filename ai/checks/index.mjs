@@ -12,4 +12,7 @@ import { rule as r12 } from "./r12-img-dims.mjs";
 import { rule as r13 } from "./r13-compliance.mjs";
 import { rule as r14 } from "./r14-doc-refs.mjs";
 import { rule as r15 } from "./r15-rtl-logical.mjs";
-export const rules = [r01, r02, r03, r04, r05, r07, r08, r09, r10, r11, r12, r13, r14, r15];
+import { rule as r16 } from "./r16-line-height.mjs";
+import { rule as r17 } from "./r17-doc-numeric.mjs";
+import { rule as r18 } from "./r18-inline-style.mjs";
+export const rules = [r01, r02, r03, r04, r05, r07, r08, r09, r10, r11, r12, r13, r14, r15, r16, r17, r18];

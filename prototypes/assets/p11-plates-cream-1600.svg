@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="2000" viewBox="0 0 800 1000" role="img"><defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F1ECE3"/><stop offset="1" stop-color="#DDD3C2"/></linearGradient></defs><rect width="800" height="1000" fill="url(#bg)"/><defs><filter id="ps" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#3B3226" flood-opacity=".20"/></filter></defs><ellipse cx="400" cy="805" rx="221" ry="26" fill="#3A3329" opacity=".12"/><g transform="translate(400 560) scale(1.22) translate(-400 -560)" filter="url(#ps)" stroke="#6B5A40" stroke-opacity=".22" stroke-width="2.05">
+  <circle cx="428" cy="592" r="176" fill="#DACDB6" opacity=".6"/>
+  <circle cx="400" cy="560" r="176" fill="#F1E9D9"/>
+  <circle cx="400" cy="560" r="118" fill="#DACDB6" opacity=".45"/>
+  <circle cx="400" cy="560" r="96" fill="#F1E9D9"/>
+  <circle cx="400" cy="560" r="146" fill="none" stroke="#DACDB6" stroke-width="2" opacity=".7"/>
+  <circle cx="400" cy="560" r="66" fill="none" stroke="#DACDB6" stroke-width="2" opacity=".5"/></g></svg>

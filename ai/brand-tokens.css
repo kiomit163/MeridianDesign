@@ -23,4 +23,20 @@
   --m-swatch-mist:     #CBD2DC;  /* 雾灰 */
   --m-swatch-sky:      #A9CDF1;  /* 浅蓝 */
   --m-swatch-poppy:    #CD3336;  /* 朱红 */
+
+  /* 品牌时刻：文档/店面 logo 与宣告条（非 UI 语义色，允许原始值） */
+  --m-logo-from: #47A181;
+  --m-logo-to: #0C5949;
+  --m-announce-bg: #0F6B57;
+  --m-announce-fg: #FFFFFF;
+
+  /* 第三方钱包品牌锁定色（R01 豁免区：只有品牌插槽允许原始色值） */
+  --m-wallet-shop-pay-bg: #5A31F4;
+  --m-wallet-shop-pay-fg: #FFFFFF;
+  --m-wallet-apple-pay-bg: #000000;
+  --m-wallet-apple-pay-fg: #FFFFFF;
+  --m-wallet-google-pay-bg: #FFFFFF;
+  --m-wallet-google-pay-fg: #3C4043;
+  --m-wallet-paypal-bg: #FFC439;
+  --m-wallet-paypal-fg: #003087;
 }

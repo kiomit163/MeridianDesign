@@ -23,6 +23,7 @@
   - 未达：`You're $12.00 away from free shipping` + 进度条（primary，宽度=小计/门槛）
   - 已达：`✓ You've unlocked free shipping`（success）
 - 位置：抽屉顶（首屏可见）、购物车页、结算首步。
+- 语义：`role="progressbar"` + `aria-valuenow`（已达成金额）/ `aria-valuemin`（0）/ `aria-valuemax`（门槛）/ `aria-valuetext`（“$12.00 away from free shipping”）；进度宽度不得是唯一信息（文案已含金额）。
 - 门槛为空（全场免邮）：不渲染组件，信任条改写 "Free shipping on every order"。
 
 ## 三、评价系统（Ratings & Reviews）
@@ -60,7 +61,7 @@ PDP 评论区:
 | 价格锚定 | 30 天最低价（Omnibus 校验通过） | 临时提价再划线 |
 | 社会证明 | 真实销量区间（"500+ sold this month"） | 虚构实时购买 Toast（"Anna from Berlin just bought…"） |
 
-组件接口强制：Urgency 组件无 `verified` 数据源时**渲染为空**——系统结构上杜绝假紧迫感。
+组件接口强制：Urgency 组件无 `verified` 数据源时**渲染为空**——系统结构上杜绝假紧迫感。倒计时元素用 `role="timer"` + `aria-live="off"`（见 docs/06-accessibility-compliance.md §2.3），剩余时间同时以文本呈现。
 
 ## 五、邮件捕获与订阅
 
@@ -68,7 +69,7 @@ PDP 评论区:
 |---|---|
 | 弹窗 | 首次访问触发延迟 ≥30s 或滚动 50% 后；同会话不再弹；有价值交换（10% off 首单）；合规小字 + 不预勾选 |
 | 内嵌 | footer + 首页底部常驻表单 |
-| 确认 | double opt-in（CA 市场法定）；欢迎邮件内含优惠码 |
+| 确认 | double opt-in（CA 市场默认做法；CASL 要求可证明的明示同意）；欢迎邮件内含优惠码 |
 | 退订 | 一步退订，页脚常驻 |
 
 ## 六、找回信任的失败时刻

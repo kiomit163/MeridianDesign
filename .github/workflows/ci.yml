@@ -10,7 +10,31 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 24
+      - name: 安装依赖
+        run: npm ci
       - name: 单元与回归测试
         run: npm test
+      - name: 原型单一源门禁
+        run: node ai/checks/prototypes-gate.mjs
       - name: 设计合规门禁
         run: node ai/validate.mjs . --exclude ai/selfcheck/fixtures
+      - uses: browser-actions/setup-chrome@v1
+        id: chrome
+      - name: 运行时无障碍门禁（axe-core + 320px）
+        run: npm run a11y
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+      - name: 键盘与焦点行为门禁（CDP）
+        run: npm run behavior
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+      - name: AX 树快照门禁（读屏输入层）
+        run: npm run ax
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}
+      - name: 语言包门禁（key/ICU/复数/长度/术语）
+        run: npm run i18n
+      - name: 本地化内容门禁（真实语言包 + 伪本地化）
+        run: npm run l10n
+        env:
+          CHROME_PATH: ${{ steps.chrome.outputs.chrome-path }}

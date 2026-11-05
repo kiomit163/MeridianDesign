@@ -2,7 +2,7 @@
 
 You are building UI for a Western-market e-commerce platform (storefront + admin) using the **Meridian Design System**. These rules are **checkable constraints** — the validator `ai/validate.mjs` enforces the machine-checkable subset. Non-compliance = build failure.
 
-**Token entry points**: `ai/tokens.css` (CSS custom properties, prefix `--m-`) · `ai/tailwind-theme.css` (Tailwind v4 utilities) · `ai/tokens.json` (source of truth).
+**Token entry points**: `ai/tokens.css` (CSS custom properties, prefix `--m-`；**运行时唯一事实来源**) · `ai/tailwind-theme.css` (Tailwind v4 utilities) · `ai/tokens.json` (DTCG 机器镜像 + `$version` 唯一版本声明).
 
 ---
 
@@ -21,7 +21,7 @@ Semantic categories: `bg-*` (page/surface/surface-hover/surface-selected/inset/b
 
 ## 1. Hard rules (validator-enforced)
 
-### Rule ↔ clause map（十条硬规则必须 10/10 有守卫）
+### Rule ↔ clause map（十一条硬规则必须 11/11 有守卫）
 
 | AGENTS 条款 | 规则 | 合规写法 |
 |---|---|---|
@@ -36,11 +36,14 @@ Semantic categories: `bg-*` (page/surface/surface-hover/surface-selected/inset/b
 | 8 焦点必须可见 | R09（+ tokens.css 单一焦点环） | 不写 `outline:none` |
 | 9 复合容器用 tool 族 | 语义级靠 review；数值面由 R05/R07 覆盖 | `.m-tool` |
 | 10 表面 rank | 语义级靠 review | `--m-bg-*` 阶梯 |
+| — RTL 逻辑属性 | R15 | `margin-inline-start` |
 | — 12px 字号地板 | R08 | `text-xs` 起 |
+| — 行高只能来自 token | R16 | `var(--m-leading-*)` / `--m-body-leading` |
 | — img 声明宽高 | R12 | `width` + `height` |
 | — 合规结构 prop | R13 | `verified` / `market` / `compareAtVerified` |
 | — 引用完整性 | R14 | `docs/02 §六` 带文件名 |
-| — RTL 逻辑属性 | R15 | `margin-inline-start` |
+
+> R06 编号在历史迁移中退役（原 `color-pair` 规则被对比契约测试取代），编号不复用。
 
 豁免只有一种写法：`/* meridian-allow: <原因> */`（或 `// meridian-allow: <原因>`）。无理由的标记不生效；未被消耗的标记会以 `stale-allow` 失败。文件级白名单已废除。
 
@@ -57,6 +60,8 @@ Semantic categories: `bg-*` (page/surface/surface-hover/surface-selected/inset/b
     - **Never recede the work area**: in a 2–3 pane shell (IDE/chat/mail/CRM) the center work surface is `--m-bg-surface` (white in light) and nav/inspector panes are `--m-bg-chrome`. Putting a canvas fill on the work surface and a surface fill on a side pane inverts the whole hierarchy.
     - **Inside chrome, hovers must change rung**: `--m-bg-surface-hover` equals `--m-bg-chrome` in the admin light stage (both `ink-2`), so a chrome region using it has an invisible hover. Use `--m-bg-chrome-hover` / `--m-bg-chrome-selected`, or a state-layer overlay (`color-mix(in oklab, var(--m-fg) 8%, transparent)`) for host-agnostic components such as `.m-sidenav`.
     - **No double fills**: a sticky region's background must equal the surface it lives on; separate it from scrolling content with a border (and a shadow on the inner control), not with a second background layer.
+    - **Non-white surfaces need the same rung change**: in storefront light `--m-bg-surface-hover` equals `--m-bg-band`, so a hoverable row inside a band or inset must use a state-layer overlay instead.
+11. **Line-height comes from tokens** — `line-height` must be `var(--m-leading-*)`, `var(--m-body-leading)`, `var(--m-code-leading)`, or `inherit/normal`. Raw numbers fail R16. Optical title tokens: `--m-leading-title-1/2/3`, `--m-leading-tight`, `--m-leading-lead/copy/note/label/none`.
 
 ## 2. Stage discipline (storefront ≠ admin)
 
@@ -67,7 +72,7 @@ Semantic categories: `bg-*` (page/surface/surface-hover/surface-selected/inset/b
 | Shell topology | A · Canvas+Card (always) | A for record pages, **B · Chrome+Work-surface for multi-pane shells** (docs/02 §五) |
 | Body text | 16px (`text-lg`) | 14px (`text-md`) |
 | Density | airy, sections `--m-space-section` | **row 48px comfortable 默认**；`[data-density="productive"]` 切 36px |
-| Shadow | cards use `--m-shadow-e1` + border | border-first, shadow by exception |
+| Card separation | `tinted` gray card on white, no border; white-card fallback keeps 1px border | filled white card on ink-2, no border; shadow by exception |
 | Motion | expressive allowed (450–600ms on entry) | restrained (100–300ms) |
 | Buttons | primary CTA `--m-btn-h-cta` (52px) | standard `--m-btn-h-md` (36px) |
 | Primary color | `--m-primary` re-pointed to **near-black ink** (dark theme: near-white) — product imagery is the protagonist | `--m-primary` = brand green |
@@ -82,12 +87,18 @@ Never import admin patterns (data tables, save bars) into storefront, and never 
 - **`.rv` 动效守卫**：`site.css` 的入场动效族（`.rv` / `.rv--fade` / `.rv-N`）必须自带 `@media (prefers-reduced-motion: reduce)` 段；新增任何组合层 keyframes 同此。`tokens.css` 的全局收缩是兜底，不是免写守卫的理由。
 - **门**：`node ai/checks/prototypes-gate.mjs` 的 G-229 探针（CSS 层五件全扫 + 前缀纪律 + `.rv` 守卫）。
 
+### 2.2 反向接线门（G-231）
+
+G-229 只保证"用到的类存在"，不保证"声明的类被用"——零消费者的 CSS 会继续被 CI 守护属性写法。G-231 反向计量五层的每个类是否被签署屏 / 演示页 / 行为层消费：死类逐名登记在 `ai/selfcheck/wiring-baseline.json` 的 ticket（理由 + 目标批次），`deadMax` 只准下调且必须等于当前债量，`defsFloor` 只准上调（删类=MAJOR），`layers[*].own` 与实测全等。重算用 `node ai/selfcheck/lib/wiring.mjs --emit`；清偿后须同步改小 `deadMax`，新增类必须与消费者同批出厂（不变量 #7）。
+
+- **门**：`npm test` 的 `ai/selfcheck/wiring.test.mjs`（G-231 五条）。字符串级消费判定由 `runtime-behavior.mjs` 的真实计算样式断言兜底（例如 Sidebar v2 的 240/64/56px 图标轨与 localStorage 持久化）。
+
 ## 3. Interaction state contract
 
 State priority (highest wins): `disabled` → `loading` → `active` → `focus-visible` → `hover` → default.
 
 - Hover/press on tinted components: overlay `color-mix(in oklab, currentColor var(--m-state-hover), transparent)` (pressed 12%, selected 10%).
-- Solid fills: use `-hover`/`-active` semantic tokens (light theme darkens, dark theme lightens).
+- Solid fills: use `-hover`/`-active` semantic tokens. The single rule is **move away from the current endpoint**: light theme darkens (9→10), dark theme lightens (9→8). Storefront primary is an endpoint colour — near-black in light (hover lightens 8%, pressed 14%) and near-white in dark (hover darkens to `ink-4`, pressed to `ink-5`). Never copy the light-theme direction into dark.
 - Transitions: `transition: background-color, border-color, color, box-shadow var(--m-duration-150) var(--m-ease-standard)`.
 - Every async action shows a loading state within 100ms (button spinner or skeleton — never both a spinner AND a frozen layout).
 - `prefers-reduced-motion`: handled globally in tokens.css; do not add per-component overrides.
@@ -126,7 +137,7 @@ State priority (highest wins): `disabled` → `loading` → `active` → `focus-
 ## 7. Before you finish (self-check)
 
 ```bash
-node ai/validate.mjs src        # must exit 0
+node ai/validate.mjs . --exclude ai/selfcheck/fixtures    # must exit 0
 ```
 
 Also verify manually: keyboard-only walkthrough of the flow; dark theme pass (`theme-dark`); German-length content pass (labels +35%); no horizontal scroll at 320px.
@@ -138,5 +149,6 @@ Also verify manually: keyboard-only walkthrough of the flow; dark theme pass (`t
 - 命名级字阶（如 `text-base`）是否越界无法在当前判定，随 S2 的 `tokens.api.md` 落地。
 - R13 依赖组件标签名；业务侧 wrapper 必须登记进 `meridian.config.json` 的 `componentAliases`。
 - R14 只判三种形式：`<dir>/NN-*.md §X`、跨目录裸「NN 章」、`vX.Y.Z`。**同目录裸章节引用与「（第N节）」不判**——判定需读散文语义，硬判会造误报。本轮手工归位一次（Task 15），残留由 S2 的锚点系统接管。
-- demo 层（`design-system.html`）整体关闭 R01/R11（色板浏览器必须直接引用 ramp），区段级收窄待 S2。
-- 运行时事实（焦点是否真的可见、ARIA 是否真的正确）由 S4 的 axe / Playwright 接管。
+- demo 层（`design-system.html`）已纳入 R01/R11；静态源 0 裸色 / 0 primitive。色板浏览器通过运行时动态 `var()` 注入，不产生静态事实（非业务代码）。
+- 运行时事实（五条门禁均接入 CI）：`npm run a11y`（axe-core，WCAG A/AA + 320px + `dir="rtl"`）、`npm run behavior`（CDP 真实按键：焦点陷阱/归还、tabs/seg/combobox、focus-visible、标题层级）、`npm run ax`（Chrome AX 树快照：role/name/状态/live，9 场景）、`npm run i18n`（key/ICU 复数/长度/术语）、`npm run l10n`（真实语言包 + 伪本地化 en-XA 的窄屏排版）。行为层参考实现为 `ai/meridian-behavior.js`，契约见 docs/06 §2.1。
+- 仍未自动化：AT 的合成语音（NVDA/VoiceOver 语音引擎与语音包，发布前按下表人工核对）、翻译语义质量与回译（TMS 审校 + 抽样回译）、原生 `<dialog>` 的浏览器 chrome 焦点（规范行为，已明确排除）。

@@ -1,7 +1,7 @@
 const PRIM = /--m-(?:ink|brand|accent|info|success|warning|danger|mystic)-\d+\b/g;
 export const rule = {
-  id: "R11", title: "primitive-forbidden", layers: ["component", "feature"], facts: ["decl", "class", "literal"],
-  offInDemo: true,
+  id: "R11", title: "primitive-forbidden", layers: ["component", "feature", "demo"], facts: ["decl", "class", "literal"],
+  offInDemo: false,
   check(f) {
     const hay = f.type === "decl" ? f.value : f.type === "class" ? f.token : f.text;
     const hits = String(hay ?? "").match(PRIM);

@@ -3,6 +3,7 @@
 _audit/
 node_modules/
 design-qa-reports/
+.qoder-credits/
 *.log
 .DS_Store
 

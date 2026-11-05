@@ -1,0 +1,296 @@
+{
+  "page": "prototypes/10-pdp.html",
+  "scenario": "default",
+  "count": 70,
+  "nodes": [
+    {
+      "role": "link",
+      "name": "Skip to content"
+    },
+    {
+      "role": "banner",
+      "name": ""
+    },
+    {
+      "role": "main",
+      "name": ""
+    },
+    {
+      "role": "contentinfo",
+      "name": ""
+    },
+    {
+      "role": "link",
+      "name": "Locust 首页"
+    },
+    {
+      "role": "navigation",
+      "name": "店面主导航"
+    },
+    {
+      "role": "button",
+      "name": "主题：浅色（点击切换到深色）"
+    },
+    {
+      "role": "button",
+      "name": "搜索"
+    },
+    {
+      "role": "button",
+      "name": "购物袋（3 件）"
+    },
+    {
+      "role": "navigation",
+      "name": "面包屑"
+    },
+    {
+      "role": "tablist",
+      "name": "商品图缩略"
+    },
+    {
+      "role": "region",
+      "name": "三种穿法"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · 商店"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · 帮助"
+    },
+    {
+      "role": "navigation",
+      "name": "页脚 · 公司"
+    },
+    {
+      "role": "link",
+      "name": "Impressum"
+    },
+    {
+      "role": "link",
+      "name": "隐私政策"
+    },
+    {
+      "role": "link",
+      "name": "服务条款"
+    },
+    {
+      "role": "link",
+      "name": "退货说明"
+    },
+    {
+      "role": "link",
+      "name": "新品"
+    },
+    {
+      "role": "link",
+      "name": "女装"
+    },
+    {
+      "role": "link",
+      "name": "男配"
+    },
+    {
+      "role": "link",
+      "name": "关于"
+    },
+    {
+      "role": "link",
+      "name": "首页"
+    },
+    {
+      "role": "link",
+      "name": "女装"
+    },
+    {
+      "role": "tab",
+      "name": "第 1 张：正面",
+      "selected": true
+    },
+    {
+      "role": "tab",
+      "name": "第 2 张：背面"
+    },
+    {
+      "role": "tab",
+      "name": "第 3 张：面料细节"
+    },
+    {
+      "role": "tab",
+      "name": "第 4 张：平铺尺寸"
+    },
+    {
+      "role": "heading",
+      "name": "有机棉连帽衫",
+      "level": 1
+    },
+    {
+      "role": "link",
+      "name": "312 条评价"
+    },
+    {
+      "role": "button",
+      "name": "加入购物袋 · €89.00"
+    },
+    {
+      "role": "heading",
+      "name": "商品详情",
+      "level": 2
+    },
+    {
+      "role": "heading",
+      "name": "三种穿法",
+      "level": 2
+    },
+    {
+      "role": "link",
+      "name": "燕麦色连帽衫外罩风衣的通勤穿法 通勤 · 外罩风衣"
+    },
+    {
+      "role": "link",
+      "name": "连帽衫背面与宽松下摆的周末穿法 周末 · 宽松下摆"
+    },
+    {
+      "role": "link",
+      "name": "新品"
+    },
+    {
+      "role": "link",
+      "name": "女装"
+    },
+    {
+      "role": "link",
+      "name": "男配"
+    },
+    {
+      "role": "link",
+      "name": "生活家居"
+    },
+    {
+      "role": "link",
+      "name": "礼品卡"
+    },
+    {
+      "role": "link",
+      "name": "配送与运费"
+    },
+    {
+      "role": "link",
+      "name": "退换政策"
+    },
+    {
+      "role": "link",
+      "name": "尺码指南"
+    },
+    {
+      "role": "link",
+      "name": "联系客服"
+    },
+    {
+      "role": "link",
+      "name": "关于 Locust"
+    },
+    {
+      "role": "link",
+      "name": "可持续承诺"
+    },
+    {
+      "role": "link",
+      "name": "门店与快闪"
+    },
+    {
+      "role": "link",
+      "name": "加入我们"
+    },
+    {
+      "role": "combobox",
+      "name": "语言"
+    },
+    {
+      "role": "combobox",
+      "name": "货币"
+    },
+    {
+      "role": "button",
+      "name": "燕麦色 · 已选"
+    },
+    {
+      "role": "button",
+      "name": "石墨灰"
+    },
+    {
+      "role": "button",
+      "name": "黑色"
+    },
+    {
+      "role": "button",
+      "name": "鼠尾草绿 · 售罄",
+      "disabled": true
+    },
+    {
+      "role": "button",
+      "name": "S"
+    },
+    {
+      "role": "button",
+      "name": "M"
+    },
+    {
+      "role": "button",
+      "name": "L"
+    },
+    {
+      "role": "button",
+      "name": "XL",
+      "disabled": true
+    },
+    {
+      "role": "link",
+      "name": "尺码指南"
+    },
+    {
+      "role": "button",
+      "name": "减少数量"
+    },
+    {
+      "role": "textbox",
+      "name": "数量"
+    },
+    {
+      "role": "button",
+      "name": "增加数量"
+    },
+    {
+      "role": "tab",
+      "name": "描述",
+      "selected": true
+    },
+    {
+      "role": "tab",
+      "name": "材质与洗护"
+    },
+    {
+      "role": "tab",
+      "name": "配送与退货"
+    },
+    {
+      "role": "option",
+      "name": "Deutsch",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "English"
+    },
+    {
+      "role": "option",
+      "name": "EUR €",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "CHF Fr"
+    }
+  ]
+}

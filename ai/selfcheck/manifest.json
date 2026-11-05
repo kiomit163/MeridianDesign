@@ -82,12 +82,47 @@
   {
     "rule": "R01",
     "file": "ai/selfcheck/fixtures/R01/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/Feature.tsx",
     "line": 3
   },
   {
     "rule": "R01",
     "file": "ai/selfcheck/fixtures/R01/fail/Feature.tsx",
     "line": 4
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/RawAttrs.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/RawAttrs.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/RawAttrs.tsx",
+    "line": 3
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/RawAttrs.tsx",
+    "line": 4
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/RawAttrs.tsx",
+    "line": 5
+  },
+  {
+    "rule": "R01",
+    "file": "ai/selfcheck/fixtures/R01/fail/RawAttrs.tsx",
+    "line": 6
   },
   {
     "rule": "R02",
@@ -185,6 +220,11 @@
     "line": 1
   },
   {
+    "rule": "R07",
+    "file": "ai/selfcheck/fixtures/R07/fail/x.css",
+    "line": 2
+  },
+  {
     "rule": "R08",
     "file": "ai/selfcheck/fixtures/R08/fail/Feature.tsx",
     "line": 1
@@ -270,6 +310,21 @@
     "line": 4
   },
   {
+    "rule": "R13",
+    "file": "ai/selfcheck/fixtures/R13/fail/Feature.tsx",
+    "line": 5
+  },
+  {
+    "rule": "R13",
+    "file": "ai/selfcheck/fixtures/R13/fail/Feature.tsx",
+    "line": 6
+  },
+  {
+    "rule": "R13",
+    "file": "ai/selfcheck/fixtures/R13/fail/Feature.tsx",
+    "line": 7
+  },
+  {
     "rule": "R14",
     "file": "ai/selfcheck/fixtures/R14/fail/bad-doc.md",
     "line": 1
@@ -303,5 +358,105 @@
     "rule": "R15",
     "file": "ai/selfcheck/fixtures/R15/fail/x.css",
     "line": 2
+  },
+  {
+    "rule": "R16",
+    "file": "ai/selfcheck/fixtures/R16/fail/x.css",
+    "line": 1
+  },
+  {
+    "rule": "R16",
+    "file": "ai/selfcheck/fixtures/R16/fail/x.css",
+    "line": 2
+  },
+  {
+    "rule": "R17",
+    "file": "ai/selfcheck/fixtures/R17/fail/Numeric.md",
+    "line": 1
+  },
+  {
+    "rule": "R17",
+    "file": "ai/selfcheck/fixtures/R17/fail/Numeric.md",
+    "line": 2
+  },
+  {
+    "rule": "R17",
+    "file": "ai/selfcheck/fixtures/R17/fail/Numeric.md",
+    "line": 3
+  },
+  {
+    "rule": "R17",
+    "file": "ai/selfcheck/fixtures/R17/fail/Numeric.md",
+    "line": 4
+  },
+  {
+    "rule": "R17",
+    "file": "ai/selfcheck/fixtures/R17/fail/Numeric.md",
+    "line": 4
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 4
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 6
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R00-audit-sample/fail/Feature.tsx",
+    "line": 10
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R01/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R02/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R05/fail/Feature.tsx",
+    "line": 2
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R11/fail/Feature.tsx",
+    "line": 1
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R18/fail/Layout.html",
+    "line": 3
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R18/fail/Layout.html",
+    "line": 4
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R18/fail/Layout.html",
+    "line": 5
+  },
+  {
+    "rule": "R18",
+    "file": "ai/selfcheck/fixtures/R18/fail/Layout.html",
+    "line": 6
   }
 ]

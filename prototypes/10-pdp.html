@@ -1,13 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>10 商品详情 · Locust 原型</title>
-<link rel="stylesheet" href="../ai/tokens.css">
-<link rel="stylesheet" href="../ai/meridian-ui.css">
-</head>
-<body class="stage-storefront m-ui">
 <!-- 对标卡：
   Shopify 形态要点：Dawn 商品详情 = 双栏（左图集：主图 + 缩略列；右购买箱：名 / 价 / 评分 / 变体选择 / 数量 / 加购）+ 信任行 +
   详情带（描述 / 材质 / 配送 Tabs 或分区）+ 面包屑。
@@ -16,6 +9,16 @@
   画廊舞台原则）+ m-urgency 库存提示（仅剩 3 件）+ m-trust 信任行；详情带 bg-band（banding 1/3）+ m-tabs 三页签静态示意。
   漏项落地：无（批 D 无漏项宿主）。超 token 项见尾部呈报清单。
 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>10 商品详情 · Locust 原型</title>
+<link rel="stylesheet" href="../ai/tokens.css">
+<link rel="stylesheet" href="../ai/brand-tokens.css">
+<link rel="stylesheet" href="../ai/meridian-ui.css">
+<link rel="stylesheet" href="../ai/site.css">
+</head>
+<body class="stage-storefront m-ui">
+<a class="m-skip-link" href="#main">Skip to content</a>
 <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-4) var(--m-space-4) 0">
   <div class="m-accordion">
     <details>
@@ -30,31 +33,47 @@
 </div>
 
 <!-- 公告条（复用 08 定式） -->
-<div style="background:var(--m-primary);color:var(--m-primary-fg);text-align:center;padding:var(--m-space-2) var(--m-space-4);font-size:var(--m-text-xs);letter-spacing:0.02em">
-  满 €120 免标准运费 · 欧盟境内 3-5 个工作日送达
+<div class="sf-announce">
+  <div class="sf-announce__inner">满 €120 免标准运费 · 欧盟境内 3-5 个工作日送达</div>
 </div>
 
 <!-- 店面头部（复用 08 定式） -->
-<header class="m-chrome" style="border-bottom:1px solid var(--m-border)">
-  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:0 var(--m-space-4);display:flex;align-items:center;gap:var(--m-space-6);height:var(--m-space-16)">
-    <a href="08-home.html" aria-label="Locust 首页" style="font-size:var(--m-text-2xl);font-weight:var(--m-weight-bold);letter-spacing:var(--m-tracking-tightest);text-decoration:none">Locust</a>
-    <nav aria-label="店面主导航" style="display:flex;gap:var(--m-space-5)">
-      <a href="09-plp.html" style="font-size:var(--m-text-md)">新品</a>
-      <a href="09-plp.html" style="font-size:var(--m-text-md)">女装</a>
-      <a href="09-plp.html" style="font-size:var(--m-text-md)">男配</a>
-      <a href="#" style="font-size:var(--m-text-md)">关于</a>
+<header class="sf-header">
+  <div class="sf-header__inner">
+    <a href="08-home.html" aria-label="Locust 首页" class="sf-brand sf-wordmark">Locust</a>
+    <nav aria-label="店面主导航" class="sf-nav">
+      <a href="09-plp.html">新品</a>
+      <a href="09-plp.html">女装</a>
+      <a href="09-plp.html">男配</a>
+      <a href="#">关于</a>
     </nav>
-    <div style="margin-inline-start:auto;display:flex;align-items:center;gap:var(--m-space-1)">
+    <div class="sf-actions">
+      <button type="button" class="m-tool m-tool--square sf-burger" data-overlay-open="sfm-10" aria-label="打开菜单" aria-haspopup="dialog"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+      <button type="button" class="m-tool m-tool--square" data-theme-cycle aria-label="切换主题：浅色、深色、跟随系统" title="切换主题"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
       <button type="button" class="m-tool m-tool--square" aria-label="搜索"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></button>
-      <span style="position:relative;display:inline-flex">
+      <span class="sf-cart-trigger">
         <button type="button" class="m-tool m-tool--square" aria-label="购物袋（3 件）"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 8h12l1 13H5L6 8z"/><path d="M9 11V6a3 3 0 0 1 6 0v5"/></svg></button>
-        <span class="m-badge m-badge--neutral m-badge--solid" style="position:absolute;top:-5px;right:-5px">3</span>
+        <span class="sf-cart-count">3</span>
       </span>
     </div>
   </div>
 </header>
 
-<main style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-6) var(--m-space-4) 0">
+<!-- 移动端菜单（焦点陷阱/Esc/归还焦点由 meridian-behavior.js 提供） -->
+<div class="sf-mobilenav" id="sfm-10" role="dialog" aria-modal="true" aria-labelledby="sfm-10-title" tabindex="-1" inert>
+  <div class="sf-mobilenav__head">
+    <span id="sfm-10-title" style="font-weight:var(--m-weight-semibold)">菜单</span>
+    <button type="button" class="m-tool m-tool--square" data-overlay-close aria-label="关闭菜单"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="sf-mobilenav__body">
+    <a href="09-plp.html">新品</a>
+    <a href="09-plp.html">女装</a>
+    <a href="09-plp.html">男配</a>
+    <a href="#">关于</a>
+  </div>
+</div>
+
+<main id="main" tabindex="-1" style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-6) var(--m-space-4) 0">
 
   <!-- 面包屑 -->
   <nav aria-label="面包屑" class="m-crumbs" style="margin-bottom:var(--m-space-6)">
@@ -66,18 +85,26 @@
   </nav>
 
   <!-- 双栏：左图集 / 右购买箱 -->
-  <div style="display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:var(--m-space-10);align-items:start">
+  <div class="sf-pdp">
 
-    <!-- 左：图集（缩略列 + 主图） -->
-    <div style="display:grid;grid-template-columns:88px minmax(0,1fr);gap:var(--m-space-4)">
-      <div class="m-col" style="gap:var(--m-space-3)" role="tablist" aria-label="商品图缩略">
-        <button type="button" style="aspect-ratio:4 / 5;border:2px solid var(--m-fg);border-radius:var(--m-radius-sm);background:var(--m-bg-inset);display:grid;place-items:center;color:var(--m-fg-subtle);padding:0;cursor:pointer" aria-label="第 1 张：正面" aria-selected="true" role="tab"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></button>
-        <button type="button" style="aspect-ratio:4 / 5;border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-inset);display:grid;place-items:center;color:var(--m-fg-subtle);padding:0;cursor:pointer" aria-label="第 2 张：背面" role="tab"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg></button>
-        <button type="button" style="aspect-ratio:4 / 5;border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-inset);display:grid;place-items:center;color:var(--m-fg-subtle);padding:0;cursor:pointer" aria-label="第 3 张：面料细节" role="tab"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></button>
-        <button type="button" style="aspect-ratio:4 / 5;border:1px solid var(--m-border);border-radius:var(--m-radius-sm);background:var(--m-bg-inset);display:grid;place-items:center;color:var(--m-fg-subtle);padding:0;cursor:pointer" aria-label="第 4 张：平铺尺寸" role="tab"><svg class="m-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 8h18v8H3z"/><path d="M7 8v3M12 8v4M17 8v3"/></svg></button>
+    <!-- 左：图集（缩略列 + 主图；影像契约见 docs/05 §三） -->
+    <div class="sf-gallery">
+      <div class="sf-gallery__thumbs" role="tablist" aria-label="商品图缩略">
+        <button type="button" class="sf-gallery__thumb is-active" role="tab" aria-selected="true" aria-label="第 1 张：正面">
+          <img data-provenance="illustration" src="assets/p01-hoodie-oat-400.svg" srcset="assets/p01-hoodie-oat-400.svg 400w, assets/p01-hoodie-oat-800.svg 800w" sizes="88px" width="400" height="500" alt="" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="sf-gallery__thumb" role="tab" aria-selected="false" aria-label="第 2 张：背面">
+          <img data-provenance="illustration" src="assets/p01-hoodie-back-400.svg" srcset="assets/p01-hoodie-back-400.svg 400w, assets/p01-hoodie-back-800.svg 800w" sizes="88px" width="400" height="500" alt="" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="sf-gallery__thumb" role="tab" aria-selected="false" aria-label="第 3 张：面料细节">
+          <img data-provenance="illustration" src="assets/p01-hoodie-fabric-400.svg" srcset="assets/p01-hoodie-fabric-400.svg 400w, assets/p01-hoodie-fabric-800.svg 800w" sizes="88px" width="400" height="500" alt="" loading="lazy" decoding="async">
+        </button>
+        <button type="button" class="sf-gallery__thumb" role="tab" aria-selected="false" aria-label="第 4 张：平铺尺寸">
+          <img data-provenance="illustration" src="assets/p01-hoodie-flat-400.svg" srcset="assets/p01-hoodie-flat-400.svg 400w, assets/p01-hoodie-flat-800.svg 800w" sizes="88px" width="400" height="500" alt="" loading="lazy" decoding="async">
+        </button>
       </div>
-      <div style="aspect-ratio:4 / 5;background:var(--m-bg-inset);border-radius:var(--m-radius-xl);display:grid;place-items:center;border:1px solid var(--m-border)" role="img" aria-label="有机棉连帽衫，燕麦色，正面图占位">
-        <svg class="m-i" viewBox="0 0 24 24" aria-hidden="true" style="width:88px;height:88px;color:var(--m-fg-subtle)"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></svg>
+      <div class="sf-gallery__main">
+        <img data-provenance="illustration" src="assets/p01-hoodie-oat-800.svg" srcset="assets/p01-hoodie-oat-400.svg 400w, assets/p01-hoodie-oat-800.svg 800w, assets/p01-hoodie-oat-1200.svg 1200w, assets/p01-hoodie-oat-1600.svg 1600w, assets/p01-hoodie-oat-2400.svg 2400w" sizes="(max-width: 1023px) 100vw, 55vw" width="800" height="1000" alt="燕麦色有机棉连帽衫，正面" loading="eager" fetchpriority="high" decoding="async">
       </div>
     </div>
 
@@ -85,7 +112,7 @@
     <div class="m-col" style="gap:var(--m-space-4);position:sticky;top:var(--m-space-6)">
       <div class="m-col" style="gap:var(--m-space-2)">
         <span class="m-badge m-badge--emphasis m-badge--tint" style="align-self:flex-start">新品</span>
-        <h1 style="margin:0;font-size:var(--m-text-3xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight);line-height:1.25">有机棉连帽衫</h1>
+        <h1 class="sf-title" style="margin:0;font-size:var(--m-text-3xl);font-weight:var(--m-weight-semibold);line-height:var(--m-leading-tight)">有机棉连帽衫</h1>
         <div class="m-price m-price--lg"><span class="cur tnum">€89.00</span><span class="note">含 VAT · 运费在结账时计算</span></div>
         <div class="m-rating">
           <span class="stars" aria-hidden="true">
@@ -104,12 +131,12 @@
       <fieldset style="border:none;margin:0;padding:0">
         <legend style="font-size:var(--m-text-sm);padding:0">颜色：<b>燕麦色</b></legend>
         <div class="m-row" style="gap:var(--m-space-2);margin-top:var(--m-space-2)">
-          <button type="button" class="m-swatch m-swatch--lg is-selected" style="background:var(--m-bg-inset)" aria-label="燕麦色 · 已选" aria-pressed="true"></button>
-          <button type="button" class="m-swatch m-swatch--lg" style="background:var(--m-bg-inset)" aria-label="石墨灰"></button>
-          <button type="button" class="m-swatch m-swatch--lg" style="background:var(--m-bg-inset)" aria-label="黑色"></button>
-          <button type="button" class="m-swatch m-swatch--lg is-oos" style="background:var(--m-bg-inset);color:var(--m-fg-subtle)" aria-label="鼠尾草绿 · 售罄" aria-disabled="true"></button>
+          <button type="button" class="m-swatch m-swatch--lg is-selected" style="--m-swatch-color:var(--m-swatch-oat)" aria-label="燕麦色 · 已选" aria-pressed="true"></button>
+          <button type="button" class="m-swatch m-swatch--lg" style="--m-swatch-color:var(--m-swatch-graphite)" aria-label="石墨灰"></button>
+          <button type="button" class="m-swatch m-swatch--lg" style="--m-swatch-color:var(--m-swatch-ink)" aria-label="黑色"></button>
+          <button type="button" class="m-swatch m-swatch--lg is-oos" style="--m-swatch-color:var(--m-swatch-moss);color:var(--m-fg-subtle)" aria-label="鼠尾草绿 · 售罄" aria-disabled="true"></button>
         </div>
-        <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin-top:var(--m-space-2)">色块为占位圆 · 三态：选中双环 / 未选 / 售罄划线（真实色由商品数据填入）</div>
+        <div style="font-size:var(--m-text-xs);color:var(--m-fg-subtle);margin-top:var(--m-space-2)">颜色来自 brand-tokens.css · 三态：选中双环 / 未选 / 售罄划线</div>
       </fieldset>
 
       <!-- 尺码：三态按钮 -->
@@ -126,14 +153,14 @@
         </div>
       </fieldset>
 
-      <!-- 数量 + 加购 -->
-      <div class="m-row" style="gap:var(--m-space-3);flex-wrap:nowrap">
+      <!-- 数量 + 加购：同排基线见 .sf-buyrow（storefront/11 §五） -->
+      <div class="sf-buyrow">
         <div class="m-stepper" role="group" aria-label="数量">
           <button type="button" aria-label="减少数量"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/></svg></button>
           <input type="text" value="1" aria-label="数量" class="tnum">
           <button type="button" aria-label="增加数量"><svg class="m-i m-i--16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14"/><path d="M5 12h14"/></svg></button>
         </div>
-        <button type="button" class="m-btn m-btn--primary m-btn--cta" style="flex:1">加入购物袋 · €89.00</button>
+        <button type="button" class="m-btn m-btn--primary m-btn--cta">加入购物袋 · €89.00</button>
       </div>
 
       <!-- 库存提示 + 信任行 -->
@@ -150,8 +177,8 @@
 
   <!-- 详情带：Tabs 静态示意 · banding 1/3 -->
   <section style="background:var(--m-bg-band);margin-block:var(--m-space-section);padding:var(--m-space-section) var(--m-space-6);border-radius:var(--m-radius-xl)">
-    <h2 style="margin:0 0 var(--m-space-4);font-size:var(--m-text-2xl);font-weight:var(--m-weight-semibold);letter-spacing:var(--m-tracking-tight)">商品详情</h2>
-    <div class="m-tabs" role="tablist">
+    <h2 class="sf-title" style="margin:0 0 var(--m-space-4);font-size:var(--m-text-2xl);font-weight:var(--m-weight-semibold)">商品详情</h2>
+    <div class="m-tabs" role="tablist" data-tabs>
       <button type="button" class="m-tab is-active" aria-selected="true" role="tab">描述</button>
       <button type="button" class="m-tab" role="tab">材质与洗护</button>
       <button type="button" class="m-tab" role="tab">配送与退货</button>
@@ -170,36 +197,63 @@
     </div>
   </section>
 
+  <!-- 穿搭 story：9:16 竖版叙事（视频走同一容器，poster + 用户手势播放） -->
+  <section class="sf-section" aria-labelledby="story-h">
+    <div class="sf-container">
+      <div class="sf-section-head">
+        <div>
+          <p class="sf-eyebrow">Styling</p>
+          <h2 class="sf-title" id="story-h">三种穿法</h2>
+        </div>
+        <p class="sf-small">竖版画面 9:16 · 视频默认不自动播</p>
+      </div>
+      <div class="sf-stories">
+        <a class="sf-story" href="#" onclick="return false">
+          <div class="sf-media--story">
+            <img data-provenance="illustration" src="assets/p01-hoodie-oat-400.svg" srcset="assets/p01-hoodie-oat-400.svg 400w, assets/p01-hoodie-oat-800.svg 800w" sizes="(max-width: 767px) 45vw, 220px" width="400" height="500" alt="燕麦色连帽衫外罩风衣的通勤穿法" loading="lazy" decoding="async">
+          </div>
+          <span>通勤 · 外罩风衣</span>
+        </a>
+        <a class="sf-story" href="#" onclick="return false">
+          <div class="sf-media--story">
+            <img data-provenance="illustration" src="assets/p01-hoodie-back-400.svg" srcset="assets/p01-hoodie-back-400.svg 400w, assets/p01-hoodie-back-800.svg 800w" sizes="(max-width: 767px) 45vw, 220px" width="400" height="500" alt="连帽衫背面与宽松下摆的周末穿法" loading="lazy" decoding="async">
+          </div>
+          <span>周末 · 宽松下摆</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <!-- 页脚（复用 08 定式） -->
-<footer style="background:var(--m-bg-band);border-top:1px solid var(--m-border)">
-  <div style="max-width:var(--m-container-storefront);margin-inline:auto;padding:var(--m-space-12) var(--m-space-4) var(--m-space-8)">
-    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--m-space-8)">
-      <nav aria-label="页脚 · 商店" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">商店</div>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">新品</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">女装</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">男配</a>
-        <a href="09-plp.html" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">生活家居</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">礼品卡</a>
+<footer class="sf-footer">
+  <div class="sf-container sf-footer__inner">
+    <div class="sf-footer__grid">
+      <nav aria-label="页脚 · 商店" class="sf-footer__col">
+        <b>商店</b>
+        <a href="09-plp.html">新品</a>
+        <a href="09-plp.html">女装</a>
+        <a href="09-plp.html">男配</a>
+        <a href="09-plp.html">生活家居</a>
+        <a href="#">礼品卡</a>
       </nav>
-      <nav aria-label="页脚 · 帮助" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">帮助</div>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">配送与运费</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">退换政策</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">尺码指南</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">联系客服</a>
+      <nav aria-label="页脚 · 帮助" class="sf-footer__col">
+        <b>帮助</b>
+        <a href="#">配送与运费</a>
+        <a href="#">退换政策</a>
+        <a href="#">尺码指南</a>
+        <a href="#">联系客服</a>
       </nav>
-      <nav aria-label="页脚 · 公司" class="m-col" style="gap:var(--m-space-2)">
-        <div style="font-size:var(--m-text-sm);font-weight:var(--m-weight-semibold);margin-bottom:var(--m-space-1)">公司</div>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">关于 Locust</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">可持续承诺</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">门店与快闪</a>
-        <a href="#" style="font-size:var(--m-text-sm);color:var(--m-fg-muted)">加入我们</a>
+      <nav aria-label="页脚 · 公司" class="sf-footer__col">
+        <b>公司</b>
+        <a href="#">关于 Locust</a>
+        <a href="#">可持续承诺</a>
+        <a href="#">门店与快闪</a>
+        <a href="#">加入我们</a>
       </nav>
     </div>
-    <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-10);padding-top:var(--m-space-6);border-top:1px solid var(--m-border);flex-wrap:wrap;gap:var(--m-space-4)">
+    <div class="sf-footer__bottom">
       <div class="m-row" style="gap:var(--m-space-3)">
         <div class="m-select-wrap" style="width:150px">
           <select aria-label="语言"><option selected>Deutsch</option><option>English</option></select>
@@ -214,13 +268,13 @@
         <span>VISA</span><span>Mastercard</span><span>PayPal</span><span>Klarna</span><span>Apple Pay</span><span>G Pay</span>
       </div>
     </div>
-    <div class="m-row" style="justify-content:space-between;margin-top:var(--m-space-6);flex-wrap:wrap;gap:var(--m-space-3)">
-      <span style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">© 2026 Locust Commerce Ltd. · 柏林</span>
+    <div class="sf-footer__legal">
+      <span class="sf-meta">© 2026 Locust Commerce Ltd. · 柏林</span>
       <div class="m-row" style="gap:var(--m-space-4)">
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">Impressum</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">隐私政策</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">服务条款</a>
-        <a href="#" style="font-size:var(--m-text-xs);color:var(--m-fg-subtle)">退货说明</a>
+        <a href="#" class="sf-meta">Impressum</a>
+        <a href="#" class="sf-meta">隐私政策</a>
+        <a href="#" class="sf-meta">服务条款</a>
+        <a href="#" class="sf-meta">退货说明</a>
       </div>
     </div>
   </div>
@@ -235,7 +289,8 @@
   7. 数据连续性：商品 = 03-list / 09-plp 的 AP-1102 燕麦色 M €89.00；评分 4.8 · 312 条为新增样例数据；加入购物袋后购物袋计数 3→4，11 购物车行项以加入前 3 件为准。
   8. 透镜轮记录（design-taste-frontend + ui-ux-pro-max/design，修订轮已落盘）：
      采纳——购买箱 sticky 跟随（长详情带滚动时购买组不丢失，Dawn 同款）；尺码指南链接挂在尺码组下（就近原则）；详情带内「版型建议」从主描述拆出转 muted（两级信息密度）；主图占位放大至 88px 线稿（占位层与商品名同级视觉重量）。
-     拒绝——评分星用品牌绿（m-rating 契约 = emphasis 琥珀，评分惯例色）；加购按钮改品牌绿实底（画廊舞台原则：near-black CTA 不抢商品图，02 章 storefront 行已定）；详情带三页签纵向手风琴化（桌面 Tabs 是 Dawn 默认，手风琴属移动端行为）；ui-ux-pro-max「购买箱加倒计时促销条」与本商品非促销态冲突，且 urgency 组件已有低库存语义，不再叠加倒计时。
+     拒绝——评分星用品牌绿（m-rating 契约 = emphasis 赤陶，评分惯例色）；加购按钮改品牌绿实底（画廊舞台原则：near-black CTA 不抢商品图，02 章 storefront 行已定）；详情带三页签纵向手风琴化（桌面 Tabs 是 Dawn 默认，手风琴属移动端行为）；ui-ux-pro-max「购买箱加倒计时促销条」与本商品非促销态冲突，且 urgency 组件已有低库存语义，不再叠加倒计时。
 -->
+<script src="../ai/meridian-behavior.js"></script>
 </body>
 </html>

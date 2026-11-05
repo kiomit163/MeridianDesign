@@ -1,0 +1,251 @@
+{
+  "page": "prototypes/11-checkout.html",
+  "scenario": "default",
+  "count": 58,
+  "nodes": [
+    {
+      "role": "link",
+      "name": "Skip to content"
+    },
+    {
+      "role": "banner",
+      "name": ""
+    },
+    {
+      "role": "main",
+      "name": ""
+    },
+    {
+      "role": "contentinfo",
+      "name": ""
+    },
+    {
+      "role": "link",
+      "name": "Locust 首页"
+    },
+    {
+      "role": "heading",
+      "name": "结账流程（三页一稿）",
+      "level": 1
+    },
+    {
+      "role": "region",
+      "name": "页面 1 · 购物车"
+    },
+    {
+      "role": "region",
+      "name": "页面 2 · 结账"
+    },
+    {
+      "role": "region",
+      "name": "页面 3 · 订单确认"
+    },
+    {
+      "role": "link",
+      "name": "退换政策"
+    },
+    {
+      "role": "link",
+      "name": "配送与运费"
+    },
+    {
+      "role": "link",
+      "name": "隐私政策"
+    },
+    {
+      "role": "link",
+      "name": "服务条款"
+    },
+    {
+      "role": "heading",
+      "name": "页面 1 · 购物车",
+      "level": 2
+    },
+    {
+      "role": "button",
+      "name": "移除"
+    },
+    {
+      "role": "button",
+      "name": "移除"
+    },
+    {
+      "role": "link",
+      "name": "← 继续购物"
+    },
+    {
+      "role": "link",
+      "name": "去结账"
+    },
+    {
+      "role": "heading",
+      "name": "页面 2 · 结账",
+      "level": 2
+    },
+    {
+      "role": "heading",
+      "name": "Express checkout",
+      "level": 3
+    },
+    {
+      "role": "button",
+      "name": "Shop Pay"
+    },
+    {
+      "role": "button",
+      "name": "Apple Pay"
+    },
+    {
+      "role": "button",
+      "name": "Google Pay"
+    },
+    {
+      "role": "button",
+      "name": "PayPal"
+    },
+    {
+      "role": "heading",
+      "name": "联系方式",
+      "level": 3
+    },
+    {
+      "role": "textbox",
+      "name": "邮箱"
+    },
+    {
+      "role": "heading",
+      "name": "收货地址",
+      "level": 3
+    },
+    {
+      "role": "textbox",
+      "name": "名"
+    },
+    {
+      "role": "textbox",
+      "name": "姓"
+    },
+    {
+      "role": "textbox",
+      "name": "街道与门牌号"
+    },
+    {
+      "role": "textbox",
+      "name": "邮政编码"
+    },
+    {
+      "role": "textbox",
+      "name": "城市"
+    },
+    {
+      "role": "heading",
+      "name": "支付方式",
+      "level": 3
+    },
+    {
+      "role": "tablist",
+      "name": "支付方式"
+    },
+    {
+      "role": "textbox",
+      "name": "卡号"
+    },
+    {
+      "role": "textbox",
+      "name": "有效期"
+    },
+    {
+      "role": "textbox",
+      "name": "安全码（CVC）"
+    },
+    {
+      "role": "complementary",
+      "name": "订单摘要"
+    },
+    {
+      "role": "heading",
+      "name": "页面 3 · 订单确认",
+      "level": 2
+    },
+    {
+      "role": "heading",
+      "name": "感谢惠顾，Mara",
+      "level": 3
+    },
+    {
+      "role": "link",
+      "name": "查看订单"
+    },
+    {
+      "role": "link",
+      "name": "继续购物"
+    },
+    {
+      "role": "button",
+      "name": "减少数量"
+    },
+    {
+      "role": "textbox",
+      "name": "数量"
+    },
+    {
+      "role": "button",
+      "name": "增加数量"
+    },
+    {
+      "role": "button",
+      "name": "减少数量"
+    },
+    {
+      "role": "textbox",
+      "name": "数量"
+    },
+    {
+      "role": "button",
+      "name": "增加数量"
+    },
+    {
+      "role": "checkbox",
+      "name": "订阅新品与优惠邮件（可随时退订）",
+      "checked": "false"
+    },
+    {
+      "role": "combobox",
+      "name": "国家 / 地区"
+    },
+    {
+      "role": "tab",
+      "name": "银行卡",
+      "selected": true
+    },
+    {
+      "role": "tab",
+      "name": "PayPal"
+    },
+    {
+      "role": "tab",
+      "name": "Klarna · 后付"
+    },
+    {
+      "role": "button",
+      "name": "支付订单 · €125.00"
+    },
+    {
+      "role": "option",
+      "name": "德国（DE）",
+      "selected": true
+    },
+    {
+      "role": "option",
+      "name": "奥地利（AT）"
+    },
+    {
+      "role": "option",
+      "name": "瑞士（CH）"
+    },
+    {
+      "role": "option",
+      "name": "荷兰（NL）"
+    }
+  ]
+}
